@@ -1,0 +1,118 @@
+const products = [
+  {
+    id: 1,
+    name: "CYBERPUNK GLITCH OVERSIZED TEE",
+    category: "tees",
+    price: 999,
+    compareAtPrice: 1999,
+    tag: "BEST SELLER",
+    sizes: ["S", "M", "L", "XL"],
+    images: [
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop&q=80"
+    ],
+    description: "Upgrade your streetwear game with the Cyberpunk Glitch Oversized Tee. Made from 240 GSM ultra-soft French Terry Cotton, this t-shirt offers a heavy, structural boxy fit designed to maintain its shape. Featuring a high-density puff print on the front and back, it is pre-shrunk and silicone washed for maximum comfort."
+  },
+  {
+    id: 2,
+    name: "APES SKULL ACID WASH TEE",
+    category: "tees",
+    price: 1099,
+    compareAtPrice: 2199,
+    tag: "NEW DROP",
+    sizes: ["M", "L", "XL"],
+    images: [
+      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop&q=80"
+    ],
+    description: "Custom acid-washed t-shirt featuring our signature distressed Apes Skull design. Every shirt features a unique distress pattern. Heavyweight 260 GSM fabric, ribbed crewneck collar, and double-needle stitching make this piece extremely durable and ready for daily wear."
+  },
+  {
+    id: 3,
+    name: "TOKYO DRIFT VARSITY JACKET",
+    category: "jackets",
+    price: 2999,
+    compareAtPrice: 5999,
+    tag: "LIMITED DROP",
+    sizes: ["S", "M", "L", "XL"],
+    images: [
+      "https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?w=800&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&auto=format&fit=crop&q=80"
+    ],
+    description: "The ultimate streetwear grail. Features vegan leather sleeves, a premium wool blend body, and detailed chenille embroidery patches on the chest, sleeves, and back. Quilted satin lining ensures premium warmth and comfort. Relaxed dropped-shoulder fit."
+  },
+  {
+    id: 4,
+    name: "LOST MINDS HEAVYWEIGHT HOODIE",
+    category: "hoodies",
+    price: 2499,
+    compareAtPrice: 4499,
+    tag: "BEST SELLER",
+    sizes: ["S", "M", "L", "XL"],
+    images: [
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&auto=format&fit=crop&q=80"
+    ],
+    description: "Constructed from an ultra-thick 400 GSM double-fleece cotton blend. Features a double-lined hood (no drawstrings for a clean streetwear aesthetic), kangaroo pocket with reinforced stitches, and tight ribbed cuffs. Drop shoulders and high-density printing."
+  },
+  {
+    id: 5,
+    name: "UTILITY MULTI-POCKET CARGOES",
+    category: "cargoes",
+    price: 1999,
+    compareAtPrice: 3499,
+    tag: "RESTOCKED",
+    sizes: ["S", "M", "L"],
+    images: [
+      "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1517462964-21fdcec3f25b?w=800&auto=format&fit=crop&q=80"
+    ],
+    description: "Engineered utility trousers featuring 6 tactical pockets, an adjustable integrated webbing belt, and toggles at the leg openings for a custom taper. Made from a heavy-duty cotton ripstop fabric that is both breathable and highly tear-resistant."
+  },
+  {
+    id: 6,
+    name: "DISTRESSED STREETWEAR SWEATER",
+    category: "hoodies",
+    price: 1799,
+    compareAtPrice: 2999,
+    tag: "HOT",
+    sizes: ["M", "L", "XL"],
+    images: [
+      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?w=800&auto=format&fit=crop&q=80"
+    ],
+    description: "Knitted loose-gauge sweater with distressed detailing along the hem and collar. Very soft cotton acrylic blend that is warm yet breathable. Gives that effortless grunge streetwear look."
+  },
+  {
+    id: 7,
+    name: "GENZ INDUSTRIAL METALLIC BEANIE",
+    category: "accessories",
+    price: 499,
+    compareAtPrice: 999,
+    tag: "COLLECTIBLE",
+    sizes: ["ONESIZE"],
+    images: [
+      "https://images.unsplash.com/photo-1576871337622-98d48d4353d3?w=800&auto=format&fit=crop&q=80"
+    ],
+    description: "Four-way stretch knit beanie featuring a custom polished steel hardware plate on the cuff with Genz branding. Warm, snug, and acts as the perfect finishing touch to any street fit."
+  },
+  {
+    id: 8,
+    name: "TACTICAL INDUSTRIAL BELT",
+    category: "accessories",
+    price: 399,
+    compareAtPrice: 799,
+    tag: "ESSENTIAL",
+    sizes: ["ONESIZE"],
+    images: [
+      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&auto=format&fit=crop&q=80"
+    ],
+    description: "Heavy-duty canvas belt with a quick-release metal cobra buckle. Features embroidered Genz typographic branding. Fully adjustable and perfect for threading through our multi-pocket cargoes."
+  }
+];
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = products;
+} else {
+  window.products = products;
+}

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genz clothings | Premium GenZ Streetwear</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Shop the latest premium streetwear at Genz clothings. Heavyweight oversized tees, tactical cargoes, double-fleece hoodies, and exclusive accessories. Designed for the Gen Z lifestyle.">
+  <meta property="og:title" content="Genz clothings | Premium GenZ Streetwear">
+  <meta property="og:description" content="Shop the latest premium streetwear at Genz clothings. Heavyweight oversized tees, cargoes, hoodies, and exclusive accessories.">
+  <meta property="og:type" content="website">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Remix Icons (for beautiful UI icons) -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Announcement Bar / Ticker -->
+  <div class="announcement-bar">
+    <div class="ticker-wrap">
+      <div class="ticker">
+        <span class="ticker-item"><i class="ri-fire-fill"></i> FREE SHIPPING ON ALL ORDERS ABOVE ₹1499!</span>
+        <span class="ticker-item"><i class="ri-flashlight-fill"></i> USE CODE "GENZ10" FOR 10% OFF YOUR FIRST ORDER!</span>
+        <span class="ticker-item"><i class="ri-vip-crown-fill"></i> NEW STREETWEAR DROP LIVE NOW</span>
+        <span class="ticker-item"><i class="ri-shake-hands-fill"></i> HASSLE-FREE RETURNS & REPLACEMENTS</span>
+        <!-- Duplicate for loop -->
+        <span class="ticker-item"><i class="ri-fire-fill"></i> FREE SHIPPING ON ALL ORDERS ABOVE ₹1499!</span>
+        <span class="ticker-item"><i class="ri-flashlight-fill"></i> USE CODE "GENZ10" FOR 10% OFF YOUR FIRST ORDER!</span>
+        <span class="ticker-item"><i class="ri-vip-crown-fill"></i> NEW STREETWEAR DROP LIVE NOW</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="main-header">
+    <div class="header-container">
+      <!-- Logo -->
+      <a href="#" class="logo">
+        GENZ<span>.</span>
+      </a>
+
+      <!-- Desktop Navigation links -->
+      <nav class="nav-links">
+        <a href="#" class="active" data-nav="home">Home</a>
+        <a href="#shop" data-nav="shop">Shop</a>
+        <a href="#collections" data-nav="collections">Collections</a>
+        <a href="#newsletter" data-nav="newsletter">Join the Club</a>
+      </nav>
+
+      <!-- Action Icons -->
+      <div class="header-actions">
+        <button id="search-toggle-btn" class="action-btn" aria-label="Search">
+          <i class="ri-search-line"></i>
+        </button>
+        <button id="cart-toggle-btn" class="action-btn cart-btn" aria-label="Cart">
+          <i class="ri-shopping-bag-3-line"></i>
+          <span class="cart-badge">0</span>
+        </button>
+        <!-- Desktop Quick Theme Status Badge -->
+        <span class="theme-pill">STREET VIBES</span>
+      </div>
+    </div>
+
+    <!-- Inline Search overlay -->
+    <div id="search-overlay" class="search-overlay">
+      <div class="search-box">
+        <i class="ri-search-line"></i>
+        <input type="text" id="catalog-search" placeholder="Search graphic tees, cargoes, hoodies...">
+        <button id="search-close-btn"><i class="ri-close-line"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Landing Section -->
+  <section class="hero-section">
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-subtitle">NEW DROPS / URBAN APPAREL</div>
+      <h1 class="hero-title animate-text">WEAR THE<br>FUTURE NOW</h1>
+      <p class="hero-description font-outfit">Premium oversized fits, heavyweight cottons, and designs inspired by youth subculture. Engineered for the generation that refuses to fit in.</p>
+      <div class="hero-ctas">
+        <a href="#shop" class="btn btn-primary">SHOP THE DROP <i class="ri-arrow-right-line"></i></a>
+        <a href="#collections" class="btn btn-secondary">EXPLORE STYLES</a>
+      </div>
+    </div>
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+      <span>SCROLL DOWN</span>
+      <div class="mouse-icon">
+        <div class="wheel"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Value Propositions Banner -->
+  <section class="features-bar">
+    <div class="feature-item">
+      <i class="ri-truck-line"></i>
+      <div>
+        <h3>Fast Shipping</h3>
+        <p>Dispatched within 24 hrs</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <i class="ri-shield-check-line"></i>
+      <div>
+        <h3>Premium GSM Cotton</h3>
+        <p>Ultra-heavy French terry</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <i class="ri-loop-left-line"></i>
+      <div>
+        <h3>7-Day Returns</h3>
+        <p>No questions asked policy</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Collections Category Cards Grid -->
+  <section id="collections" class="collections-section">
+    <div class="section-header">
+      <h2 class="section-title">THE SELECTIONS</h2>
+      <p class="section-subtitle">Curated drops matching every street mood.</p>
+    </div>
+    <div class="collections-grid">
+      <!-- Tees Card -->
+      <div class="collection-card" data-category="tees">
+        <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80')"></div>
+        <div class="card-overlay"></div>
+        <div class="card-info">
+          <h3>OVERSIZED TEES</h3>
+          <span class="card-link">SHOP NOW <i class="ri-arrow-right-up-line"></i></span>
+        </div>
+      </div>
+      <!-- Hoodies Card -->
+      <div class="collection-card" data-category="hoodies">
+        <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&auto=format&fit=crop&q=80')"></div>
+        <div class="card-overlay"></div>
+        <div class="card-info">
+          <h3>HEAVY HOODIES</h3>
+          <span class="card-link">SHOP NOW <i class="ri-arrow-right-up-line"></i></span>
+        </div>
+      </div>
+      <!-- Cargoes Card -->
+      <div class="collection-card" data-category="cargoes">
+        <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80')"></div>
+        <div class="card-overlay"></div>
+        <div class="card-info">
+          <h3>TACTICAL CARGOES</h3>
+          <span class="card-link">SHOP NOW <i class="ri-arrow-right-up-line"></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog Section -->
+  <section id="shop" class="catalog-section">
+    <div class="section-header">
+      <h2 class="section-title">THE FEED</h2>
+      <p class="section-subtitle">Drip feed updated weekly. Filter by item category below.</p>
+    </div>
+
+    <!-- Filters & Sort -->
+    <div class="catalog-controls">
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">ALL STYLES</button>
+        <button class="filter-tab" data-filter="tees">GRAPHIC TEES</button>
+        <button class="filter-tab" data-filter="hoodies">HOODIES & SWEATERS</button>
+        <button class="filter-tab" data-filter="cargoes">CARGOES & PANTS</button>
+        <button class="filter-tab" data-filter="jackets">JACKETS</button>
+        <button class="filter-tab" data-filter="accessories">ACCESORIES</button>
+      </div>
+      
+      <div class="catalog-actions">
+        <!-- Sort Select -->
+        <div class="select-wrapper">
+          <select id="sort-selector" class="sort-select">
+            <option value="default">SORT BY: LATEST</option>
+            <option value="price-low">PRICE: LOW TO HIGH</option>
+            <option value="price-high">PRICE: HIGH TO LOW</option>
+            <option value="popular">POPULARITY</option>
+          </select>
+          <i class="ri-arrow-down-s-line"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Search/Filter Badges -->
+    <div id="filter-badges" class="filter-badges-container" style="display: none;">
+      <span class="badges-label">Active Filters:</span>
+      <div class="badges-list" id="badges-list"></div>
+      <button id="clear-all-filters" class="clear-filters-btn">Clear All</button>
+    </div>
+
+    <!-- Product Grid Container -->
+    <div class="product-grid" id="product-grid-container">
+      <!-- Dynamic products go here via app.js -->
+    </div>
+    
+    <!-- Empty State -->
+    <div id="empty-state" class="empty-state-view" style="display: none;">
+      <i class="ri-emotion-sad-line"></i>
+      <h3>No drip matching your search</h3>
+      <p>Try clearing your filters or adjusting your search term.</p>
+      <button class="btn btn-primary" onclick="resetFilters()">Reset Filters</button>
+    </div>
+  </section>
+
+  <!-- Join the Club Newsletter -->
+  <section id="newsletter" class="newsletter-section">
+    <div class="newsletter-card">
+      <div class="glow-effect"></div>
+      <div class="newsletter-content">
+        <h2>JOIN THE MOVEMENT</h2>
+        <p>Subscribe to receive early access to drops, secret discount codes, and special releases.</p>
+        <form class="newsletter-form" id="newsletter-form">
+          <input type="email" placeholder="ENTER YOUR EMAIL ADDRESS" required>
+          <button type="submit" class="btn btn-primary">SUBMIT <i class="ri-arrow-right-line"></i></button>
+        </form>
+        <div class="success-message" id="newsletter-success">
+          <i class="ri-checkbox-circle-fill"></i> YOU'VE BEEN ADDED TO THE WHITELIST.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart Sidebar Drawer -->
+  <div class="cart-drawer-overlay" id="cart-overlay"></div>
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-drawer-header">
+      <h2>YOUR BAG (<span id="cart-count-header">0</span>)</h2>
+      <button id="cart-close-btn" class="close-drawer-btn" aria-label="Close Cart">
+        <i class="ri-close-line"></i>
+      </button>
+    </div>
+
+    <!-- Cart Shipping Progress Bar -->
+    <div class="shipping-meter-container">
+      <div class="shipping-message" id="shipping-message">Add more to unlock free shipping!</div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="shipping-progress"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items list -->
+    <div class="cart-items" id="cart-items-container">
+      <!-- Dynamic cart items will be added here -->
+    </div>
+
+    <!-- Cart Footer / Summary -->
+    <div class="cart-drawer-footer" id="cart-footer">
+      <div class="summary-line">
+        <span>SUBTOTAL</span>
+        <span class="subtotal-val" id="cart-subtotal-val">₹0</span>
+      </div>
+      <div class="summary-line tax-line">
+        <span>Taxes & shipping calculated at checkout</span>
+      </div>
+      <button class="btn btn-primary btn-checkout" id="go-to-checkout-btn">
+        PROCEED TO CHECKOUT <i class="ri-secure-payment-line"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Quick View / Product Details Modal -->
+  <div class="modal-overlay" id="quick-view-overlay">
+    <div class="modal-content quick-view-modal">
+      <button class="close-modal-btn" id="quick-view-close"><i class="ri-close-line"></i></button>
+      
+      <div class="qv-grid">
+        <!-- Image Gallery Slider -->
+        <div class="qv-gallery">
+          <div class="qv-main-image-container">
+            <img id="qv-main-img" src="" alt="Product Main Image">
+          </div>
+          <div class="qv-thumbnails" id="qv-thumbnails-container">
+            <!-- Dynamic thumbnails -->
+          </div>
+        </div>
+        
+        <!-- Info Content -->
+        <div class="qv-info">
+          <div id="qv-tag" class="product-tag">BEST SELLER</div>
+          <h2 id="qv-title">PRODUCT NAME</h2>
+          <div class="qv-price-row">
+            <span class="current-price" id="qv-price">₹0</span>
+            <span class="compare-price" id="qv-compare-price">₹0</span>
+            <span class="discount-pill" id="qv-discount-percent">0% OFF</span>
+          </div>
+          
+          <p class="qv-description font-outfit" id="qv-description">Description goes here...</p>
+          
+          <!-- Size Selector -->
+          <div class="qv-size-selector">
+            <div class="selector-header">
+              <span>SELECT SIZE:</span>
+              <a href="#" class="size-chart-btn" id="size-chart-toggle">Size Chart</a>
+            </div>
+            <div class="size-options" id="qv-size-options">
+              <!-- Sizes (S, M, L, XL) will be dynamically loaded -->
+            </div>
+            <span id="size-error" class="validation-error">Please select a size</span>
+          </div>
+
+          <!-- Add Action -->
+          <div class="qv-actions">
+            <button class="btn btn-primary btn-add-cart" id="qv-add-to-cart-btn">
+              ADD TO BAG <i class="ri-shopping-bag-3-line"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Wizard Modal -->
+  <div class="modal-overlay" id="checkout-modal-overlay">
+    <div class="modal-content checkout-modal">
+      <button class="close-modal-btn" id="checkout-close"><i class="ri-close-line"></i></button>
+      
+      <div class="checkout-container">
+        <!-- Steps Navigation header -->
+        <div class="checkout-steps">
+          <div class="step-indicator active" id="step-ind-1">
+            <span class="step-num">1</span>
+            <span class="step-label">DETAILS</span>
+          </div>
+          <div class="step-line" id="step-line-1"></div>
+          <div class="step-indicator" id="step-ind-2">
+            <span class="step-num">2</span>
+            <span class="step-label">PAYMENT</span>
+          </div>
+          <div class="step-line" id="step-line-2"></div>
+          <div class="step-indicator" id="step-ind-3">
+            <span class="step-num">3</span>
+            <span class="step-label">CONFIRMED</span>
+          </div>
+        </div>
+
+        <div class="checkout-grid">
+          <!-- Left side: Form steps -->
+          <div class="checkout-form-panel">
+            
+            <!-- Step 1: Customer Details -->
+            <form id="checkout-step-1" class="checkout-step-form active">
+              <h3>Shipping Information</h3>
+              <div class="form-grid">
+                <div class="form-group col-6">
+                  <label for="co-firstname">First Name</label>
+                  <input type="text" id="co-firstname" required>
+                </div>
+                <div class="form-group col-6">
+                  <label for="co-lastname">Last Name</label>
+                  <input type="text" id="co-lastname" required>
+                </div>
+                <div class="form-group col-12">
+                  <label for="co-email">Email Address</label>
+                  <input type="email" id="co-email" placeholder="for delivery updates" required>
+                </div>
+                <div class="form-group col-12">
+                  <label for="co-phone">Phone Number</label>
+                  <input type="tel" id="co-phone" placeholder="10-digit mobile" pattern="[0-9]{10}" required>
+                </div>
+                <div class="form-group col-12">
+                  <label for="co-address">Delivery Address</label>
+                  <input type="text" id="co-address" required>
+                </div>
+                <div class="form-group col-6">
+                  <label for="co-city">City</label>
+                  <input type="text" id="co-city" required>
+                </div>
+                <div class="form-group col-6">
+                  <label for="co-postal">ZIP / Pincode</label>
+                  <input type="text" id="co-postal" pattern="[0-9]{6}" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary checkout-next-btn">
+                CONTINUE TO PAYMENT <i class="ri-arrow-right-line"></i>
+              </button>
+            </form>
+
+            <!-- Step 2: Payment Details -->
+            <div id="checkout-step-2" class="checkout-step-form">
+              <h3>Select Payment Method</h3>
+              <div class="payment-options">
+                <label class="payment-card active">
+                  <input type="radio" name="payment-method" value="cod" checked>
+                  <i class="ri-truck-line"></i>
+                  <div>
+                    <strong>Cash On Delivery (COD)</strong>
+                    <p>Pay with cash upon package arrival</p>
+                  </div>
+                </label>
+                <label class="payment-card">
+                  <input type="radio" name="payment-method" value="upi">
+                  <i class="ri-qr-code-line"></i>
+                  <div>
+                    <strong>UPI payment (GPay / PhonePe / Paytm)</strong>
+                    <p>Instant UPI payment gateway</p>
+                  </div>
+                </label>
+                <label class="payment-card">
+                  <input type="radio" name="payment-method" value="card">
+                  <i class="ri-bank-card-line"></i>
+                  <div>
+                    <strong>Credit / Debit Cards</strong>
+                    <p>Visa, MasterCard, RuPay</p>
+                  </div>
+                </label>
+              </div>
+
+              <!-- UPI Details (shown if UPI selected) -->
+              <div class="payment-details-panel" id="upi-details-box" style="display: none;">
+                <p class="instruction">Scan QR or enter UPI ID to pay:</p>
+                <div class="qr-container">
+                  <i class="ri-qr-code-fill"></i>
+                  <span class="qr-label">UPI ID: genz@ybl</span>
+                </div>
+              </div>
+
+              <!-- Card Details (shown if card selected) -->
+              <div class="payment-details-panel" id="card-details-box" style="display: none;">
+                <div class="form-group col-12">
+                  <label>Card Number</label>
+                  <input type="text" placeholder="1234 5678 9876 5432" maxlength="19">
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="text" placeholder="MM/YY" maxlength="5">
+                  </div>
+                  <div class="form-group">
+                    <label>CVV</label>
+                    <input type="password" placeholder="***" maxlength="3">
+                  </div>
+                </div>
+              </div>
+
+              <div class="checkout-nav-buttons">
+                <button class="btn btn-secondary" id="checkout-back-btn"><i class="ri-arrow-left-line"></i> BACK</button>
+                <button class="btn btn-primary" id="checkout-pay-btn">COMPLETE ORDER ₹<span id="pay-button-amount">0</span></button>
+              </div>
+            </div>
+
+            <!-- Step 3: Success Screen -->
+            <div id="checkout-step-3" class="checkout-step-form success-panel">
+              <div class="success-icon-wrap">
+                <div class="success-glowing-circle"></div>
+                <i class="ri-checkbox-circle-line success-icon"></i>
+              </div>
+              <h2>ORDER PLACED SUCCESSFULLY!</h2>
+              <p class="order-id">Order ID: <span id="confirmed-order-id">#GNZ-928103</span></p>
+              <p class="success-subtext">Thank you for shopping at **Genz clothings**! We've sent a receipt and tracking details to your email.</p>
+              <button class="btn btn-primary" id="checkout-success-continue">CONTINUE SHOPPING</button>
+            </div>
+
+          </div>
+
+          <!-- Right side: Order Summary sticky column -->
+          <div class="checkout-summary-panel">
+            <h3>ORDER SUMMARY</h3>
+            <div class="checkout-items-list" id="checkout-items-list">
+              <!-- Cart Items -->
+            </div>
+            
+            <div class="promo-box">
+              <input type="text" id="promo-code" placeholder="PROMO CODE (Try: GENZ10)">
+              <button class="btn btn-secondary" id="promo-apply-btn">APPLY</button>
+            </div>
+            <span id="promo-message" class="promo-feedback"></span>
+
+            <div class="summary-breakdown">
+              <div class="breakdown-row">
+                <span>Subtotal</span>
+                <span id="co-subtotal">₹0</span>
+              </div>
+              <div class="breakdown-row">
+                <span>Shipping</span>
+                <span id="co-shipping">₹0</span>
+              </div>
+              <div class="breakdown-row" id="co-discount-row" style="display: none;">
+                <span>Discount (GENZ10)</span>
+                <span id="co-discount">-₹0</span>
+              </div>
+              <hr>
+              <div class="breakdown-row total-row">
+                <span>Total</span>
+                <span id="co-total">₹0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation Tab-Bar -->
+  <div class="mobile-bottom-nav">
+    <a href="#" class="mobile-nav-item active" data-target="home">
+      <i class="ri-home-5-line"></i>
+      <span>Home</span>
+    </a>
+    <a href="#shop" class="mobile-nav-item" data-target="shop">
+      <i class="ri-search-line"></i>
+      <span>Explore</span>
+    </a>
+    <button class="mobile-nav-item mobile-cart-trigger" id="mobile-cart-btn" aria-label="Cart">
+      <div class="cart-icon-wrapper">
+        <i class="ri-shopping-bag-3-line"></i>
+        <span class="cart-badge-mobile">0</span>
+      </div>
+      <span>Bag</span>
+    </button>
+    <a href="#newsletter" class="mobile-nav-item" data-target="newsletter">
+      <i class="ri-mail-line"></i>
+      <span>Club</span>
+    </a>
+  </div>
+
+  <!-- Size Chart Popup Overlay -->
+  <div class="modal-overlay" id="size-chart-overlay">
+    <div class="modal-content size-chart-modal">
+      <button class="close-modal-btn" id="size-chart-close"><i class="ri-close-line"></i></button>
+      <h3>SIZE GUIDE</h3>
+      <p>Streetwear fit (boxy, drop-shoulder). Standard measurements in inches.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>SIZE</th>
+            <th>CHEST</th>
+            <th>LENGTH</th>
+            <th>SHOULDER</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>S</td>
+            <td>44"</td>
+            <td>27"</td>
+            <td>20"</td>
+          </tr>
+          <tr>
+            <td>M</td>
+            <td>46"</td>
+            <td>28"</td>
+            <td>21"</td>
+          </tr>
+          <tr>
+            <td>L</td>
+            <td>48"</td>
+            <td>29"</td>
+            <td>22"</td>
+          </tr>
+          <tr>
+            <td>XL</td>
+            <td>50"</td>
+            <td>30"</td>
+            <td>23"</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-grid">
+      <div class="footer-col branding-col">
+        <h2>GENZ<span>.</span></h2>
+        <p>Premium Gen Z streetwear designed and tailored for the culture. Live loud, look different.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+          <a href="#" aria-label="TikTok"><i class="ri-tiktok-line"></i></a>
+          <a href="#" aria-label="Twitter"><i class="ri-twitter-x-line"></i></a>
+          <a href="#" aria-label="YouTube"><i class="ri-youtube-line"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>SHOPPING</h4>
+        <a href="#shop">Oversized Tees</a>
+        <a href="#shop">Heavy Hoodies</a>
+        <a href="#shop">Tactical Cargoes</a>
+        <a href="#shop">Accessories</a>
+      </div>
+      <div class="footer-col">
+        <h4>SUPPORT</h4>
+        <a href="#">Track Order</a>
+        <a href="#">Size Chart</a>
+        <a href="#">Returns & Exchange Policy</a>
+        <a href="#">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>STORE LOCATION</h4>
+        <p class="address-text">Genz clothings HQ<br>Fashion Street, Sector-4<br>Mumbai, India - 400001</p>
+        <p class="contact-email">support@genzclothings.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Genz clothings. All rights reserved. Built with passion for Gen Z.</p>
+    </div>
+  </footer>
+
+  <!-- Product Database & Application Logic -->
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
