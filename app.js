@@ -139,7 +139,6 @@ window.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   initBuildYourFit();
   init3DTeeLab();
-  initHeroParallax();
 });
 
 // ==========================================
