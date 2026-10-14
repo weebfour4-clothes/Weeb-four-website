@@ -1,5 +1,5 @@
 // ==========================================
-// GENZ CLOTHINGS - APPLICATION CONTROLLER
+// WEEBFOUR (WEB4!) - MASTER APPLICATION CONTROLLER
 // ==========================================
 
 // 1. Application State
@@ -9,7 +9,7 @@ let searchQuery = '';
 let currentSort = 'default';
 let selectedQuickViewProduct = null;
 let selectedSize = '';
-let activeDiscount = 0.0; // 0.10 for 10%
+let activeDiscount = 0.0; // 0.10 for 10%, 0.15 for 15%
 
 // Free Shipping Threshold
 const SHIPPING_THRESHOLD = 1499;
@@ -69,7 +69,8 @@ const sizeChartToggle = document.getElementById('size-chart-toggle');
 // Checkout Modal elements
 const checkoutModalOverlay = document.getElementById('checkout-modal-overlay');
 const checkoutClose = document.getElementById('checkout-close');
-const step1Form = document.getElementById('checkout-step-1');
+const step1Form = document.getElementById('shipping-form');
+const step1Panel = document.getElementById('checkout-step-1');
 const step2Panel = document.getElementById('checkout-step-2');
 const step3Panel = document.getElementById('checkout-step-3');
 const payAmountSpan = document.getElementById('pay-button-amount');
@@ -103,15 +104,48 @@ const newsletterSuccess = document.getElementById('newsletter-success');
 // Mobile Bottom Nav elements
 const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
 
-// 3. Initialize App
+// ==========================================
+// 3. BUILD YOUR FIT STATE & SETUP
+// ==========================================
+let currentFit = {
+  tee: null,
+  bottom: null,
+  outerwear: null,
+  teeSize: 'L',
+  bottomSize: 'M',
+  outerwearSize: 'L'
+};
+
+// ==========================================
+// 4. 3D TEE LAB STATE
+// ==========================================
+let teeLabState = {
+  currentView: 'front', // 'front' | 'back'
+  currentColor: 'black',
+  currentAngle: 0,
+  isDragging: false,
+  startX: 0,
+  startAngle: 0,
+  zoomEnabled: false,
+  zoomLevel: 2.5,
+  selectedSize: 'L'
+};
+
+// ==========================================
+// 5. INITIALIZE APP
+// ==========================================
 window.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   setupEventListeners();
+  initBuildYourFit();
+  init3DTeeLab();
+  initHeroParallax();
 });
 
-// 4. Render Product Grid
+// ==========================================
+// 6. RENDER PRODUCT GRID
+// ==========================================
 function renderProducts() {
-  // Filter products
   let filtered = products.filter(product => {
     const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -120,17 +154,14 @@ function renderProducts() {
     return matchesCategory && matchesSearch;
   });
 
-  // Sort products
   if (currentSort === 'price-low') {
     filtered.sort((a, b) => a.price - b.price);
   } else if (currentSort === 'price-high') {
     filtered.sort((a, b) => b.price - a.price);
   } else if (currentSort === 'popular') {
-    // Sort by id or mock popularity
     filtered.sort((a, b) => (a.tag === 'BEST SELLER' ? -1 : 1));
   }
 
-  // Update empty state
   if (filtered.length === 0) {
     productGrid.style.display = 'none';
     emptyState.style.display = 'block';
@@ -140,63 +171,35 @@ function renderProducts() {
     
     productGrid.innerHTML = filtered.map(product => {
       const discount = Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100);
+      const tagHtml = product.tag ? `<div class="product-tag">${product.tag}</div>` : '';
       
-      // Secondary image or fallback to main
-      const hoverImage = product.images[1] ? product.images[1] : product.images[0];
-      
-      // Tag badge
-      const tagBadgeHtml = product.tag ? `<div class="prod-tag">${product.tag}</div>` : '';
-      
-      // Sizes quick add
-      const sizesHtml = product.sizes.map(size => 
-        `<button class="quick-size-btn" data-prod-id="${product.id}" data-size="${size}">${size}</button>`
-      ).join('');
-
       return `
         <div class="product-card" data-id="${product.id}">
-          <div class="product-image-container">
-            ${tagBadgeHtml}
-            <img class="prod-img" src="${product.images[0]}" alt="${product.name}">
-            <img class="prod-img-hover" src="${hoverImage}" alt="${product.name} alternate">
-            
-            <div class="quick-add-overlay">
-              <span class="quick-add-title">QUICK ADD SIZE:</span>
-              <div class="quick-add-sizes">
-                ${sizesHtml}
-              </div>
-            </div>
+          <div class="product-img-box">
+            ${tagHtml}
+            <img src="${product.images[0]}" alt="${product.name}">
+            <div class="quick-view-trigger"><i class="ri-eye-line"></i> QUICK VIEW</div>
           </div>
-          
           <div class="product-details">
-            <span class="product-cat">${product.category}</span>
-            <h3 class="product-name" data-id="${product.id}">${product.name}</h3>
-            
-            <div class="price-box">
-              <span class="price-now">₹${product.price}</span>
-              <span class="price-compare">₹${product.compareAtPrice}</span>
-              <span class="save-percent">${discount}% OFF</span>
+            <h3 class="product-name">${product.name}</h3>
+            <div class="product-price-row">
+              <span class="current-price">₹${product.price}</span>
+              <span class="compare-price">₹${product.compareAtPrice}</span>
+              <span class="discount-pill">${discount}% OFF</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-quick-add" onclick="openQuickView(${product.id})">
+                SELECT OPTIONS <i class="ri-arrow-right-line"></i>
+              </button>
             </div>
           </div>
         </div>
       `;
     }).join('');
 
-    // Reattach listeners to quick add size buttons
-    document.querySelectorAll('.quick-size-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const id = parseInt(btn.dataset.prodId);
-        const size = btn.dataset.size;
-        addToCart(id, size);
-      });
-    });
-
-    // Reattach listeners to card image & name for Quick View
-    document.querySelectorAll('.product-image-container, .product-name').forEach(el => {
-      el.addEventListener('click', (e) => {
-        // Check if size button was clicked, don't open modal in that case
-        if (e.target.classList.contains('quick-size-btn')) return;
-        
+    // Attach click to card image for quick view
+    document.querySelectorAll('.product-img-box, .product-name').forEach(el => {
+      el.addEventListener('click', () => {
         const card = el.closest('.product-card');
         const id = parseInt(card.dataset.id);
         openQuickView(id);
@@ -207,7 +210,6 @@ function renderProducts() {
   updateFilterBadges();
 }
 
-// 5. Update active filter badges
 function updateFilterBadges() {
   if (activeCategory === 'all' && searchQuery === '') {
     filterBadgesContainer.style.display = 'none';
@@ -219,18 +221,18 @@ function updateFilterBadges() {
 
   if (activeCategory !== 'all') {
     badgesHtml += `
-      <div class="badge-item">
-        Category: ${activeCategory.toUpperCase()}
-        <button onclick="setCategory('all')"><i class="ri-close-line"></i></button>
+      <div class="filter-badge">
+        CATEGORY: ${activeCategory.toUpperCase()}
+        <i class="ri-close-line" onclick="setCategory('all')"></i>
       </div>
     `;
   }
 
   if (searchQuery !== '') {
     badgesHtml += `
-      <div class="badge-item">
-        Search: "${searchQuery}"
-        <button onclick="clearSearch()"><i class="ri-close-line"></i></button>
+      <div class="filter-badge">
+        SEARCH: "${searchQuery}"
+        <i class="ri-close-line" onclick="clearSearch()"></i>
       </div>
     `;
   }
@@ -238,7 +240,6 @@ function updateFilterBadges() {
   badgesList.innerHTML = badgesHtml;
 }
 
-// Global category/search setters for badges
 window.setCategory = function(cat) {
   activeCategory = cat;
   filterTabs.forEach(tab => {
@@ -269,7 +270,9 @@ window.resetFilters = function() {
   renderProducts();
 };
 
-// 6. Setup All Event Listeners
+// ==========================================
+// 7. SETUP EVENT LISTENERS
+// ==========================================
 function setupEventListeners() {
   // Navigation tabs filtering
   filterTabs.forEach(tab => {
@@ -281,22 +284,23 @@ function setupEventListeners() {
     });
   });
 
-  // Category selection via landing collection cards
+  // Collections Card Clicks
   collectionCards.forEach(card => {
     card.addEventListener('click', () => {
       const cat = card.dataset.category;
       setCategory(cat);
-      document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+      const shopEl = document.getElementById('shop');
+      if (shopEl) shopEl.scrollIntoView({ behavior: 'smooth' });
     });
   });
 
-  // Sort select changes
+  // Sort Selector
   sortSelector.addEventListener('change', (e) => {
     currentSort = e.target.value;
     renderProducts();
   });
 
-  // Search trigger toggling
+  // Search Overlay
   searchToggleBtn.addEventListener('click', () => {
     searchOverlay.classList.toggle('active');
     if (searchOverlay.classList.contains('active')) {
@@ -308,7 +312,6 @@ function setupEventListeners() {
     searchOverlay.classList.remove('active');
   });
 
-  // Live searching
   catalogSearch.addEventListener('input', (e) => {
     searchQuery = e.target.value;
     renderProducts();
@@ -328,7 +331,6 @@ function setupEventListeners() {
   cartCloseBtn.addEventListener('click', toggleCart);
   cartOverlay.addEventListener('click', toggleCart);
 
-  // Clear filters link
   clearAllFiltersBtn.addEventListener('click', resetFilters);
 
   // Quick View interactions
@@ -337,17 +339,23 @@ function setupEventListeners() {
     if (e.target === quickViewOverlay) closeQuickView();
   });
 
-  // Size chart toggling
-  sizeChartToggle.addEventListener('click', (e) => {
-    e.preventDefault();
-    sizeChartOverlay.classList.add('active');
-  });
-  sizeChartClose.addEventListener('click', () => sizeChartOverlay.classList.remove('active'));
-  sizeChartOverlay.addEventListener('click', (e) => {
-    if (e.target === sizeChartOverlay) sizeChartOverlay.classList.remove('active');
-  });
+  // Size Chart
+  if (sizeChartToggle) {
+    sizeChartToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      sizeChartOverlay.classList.add('active');
+    });
+  }
+  if (sizeChartClose) {
+    sizeChartClose.addEventListener('click', () => sizeChartOverlay.classList.remove('active'));
+  }
+  if (sizeChartOverlay) {
+    sizeChartOverlay.addEventListener('click', (e) => {
+      if (e.target === sizeChartOverlay) sizeChartOverlay.classList.remove('active');
+    });
+  }
 
-  // Add to cart inside Quick view
+  // Quick view Add to Bag
   qvAddToCartBtn.addEventListener('click', () => {
     if (!selectedSize) {
       sizeError.style.display = 'block';
@@ -356,15 +364,14 @@ function setupEventListeners() {
     sizeError.style.display = 'none';
     addToCart(selectedQuickViewProduct.id, selectedSize);
     closeQuickView();
-    // Auto-open cart drawer to show items added
     setTimeout(() => {
       cartDrawer.classList.add('active');
       cartOverlay.classList.add('active');
       renderCart();
-    }, 450);
+    }, 400);
   });
 
-  // Checkout Wizard activation
+  // Checkout Modal
   goToCheckoutBtn.addEventListener('click', () => {
     if (cart.length === 0) return;
     cartDrawer.classList.remove('active');
@@ -374,60 +381,39 @@ function setupEventListeners() {
 
   checkoutClose.addEventListener('click', closeCheckout);
   checkoutModalOverlay.addEventListener('click', (e) => {
-    if (e.target === checkoutModalOverlay) {
-      // Don't close if order is already completed
-      if (!step3Panel.classList.contains('active')) {
-        closeCheckout();
-      }
+    if (e.target === checkoutModalOverlay && !step3Panel.classList.contains('active')) {
+      closeCheckout();
     }
   });
 
-  // Checkout Step 1 Submit
+  // Checkout Step 1 Form
   step1Form.addEventListener('submit', (e) => {
     e.preventDefault();
-    // Transition to step 2
-    step1Form.classList.remove('active');
+    step1Panel.classList.remove('active');
     step2Panel.classList.add('active');
     
     stepInd1.classList.remove('active');
     stepInd2.classList.add('active');
     stepLine1.classList.add('active');
     
-    // Update Checkout final values
     updateCheckoutSummary();
   });
 
   // Payment Selection toggling
-  const paymentCards = document.querySelectorAll('.payment-card');
+  const paymentCards = document.querySelectorAll('.payment-method-card');
   paymentCards.forEach(card => {
     card.addEventListener('click', () => {
       paymentCards.forEach(c => c.classList.remove('active'));
       card.classList.add('active');
-      
       const radio = card.querySelector('input[type="radio"]');
-      radio.checked = true;
-      
-      // Toggle conditional fields
-      const upiBox = document.getElementById('upi-details-box');
-      const cardBox = document.getElementById('card-details-box');
-      
-      if (radio.value === 'upi') {
-        upiBox.style.display = 'block';
-        cardBox.style.display = 'none';
-      } else if (radio.value === 'card') {
-        upiBox.style.display = 'none';
-        cardBox.style.display = 'block';
-      } else {
-        upiBox.style.display = 'none';
-        cardBox.style.display = 'none';
-      }
+      if (radio) radio.checked = true;
     });
   });
 
   // Back button in Payment screen
   checkoutBackBtn.addEventListener('click', () => {
     step2Panel.classList.remove('active');
-    step1Form.classList.add('active');
+    step1Panel.classList.add('active');
     
     stepInd2.classList.remove('active');
     stepInd1.classList.add('active');
@@ -436,11 +422,9 @@ function setupEventListeners() {
 
   // Pay / Place Order Click
   checkoutPayBtn.addEventListener('click', () => {
-    // Generate simulated order
-    const randomOrderId = '#GNZ-' + Math.floor(100000 + Math.random() * 900000);
+    const randomOrderId = 'WEEB-' + Math.floor(10000 + Math.random() * 90000);
     confirmedOrderId.textContent = randomOrderId;
     
-    // Transition to step 3
     step2Panel.classList.remove('active');
     step3Panel.classList.add('active');
     
@@ -448,16 +432,13 @@ function setupEventListeners() {
     stepInd3.classList.add('active');
     stepLine2.classList.add('active');
     
-    // Clear cart
     cart = [];
     activeDiscount = 0.0;
     promoCodeInput.value = '';
-    promoMessage.className = 'promo-feedback';
     promoMessage.textContent = '';
     updateCartCount();
   });
 
-  // Checkout Success Continue Shopping
   checkoutSuccessContinue.addEventListener('click', () => {
     closeCheckout();
   });
@@ -465,13 +446,18 @@ function setupEventListeners() {
   // Promo apply
   promoApplyBtn.addEventListener('click', () => {
     const code = promoCodeInput.value.trim().toUpperCase();
-    if (code === 'GENZ10') {
+    if (code === 'WEEB10' || code === 'GENZ10') {
       activeDiscount = 0.10;
-      promoMessage.className = 'promo-feedback success';
-      promoMessage.textContent = '10% Discount Applied!';
+      promoMessage.style.color = 'var(--color-success)';
+      promoMessage.textContent = '10% WEEBFOUR Discount Applied!';
+      updateCheckoutSummary();
+    } else if (code === 'WEEBFIT15') {
+      activeDiscount = 0.15;
+      promoMessage.style.color = 'var(--color-success)';
+      promoMessage.textContent = '15% Fit Studio Discount Applied!';
       updateCheckoutSummary();
     } else {
-      promoMessage.className = 'promo-feedback error';
+      promoMessage.style.color = 'var(--color-error)';
       promoMessage.textContent = 'Invalid promo code';
     }
   });
@@ -492,13 +478,469 @@ function setupEventListeners() {
   });
 }
 
-// 7. Add to Cart Handler
+// ==========================================
+// 8. BUILD YOUR FIT IMPLEMENTATION
+// ==========================================
+function initBuildYourFit() {
+  const teesList = products.filter(p => p.category === 'tees');
+  const bottomsList = products.filter(p => p.category === 'cargoes');
+  const layersList = products.filter(p => p.category === 'hoodies' || p.category === 'jackets' || p.category === 'accessories');
+
+  // Set initial selections
+  currentFit.tee = teesList[0] || products[0];
+  currentFit.bottom = bottomsList[0] || products[4];
+  currentFit.outerwear = layersList[0] || products[3];
+
+  const teesGrid = document.getElementById('builder-tees-grid');
+  const bottomsGrid = document.getElementById('builder-bottoms-grid');
+  const layersGrid = document.getElementById('builder-layers-grid');
+
+  if (teesGrid) {
+    teesGrid.innerHTML = teesList.map((item, idx) => `
+      <div class="builder-option-card ${idx === 0 ? 'selected' : ''}" data-type="tee" data-id="${item.id}">
+        <div class="option-card-selected-check"><i class="ri-check-line"></i></div>
+        <div class="option-thumb">
+          <img src="${item.images[0]}" alt="${item.name}">
+        </div>
+        <div class="option-name">${item.name}</div>
+        <div class="option-prices">
+          <span class="option-price">₹${item.price}</span>
+          <span class="option-compare">₹${item.compareAtPrice}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  if (bottomsGrid) {
+    bottomsGrid.innerHTML = bottomsList.map((item, idx) => `
+      <div class="builder-option-card ${idx === 0 ? 'selected' : ''}" data-type="bottom" data-id="${item.id}">
+        <div class="option-card-selected-check"><i class="ri-check-line"></i></div>
+        <div class="option-thumb">
+          <img src="${item.images[0]}" alt="${item.name}">
+        </div>
+        <div class="option-name">${item.name}</div>
+        <div class="option-prices">
+          <span class="option-price">₹${item.price}</span>
+          <span class="option-compare">₹${item.compareAtPrice}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  if (layersGrid) {
+    layersGrid.innerHTML = layersList.map((item, idx) => `
+      <div class="builder-option-card ${idx === 0 ? 'selected' : ''}" data-type="outerwear" data-id="${item.id}">
+        <div class="option-card-selected-check"><i class="ri-check-line"></i></div>
+        <div class="option-thumb">
+          <img src="${item.images[0]}" alt="${item.name}">
+        </div>
+        <div class="option-name">${item.name}</div>
+        <div class="option-prices">
+          <span class="option-price">₹${item.price}</span>
+          <span class="option-compare">₹${item.compareAtPrice}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Handle Step Tabs Switching
+  const stepTabs = document.querySelectorAll('.step-tab-btn');
+  const stepPanes = document.querySelectorAll('.step-pane');
+  stepTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const step = tab.dataset.step;
+      stepTabs.forEach(t => t.classList.remove('active'));
+      stepPanes.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      const activePane = document.getElementById(`builder-step-${step}`);
+      if (activePane) activePane.classList.add('active');
+    });
+  });
+
+  // Handle Option Card Clicks
+  document.querySelectorAll('.builder-option-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const type = card.dataset.type;
+      const id = parseInt(card.dataset.id);
+      const product = products.find(p => p.id === id);
+      if (!product) return;
+
+      // Unselect siblings
+      card.parentElement.querySelectorAll('.builder-option-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+
+      // Update state
+      currentFit[type] = product;
+      updateFitPreview();
+    });
+  });
+
+  // Handle Fit Sizes
+  const teeSizeSelect = document.getElementById('fit-size-tee');
+  const bottomSizeSelect = document.getElementById('fit-size-bottom');
+  const outerwearSizeSelect = document.getElementById('fit-size-outerwear');
+
+  if (teeSizeSelect) {
+    teeSizeSelect.addEventListener('change', (e) => currentFit.teeSize = e.target.value);
+  }
+  if (bottomSizeSelect) {
+    bottomSizeSelect.addEventListener('change', (e) => currentFit.bottomSize = e.target.value);
+  }
+  if (outerwearSizeSelect) {
+    outerwearSizeSelect.addEventListener('change', (e) => currentFit.outerwearSize = e.target.value);
+  }
+
+  // Handle Add Fit to Bag (One Click)
+  const addFitBtn = document.getElementById('add-fit-to-cart-btn');
+  if (addFitBtn) {
+    addFitBtn.addEventListener('click', () => {
+      if (!currentFit.tee || !currentFit.bottom || !currentFit.outerwear) return;
+
+      // Add all 3 items to cart with bundle discount (15% off)
+      const bundleDiscountFactor = 0.85;
+
+      const bundledTee = {
+        product: { ...currentFit.tee, price: Math.round(currentFit.tee.price * bundleDiscountFactor) },
+        size: currentFit.teeSize,
+        quantity: 1,
+        isBundle: true
+      };
+
+      const bundledBottom = {
+        product: { ...currentFit.bottom, price: Math.round(currentFit.bottom.price * bundleDiscountFactor) },
+        size: currentFit.bottomSize,
+        quantity: 1,
+        isBundle: true
+      };
+
+      const bundledOuterwear = {
+        product: { ...currentFit.outerwear, price: Math.round(currentFit.outerwear.price * bundleDiscountFactor) },
+        size: currentFit.outerwearSize,
+        quantity: 1,
+        isBundle: true
+      };
+
+      cart.push(bundledTee, bundledBottom, bundledOuterwear);
+      updateCartCount();
+      animateCartIcon();
+
+      // Open Cart Drawer
+      cartDrawer.classList.add('active');
+      cartOverlay.classList.add('active');
+      renderCart();
+
+      // Celebration effect on button
+      addFitBtn.innerHTML = `<i class="ri-check-double-line"></i> COMPLETE FIT ADDED! (-15% SAVED)`;
+      setTimeout(() => {
+        addFitBtn.innerHTML = `<i class="ri-shopping-bag-3-fill"></i> ADD COMPLETE LOOK TO BAG (3 ITEMS)`;
+      }, 2500);
+    });
+  }
+
+  updateFitPreview();
+}
+
+function updateFitPreview() {
+  const { tee, bottom, outerwear } = currentFit;
+  if (!tee || !bottom || !outerwear) return;
+
+  // Update Left Canvas Images & Titles
+  const previewOuterwear = document.getElementById('fit-preview-outerwear');
+  const titleOuterwear = document.getElementById('fit-outerwear-title');
+  const priceOuterwear = document.getElementById('fit-outerwear-price');
+
+  const previewTee = document.getElementById('fit-preview-tee');
+  const titleTee = document.getElementById('fit-tee-title');
+  const priceTee = document.getElementById('fit-tee-price');
+
+  const previewBottom = document.getElementById('fit-preview-bottom');
+  const titleBottom = document.getElementById('fit-bottom-title');
+  const priceBottom = document.getElementById('fit-bottom-price');
+
+  if (previewOuterwear) previewOuterwear.src = outerwear.images[0];
+  if (titleOuterwear) titleOuterwear.textContent = outerwear.name;
+  if (priceOuterwear) priceOuterwear.textContent = `₹${outerwear.price}`;
+
+  if (previewTee) previewTee.src = tee.images[0];
+  if (titleTee) titleTee.textContent = tee.name;
+  if (priceTee) priceTee.textContent = `₹${tee.price}`;
+
+  if (previewBottom) previewBottom.src = bottom.images[0];
+  if (titleBottom) titleBottom.textContent = bottom.name;
+  if (priceBottom) priceBottom.textContent = `₹${bottom.price}`;
+
+  // Calculate Combined Price & 15% Savings
+  const subtotal = tee.price + bottom.price + outerwear.price;
+  const discount = Math.round(subtotal * 0.15);
+  const total = subtotal - discount;
+
+  const subtotalEl = document.getElementById('fit-summary-subtotal');
+  const discountEl = document.getElementById('fit-summary-discount');
+  const totalEl = document.getElementById('fit-summary-total');
+
+  if (subtotalEl) subtotalEl.textContent = `₹${subtotal}`;
+  if (discountEl) discountEl.textContent = `-₹${discount}`;
+  if (totalEl) totalEl.textContent = `₹${total}`;
+}
+
+// ==========================================
+// 9. 3D TEE LAB IMPLEMENTATION (MOUSE REACTIVE)
+// ==========================================
+function init3DTeeLab() {
+  const viewport = document.getElementById('tee-stage-viewport');
+  const wrapper = document.getElementById('tee-3d-wrapper');
+  const card3d = document.getElementById('tee-card-3d');
+  const angleDegrees = document.getElementById('angle-degrees');
+  const ambientGlow = document.getElementById('tee-ambient-glow');
+  const angleBadge = document.getElementById('angle-indicator-badge');
+
+  if (!viewport || !wrapper || !card3d) return;
+
+  // 1. Mouse Move 3D Perspective Tilt
+  viewport.addEventListener('mousemove', (e) => {
+    if (teeLabState.isDragging) return;
+
+    const rect = viewport.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Normalized coordinates (-1 to 1)
+    const normX = (x / rect.width) * 2 - 1;
+    const normY = (y / rect.height) * 2 - 1;
+
+    // Tilt angles (max 18 deg)
+    const tiltX = -normY * 16;
+    const tiltY = normX * 22;
+
+    wrapper.style.transform = `perspective(1200px) rotateX(${tiltX}deg) rotateY(${teeLabState.currentAngle + tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+
+    // Handle Magnifier Loupe position
+    if (teeLabState.zoomEnabled) {
+      updateLoupePosition(x, y, rect.width, rect.height);
+    }
+  });
+
+  viewport.addEventListener('mouseleave', () => {
+    if (teeLabState.isDragging) return;
+    wrapper.style.transform = `perspective(1200px) rotateX(0deg) rotateY(${teeLabState.currentAngle}deg) scale3d(1, 1, 1)`;
+    hideLoupe();
+  });
+
+  // 2. Drag Horizontally to Rotate in 3D
+  const onDragStart = (clientX) => {
+    teeLabState.isDragging = true;
+    teeLabState.startX = clientX;
+    teeLabState.startAngle = teeLabState.currentAngle;
+    hideLoupe();
+  };
+
+  const onDragMove = (clientX) => {
+    if (!teeLabState.isDragging) return;
+    const deltaX = clientX - teeLabState.startX;
+    // Rotate factor: 1 pixel = 0.55 degrees
+    teeLabState.currentAngle = Math.round((teeLabState.startAngle + deltaX * 0.55) % 360);
+    if (teeLabState.currentAngle < 0) teeLabState.currentAngle += 360;
+
+    wrapper.style.transform = `perspective(1200px) rotateX(0deg) rotateY(${teeLabState.currentAngle}deg)`;
+    if (angleDegrees) angleDegrees.textContent = `${teeLabState.currentAngle}°`;
+  };
+
+  const onDragEnd = () => {
+    teeLabState.isDragging = false;
+  };
+
+  // Mouse drag
+  viewport.addEventListener('mousedown', (e) => onDragStart(e.clientX));
+  window.addEventListener('mousemove', (e) => onDragMove(e.clientX));
+  window.addEventListener('mouseup', onDragEnd);
+
+  // Touch drag
+  viewport.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) onDragStart(e.touches[0].clientX);
+  });
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches.length === 1) onDragMove(e.touches[0].clientX);
+  });
+  window.addEventListener('touchend', onDragEnd);
+
+  // 3. View Angle Buttons (Front & Back Views)
+  const viewFrontBtn = document.getElementById('view-btn-front');
+  const viewBackBtn = document.getElementById('view-btn-back');
+
+  const setViewAngle = (view) => {
+    teeLabState.currentView = view;
+    if (view === 'front') {
+      teeLabState.currentAngle = 0;
+      if (viewFrontBtn) viewFrontBtn.classList.add('active');
+      if (viewBackBtn) viewBackBtn.classList.remove('active');
+    } else {
+      teeLabState.currentAngle = 180;
+      if (viewBackBtn) viewBackBtn.classList.add('active');
+      if (viewFrontBtn) viewFrontBtn.classList.remove('active');
+    }
+    wrapper.style.transform = `perspective(1200px) rotateX(0deg) rotateY(${teeLabState.currentAngle}deg)`;
+    if (angleDegrees) angleDegrees.textContent = `${teeLabState.currentAngle}°`;
+    updateLoupeImage();
+  };
+
+  if (viewFrontBtn) viewFrontBtn.addEventListener('click', () => setViewAngle('front'));
+  if (viewBackBtn) viewBackBtn.addEventListener('click', () => setViewAngle('back'));
+
+  // 4. Instant Color Variant Switcher
+  const swatches = document.querySelectorAll('.swatch-btn');
+  const selectedColorName = document.getElementById('selected-color-name');
+  const filterFront = document.getElementById('tee-filter-front');
+  const filterBack = document.getElementById('tee-filter-back');
+
+  const colorMap = {
+    black: { color: 'transparent', glow: 'rgba(255, 32, 58, 0.25)', opacity: 0 },
+    crimson: { color: 'rgba(210, 15, 35, 0.55)', glow: 'rgba(255, 32, 58, 0.5)', opacity: 1 },
+    bone: { color: 'rgba(225, 218, 208, 0.45)', glow: 'rgba(230, 220, 200, 0.35)', opacity: 1 },
+    charcoal: { color: 'rgba(50, 50, 60, 0.55)', glow: 'rgba(100, 100, 120, 0.3)', opacity: 1 },
+    olive: { color: 'rgba(70, 85, 55, 0.5)', glow: 'rgba(90, 110, 70, 0.3)', opacity: 1 }
+  };
+
+  swatches.forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      swatches.forEach(s => s.classList.remove('active'));
+      swatch.classList.add('active');
+
+      const colorKey = swatch.dataset.color;
+      const colorName = swatch.dataset.name;
+      teeLabState.currentColor = colorKey;
+
+      if (selectedColorName) selectedColorName.textContent = colorName;
+
+      const cfg = colorMap[colorKey];
+      if (cfg) {
+        if (filterFront) {
+          filterFront.style.backgroundColor = cfg.color;
+          filterFront.style.opacity = cfg.opacity;
+        }
+        if (filterBack) {
+          filterBack.style.backgroundColor = cfg.color;
+          filterBack.style.opacity = cfg.opacity;
+        }
+        if (ambientGlow) {
+          ambientGlow.style.background = `radial-gradient(circle, ${cfg.glow} 0%, transparent 70%)`;
+        }
+      }
+    });
+  });
+
+  // 5. Magnifier Fabric & Print Loupe
+  const toggleZoomBtn = document.getElementById('toggle-zoom-btn');
+  const zoomToggleText = document.getElementById('zoom-toggle-text');
+  const zoomSlider = document.getElementById('zoom-level-slider');
+  const loupe = document.getElementById('magnifier-lens');
+
+  if (toggleZoomBtn) {
+    toggleZoomBtn.addEventListener('click', () => {
+      teeLabState.zoomEnabled = !teeLabState.zoomEnabled;
+      if (zoomToggleText) {
+        zoomToggleText.textContent = teeLabState.zoomEnabled ? 'DISABLE LOUPE' : 'ENABLE LOUPE';
+      }
+      if (!teeLabState.zoomEnabled) hideLoupe();
+    });
+  }
+
+  if (zoomSlider) {
+    zoomSlider.addEventListener('input', (e) => {
+      teeLabState.zoomLevel = parseFloat(e.target.value);
+    });
+  }
+
+  // 6. Size selector & Quick Buy
+  const sizePills = document.querySelectorAll('.size-pill');
+  sizePills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      sizePills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      teeLabState.selectedSize = pill.dataset.size;
+    });
+  });
+
+  const labAddBtn = document.getElementById('lab-add-to-cart-btn');
+  if (labAddBtn) {
+    labAddBtn.addEventListener('click', () => {
+      const teeProduct = products[0]; // Cyberpunk / Rebel Graffiti 280
+      addToCart(teeProduct.id, teeLabState.selectedSize);
+      cartDrawer.classList.add('active');
+      cartOverlay.classList.add('active');
+      renderCart();
+      
+      labAddBtn.innerHTML = `<i class="ri-check-line"></i> ADDED TO BAG!`;
+      setTimeout(() => {
+        labAddBtn.innerHTML = `<i class="ri-shopping-bag-3-fill"></i> ADD TEE TO BAG (₹999)`;
+      }, 2000);
+    });
+  }
+}
+
+function updateLoupePosition(mouseX, mouseY, vpWidth, vpHeight) {
+  const loupe = document.getElementById('magnifier-lens');
+  const zoomedImg = document.getElementById('lens-zoomed-img');
+  if (!loupe || !zoomedImg) return;
+
+  loupe.classList.add('active');
+  loupe.style.left = `${mouseX}px`;
+  loupe.style.top = `${mouseY}px`;
+
+  // Calculate translation inside loupe
+  const zoom = teeLabState.zoomLevel;
+  const offsetX = (mouseX / vpWidth) * 460;
+  const offsetY = (mouseY / vpHeight) * 460;
+
+  zoomedImg.style.transform = `scale(${zoom}) translate(${-offsetX / 2}px, ${-offsetY / 2}px)`;
+}
+
+function hideLoupe() {
+  const loupe = document.getElementById('magnifier-lens');
+  if (loupe) loupe.classList.remove('active');
+}
+
+function updateLoupeImage() {
+  const zoomedImg = document.getElementById('lens-zoomed-img');
+  if (!zoomedImg) return;
+  if (teeLabState.currentView === 'front') {
+    zoomedImg.src = 'assets/tee_front_clean.jpg';
+  } else {
+    zoomedImg.src = 'assets/tee_back.jpg';
+  }
+}
+
+// ==========================================
+// 10. EDITORIAL HERO PARALLAX
+// ==========================================
+function initHeroParallax() {
+  const heroSection = document.getElementById('campaign');
+  const modelsImg = document.getElementById('editorial-models-img');
+  if (!heroSection || !modelsImg) return;
+
+  heroSection.addEventListener('mousemove', (e) => {
+    const rect = heroSection.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    const moveX = (x / rect.width) * 18;
+    const moveY = (y / rect.height) * 10;
+
+    modelsImg.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+  });
+
+  heroSection.addEventListener('mouseleave', () => {
+    modelsImg.style.transform = `translate3d(0, 0, 0)`;
+  });
+}
+
+// ==========================================
+// 11. CART & QUICK VIEW CONTROLLERS
+// ==========================================
 function addToCart(productId, size) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
 
-  // Check if item with exact product ID and size already in cart
-  const existingItem = cart.find(item => item.product.id === productId && item.size === size);
+  const existingItem = cart.find(item => item.product.id === productId && item.size === size && !item.isBundle);
 
   if (existingItem) {
     existingItem.quantity += 1;
@@ -510,18 +952,15 @@ function addToCart(productId, size) {
     });
   }
 
-  // Update navbar/mobile bag badges
   updateCartCount();
-  
-  // Quick floating animations on cart icons
   animateCartIcon();
 }
 
 function updateCartCount() {
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-  cartBadge.textContent = totalItems;
-  cartBadgeMobile.textContent = totalItems;
-  cartCountHeader.textContent = totalItems;
+  if (cartBadge) cartBadge.textContent = totalItems;
+  if (cartBadgeMobile) cartBadgeMobile.textContent = totalItems;
+  if (cartCountHeader) cartCountHeader.textContent = totalItems;
 }
 
 function animateCartIcon() {
@@ -535,14 +974,14 @@ function animateCartIcon() {
   });
 }
 
-// 8. Render Cart Items inside Drawer
 function renderCart() {
   if (cart.length === 0) {
     cartItemsContainer.innerHTML = `
-      <div class="cart-empty-view">
+      <div class="empty-cart-view">
         <i class="ri-shopping-bag-line"></i>
         <h3>Your shopping bag is empty</h3>
-        <button class="btn btn-primary" onclick="closeCartDrawer()">CONTINUE SHOPPING</button>
+        <p>Explore our latest drops and grails.</p>
+        <button class="btn btn-primary" onclick="closeCartDrawer()" style="margin-top: 16px;">CONTINUE SHOPPING</button>
       </div>
     `;
     cartSubtotalVal.textContent = '₹0';
@@ -560,39 +999,40 @@ function renderCart() {
   cartItemsContainer.innerHTML = cart.map((item, index) => {
     const itemTotal = item.product.price * item.quantity;
     subtotal += itemTotal;
+    const bundleBadge = item.isBundle ? `<span class="bundle-item-badge"><i class="ri-magic-line"></i> FIT BUNDLE (-15%)</span>` : '';
 
     return `
       <div class="cart-item">
-        <img class="cart-item-img" src="${item.product.images[0]}" alt="${item.product.name}">
+        <div class="cart-item-img">
+          <img src="${item.product.images[0]}" alt="${item.product.name}">
+        </div>
         <div class="cart-item-info">
-          <h4>${item.product.name}</h4>
-          <span class="cart-item-size">Size: ${item.size}</span>
+          ${bundleBadge}
+          <div class="cart-item-title">${item.product.name}</div>
+          <div class="cart-item-meta">SIZE: ${item.size}</div>
           <div class="cart-item-bottom">
-            <div class="qty-selectors">
+            <div class="qty-control">
               <button class="qty-btn" onclick="updateQty(${index}, -1)"><i class="ri-subtract-line"></i></button>
-              <span class="qty-val">${item.quantity}</span>
+              <span class="qty-count">${item.quantity}</span>
               <button class="qty-btn" onclick="updateQty(${index}, 1)"><i class="ri-add-line"></i></button>
             </div>
             <span class="cart-item-price">₹${itemTotal}</span>
+            <button class="remove-item-btn" onclick="removeCartItem(${index})">Remove</button>
           </div>
         </div>
-        <button class="cart-item-remove" onclick="removeCartItem(${index})" aria-label="Remove item">
-          <i class="ri-delete-bin-line"></i>
-        </button>
       </div>
     `;
   }).join('');
 
   cartSubtotalVal.textContent = `₹${subtotal}`;
   
-  // Shipping Meter Calculation
   if (subtotal >= SHIPPING_THRESHOLD) {
-    shippingMessage.innerHTML = `<span style="color: var(--color-primary)">🔥 CONGRATULATIONS! YOU UNLOCKED FREE SHIPPING!</span>`;
+    shippingMessage.innerHTML = `<span style="color: var(--color-primary)"><i class="ri-fire-fill"></i> FREE SHIPPING UNLOCKED!</span>`;
     shippingProgress.style.width = '100%';
   } else {
     const remaining = SHIPPING_THRESHOLD - subtotal;
     shippingMessage.textContent = `Add ₹${remaining} more for FREE SHIPPING`;
-    const percent = (subtotal / SHIPPING_THRESHOLD) * 100;
+    const percent = Math.min(100, (subtotal / SHIPPING_THRESHOLD) * 100);
     shippingProgress.style.width = `${percent}%`;
   }
 }
@@ -617,16 +1057,17 @@ window.removeCartItem = function(index) {
   renderCart();
 };
 
-// 9. Quick View Modal controller
+// ==========================================
+// 12. QUICK VIEW MODAL CONTROLLER
+// ==========================================
 function openQuickView(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
 
   selectedQuickViewProduct = product;
-  selectedSize = ''; // reset size choice
+  selectedSize = '';
   sizeError.style.display = 'none';
 
-  // Load product details
   qvMainImg.src = product.images[0];
   qvMainImg.alt = product.name;
   
@@ -642,22 +1083,21 @@ function openQuickView(productId) {
 
   qvDescription.textContent = product.description;
 
-  // Load image thumbnails
   if (product.images.length > 1) {
     qvThumbnailsContainer.style.display = 'flex';
     qvThumbnailsContainer.innerHTML = product.images.map((img, i) => 
-      `<img class="qv-thumb ${i === 0 ? 'active' : ''}" src="${img}" alt="Thumbnail ${i+1}" onclick="switchQvImage(this, '${img}')">`
+      `<div class="qv-thumb ${i === 0 ? 'active' : ''}" onclick="switchQvImage(this, '${img}')">
+        <img src="${img}" alt="Thumbnail ${i+1}">
+      </div>`
     ).join('');
   } else {
     qvThumbnailsContainer.style.display = 'none';
   }
 
-  // Load sizing options
   qvSizeOptions.innerHTML = product.sizes.map(size => 
-    `<button class="size-option" onclick="selectSize(this, '${size}')">${size}</button>`
+    `<button class="qv-size-btn" onclick="selectSize(this, '${size}')">${size}</button>`
   ).join('');
 
-  // Show Modal
   quickViewOverlay.classList.add('active');
 }
 
@@ -670,7 +1110,7 @@ window.switchQvImage = function(thumb, imgSrc) {
 window.selectSize = function(btn, size) {
   selectedSize = size;
   sizeError.style.display = 'none';
-  document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('active'));
+  document.querySelectorAll('.qv-size-btn').forEach(opt => opt.classList.remove('active'));
   btn.classList.add('active');
 };
 
@@ -679,10 +1119,11 @@ function closeQuickView() {
   selectedQuickViewProduct = null;
 }
 
-// 10. Checkout Flow Controller
+// ==========================================
+// 13. CHECKOUT MODAL FLOW
+// ==========================================
 function openCheckout() {
-  // Reset forms & progress indicators
-  step1Form.classList.add('active');
+  step1Panel.classList.add('active');
   step2Panel.classList.remove('active');
   step3Panel.classList.remove('active');
   
@@ -692,9 +1133,8 @@ function openCheckout() {
   stepLine1.classList.remove('active');
   stepLine2.classList.remove('active');
 
-  // Load checkout sidebar items
   renderCheckoutSummaryItems();
-
+  updateCheckoutSummary();
   checkoutModalOverlay.classList.add('active');
 }
 
@@ -704,13 +1144,9 @@ function closeCheckout() {
 
 function renderCheckoutSummaryItems() {
   checkoutItemsList.innerHTML = cart.map(item => `
-    <div class="co-item">
-      <img class="co-item-img" src="${item.product.images[0]}" alt="${item.product.name}">
-      <div class="co-item-info">
-        <h4 class="co-item-name">${item.product.name}</h4>
-        <span class="co-item-meta">Size: ${item.size} | Qty: ${item.quantity}</span>
-      </div>
-      <span class="co-item-price">₹${item.product.price * item.quantity}</span>
+    <div class="mini-item">
+      <span class="mini-item-name">${item.product.name} (x${item.quantity})</span>
+      <span class="mini-item-price">₹${item.product.price * item.quantity}</span>
     </div>
   `).join('');
 }
@@ -719,11 +1155,9 @@ function updateCheckoutSummary() {
   const subtotal = cart.reduce((total, item) => total + (item.product.price * item.quantity), 0);
   coSubtotal.textContent = `₹${subtotal}`;
 
-  // Shipping
   const shipping = subtotal >= SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_FEE;
   coShipping.textContent = shipping === 0 ? 'FREE' : `₹${shipping}`;
 
-  // Discount
   const discountVal = Math.round(subtotal * activeDiscount);
   if (discountVal > 0) {
     coDiscountRow.style.display = 'flex';
@@ -732,8 +1166,7 @@ function updateCheckoutSummary() {
     coDiscountRow.style.display = 'none';
   }
 
-  // Grand Total
   const grandTotal = subtotal + shipping - discountVal;
   coTotal.textContent = `₹${grandTotal}`;
-  payAmountSpan.textContent = grandTotal;
+  payAmountSpan.textContent = `₹${grandTotal}`;
 }

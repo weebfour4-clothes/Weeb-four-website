@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Genz clothings | Premium GenZ Streetwear</title>
+  <title>WEEBFOUR | Avant-Garde Anime & Cyber Streetwear</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Shop the latest premium streetwear at Genz clothings. Heavyweight oversized tees, tactical cargoes, double-fleece hoodies, and exclusive accessories. Designed for the Gen Z lifestyle.">
-  <meta property="og:title" content="Genz clothings | Premium GenZ Streetwear">
-  <meta property="og:description" content="Shop the latest premium streetwear at Genz clothings. Heavyweight oversized tees, cargoes, hoodies, and exclusive accessories.">
+  <meta name="description" content="Shop the latest avant-garde cyber & anime streetwear at WEEBFOUR. Heavyweight oversized tees, tactical cargoes, double-fleece 420 GSM hoodies, and exclusive grails. Designed for the culture.">
+  <meta property="og:title" content="WEEBFOUR | Avant-Garde Cyber Streetwear">
+  <meta property="og:description" content="Shop the latest avant-garde streetwear at WEEBFOUR. Heavyweight oversized tees, tactical cargoes, hoodies, and exclusive grails.">
   <meta property="og:type" content="website">
+  
+  <!-- Favicon using secondary symbol -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
   
-  <!-- Remix Icons (for beautiful UI icons) -->
+  <!-- Remix Icons (for UI icons) -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
   
   <!-- Stylesheet -->
@@ -29,44 +32,58 @@
     <div class="ticker-wrap">
       <div class="ticker">
         <span class="ticker-item"><i class="ri-fire-fill"></i> FREE SHIPPING ON ALL ORDERS ABOVE ₹1499!</span>
-        <span class="ticker-item"><i class="ri-flashlight-fill"></i> USE CODE "GENZ10" FOR 10% OFF YOUR FIRST ORDER!</span>
-        <span class="ticker-item"><i class="ri-vip-crown-fill"></i> NEW STREETWEAR DROP LIVE NOW</span>
-        <span class="ticker-item"><i class="ri-shake-hands-fill"></i> HASSLE-FREE RETURNS & REPLACEMENTS</span>
-        <!-- Duplicate for loop -->
+        <span class="ticker-item"><i class="ri-flashlight-fill"></i> USE CODE "WEEB10" FOR 10% OFF YOUR FIRST ORDER!</span>
+        <span class="ticker-item"><i class="ri-t-shirt-line"></i> BUILD YOUR FIT STUDIO: SAVE 15% ON COMPLETE 3-PIECE LOOKS!</span>
+        <span class="ticker-item"><i class="ri-vip-crown-fill"></i> WEEBFOUR FALL/WINTER 2026 DROP LIVE NOW</span>
+        <span class="ticker-item"><i class="ri-shake-hands-fill"></i> HASSLE-FREE 7-DAY RETURNS & EXCHANGES</span>
+        <!-- Duplicate for infinite seamless loop -->
         <span class="ticker-item"><i class="ri-fire-fill"></i> FREE SHIPPING ON ALL ORDERS ABOVE ₹1499!</span>
-        <span class="ticker-item"><i class="ri-flashlight-fill"></i> USE CODE "GENZ10" FOR 10% OFF YOUR FIRST ORDER!</span>
-        <span class="ticker-item"><i class="ri-vip-crown-fill"></i> NEW STREETWEAR DROP LIVE NOW</span>
+        <span class="ticker-item"><i class="ri-flashlight-fill"></i> USE CODE "WEEB10" FOR 10% OFF YOUR FIRST ORDER!</span>
+        <span class="ticker-item"><i class="ri-t-shirt-line"></i> BUILD YOUR FIT STUDIO: SAVE 15% ON COMPLETE 3-PIECE LOOKS!</span>
+        <span class="ticker-item"><i class="ri-vip-crown-fill"></i> WEEBFOUR FALL/WINTER 2026 DROP LIVE NOW</span>
       </div>
     </div>
   </div>
 
   <!-- Header Navigation -->
-  <header class="main-header">
+  <header class="main-header" id="main-header">
     <div class="header-container">
-      <!-- Logo -->
-      <a href="#" class="logo">
-        GENZ<span>.</span>
+      <!-- Primary Logo -->
+      <a href="#" class="brand-logo-link" aria-label="WEEBFOUR Home">
+        <img src="assets/weebfour_primary_logo_trans.png" alt="WEEBFOUR" class="brand-logo-img">
       </a>
 
       <!-- Desktop Navigation links -->
       <nav class="nav-links">
         <a href="#" class="active" data-nav="home">Home</a>
-        <a href="#shop" data-nav="shop">Shop</a>
+        <a href="#campaign" data-nav="campaign">Campaign</a>
+        <a href="#builder" data-nav="builder">Build Your Fit</a>
+        <a href="#3d-lab" data-nav="3d-lab">3D Tee Lab</a>
         <a href="#collections" data-nav="collections">Collections</a>
-        <a href="#newsletter" data-nav="newsletter">Join the Club</a>
+        <a href="#shop" data-nav="shop">Shop</a>
       </nav>
 
       <!-- Action Icons -->
       <div class="header-actions">
+        <!-- Secondary Symbol Status Pill -->
+        <div class="theme-pill" title="WEEBFOUR Cyber Grail">
+          <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4!" class="pill-symbol-img">
+          <span>W4! GRAIL</span>
+        </div>
+
         <button id="search-toggle-btn" class="action-btn" aria-label="Search">
           <i class="ri-search-line"></i>
         </button>
+
         <button id="cart-toggle-btn" class="action-btn cart-btn" aria-label="Cart">
           <i class="ri-shopping-bag-3-line"></i>
           <span class="cart-badge">0</span>
         </button>
-        <!-- Desktop Quick Theme Status Badge -->
-        <span class="theme-pill">STREET VIBES</span>
+
+        <!-- Editorial Contact Link (Image 1 reference) -->
+        <a href="#newsletter" class="nav-contact-link">
+          CONTACT US <i class="ri-arrow-right-line"></i>
+        </a>
       </div>
     </div>
 
@@ -74,29 +91,84 @@
     <div id="search-overlay" class="search-overlay">
       <div class="search-box">
         <i class="ri-search-line"></i>
-        <input type="text" id="catalog-search" placeholder="Search graphic tees, cargoes, hoodies...">
-        <button id="search-close-btn"><i class="ri-close-line"></i></button>
+        <input type="text" id="catalog-search" placeholder="Search oversized tees, cargoes, 420GSM hoodies...">
+        <button id="search-close-btn" aria-label="Close search"><i class="ri-close-line"></i></button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Landing Section -->
-  <section class="hero-section">
-    <div class="hero-bg-overlay"></div>
-    <div class="hero-content">
-      <div class="hero-subtitle">NEW DROPS / URBAN APPAREL</div>
-      <h1 class="hero-title animate-text">WEAR THE<br>FUTURE NOW</h1>
-      <p class="hero-description font-outfit">Premium oversized fits, heavyweight cottons, and designs inspired by youth subculture. Engineered for the generation that refuses to fit in.</p>
-      <div class="hero-ctas">
-        <a href="#shop" class="btn btn-primary">SHOP THE DROP <i class="ri-arrow-right-line"></i></a>
-        <a href="#collections" class="btn btn-secondary">EXPLORE STYLES</a>
+  <!-- =========================================================
+       SECTION 1: HIGH-FASHION EDITORIAL HERO (MATCHING IMAGE 1)
+       ========================================================= -->
+  <section id="campaign" class="editorial-hero-section">
+    <!-- Clean Minimalist Editorial Top Bar (from Image 1 layout) -->
+    <div class="editorial-top-bar">
+      <div class="editorial-top-left">
+        <span class="editorial-brand-mark">WEEBFOUR.</span>
+      </div>
+      <div class="editorial-top-center">
+        <a href="#campaign">ABOUT</a>
+        <a href="#campaign">CAMPAIGN</a>
+        <a href="#builder">BUILD YOUR FIT</a>
+        <a href="#3d-lab">3D TEE LAB</a>
+        <a href="#shop">SHOP</a>
+      </div>
+      <div class="editorial-top-right">
+        <a href="#newsletter">CONTACT US <i class="ri-arrow-right-line"></i></a>
       </div>
     </div>
-    <!-- Scroll indicator -->
-    <div class="scroll-indicator">
-      <span>SCROLL DOWN</span>
-      <div class="mouse-icon">
-        <div class="wheel"></div>
+
+    <!-- Monumental Typography Layer -->
+    <div class="editorial-typography-bg" aria-hidden="true">
+      <h1 class="editorial-massive-title">PERSONA</h1>
+    </div>
+
+    <!-- Models Composition Foreground Layer (Image 1 Cutout) -->
+    <div class="editorial-models-stage" id="editorial-models-stage">
+      <img src="assets/editorial_models.png" alt="WEEBFOUR Persona Campaign Silhouettes" class="editorial-models-img" id="editorial-models-img">
+    </div>
+
+    <!-- Editorial Left Content Column (matching Image 1) -->
+    <div class="editorial-col editorial-col-left">
+      <h2 class="editorial-col-heading">OUR CAMPAIGN</h2>
+      <p class="editorial-col-text">
+        At WEEBFOUR, each season unfolds a new story, a journey through oversized silhouettes, avant-garde styling, and cutting-edge cyber tailoring.
+      </p>
+      <div class="editorial-col-actions">
+        <a href="#builder" class="editorial-btn editorial-btn-primary">
+          <i class="ri-magic-line"></i> BUILD YOUR FIT
+        </a>
+        <a href="#shop" class="editorial-btn editorial-btn-outline">
+          SHOP THE DROP <i class="ri-arrow-right-up-line"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Editorial Right Content Column (matching Image 1) -->
+    <div class="editorial-col editorial-col-right">
+      <h2 class="editorial-col-heading">FALL/WINTER 2026</h2>
+      <p class="editorial-col-text">
+        Redefines the essence of Persona, taking inspiration from anime subcultures and evolving it into an expression of bold, sculptural fashion.
+      </p>
+      <div class="editorial-spec-tags">
+        <div class="spec-tag-item">
+          <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4" class="spec-symbol-icon">
+          <span>280-420 GSM FRENCH TERRY</span>
+        </div>
+        <div class="spec-tag-item">
+          <i class="ri-sparkling-fill"></i>
+          <span>LIMITED WORLDWIDE RUN</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Editorial Subtle Ticker / Scroll Prompt -->
+    <div class="editorial-bottom-bar">
+      <div class="editorial-bottom-scroll">
+        <div class="scroll-mouse-icon">
+          <div class="scroll-wheel"></div>
+        </div>
+        <span>SCROLL TO EXPLORE DROP</span>
       </div>
     </div>
   </section>
@@ -106,22 +178,349 @@
     <div class="feature-item">
       <i class="ri-truck-line"></i>
       <div>
-        <h3>Fast Shipping</h3>
+        <h3>Fast Pan-India Shipping</h3>
         <p>Dispatched within 24 hrs</p>
       </div>
     </div>
     <div class="feature-item">
       <i class="ri-shield-check-line"></i>
       <div>
-        <h3>Premium GSM Cotton</h3>
-        <p>Ultra-heavy French terry</p>
+        <h3>280-420 GSM French Terry</h3>
+        <p>Ultra-heavyweight combed cotton</p>
       </div>
     </div>
     <div class="feature-item">
       <i class="ri-loop-left-line"></i>
       <div>
-        <h3>7-Day Returns</h3>
+        <h3>7-Day Hassle-Free Returns</h3>
         <p>No questions asked policy</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <i class="ri-vip-diamond-line"></i>
+      <div>
+        <h3>Grail Guaranteed</h3>
+        <p>High-density puff print & embroidery</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 2: BUILD YOUR FIT (CUSTOMER STYLIST STUDIO)
+       ========================================================= -->
+  <section id="builder" class="fit-builder-section">
+    <div class="section-header text-center">
+      <div class="section-tag"><i class="ri-magic-line"></i> CUSTOM STYLIST STUDIO</div>
+      <h2 class="section-title">BUILD YOUR FIT</h2>
+      <p class="section-subtitle">
+        Become your own stylist. Select a T-shirt, pair it with cargos, add a hoodie or accessory, and unlock an instant <strong>15% bundle discount</strong> on the complete look!
+      </p>
+    </div>
+
+    <div class="builder-container">
+      <!-- Left: Interactive Composite Mannequin Canvas -->
+      <div class="builder-canvas-wrapper">
+        <div class="builder-canvas-card">
+          <div class="builder-card-glow"></div>
+          
+          <!-- Secondary Symbol Watermark -->
+          <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4!" class="builder-watermark">
+
+          <div class="builder-canvas-header">
+            <span class="live-status-badge"><span class="pulse-dot"></span> LIVE FIT PREVIEW</span>
+            <span class="style-score-badge"><i class="ri-fire-fill"></i> STYLE MATCH: 100%</span>
+          </div>
+
+          <!-- Visual Layered Mannequin Outfit Display -->
+          <div class="mannequin-display" id="mannequin-display">
+            <!-- Layer 1: Outerwear / Accessories (Hoodie / Varsity / Beanie / Belt) -->
+            <div class="outfit-layer layer-outerwear" id="layer-outerwear">
+              <div class="layer-img-wrap">
+                <img id="fit-preview-outerwear" src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&auto=format&fit=crop&q=80" alt="Selected Layer">
+              </div>
+              <div class="layer-info-badge">
+                <span class="layer-title" id="fit-outerwear-title">Lost Minds Heavyweight Hoodie</span>
+                <span class="layer-price" id="fit-outerwear-price">₹2,499</span>
+              </div>
+            </div>
+
+            <!-- Layer 2: T-Shirt Top -->
+            <div class="outfit-layer layer-tee" id="layer-tee">
+              <div class="layer-img-wrap">
+                <img id="fit-preview-tee" src="assets/tee_front_clean.jpg" alt="Selected Tee">
+              </div>
+              <div class="layer-info-badge">
+                <span class="layer-title" id="fit-tee-title">Cyberpunk Glitch Oversized Tee</span>
+                <span class="layer-price" id="fit-tee-price">₹999</span>
+              </div>
+            </div>
+
+            <!-- Layer 3: Bottom Cargos / Pants -->
+            <div class="outfit-layer layer-bottom" id="layer-bottom">
+              <div class="layer-img-wrap">
+                <img id="fit-preview-bottom" src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80" alt="Selected Bottom">
+              </div>
+              <div class="layer-info-badge">
+                <span class="layer-title" id="fit-bottom-title">Utility Multi-Pocket Cargoes</span>
+                <span class="layer-price" id="fit-bottom-price">₹1,999</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Outfit Size Pickers Bar -->
+          <div class="fit-sizes-bar">
+            <div class="fit-size-picker">
+              <label for="fit-size-tee">TEE SIZE:</label>
+              <select id="fit-size-tee" class="fit-size-select">
+                <option value="S">S (Boxy)</option>
+                <option value="M">M (Boxy)</option>
+                <option value="L" selected>L (Oversized)</option>
+                <option value="XL">XL (Heavy)</option>
+              </select>
+            </div>
+            <div class="fit-size-picker">
+              <label for="fit-size-bottom">BOTTOM SIZE:</label>
+              <select id="fit-size-bottom" class="fit-size-select">
+                <option value="S">S (30")</option>
+                <option value="M" selected>M (32")</option>
+                <option value="L">L (34")</option>
+                <option value="XL">XL (36")</option>
+              </select>
+            </div>
+            <div class="fit-size-picker">
+              <label for="fit-size-outerwear">LAYER SIZE:</label>
+              <select id="fit-size-outerwear" class="fit-size-select">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L" selected>L</option>
+                <option value="XL">XL</option>
+                <option value="ONESIZE">ONESIZE</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Step-by-Step Selection Deck -->
+      <div class="builder-controls-wrapper">
+        <!-- Step Navigation Tabs -->
+        <div class="builder-step-tabs">
+          <button class="step-tab-btn active" data-step="1">
+            <span class="step-num">01</span>
+            <span class="step-label">SELECT TEE</span>
+          </button>
+          <button class="step-tab-btn" data-step="2">
+            <span class="step-num">02</span>
+            <span class="step-label">PAIR BOTTOMS</span>
+          </button>
+          <button class="step-tab-btn" data-step="3">
+            <span class="step-num">03</span>
+            <span class="step-label">ADD LAYER / ACC</span>
+          </button>
+        </div>
+
+        <!-- Step Panes Container -->
+        <div class="builder-step-panes">
+          <!-- Pane 1: T-Shirts -->
+          <div class="step-pane active" id="builder-step-1">
+            <div class="step-pane-header">
+              <h3>STEP 1: CHOOSE YOUR BASE GRAPHIC TEE</h3>
+              <p>Heavyweight 280 GSM French Terry cut in our signature boxy drop-shoulder fit.</p>
+            </div>
+            <div class="builder-options-grid" id="builder-tees-grid">
+              <!-- Dynamically populated or static cards -->
+            </div>
+          </div>
+
+          <!-- Pane 2: Bottoms -->
+          <div class="step-pane" id="builder-step-2">
+            <div class="step-pane-header">
+              <h3>STEP 2: PAIR WITH CARGOS OR TECH PANTS</h3>
+              <p>Tactical ripstop utility pockets, parachute cinches, and raw street silhouettes.</p>
+            </div>
+            <div class="builder-options-grid" id="builder-bottoms-grid">
+              <!-- Dynamically populated or static cards -->
+            </div>
+          </div>
+
+          <!-- Pane 3: Hoodies & Accessories -->
+          <div class="step-pane" id="builder-step-3">
+            <div class="step-pane-header">
+              <h3>STEP 3: COMPLETE WITH OUTERWEAR OR ACCESSORY</h3>
+              <p>Heavyweight 420 GSM hoodies, varsity grails, or industrial steel hardware accessories.</p>
+            </div>
+            <div class="builder-options-grid" id="builder-layers-grid">
+              <!-- Dynamically populated or static cards -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Fit Price Summary & 1-Click Buy Deck -->
+        <div class="builder-summary-card">
+          <div class="summary-breakdown">
+            <div class="summary-row">
+              <span class="summary-label">Items Selected:</span>
+              <span class="summary-val" id="fit-summary-count">3 of 3 Pieces</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Original Combined Value:</span>
+              <span class="summary-val compare-val" id="fit-summary-subtotal">₹5,497</span>
+            </div>
+            <div class="summary-row discount-row">
+              <span class="summary-label"><i class="ri-discount-percent-fill"></i> Complete Fit Discount (15% OFF):</span>
+              <span class="summary-val discount-val" id="fit-summary-discount">-₹824</span>
+            </div>
+            <div class="summary-row total-row">
+              <span class="summary-label">Total Fit Price:</span>
+              <span class="summary-val total-val" id="fit-summary-total">₹4,673</span>
+            </div>
+          </div>
+
+          <!-- Add Whole Look to Cart in One Click -->
+          <button id="add-fit-to-cart-btn" class="btn btn-primary btn-add-fit">
+            <i class="ri-shopping-bag-3-fill"></i>
+            ADD COMPLETE LOOK TO BAG (3 ITEMS)
+          </button>
+          
+          <div class="fit-guarantee-note">
+            <i class="ri-checkbox-circle-fill"></i> Free Priority Shipping + Extra 15% Bundle Discount applied automatically.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 3: 3D INTERACTIVE T-SHIRT LAB (MOUSE REACTIVE)
+       ========================================================= -->
+  <section id="3d-lab" class="tee-lab-section">
+    <div class="section-header text-center">
+      <div class="section-tag"><i class="ri-scan-line"></i> HIGH VISUAL IMPACT LAB</div>
+      <h2 class="section-title">THE 3D TEE LAB</h2>
+      <p class="section-subtitle">
+        Engineered with heavyweight 280 GSM French Terry. Tilt toward your cursor, drag to rotate in 3D, flip front & back, switch colors, and zoom into the microscopic print and fabric details.
+      </p>
+    </div>
+
+    <div class="tee-lab-container">
+      <!-- Left/Center: 3D Interactive Stage -->
+      <div class="tee-stage-viewport" id="tee-stage-viewport">
+        <!-- Floating Ambient Glow Backdrop -->
+        <div class="tee-ambient-glow" id="tee-ambient-glow"></div>
+        <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4!" class="tee-stage-watermark">
+
+        <!-- Stage Interaction Overlay Tips -->
+        <div class="stage-interaction-prompt">
+          <span><i class="ri-drag-move-2-line"></i> DRAG HORIZONTALLY TO ROTATE // HOVER TO TILT</span>
+        </div>
+
+        <!-- The 3D Floating Garment Container -->
+        <div class="tee-3d-wrapper" id="tee-3d-wrapper">
+          <div class="tee-card-3d" id="tee-card-3d">
+            <!-- Front Face -->
+            <div class="tee-face tee-face-front" id="tee-face-front">
+              <img id="tee-img-front" src="assets/tee_front_clean.jpg" alt="WEEBFOUR Heavyweight Oversized Tee Front">
+              <div class="tee-color-filter-overlay" id="tee-filter-front"></div>
+            </div>
+            <!-- Back Face -->
+            <div class="tee-face tee-face-back" id="tee-face-back">
+              <img id="tee-img-back" src="assets/tee_back.jpg" alt="WEEBFOUR Heavyweight Oversized Tee Back">
+              <div class="tee-color-filter-overlay" id="tee-filter-back"></div>
+            </div>
+          </div>
+
+          <!-- Interactive Magnifier Loupe Lens -->
+          <div class="magnifier-lens" id="magnifier-lens">
+            <div class="lens-crosshair"></div>
+            <div class="lens-zoom-content" id="lens-zoom-content">
+              <img id="lens-zoomed-img" src="assets/tee_front_clean.jpg" alt="Zoomed Texture">
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Quick View Angle Indicator -->
+        <div class="angle-indicator-badge" id="angle-indicator-badge">
+          ROTATION: <span id="angle-degrees">0°</span>
+        </div>
+      </div>
+
+      <!-- Right: Interactive Control Deck -->
+      <div class="tee-controls-panel">
+        <div class="panel-header">
+          <div class="panel-badge">SERIES 04 GRAIL</div>
+          <h3 class="panel-title">WEEBFOUR // REBEL GRAFFITI 280</h3>
+          <div class="panel-price-row">
+            <span class="panel-price">₹999</span>
+            <span class="panel-compare">₹1,999</span>
+            <span class="panel-discount">50% OFF</span>
+          </div>
+        </div>
+
+        <!-- 1. View Angle Switcher (Front & Back Views) -->
+        <div class="control-block">
+          <label class="control-label">VIEW ANGLE:</label>
+          <div class="view-switch-btns">
+            <button class="view-btn active" id="view-btn-front" data-view="front">
+              <i class="ri-t-shirt-line"></i> FRONT VIEW
+            </button>
+            <button class="view-btn" id="view-btn-back" data-view="back">
+              <i class="ri-t-shirt-2-line"></i> BACK VIEW
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Instant Color Variant Switcher -->
+        <div class="control-block">
+          <div class="control-header-flex">
+            <label class="control-label">COLOR VARIANT:</label>
+            <span class="selected-color-name" id="selected-color-name">Onyx Black</span>
+          </div>
+          <div class="color-swatches-grid">
+            <button class="swatch-btn active" data-color="black" data-name="Onyx Black" style="--swatch-color: #0d0d0d;" title="Onyx Black"></button>
+            <button class="swatch-btn" data-color="crimson" data-name="Crimson Red" style="--swatch-color: #990a18;" title="Crimson Red"></button>
+            <button class="swatch-btn" data-color="bone" data-name="Ghost Bone" style="--swatch-color: #d6cfc7;" title="Ghost Bone"></button>
+            <button class="swatch-btn" data-color="charcoal" data-name="Acid Charcoal" style="--swatch-color: #2b2b30;" title="Acid Charcoal"></button>
+            <button class="swatch-btn" data-color="olive" data-name="Cyber Olive" style="--swatch-color: #3b4233;" title="Cyber Olive"></button>
+          </div>
+        </div>
+
+        <!-- 3. Fabric & Print Zoom Loupe Control -->
+        <div class="control-block">
+          <div class="control-header-flex">
+            <label class="control-label">FABRIC & PRINT INSPECTOR:</label>
+            <button id="toggle-zoom-btn" class="toggle-tool-btn">
+              <i class="ri-zoom-in-line"></i> <span id="zoom-toggle-text">ENABLE LOUPE</span>
+            </button>
+          </div>
+          <div class="zoom-slider-row">
+            <span>1.5x</span>
+            <input type="range" id="zoom-level-slider" min="1.5" max="3.5" step="0.25" value="2.5">
+            <span>3.5x Zoom</span>
+          </div>
+          <p class="control-subtext">Hover anywhere over the t-shirt to inspect the dense 280 GSM cotton knit and high-density puff print texture.</p>
+        </div>
+
+        <!-- 4. Garment Specifications -->
+        <div class="control-block specs-block">
+          <div class="spec-bullet"><i class="ri-check-line"></i> <strong>280 GSM French Terry:</strong> Ultra-heavyweight pre-shrunk combed cotton.</div>
+          <div class="spec-bullet"><i class="ri-check-line"></i> <strong>High-Density Puff Print:</strong> 3D textured ink that will never crack or fade.</div>
+          <div class="spec-bullet"><i class="ri-check-line"></i> <strong>Boxy Silhouette:</strong> Dropped shoulders, ribbed 1.2" reinforced crewneck collar.</div>
+        </div>
+
+        <!-- 5. Size Selection & Instant Add to Bag -->
+        <div class="control-block">
+          <label class="control-label">SELECT SIZE:</label>
+          <div class="lab-size-selector" id="lab-size-selector">
+            <button class="size-pill" data-size="S">S</button>
+            <button class="size-pill" data-size="M">M</button>
+            <button class="size-pill active" data-size="L">L</button>
+            <button class="size-pill" data-size="XL">XL</button>
+          </div>
+        </div>
+
+        <button id="lab-add-to-cart-btn" class="btn btn-primary btn-lab-buy">
+          <i class="ri-shopping-bag-3-fill"></i> ADD TEE TO BAG (₹999)
+        </button>
       </div>
     </div>
   </section>
@@ -135,7 +534,7 @@
     <div class="collections-grid">
       <!-- Tees Card -->
       <div class="collection-card" data-category="tees">
-        <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80')"></div>
+        <div class="card-bg" style="background-image: url('assets/tee_front_clean.jpg')"></div>
         <div class="card-overlay"></div>
         <div class="card-info">
           <h3>OVERSIZED TEES</h3>
@@ -178,7 +577,7 @@
         <button class="filter-tab" data-filter="hoodies">HOODIES & SWEATERS</button>
         <button class="filter-tab" data-filter="cargoes">CARGOES & PANTS</button>
         <button class="filter-tab" data-filter="jackets">JACKETS</button>
-        <button class="filter-tab" data-filter="accessories">ACCESORIES</button>
+        <button class="filter-tab" data-filter="accessories">ACCESSORIES</button>
       </div>
       
       <div class="catalog-actions">
@@ -221,14 +620,14 @@
     <div class="newsletter-card">
       <div class="glow-effect"></div>
       <div class="newsletter-content">
-        <h2>JOIN THE MOVEMENT</h2>
-        <p>Subscribe to receive early access to drops, secret discount codes, and special releases.</p>
+        <h2>JOIN THE WEEBFOUR MOVEMENT</h2>
+        <p>Subscribe to receive early access to seasonal drops, secret discount codes, and exclusive invitations to member releases.</p>
         <form class="newsletter-form" id="newsletter-form">
           <input type="email" placeholder="ENTER YOUR EMAIL ADDRESS" required>
           <button type="submit" class="btn btn-primary">SUBMIT <i class="ri-arrow-right-line"></i></button>
         </form>
         <div class="success-message" id="newsletter-success">
-          <i class="ri-checkbox-circle-fill"></i> YOU'VE BEEN ADDED TO THE WHITELIST.
+          <i class="ri-checkbox-circle-fill"></i> YOU'VE BEEN ADDED TO THE WEEBFOUR WHITELIST.
         </div>
       </div>
     </div>
@@ -238,7 +637,10 @@
   <div class="cart-drawer-overlay" id="cart-overlay"></div>
   <div class="cart-drawer" id="cart-drawer">
     <div class="cart-drawer-header">
-      <h2>YOUR BAG (<span id="cart-count-header">0</span>)</h2>
+      <div class="cart-header-title">
+        <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4" class="cart-logo-icon">
+        <h2>YOUR BAG (<span id="cart-count-header">0</span>)</h2>
+      </div>
       <button id="cart-close-btn" class="close-drawer-btn" aria-label="Close Cart">
         <i class="ri-close-line"></i>
       </button>
@@ -264,7 +666,7 @@
         <span class="subtotal-val" id="cart-subtotal-val">₹0</span>
       </div>
       <div class="summary-line tax-line">
-        <span>Taxes & shipping calculated at checkout</span>
+        <span>Taxes & priority shipping calculated at checkout</span>
       </div>
       <button class="btn btn-primary btn-checkout" id="go-to-checkout-btn">
         PROCEED TO CHECKOUT <i class="ri-secure-payment-line"></i>
@@ -275,7 +677,7 @@
   <!-- Quick View / Product Details Modal -->
   <div class="modal-overlay" id="quick-view-overlay">
     <div class="modal-content quick-view-modal">
-      <button class="close-modal-btn" id="quick-view-close"><i class="ri-close-line"></i></button>
+      <button class="close-modal-btn" id="quick-view-close" aria-label="Close modal"><i class="ri-close-line"></i></button>
       
       <div class="qv-grid">
         <!-- Image Gallery Slider -->
@@ -298,209 +700,225 @@
             <span class="discount-pill" id="qv-discount-percent">0% OFF</span>
           </div>
           
-          <p class="qv-description font-outfit" id="qv-description">Description goes here...</p>
+          <p id="qv-description" class="qv-desc-text">Description goes here.</p>
           
           <!-- Size Selector -->
-          <div class="qv-size-selector">
-            <div class="selector-header">
-              <span>SELECT SIZE:</span>
-              <a href="#" class="size-chart-btn" id="size-chart-toggle">Size Chart</a>
+          <div class="qv-size-section">
+            <div class="size-header">
+              <span>SELECT SIZE</span>
+              <button id="size-chart-toggle" class="size-chart-link">Size Chart <i class="ri-ruler-line"></i></button>
             </div>
-            <div class="size-options" id="qv-size-options">
-              <!-- Sizes (S, M, L, XL) will be dynamically loaded -->
+            <div class="size-options-grid" id="qv-size-options">
+              <!-- Dynamic sizes -->
             </div>
-            <span id="size-error" class="validation-error">Please select a size</span>
+            <div id="size-error" class="size-error-msg" style="display: none;">Please select a size to continue</div>
           </div>
-
-          <!-- Add Action -->
-          <div class="qv-actions">
-            <button class="btn btn-primary btn-add-cart" id="qv-add-to-cart-btn">
-              ADD TO BAG <i class="ri-shopping-bag-3-line"></i>
+          
+          <!-- Add to Cart CTA -->
+          <div class="qv-cta-group">
+            <button class="btn btn-primary btn-block" id="qv-add-to-cart-btn">
+              ADD TO BAG <i class="ri-shopping-bag-3-fill"></i>
             </button>
+          </div>
+          
+          <!-- Product Perks -->
+          <div class="qv-perks">
+            <div class="perk-item"><i class="ri-truck-line"></i> Dispatched in 24 hours</div>
+            <div class="perk-item"><i class="ri-arrow-go-back-line"></i> 7 Days Free Returns & Exchanges</div>
+            <div class="perk-item"><i class="ri-shield-star-line"></i> 100% Authentic WEEBFOUR Grail</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Checkout Wizard Modal -->
+  <!-- Multi-Step Checkout Modal -->
   <div class="modal-overlay" id="checkout-modal-overlay">
     <div class="modal-content checkout-modal">
-      <button class="close-modal-btn" id="checkout-close"><i class="ri-close-line"></i></button>
+      <button class="close-modal-btn" id="checkout-close" aria-label="Close Checkout"><i class="ri-close-line"></i></button>
       
-      <div class="checkout-container">
-        <!-- Steps Navigation header -->
-        <div class="checkout-steps">
+      <!-- Checkout Header -->
+      <div class="checkout-header">
+        <div class="checkout-logo">
+          <img src="assets/weebfour_primary_logo_trans.png" alt="WEEBFOUR" class="checkout-logo-img">
+        </div>
+        
+        <!-- Multi-Step Indicators -->
+        <div class="checkout-steps-bar">
           <div class="step-indicator active" id="step-ind-1">
-            <span class="step-num">1</span>
-            <span class="step-label">DETAILS</span>
+            <div class="step-circle">1</div>
+            <span>Shipping</span>
           </div>
           <div class="step-line" id="step-line-1"></div>
           <div class="step-indicator" id="step-ind-2">
-            <span class="step-num">2</span>
-            <span class="step-label">PAYMENT</span>
+            <div class="step-circle">2</div>
+            <span>Payment</span>
           </div>
           <div class="step-line" id="step-line-2"></div>
           <div class="step-indicator" id="step-ind-3">
-            <span class="step-num">3</span>
-            <span class="step-label">CONFIRMED</span>
+            <div class="step-circle">3</div>
+            <span>Confirmation</span>
           </div>
         </div>
+      </div>
 
-        <div class="checkout-grid">
-          <!-- Left side: Form steps -->
-          <div class="checkout-form-panel">
-            
-            <!-- Step 1: Customer Details -->
-            <form id="checkout-step-1" class="checkout-step-form active">
-              <h3>Shipping Information</h3>
-              <div class="form-grid">
-                <div class="form-group col-6">
-                  <label for="co-firstname">First Name</label>
-                  <input type="text" id="co-firstname" required>
+      <div class="checkout-body">
+        <div class="checkout-main">
+          <!-- Step 1: Shipping Address Form -->
+          <div id="checkout-step-1" class="checkout-step-panel active">
+            <h3 class="panel-step-title">Shipping Details</h3>
+            <form id="shipping-form" class="checkout-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="ship-fname">First Name *</label>
+                  <input type="text" id="ship-fname" required placeholder="John">
                 </div>
-                <div class="form-group col-6">
-                  <label for="co-lastname">Last Name</label>
-                  <input type="text" id="co-lastname" required>
-                </div>
-                <div class="form-group col-12">
-                  <label for="co-email">Email Address</label>
-                  <input type="email" id="co-email" placeholder="for delivery updates" required>
-                </div>
-                <div class="form-group col-12">
-                  <label for="co-phone">Phone Number</label>
-                  <input type="tel" id="co-phone" placeholder="10-digit mobile" pattern="[0-9]{10}" required>
-                </div>
-                <div class="form-group col-12">
-                  <label for="co-address">Delivery Address</label>
-                  <input type="text" id="co-address" required>
-                </div>
-                <div class="form-group col-6">
-                  <label for="co-city">City</label>
-                  <input type="text" id="co-city" required>
-                </div>
-                <div class="form-group col-6">
-                  <label for="co-postal">ZIP / Pincode</label>
-                  <input type="text" id="co-postal" pattern="[0-9]{6}" required>
+                <div class="form-group">
+                  <label for="ship-lname">Last Name *</label>
+                  <input type="text" id="ship-lname" required placeholder="Doe">
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary checkout-next-btn">
+              
+              <div class="form-group">
+                <label for="ship-email">Email Address *</label>
+                <input type="email" id="ship-email" required placeholder="you@domain.com">
+              </div>
+
+              <div class="form-group">
+                <label for="ship-phone">Phone Number *</label>
+                <input type="tel" id="ship-phone" required placeholder="9876543210">
+              </div>
+
+              <div class="form-group">
+                <label for="ship-address">Street Address *</label>
+                <input type="text" id="ship-address" required placeholder="Apartment, suite, unit, building, floor">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="ship-city">City *</label>
+                  <input type="text" id="ship-city" required placeholder="Mumbai">
+                </div>
+                <div class="form-group">
+                  <label for="ship-state">State *</label>
+                  <input type="text" id="ship-state" required placeholder="Maharashtra">
+                </div>
+                <div class="form-group">
+                  <label for="ship-zip">PIN Code *</label>
+                  <input type="text" id="ship-zip" required placeholder="400001">
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block">
                 CONTINUE TO PAYMENT <i class="ri-arrow-right-line"></i>
               </button>
             </form>
-
-            <!-- Step 2: Payment Details -->
-            <div id="checkout-step-2" class="checkout-step-form">
-              <h3>Select Payment Method</h3>
-              <div class="payment-options">
-                <label class="payment-card active">
-                  <input type="radio" name="payment-method" value="cod" checked>
-                  <i class="ri-truck-line"></i>
-                  <div>
-                    <strong>Cash On Delivery (COD)</strong>
-                    <p>Pay with cash upon package arrival</p>
-                  </div>
-                </label>
-                <label class="payment-card">
-                  <input type="radio" name="payment-method" value="upi">
-                  <i class="ri-qr-code-line"></i>
-                  <div>
-                    <strong>UPI payment (GPay / PhonePe / Paytm)</strong>
-                    <p>Instant UPI payment gateway</p>
-                  </div>
-                </label>
-                <label class="payment-card">
-                  <input type="radio" name="payment-method" value="card">
-                  <i class="ri-bank-card-line"></i>
-                  <div>
-                    <strong>Credit / Debit Cards</strong>
-                    <p>Visa, MasterCard, RuPay</p>
-                  </div>
-                </label>
-              </div>
-
-              <!-- UPI Details (shown if UPI selected) -->
-              <div class="payment-details-panel" id="upi-details-box" style="display: none;">
-                <p class="instruction">Scan QR or enter UPI ID to pay:</p>
-                <div class="qr-container">
-                  <i class="ri-qr-code-fill"></i>
-                  <span class="qr-label">UPI ID: genz@ybl</span>
-                </div>
-              </div>
-
-              <!-- Card Details (shown if card selected) -->
-              <div class="payment-details-panel" id="card-details-box" style="display: none;">
-                <div class="form-group col-12">
-                  <label>Card Number</label>
-                  <input type="text" placeholder="1234 5678 9876 5432" maxlength="19">
-                </div>
-                <div class="form-row">
-                  <div class="form-group">
-                    <label>Expiry Date</label>
-                    <input type="text" placeholder="MM/YY" maxlength="5">
-                  </div>
-                  <div class="form-group">
-                    <label>CVV</label>
-                    <input type="password" placeholder="***" maxlength="3">
-                  </div>
-                </div>
-              </div>
-
-              <div class="checkout-nav-buttons">
-                <button class="btn btn-secondary" id="checkout-back-btn"><i class="ri-arrow-left-line"></i> BACK</button>
-                <button class="btn btn-primary" id="checkout-pay-btn">COMPLETE ORDER ₹<span id="pay-button-amount">0</span></button>
-              </div>
-            </div>
-
-            <!-- Step 3: Success Screen -->
-            <div id="checkout-step-3" class="checkout-step-form success-panel">
-              <div class="success-icon-wrap">
-                <div class="success-glowing-circle"></div>
-                <i class="ri-checkbox-circle-line success-icon"></i>
-              </div>
-              <h2>ORDER PLACED SUCCESSFULLY!</h2>
-              <p class="order-id">Order ID: <span id="confirmed-order-id">#GNZ-928103</span></p>
-              <p class="success-subtext">Thank you for shopping at **Genz clothings**! We've sent a receipt and tracking details to your email.</p>
-              <button class="btn btn-primary" id="checkout-success-continue">CONTINUE SHOPPING</button>
-            </div>
-
           </div>
 
-          <!-- Right side: Order Summary sticky column -->
-          <div class="checkout-summary-panel">
-            <h3>ORDER SUMMARY</h3>
-            <div class="checkout-items-list" id="checkout-items-list">
-              <!-- Cart Items -->
-            </div>
+          <!-- Step 2: Payment Simulator -->
+          <div id="checkout-step-2" class="checkout-step-panel">
+            <h3 class="panel-step-title">Select Payment Method</h3>
             
-            <div class="promo-box">
-              <input type="text" id="promo-code" placeholder="PROMO CODE (Try: GENZ10)">
-              <button class="btn btn-secondary" id="promo-apply-btn">APPLY</button>
-            </div>
-            <span id="promo-message" class="promo-feedback"></span>
+            <div class="payment-options">
+              <!-- UPI Payment -->
+              <label class="payment-method-card active">
+                <input type="radio" name="payment-method" value="upi" checked>
+                <div class="method-details">
+                  <div class="method-header">
+                    <i class="ri-smartphone-line"></i>
+                    <strong>UPI / QR Code</strong>
+                  </div>
+                  <p>Pay instantly via Google Pay, PhonePe, Paytm, or BHIM UPI.</p>
+                </div>
+              </label>
 
-            <div class="summary-breakdown">
-              <div class="breakdown-row">
-                <span>Subtotal</span>
-                <span id="co-subtotal">₹0</span>
-              </div>
-              <div class="breakdown-row">
-                <span>Shipping</span>
-                <span id="co-shipping">₹0</span>
-              </div>
-              <div class="breakdown-row" id="co-discount-row" style="display: none;">
-                <span>Discount (GENZ10)</span>
-                <span id="co-discount">-₹0</span>
-              </div>
-              <hr>
-              <div class="breakdown-row total-row">
-                <span>Total</span>
-                <span id="co-total">₹0</span>
-              </div>
+              <!-- Cards Payment -->
+              <label class="payment-method-card">
+                <input type="radio" name="payment-method" value="card">
+                <div class="method-details">
+                  <div class="method-header">
+                    <i class="ri-bank-card-line"></i>
+                    <strong>Credit / Debit Card</strong>
+                  </div>
+                  <p>Visa, MasterCard, RuPay, and American Express accepted.</p>
+                </div>
+              </label>
+
+              <!-- Cash On Delivery -->
+              <label class="payment-method-card">
+                <input type="radio" name="payment-method" value="cod">
+                <div class="method-details">
+                  <div class="method-header">
+                    <i class="ri-money-rupee-circle-line"></i>
+                    <strong>Cash on Delivery (COD)</strong>
+                  </div>
+                  <p>Pay with cash upon delivery. Verified with OTP.</p>
+                </div>
+              </label>
             </div>
+
+            <div class="checkout-action-row">
+              <button type="button" class="btn btn-secondary" id="checkout-back-btn">
+                <i class="ri-arrow-left-line"></i> BACK
+              </button>
+              <button type="button" class="btn btn-primary" id="checkout-pay-btn">
+                PAY <span id="pay-button-amount">₹0</span> <i class="ri-check-line"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Order Confirmation -->
+          <div id="checkout-step-3" class="checkout-step-panel confirmation-panel">
+            <div class="confirmation-icon">
+              <i class="ri-checkbox-circle-fill"></i>
+            </div>
+            <h2>ORDER CONFIRMED!</h2>
+            <p class="order-id-label">ORDER ID: <span id="confirmed-order-id">WEEB-89312</span></p>
+            <p class="order-subtext">Thank you for your order! We've sent the invoice and tracking link to your email. Your WEEBFOUR grails are being prepared for dispatch.</p>
+
+            <button type="button" class="btn btn-primary" id="checkout-success-continue">
+              CONTINUE SHOPPING <i class="ri-shopping-bag-line"></i>
+            </button>
           </div>
         </div>
 
+        <!-- Checkout Sidebar Summary -->
+        <div class="checkout-sidebar">
+          <h4>ORDER SUMMARY</h4>
+          
+          <!-- Mini items list -->
+          <div class="checkout-mini-items" id="checkout-items-list">
+            <!-- Dynamic items -->
+          </div>
+
+          <!-- Promo Code Box -->
+          <div class="promo-code-box">
+            <div class="promo-input-row">
+              <input type="text" id="promo-code" placeholder="PROMO CODE (e.g. WEEB10)">
+              <button id="promo-apply-btn">APPLY</button>
+            </div>
+            <div id="promo-message" class="promo-msg"></div>
+          </div>
+
+          <div class="checkout-calc-lines">
+            <div class="calc-line">
+              <span>Subtotal</span>
+              <span id="co-subtotal">₹0</span>
+            </div>
+            <div class="calc-line">
+              <span>Shipping</span>
+              <span id="co-shipping">₹0</span>
+            </div>
+            <div class="calc-line discount-line" id="co-discount-row" style="display: none;">
+              <span>Promo Discount</span>
+              <span id="co-discount">-₹0</span>
+            </div>
+            <div class="calc-line total-line">
+              <span>Total Amount</span>
+              <span id="co-total">₹0</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -511,9 +929,13 @@
       <i class="ri-home-5-line"></i>
       <span>Home</span>
     </a>
-    <a href="#shop" class="mobile-nav-item" data-target="shop">
-      <i class="ri-search-line"></i>
-      <span>Explore</span>
+    <a href="#builder" class="mobile-nav-item" data-target="builder">
+      <i class="ri-magic-line"></i>
+      <span>Stylist</span>
+    </a>
+    <a href="#3d-lab" class="mobile-nav-item" data-target="3d-lab">
+      <i class="ri-scan-line"></i>
+      <span>3D Lab</span>
     </a>
     <button class="mobile-nav-item mobile-cart-trigger" id="mobile-cart-btn" aria-label="Cart">
       <div class="cart-icon-wrapper">
@@ -522,18 +944,14 @@
       </div>
       <span>Bag</span>
     </button>
-    <a href="#newsletter" class="mobile-nav-item" data-target="newsletter">
-      <i class="ri-mail-line"></i>
-      <span>Club</span>
-    </a>
   </div>
 
   <!-- Size Chart Popup Overlay -->
   <div class="modal-overlay" id="size-chart-overlay">
     <div class="modal-content size-chart-modal">
-      <button class="close-modal-btn" id="size-chart-close"><i class="ri-close-line"></i></button>
-      <h3>SIZE GUIDE</h3>
-      <p>Streetwear fit (boxy, drop-shoulder). Standard measurements in inches.</p>
+      <button class="close-modal-btn" id="size-chart-close" aria-label="Close size guide"><i class="ri-close-line"></i></button>
+      <h3>WEEBFOUR SIZE GUIDE</h3>
+      <p>Oversized streetwear fit (boxy, drop-shoulder). Standard measurements in inches.</p>
       <table>
         <thead>
           <tr>
@@ -577,37 +995,42 @@
   <footer class="main-footer">
     <div class="footer-grid">
       <div class="footer-col branding-col">
-        <h2>GENZ<span>.</span></h2>
-        <p>Premium Gen Z streetwear designed and tailored for the culture. Live loud, look different.</p>
+        <div class="footer-logos">
+          <img src="assets/weebfour_primary_logo_trans.png" alt="WEEBFOUR" class="footer-brand-logo">
+          <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4!" class="footer-symbol-logo">
+        </div>
+        <p>Avant-garde anime & cyber streetwear engineered for the subculture. Heavyweight fabrics, structural cuts, and uncompromising attitude.</p>
         <div class="social-links">
           <a href="#" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
           <a href="#" aria-label="TikTok"><i class="ri-tiktok-line"></i></a>
           <a href="#" aria-label="Twitter"><i class="ri-twitter-x-line"></i></a>
-          <a href="#" aria-label="YouTube"><i class="ri-youtube-line"></i></a>
+          <a href="#" aria-label="Discord"><i class="ri-discord-line"></i></a>
         </div>
       </div>
       <div class="footer-col">
-        <h4>SHOPPING</h4>
+        <h4>COLLECTIONS</h4>
         <a href="#shop">Oversized Tees</a>
-        <a href="#shop">Heavy Hoodies</a>
+        <a href="#shop">Heavy Hoodies (420 GSM)</a>
         <a href="#shop">Tactical Cargoes</a>
-        <a href="#shop">Accessories</a>
+        <a href="#builder">Build Your Fit Studio</a>
+        <a href="#3d-lab">3D Tee Lab</a>
       </div>
       <div class="footer-col">
-        <h4>SUPPORT</h4>
-        <a href="#">Track Order</a>
-        <a href="#">Size Chart</a>
-        <a href="#">Returns & Exchange Policy</a>
-        <a href="#">Contact Us</a>
+        <h4>CLIENT SERVICE</h4>
+        <a href="#">Order Tracking</a>
+        <a href="#size-chart-overlay">Size Chart</a>
+        <a href="#">Returns & Exchanges</a>
+        <a href="#">Shipping Policy</a>
+        <a href="#newsletter">Contact Us</a>
       </div>
       <div class="footer-col">
         <h4>STORE LOCATION</h4>
-        <p class="address-text">Genz clothings HQ<br>Fashion Street, Sector-4<br>Mumbai, India - 400001</p>
-        <p class="contact-email">support@genzclothings.com</p>
+        <p class="address-text">WEEBFOUR LAB & HQ<br>Cyber Fashion District, Sector-4<br>Mumbai, India - 400001</p>
+        <p class="contact-email">support@weebfour.com</p>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 Genz clothings. All rights reserved. Built with passion for Gen Z.</p>
+      <p>&copy; 2026 WEEBFOUR. All rights reserved. Crafted with passion for streetwear culture.</p>
     </div>
   </footer>
 
