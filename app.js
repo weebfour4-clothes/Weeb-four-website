@@ -9,7 +9,7 @@ let searchQuery = '';
 let currentSort = 'default';
 let selectedQuickViewProduct = null;
 let selectedSize = '';
-let activeDiscount = 0.0; // 0.10 for 10%, 0.15 for 15%
+let activeDiscount = 0.0; // 0.10 for 10%
 
 // Free Shipping Threshold
 const SHIPPING_THRESHOLD = 1499;
@@ -105,44 +105,15 @@ const newsletterSuccess = document.getElementById('newsletter-success');
 const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
 
 // ==========================================
-// 3. BUILD YOUR FIT STATE & SETUP
-// ==========================================
-let currentFit = {
-  tee: null,
-  bottom: null,
-  outerwear: null,
-  teeSize: 'L',
-  bottomSize: 'M',
-  outerwearSize: 'L'
-};
-
-// ==========================================
-// 4. 3D TEE LAB STATE
-// ==========================================
-let teeLabState = {
-  currentView: 'front', // 'front' | 'back'
-  currentColor: 'black',
-  currentAngle: 0,
-  isDragging: false,
-  startX: 0,
-  startAngle: 0,
-  zoomEnabled: false,
-  zoomLevel: 2.5,
-  selectedSize: 'L'
-};
-
-// ==========================================
-// 5. INITIALIZE APP
+// 3. INITIALIZE APP
 // ==========================================
 window.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   setupEventListeners();
-  initBuildYourFit();
-  init3DTeeLab();
 });
 
 // ==========================================
-// 6. RENDER PRODUCT GRID
+// 4. RENDER PRODUCT GRID
 // ==========================================
 function renderProducts() {
   let filtered = products.filter(product => {
@@ -270,7 +241,7 @@ window.resetFilters = function() {
 };
 
 // ==========================================
-// 7. SETUP EVENT LISTENERS
+// 5. SETUP EVENT LISTENERS
 // ==========================================
 function setupEventListeners() {
   // Navigation tabs filtering
@@ -450,11 +421,6 @@ function setupEventListeners() {
       promoMessage.style.color = 'var(--color-success)';
       promoMessage.textContent = '10% WEEBFOUR Discount Applied!';
       updateCheckoutSummary();
-    } else if (code === 'WEEBFIT15') {
-      activeDiscount = 0.15;
-      promoMessage.style.color = 'var(--color-success)';
-      promoMessage.textContent = '15% Fit Studio Discount Applied!';
-      updateCheckoutSummary();
     } else {
       promoMessage.style.color = 'var(--color-error)';
       promoMessage.textContent = 'Invalid promo code';
@@ -478,468 +444,13 @@ function setupEventListeners() {
 }
 
 // ==========================================
-// 8. BUILD YOUR FIT IMPLEMENTATION
-// ==========================================
-function initBuildYourFit() {
-  const teesList = products.filter(p => p.category === 'tees');
-  const bottomsList = products.filter(p => p.category === 'cargoes');
-  const layersList = products.filter(p => p.category === 'hoodies' || p.category === 'jackets' || p.category === 'accessories');
-
-  // Set initial selections
-  currentFit.tee = teesList[0] || products[0];
-  currentFit.bottom = bottomsList[0] || products[4];
-  currentFit.outerwear = layersList[0] || products[3];
-
-  const teesGrid = document.getElementById('builder-tees-grid');
-  const bottomsGrid = document.getElementById('builder-bottoms-grid');
-  const layersGrid = document.getElementById('builder-layers-grid');
-
-  if (teesGrid) {
-    teesGrid.innerHTML = teesList.map((item, idx) => `
-      <div class="builder-option-card ${idx === 0 ? 'selected' : ''}" data-type="tee" data-id="${item.id}">
-        <div class="option-card-selected-check"><i class="ri-check-line"></i></div>
-        <div class="option-thumb">
-          <img src="${item.images[0]}" alt="${item.name}">
-        </div>
-        <div class="option-name">${item.name}</div>
-        <div class="option-prices">
-          <span class="option-price">₹${item.price}</span>
-          <span class="option-compare">₹${item.compareAtPrice}</span>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  if (bottomsGrid) {
-    bottomsGrid.innerHTML = bottomsList.map((item, idx) => `
-      <div class="builder-option-card ${idx === 0 ? 'selected' : ''}" data-type="bottom" data-id="${item.id}">
-        <div class="option-card-selected-check"><i class="ri-check-line"></i></div>
-        <div class="option-thumb">
-          <img src="${item.images[0]}" alt="${item.name}">
-        </div>
-        <div class="option-name">${item.name}</div>
-        <div class="option-prices">
-          <span class="option-price">₹${item.price}</span>
-          <span class="option-compare">₹${item.compareAtPrice}</span>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  if (layersGrid) {
-    layersGrid.innerHTML = layersList.map((item, idx) => `
-      <div class="builder-option-card ${idx === 0 ? 'selected' : ''}" data-type="outerwear" data-id="${item.id}">
-        <div class="option-card-selected-check"><i class="ri-check-line"></i></div>
-        <div class="option-thumb">
-          <img src="${item.images[0]}" alt="${item.name}">
-        </div>
-        <div class="option-name">${item.name}</div>
-        <div class="option-prices">
-          <span class="option-price">₹${item.price}</span>
-          <span class="option-compare">₹${item.compareAtPrice}</span>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // Handle Step Tabs Switching
-  const stepTabs = document.querySelectorAll('.step-tab-btn');
-  const stepPanes = document.querySelectorAll('.step-pane');
-  stepTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const step = tab.dataset.step;
-      stepTabs.forEach(t => t.classList.remove('active'));
-      stepPanes.forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      const activePane = document.getElementById(`builder-step-${step}`);
-      if (activePane) activePane.classList.add('active');
-    });
-  });
-
-  // Handle Option Card Clicks
-  document.querySelectorAll('.builder-option-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const type = card.dataset.type;
-      const id = parseInt(card.dataset.id);
-      const product = products.find(p => p.id === id);
-      if (!product) return;
-
-      // Unselect siblings
-      card.parentElement.querySelectorAll('.builder-option-card').forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-
-      // Update state
-      currentFit[type] = product;
-      updateFitPreview();
-    });
-  });
-
-  // Handle Fit Sizes
-  const teeSizeSelect = document.getElementById('fit-size-tee');
-  const bottomSizeSelect = document.getElementById('fit-size-bottom');
-  const outerwearSizeSelect = document.getElementById('fit-size-outerwear');
-
-  if (teeSizeSelect) {
-    teeSizeSelect.addEventListener('change', (e) => currentFit.teeSize = e.target.value);
-  }
-  if (bottomSizeSelect) {
-    bottomSizeSelect.addEventListener('change', (e) => currentFit.bottomSize = e.target.value);
-  }
-  if (outerwearSizeSelect) {
-    outerwearSizeSelect.addEventListener('change', (e) => currentFit.outerwearSize = e.target.value);
-  }
-
-  // Handle Add Fit to Bag (One Click)
-  const addFitBtn = document.getElementById('add-fit-to-cart-btn');
-  if (addFitBtn) {
-    addFitBtn.addEventListener('click', () => {
-      if (!currentFit.tee || !currentFit.bottom || !currentFit.outerwear) return;
-
-      // Add all 3 items to cart with bundle discount (15% off)
-      const bundleDiscountFactor = 0.85;
-
-      const bundledTee = {
-        product: { ...currentFit.tee, price: Math.round(currentFit.tee.price * bundleDiscountFactor) },
-        size: currentFit.teeSize,
-        quantity: 1,
-        isBundle: true
-      };
-
-      const bundledBottom = {
-        product: { ...currentFit.bottom, price: Math.round(currentFit.bottom.price * bundleDiscountFactor) },
-        size: currentFit.bottomSize,
-        quantity: 1,
-        isBundle: true
-      };
-
-      const bundledOuterwear = {
-        product: { ...currentFit.outerwear, price: Math.round(currentFit.outerwear.price * bundleDiscountFactor) },
-        size: currentFit.outerwearSize,
-        quantity: 1,
-        isBundle: true
-      };
-
-      cart.push(bundledTee, bundledBottom, bundledOuterwear);
-      updateCartCount();
-      animateCartIcon();
-
-      // Open Cart Drawer
-      cartDrawer.classList.add('active');
-      cartOverlay.classList.add('active');
-      renderCart();
-
-      // Celebration effect on button
-      addFitBtn.innerHTML = `<i class="ri-check-double-line"></i> COMPLETE FIT ADDED! (-15% SAVED)`;
-      setTimeout(() => {
-        addFitBtn.innerHTML = `<i class="ri-shopping-bag-3-fill"></i> ADD COMPLETE LOOK TO BAG (3 ITEMS)`;
-      }, 2500);
-    });
-  }
-
-  updateFitPreview();
-}
-
-function updateFitPreview() {
-  const { tee, bottom, outerwear } = currentFit;
-  if (!tee || !bottom || !outerwear) return;
-
-  // Update Left Canvas Images & Titles
-  const previewOuterwear = document.getElementById('fit-preview-outerwear');
-  const titleOuterwear = document.getElementById('fit-outerwear-title');
-  const priceOuterwear = document.getElementById('fit-outerwear-price');
-
-  const previewTee = document.getElementById('fit-preview-tee');
-  const titleTee = document.getElementById('fit-tee-title');
-  const priceTee = document.getElementById('fit-tee-price');
-
-  const previewBottom = document.getElementById('fit-preview-bottom');
-  const titleBottom = document.getElementById('fit-bottom-title');
-  const priceBottom = document.getElementById('fit-bottom-price');
-
-  if (previewOuterwear) previewOuterwear.src = outerwear.images[0];
-  if (titleOuterwear) titleOuterwear.textContent = outerwear.name;
-  if (priceOuterwear) priceOuterwear.textContent = `₹${outerwear.price}`;
-
-  if (previewTee) previewTee.src = tee.images[0];
-  if (titleTee) titleTee.textContent = tee.name;
-  if (priceTee) priceTee.textContent = `₹${tee.price}`;
-
-  if (previewBottom) previewBottom.src = bottom.images[0];
-  if (titleBottom) titleBottom.textContent = bottom.name;
-  if (priceBottom) priceBottom.textContent = `₹${bottom.price}`;
-
-  // Calculate Combined Price & 15% Savings
-  const subtotal = tee.price + bottom.price + outerwear.price;
-  const discount = Math.round(subtotal * 0.15);
-  const total = subtotal - discount;
-
-  const subtotalEl = document.getElementById('fit-summary-subtotal');
-  const discountEl = document.getElementById('fit-summary-discount');
-  const totalEl = document.getElementById('fit-summary-total');
-
-  if (subtotalEl) subtotalEl.textContent = `₹${subtotal}`;
-  if (discountEl) discountEl.textContent = `-₹${discount}`;
-  if (totalEl) totalEl.textContent = `₹${total}`;
-}
-
-// ==========================================
-// 9. 3D TEE LAB IMPLEMENTATION (MOUSE REACTIVE)
-// ==========================================
-function init3DTeeLab() {
-  const viewport = document.getElementById('tee-stage-viewport');
-  const wrapper = document.getElementById('tee-3d-wrapper');
-  const card3d = document.getElementById('tee-card-3d');
-  const angleDegrees = document.getElementById('angle-degrees');
-  const ambientGlow = document.getElementById('tee-ambient-glow');
-  const angleBadge = document.getElementById('angle-indicator-badge');
-
-  if (!viewport || !wrapper || !card3d) return;
-
-  // 1. Mouse Move 3D Perspective Tilt
-  viewport.addEventListener('mousemove', (e) => {
-    if (teeLabState.isDragging) return;
-
-    const rect = viewport.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    // Normalized coordinates (-1 to 1)
-    const normX = (x / rect.width) * 2 - 1;
-    const normY = (y / rect.height) * 2 - 1;
-
-    // Tilt angles (max 18 deg)
-    const tiltX = -normY * 16;
-    const tiltY = normX * 22;
-
-    wrapper.style.transform = `perspective(1200px) rotateX(${tiltX}deg) rotateY(${teeLabState.currentAngle + tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
-
-    // Handle Magnifier Loupe position
-    if (teeLabState.zoomEnabled) {
-      updateLoupePosition(x, y, rect.width, rect.height);
-    }
-  });
-
-  viewport.addEventListener('mouseleave', () => {
-    if (teeLabState.isDragging) return;
-    wrapper.style.transform = `perspective(1200px) rotateX(0deg) rotateY(${teeLabState.currentAngle}deg) scale3d(1, 1, 1)`;
-    hideLoupe();
-  });
-
-  // 2. Drag Horizontally to Rotate in 3D
-  const onDragStart = (clientX) => {
-    teeLabState.isDragging = true;
-    teeLabState.startX = clientX;
-    teeLabState.startAngle = teeLabState.currentAngle;
-    hideLoupe();
-  };
-
-  const onDragMove = (clientX) => {
-    if (!teeLabState.isDragging) return;
-    const deltaX = clientX - teeLabState.startX;
-    // Rotate factor: 1 pixel = 0.55 degrees
-    teeLabState.currentAngle = Math.round((teeLabState.startAngle + deltaX * 0.55) % 360);
-    if (teeLabState.currentAngle < 0) teeLabState.currentAngle += 360;
-
-    wrapper.style.transform = `perspective(1200px) rotateX(0deg) rotateY(${teeLabState.currentAngle}deg)`;
-    if (angleDegrees) angleDegrees.textContent = `${teeLabState.currentAngle}°`;
-  };
-
-  const onDragEnd = () => {
-    teeLabState.isDragging = false;
-  };
-
-  // Mouse drag
-  viewport.addEventListener('mousedown', (e) => onDragStart(e.clientX));
-  window.addEventListener('mousemove', (e) => onDragMove(e.clientX));
-  window.addEventListener('mouseup', onDragEnd);
-
-  // Touch drag
-  viewport.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 1) onDragStart(e.touches[0].clientX);
-  });
-  window.addEventListener('touchmove', (e) => {
-    if (e.touches.length === 1) onDragMove(e.touches[0].clientX);
-  });
-  window.addEventListener('touchend', onDragEnd);
-
-  // 3. View Angle Buttons (Front & Back Views)
-  const viewFrontBtn = document.getElementById('view-btn-front');
-  const viewBackBtn = document.getElementById('view-btn-back');
-
-  const setViewAngle = (view) => {
-    teeLabState.currentView = view;
-    if (view === 'front') {
-      teeLabState.currentAngle = 0;
-      if (viewFrontBtn) viewFrontBtn.classList.add('active');
-      if (viewBackBtn) viewBackBtn.classList.remove('active');
-    } else {
-      teeLabState.currentAngle = 180;
-      if (viewBackBtn) viewBackBtn.classList.add('active');
-      if (viewFrontBtn) viewFrontBtn.classList.remove('active');
-    }
-    wrapper.style.transform = `perspective(1200px) rotateX(0deg) rotateY(${teeLabState.currentAngle}deg)`;
-    if (angleDegrees) angleDegrees.textContent = `${teeLabState.currentAngle}°`;
-    updateLoupeImage();
-  };
-
-  if (viewFrontBtn) viewFrontBtn.addEventListener('click', () => setViewAngle('front'));
-  if (viewBackBtn) viewBackBtn.addEventListener('click', () => setViewAngle('back'));
-
-  // 4. Instant Color Variant Switcher
-  const swatches = document.querySelectorAll('.swatch-btn');
-  const selectedColorName = document.getElementById('selected-color-name');
-  const filterFront = document.getElementById('tee-filter-front');
-  const filterBack = document.getElementById('tee-filter-back');
-
-  const colorMap = {
-    black: { color: 'transparent', glow: 'rgba(255, 32, 58, 0.25)', opacity: 0 },
-    crimson: { color: 'rgba(210, 15, 35, 0.55)', glow: 'rgba(255, 32, 58, 0.5)', opacity: 1 },
-    bone: { color: 'rgba(225, 218, 208, 0.45)', glow: 'rgba(230, 220, 200, 0.35)', opacity: 1 },
-    charcoal: { color: 'rgba(50, 50, 60, 0.55)', glow: 'rgba(100, 100, 120, 0.3)', opacity: 1 },
-    olive: { color: 'rgba(70, 85, 55, 0.5)', glow: 'rgba(90, 110, 70, 0.3)', opacity: 1 }
-  };
-
-  swatches.forEach(swatch => {
-    swatch.addEventListener('click', () => {
-      swatches.forEach(s => s.classList.remove('active'));
-      swatch.classList.add('active');
-
-      const colorKey = swatch.dataset.color;
-      const colorName = swatch.dataset.name;
-      teeLabState.currentColor = colorKey;
-
-      if (selectedColorName) selectedColorName.textContent = colorName;
-
-      const cfg = colorMap[colorKey];
-      if (cfg) {
-        if (filterFront) {
-          filterFront.style.backgroundColor = cfg.color;
-          filterFront.style.opacity = cfg.opacity;
-        }
-        if (filterBack) {
-          filterBack.style.backgroundColor = cfg.color;
-          filterBack.style.opacity = cfg.opacity;
-        }
-        if (ambientGlow) {
-          ambientGlow.style.background = `radial-gradient(circle, ${cfg.glow} 0%, transparent 70%)`;
-        }
-      }
-    });
-  });
-
-  // 5. Magnifier Fabric & Print Loupe
-  const toggleZoomBtn = document.getElementById('toggle-zoom-btn');
-  const zoomToggleText = document.getElementById('zoom-toggle-text');
-  const zoomSlider = document.getElementById('zoom-level-slider');
-  const loupe = document.getElementById('magnifier-lens');
-
-  if (toggleZoomBtn) {
-    toggleZoomBtn.addEventListener('click', () => {
-      teeLabState.zoomEnabled = !teeLabState.zoomEnabled;
-      if (zoomToggleText) {
-        zoomToggleText.textContent = teeLabState.zoomEnabled ? 'DISABLE LOUPE' : 'ENABLE LOUPE';
-      }
-      if (!teeLabState.zoomEnabled) hideLoupe();
-    });
-  }
-
-  if (zoomSlider) {
-    zoomSlider.addEventListener('input', (e) => {
-      teeLabState.zoomLevel = parseFloat(e.target.value);
-    });
-  }
-
-  // 6. Size selector & Quick Buy
-  const sizePills = document.querySelectorAll('.size-pill');
-  sizePills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      sizePills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      teeLabState.selectedSize = pill.dataset.size;
-    });
-  });
-
-  const labAddBtn = document.getElementById('lab-add-to-cart-btn');
-  if (labAddBtn) {
-    labAddBtn.addEventListener('click', () => {
-      const teeProduct = products[0]; // Cyberpunk / Rebel Graffiti 280
-      addToCart(teeProduct.id, teeLabState.selectedSize);
-      cartDrawer.classList.add('active');
-      cartOverlay.classList.add('active');
-      renderCart();
-      
-      labAddBtn.innerHTML = `<i class="ri-check-line"></i> ADDED TO BAG!`;
-      setTimeout(() => {
-        labAddBtn.innerHTML = `<i class="ri-shopping-bag-3-fill"></i> ADD TEE TO BAG (₹999)`;
-      }, 2000);
-    });
-  }
-}
-
-function updateLoupePosition(mouseX, mouseY, vpWidth, vpHeight) {
-  const loupe = document.getElementById('magnifier-lens');
-  const zoomedImg = document.getElementById('lens-zoomed-img');
-  if (!loupe || !zoomedImg) return;
-
-  loupe.classList.add('active');
-  loupe.style.left = `${mouseX}px`;
-  loupe.style.top = `${mouseY}px`;
-
-  // Calculate translation inside loupe
-  const zoom = teeLabState.zoomLevel;
-  const offsetX = (mouseX / vpWidth) * 460;
-  const offsetY = (mouseY / vpHeight) * 460;
-
-  zoomedImg.style.transform = `scale(${zoom}) translate(${-offsetX / 2}px, ${-offsetY / 2}px)`;
-}
-
-function hideLoupe() {
-  const loupe = document.getElementById('magnifier-lens');
-  if (loupe) loupe.classList.remove('active');
-}
-
-function updateLoupeImage() {
-  const zoomedImg = document.getElementById('lens-zoomed-img');
-  if (!zoomedImg) return;
-  if (teeLabState.currentView === 'front') {
-    zoomedImg.src = 'assets/tee_front_clean.jpg';
-  } else {
-    zoomedImg.src = 'assets/tee_back.jpg';
-  }
-}
-
-// ==========================================
-// 10. EDITORIAL HERO PARALLAX
-// ==========================================
-function initHeroParallax() {
-  const heroSection = document.getElementById('campaign');
-  const modelsImg = document.getElementById('editorial-models-img');
-  if (!heroSection || !modelsImg) return;
-
-  heroSection.addEventListener('mousemove', (e) => {
-    const rect = heroSection.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-
-    const moveX = (x / rect.width) * 18;
-    const moveY = (y / rect.height) * 10;
-
-    modelsImg.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
-  });
-
-  heroSection.addEventListener('mouseleave', () => {
-    modelsImg.style.transform = `translate3d(0, 0, 0)`;
-  });
-}
-
-// ==========================================
-// 11. CART & QUICK VIEW CONTROLLERS
+// 6. CART & BAG CONTROLLERS
 // ==========================================
 function addToCart(productId, size) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
 
-  const existingItem = cart.find(item => item.product.id === productId && item.size === size && !item.isBundle);
+  const existingItem = cart.find(item => item.product.id === productId && item.size === size);
 
   if (existingItem) {
     existingItem.quantity += 1;
@@ -998,7 +509,6 @@ function renderCart() {
   cartItemsContainer.innerHTML = cart.map((item, index) => {
     const itemTotal = item.product.price * item.quantity;
     subtotal += itemTotal;
-    const bundleBadge = item.isBundle ? `<span class="bundle-item-badge"><i class="ri-magic-line"></i> FIT BUNDLE (-15%)</span>` : '';
 
     return `
       <div class="cart-item">
@@ -1006,7 +516,6 @@ function renderCart() {
           <img src="${item.product.images[0]}" alt="${item.product.name}">
         </div>
         <div class="cart-item-info">
-          ${bundleBadge}
           <div class="cart-item-title">${item.product.name}</div>
           <div class="cart-item-meta">SIZE: ${item.size}</div>
           <div class="cart-item-bottom">
@@ -1057,7 +566,7 @@ window.removeCartItem = function(index) {
 };
 
 // ==========================================
-// 12. QUICK VIEW MODAL CONTROLLER
+// 7. QUICK VIEW MODAL CONTROLLER
 // ==========================================
 function openQuickView(productId) {
   const product = products.find(p => p.id === productId);
@@ -1119,7 +628,7 @@ function closeQuickView() {
 }
 
 // ==========================================
-// 13. CHECKOUT MODAL FLOW
+// 8. CHECKOUT MODAL FLOW
 // ==========================================
 function openCheckout() {
   step1Panel.classList.add('active');

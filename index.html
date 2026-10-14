@@ -33,14 +33,13 @@
       <div class="ticker">
         <span class="ticker-item"><i class="ri-fire-fill"></i> FREE SHIPPING ON ALL ORDERS ABOVE ₹1499!</span>
         <span class="ticker-item"><i class="ri-flashlight-fill"></i> USE CODE "WEEB10" FOR 10% OFF YOUR FIRST ORDER!</span>
-        <span class="ticker-item"><i class="ri-t-shirt-line"></i> BUILD YOUR FIT STUDIO: SAVE 15% ON COMPLETE 3-PIECE LOOKS!</span>
         <span class="ticker-item"><i class="ri-vip-crown-fill"></i> WEEBFOUR FALL/WINTER 2026 DROP LIVE NOW</span>
         <span class="ticker-item"><i class="ri-shake-hands-fill"></i> HASSLE-FREE 7-DAY RETURNS & EXCHANGES</span>
-        <!-- Duplicate for infinite seamless loop -->
+        <!-- Infinite Loop duplicates -->
         <span class="ticker-item"><i class="ri-fire-fill"></i> FREE SHIPPING ON ALL ORDERS ABOVE ₹1499!</span>
         <span class="ticker-item"><i class="ri-flashlight-fill"></i> USE CODE "WEEB10" FOR 10% OFF YOUR FIRST ORDER!</span>
-        <span class="ticker-item"><i class="ri-t-shirt-line"></i> BUILD YOUR FIT STUDIO: SAVE 15% ON COMPLETE 3-PIECE LOOKS!</span>
         <span class="ticker-item"><i class="ri-vip-crown-fill"></i> WEEBFOUR FALL/WINTER 2026 DROP LIVE NOW</span>
+        <span class="ticker-item"><i class="ri-shake-hands-fill"></i> HASSLE-FREE 7-DAY RETURNS & EXCHANGES</span>
       </div>
     </div>
   </div>
@@ -56,8 +55,6 @@
       <!-- Desktop Navigation links -->
       <nav class="nav-links">
         <a href="#" class="active" data-nav="home">Home</a>
-        <a href="#builder" data-nav="builder">Build Your Fit</a>
-        <a href="#3d-lab" data-nav="3d-lab">3D Tee Lab</a>
         <a href="#collections" data-nav="collections">Collections</a>
         <a href="#shop" data-nav="shop">Shop</a>
         <a href="#newsletter" data-nav="newsletter">Join the Club</a>
@@ -105,7 +102,7 @@
       <p class="hero-description font-outfit">Premium oversized fits, heavyweight 280-420 GSM cottons, and designs inspired by youth subculture. Engineered for the culture that refuses to fit in.</p>
       <div class="hero-ctas">
         <a href="#shop" class="btn btn-primary">SHOP THE DROP <i class="ri-arrow-right-line"></i></a>
-        <a href="#builder" class="btn btn-secondary">BUILD YOUR FIT <i class="ri-magic-line"></i></a>
+        <a href="#collections" class="btn btn-secondary">EXPLORE STYLES <i class="ri-compass-3-line"></i></a>
       </div>
     </div>
     <!-- Scroll indicator -->
@@ -149,329 +146,10 @@
     </div>
   </section>
 
-  <!-- =========================================================
-       SECTION 2: BUILD YOUR FIT (CUSTOMER STYLIST STUDIO)
-       ========================================================= -->
-  <section id="builder" class="fit-builder-section">
-    <div class="section-header text-center">
-      <div class="section-tag"><i class="ri-magic-line"></i> CUSTOM STYLIST STUDIO</div>
-      <h2 class="section-title">BUILD YOUR FIT</h2>
-      <p class="section-subtitle">
-        Become your own stylist. Select a T-shirt, pair it with cargos, add a hoodie or accessory, and unlock an instant <strong>15% bundle discount</strong> on the complete look!
-      </p>
-    </div>
-
-    <div class="builder-container">
-      <!-- Left: Interactive Composite Mannequin Canvas -->
-      <div class="builder-canvas-wrapper">
-        <div class="builder-canvas-card">
-          <div class="builder-card-glow"></div>
-          
-          <!-- Secondary Symbol Watermark -->
-          <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4!" class="builder-watermark">
-
-          <div class="builder-canvas-header">
-            <span class="live-status-badge"><span class="pulse-dot"></span> LIVE FIT PREVIEW</span>
-            <span class="style-score-badge"><i class="ri-fire-fill"></i> STYLE MATCH: 100%</span>
-          </div>
-
-          <!-- Visual Layered Mannequin Outfit Display -->
-          <div class="mannequin-display" id="mannequin-display">
-            <!-- Layer 1: Outerwear / Accessories (Hoodie / Varsity / Beanie / Belt) -->
-            <div class="outfit-layer layer-outerwear" id="layer-outerwear">
-              <div class="layer-img-wrap">
-                <img id="fit-preview-outerwear" src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&auto=format&fit=crop&q=80" alt="Selected Layer">
-              </div>
-              <div class="layer-info-badge">
-                <span class="layer-title" id="fit-outerwear-title">Lost Minds Heavyweight Hoodie</span>
-                <span class="layer-price" id="fit-outerwear-price">₹2,499</span>
-              </div>
-            </div>
-
-            <!-- Layer 2: T-Shirt Top -->
-            <div class="outfit-layer layer-tee" id="layer-tee">
-              <div class="layer-img-wrap">
-                <img id="fit-preview-tee" src="assets/tee_front_clean.jpg" alt="Selected Tee">
-              </div>
-              <div class="layer-info-badge">
-                <span class="layer-title" id="fit-tee-title">Cyberpunk Glitch Oversized Tee</span>
-                <span class="layer-price" id="fit-tee-price">₹999</span>
-              </div>
-            </div>
-
-            <!-- Layer 3: Bottom Cargos / Pants -->
-            <div class="outfit-layer layer-bottom" id="layer-bottom">
-              <div class="layer-img-wrap">
-                <img id="fit-preview-bottom" src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80" alt="Selected Bottom">
-              </div>
-              <div class="layer-info-badge">
-                <span class="layer-title" id="fit-bottom-title">Utility Multi-Pocket Cargoes</span>
-                <span class="layer-price" id="fit-bottom-price">₹1,999</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Outfit Size Pickers Bar -->
-          <div class="fit-sizes-bar">
-            <div class="fit-size-picker">
-              <label for="fit-size-tee">TEE SIZE:</label>
-              <select id="fit-size-tee" class="fit-size-select">
-                <option value="S">S (Boxy)</option>
-                <option value="M">M (Boxy)</option>
-                <option value="L" selected>L (Oversized)</option>
-                <option value="XL">XL (Heavy)</option>
-              </select>
-            </div>
-            <div class="fit-size-picker">
-              <label for="fit-size-bottom">BOTTOM SIZE:</label>
-              <select id="fit-size-bottom" class="fit-size-select">
-                <option value="S">S (30")</option>
-                <option value="M" selected>M (32")</option>
-                <option value="L">L (34")</option>
-                <option value="XL">XL (36")</option>
-              </select>
-            </div>
-            <div class="fit-size-picker">
-              <label for="fit-size-outerwear">LAYER SIZE:</label>
-              <select id="fit-size-outerwear" class="fit-size-select">
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L" selected>L</option>
-                <option value="XL">XL</option>
-                <option value="ONESIZE">ONESIZE</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right: Step-by-Step Selection Deck -->
-      <div class="builder-controls-wrapper">
-        <!-- Step Navigation Tabs -->
-        <div class="builder-step-tabs">
-          <button class="step-tab-btn active" data-step="1">
-            <span class="step-num">01</span>
-            <span class="step-label">SELECT TEE</span>
-          </button>
-          <button class="step-tab-btn" data-step="2">
-            <span class="step-num">02</span>
-            <span class="step-label">PAIR BOTTOMS</span>
-          </button>
-          <button class="step-tab-btn" data-step="3">
-            <span class="step-num">03</span>
-            <span class="step-label">ADD LAYER / ACC</span>
-          </button>
-        </div>
-
-        <!-- Step Panes Container -->
-        <div class="builder-step-panes">
-          <!-- Pane 1: T-Shirts -->
-          <div class="step-pane active" id="builder-step-1">
-            <div class="step-pane-header">
-              <h3>STEP 1: CHOOSE YOUR BASE GRAPHIC TEE</h3>
-              <p>Heavyweight 280 GSM French Terry cut in our signature boxy drop-shoulder fit.</p>
-            </div>
-            <div class="builder-options-grid" id="builder-tees-grid">
-              <!-- Dynamically populated or static cards -->
-            </div>
-          </div>
-
-          <!-- Pane 2: Bottoms -->
-          <div class="step-pane" id="builder-step-2">
-            <div class="step-pane-header">
-              <h3>STEP 2: PAIR WITH CARGOS OR TECH PANTS</h3>
-              <p>Tactical ripstop utility pockets, parachute cinches, and raw street silhouettes.</p>
-            </div>
-            <div class="builder-options-grid" id="builder-bottoms-grid">
-              <!-- Dynamically populated or static cards -->
-            </div>
-          </div>
-
-          <!-- Pane 3: Hoodies & Accessories -->
-          <div class="step-pane" id="builder-step-3">
-            <div class="step-pane-header">
-              <h3>STEP 3: COMPLETE WITH OUTERWEAR OR ACCESSORY</h3>
-              <p>Heavyweight 420 GSM hoodies, varsity grails, or industrial steel hardware accessories.</p>
-            </div>
-            <div class="builder-options-grid" id="builder-layers-grid">
-              <!-- Dynamically populated or static cards -->
-            </div>
-          </div>
-        </div>
-
-        <!-- Bottom Fit Price Summary & 1-Click Buy Deck -->
-        <div class="builder-summary-card">
-          <div class="summary-breakdown">
-            <div class="summary-row">
-              <span class="summary-label">Items Selected:</span>
-              <span class="summary-val" id="fit-summary-count">3 of 3 Pieces</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Original Combined Value:</span>
-              <span class="summary-val compare-val" id="fit-summary-subtotal">₹5,497</span>
-            </div>
-            <div class="summary-row discount-row">
-              <span class="summary-label"><i class="ri-discount-percent-fill"></i> Complete Fit Discount (15% OFF):</span>
-              <span class="summary-val discount-val" id="fit-summary-discount">-₹824</span>
-            </div>
-            <div class="summary-row total-row">
-              <span class="summary-label">Total Fit Price:</span>
-              <span class="summary-val total-val" id="fit-summary-total">₹4,673</span>
-            </div>
-          </div>
-
-          <!-- Add Whole Look to Cart in One Click -->
-          <button id="add-fit-to-cart-btn" class="btn btn-primary btn-add-fit">
-            <i class="ri-shopping-bag-3-fill"></i>
-            ADD COMPLETE LOOK TO BAG (3 ITEMS)
-          </button>
-          
-          <div class="fit-guarantee-note">
-            <i class="ri-checkbox-circle-fill"></i> Free Priority Shipping + Extra 15% Bundle Discount applied automatically.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =========================================================
-       SECTION 3: 3D INTERACTIVE T-SHIRT LAB (MOUSE REACTIVE)
-       ========================================================= -->
-  <section id="3d-lab" class="tee-lab-section">
-    <div class="section-header text-center">
-      <div class="section-tag"><i class="ri-scan-line"></i> HIGH VISUAL IMPACT LAB</div>
-      <h2 class="section-title">THE 3D TEE LAB</h2>
-      <p class="section-subtitle">
-        Engineered with heavyweight 280 GSM French Terry. Tilt toward your cursor, drag to rotate in 3D, flip front & back, switch colors, and zoom into the microscopic print and fabric details.
-      </p>
-    </div>
-
-    <div class="tee-lab-container">
-      <!-- Left/Center: 3D Interactive Stage -->
-      <div class="tee-stage-viewport" id="tee-stage-viewport">
-        <!-- Floating Ambient Glow Backdrop -->
-        <div class="tee-ambient-glow" id="tee-ambient-glow"></div>
-        <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4!" class="tee-stage-watermark">
-
-        <!-- Stage Interaction Overlay Tips -->
-        <div class="stage-interaction-prompt">
-          <span><i class="ri-drag-move-2-line"></i> DRAG HORIZONTALLY TO ROTATE // HOVER TO TILT</span>
-        </div>
-
-        <!-- The 3D Floating Garment Container -->
-        <div class="tee-3d-wrapper" id="tee-3d-wrapper">
-          <div class="tee-card-3d" id="tee-card-3d">
-            <!-- Front Face -->
-            <div class="tee-face tee-face-front" id="tee-face-front">
-              <img id="tee-img-front" src="assets/tee_front_clean.jpg" alt="WEEBFOUR Heavyweight Oversized Tee Front">
-              <div class="tee-color-filter-overlay" id="tee-filter-front"></div>
-            </div>
-            <!-- Back Face -->
-            <div class="tee-face tee-face-back" id="tee-face-back">
-              <img id="tee-img-back" src="assets/tee_back.jpg" alt="WEEBFOUR Heavyweight Oversized Tee Back">
-              <div class="tee-color-filter-overlay" id="tee-filter-back"></div>
-            </div>
-          </div>
-
-          <!-- Interactive Magnifier Loupe Lens -->
-          <div class="magnifier-lens" id="magnifier-lens">
-            <div class="lens-crosshair"></div>
-            <div class="lens-zoom-content" id="lens-zoom-content">
-              <img id="lens-zoomed-img" src="assets/tee_front_clean.jpg" alt="Zoomed Texture">
-            </div>
-          </div>
-        </div>
-
-        <!-- Floating Quick View Angle Indicator -->
-        <div class="angle-indicator-badge" id="angle-indicator-badge">
-          ROTATION: <span id="angle-degrees">0°</span>
-        </div>
-      </div>
-
-      <!-- Right: Interactive Control Deck -->
-      <div class="tee-controls-panel">
-        <div class="panel-header">
-          <div class="panel-badge">SERIES 04 GRAIL</div>
-          <h3 class="panel-title">WEEBFOUR // REBEL GRAFFITI 280</h3>
-          <div class="panel-price-row">
-            <span class="panel-price">₹999</span>
-            <span class="panel-compare">₹1,999</span>
-            <span class="panel-discount">50% OFF</span>
-          </div>
-        </div>
-
-        <!-- 1. View Angle Switcher (Front & Back Views) -->
-        <div class="control-block">
-          <label class="control-label">VIEW ANGLE:</label>
-          <div class="view-switch-btns">
-            <button class="view-btn active" id="view-btn-front" data-view="front">
-              <i class="ri-t-shirt-line"></i> FRONT VIEW
-            </button>
-            <button class="view-btn" id="view-btn-back" data-view="back">
-              <i class="ri-t-shirt-2-line"></i> BACK VIEW
-            </button>
-          </div>
-        </div>
-
-        <!-- 2. Instant Color Variant Switcher -->
-        <div class="control-block">
-          <div class="control-header-flex">
-            <label class="control-label">COLOR VARIANT:</label>
-            <span class="selected-color-name" id="selected-color-name">Onyx Black</span>
-          </div>
-          <div class="color-swatches-grid">
-            <button class="swatch-btn active" data-color="black" data-name="Onyx Black" style="--swatch-color: #0d0d0d;" title="Onyx Black"></button>
-            <button class="swatch-btn" data-color="crimson" data-name="Crimson Red" style="--swatch-color: #990a18;" title="Crimson Red"></button>
-            <button class="swatch-btn" data-color="bone" data-name="Ghost Bone" style="--swatch-color: #d6cfc7;" title="Ghost Bone"></button>
-            <button class="swatch-btn" data-color="charcoal" data-name="Acid Charcoal" style="--swatch-color: #2b2b30;" title="Acid Charcoal"></button>
-            <button class="swatch-btn" data-color="olive" data-name="Cyber Olive" style="--swatch-color: #3b4233;" title="Cyber Olive"></button>
-          </div>
-        </div>
-
-        <!-- 3. Fabric & Print Zoom Loupe Control -->
-        <div class="control-block">
-          <div class="control-header-flex">
-            <label class="control-label">FABRIC & PRINT INSPECTOR:</label>
-            <button id="toggle-zoom-btn" class="toggle-tool-btn">
-              <i class="ri-zoom-in-line"></i> <span id="zoom-toggle-text">ENABLE LOUPE</span>
-            </button>
-          </div>
-          <div class="zoom-slider-row">
-            <span>1.5x</span>
-            <input type="range" id="zoom-level-slider" min="1.5" max="3.5" step="0.25" value="2.5">
-            <span>3.5x Zoom</span>
-          </div>
-          <p class="control-subtext">Hover anywhere over the t-shirt to inspect the dense 280 GSM cotton knit and high-density puff print texture.</p>
-        </div>
-
-        <!-- 4. Garment Specifications -->
-        <div class="control-block specs-block">
-          <div class="spec-bullet"><i class="ri-check-line"></i> <strong>280 GSM French Terry:</strong> Ultra-heavyweight pre-shrunk combed cotton.</div>
-          <div class="spec-bullet"><i class="ri-check-line"></i> <strong>High-Density Puff Print:</strong> 3D textured ink that will never crack or fade.</div>
-          <div class="spec-bullet"><i class="ri-check-line"></i> <strong>Boxy Silhouette:</strong> Dropped shoulders, ribbed 1.2" reinforced crewneck collar.</div>
-        </div>
-
-        <!-- 5. Size Selection & Instant Add to Bag -->
-        <div class="control-block">
-          <label class="control-label">SELECT SIZE:</label>
-          <div class="lab-size-selector" id="lab-size-selector">
-            <button class="size-pill" data-size="S">S</button>
-            <button class="size-pill" data-size="M">M</button>
-            <button class="size-pill active" data-size="L">L</button>
-            <button class="size-pill" data-size="XL">XL</button>
-          </div>
-        </div>
-
-        <button id="lab-add-to-cart-btn" class="btn btn-primary btn-lab-buy">
-          <i class="ri-shopping-bag-3-fill"></i> ADD TEE TO BAG (₹999)
-        </button>
-      </div>
-    </div>
-  </section>
-
   <!-- Collections Category Cards Grid -->
   <section id="collections" class="collections-section">
-    <div class="section-header">
+    <div class="section-header text-center">
+      <div class="section-tag"><i class="ri-fire-fill"></i> CURATED STYLES</div>
       <h2 class="section-title">THE SELECTIONS</h2>
       <p class="section-subtitle">Curated drops matching every street mood.</p>
     </div>
@@ -508,7 +186,8 @@
 
   <!-- Catalog Section -->
   <section id="shop" class="catalog-section">
-    <div class="section-header">
+    <div class="section-header text-center">
+      <div class="section-tag"><i class="ri-flashlight-fill"></i> STREETWEAR VAULT</div>
       <h2 class="section-title">THE FEED</h2>
       <p class="section-subtitle">Drip feed updated weekly. Filter by item category below.</p>
     </div>
@@ -873,13 +552,9 @@
       <i class="ri-home-5-line"></i>
       <span>Home</span>
     </a>
-    <a href="#builder" class="mobile-nav-item" data-target="builder">
-      <i class="ri-magic-line"></i>
-      <span>Stylist</span>
-    </a>
-    <a href="#3d-lab" class="mobile-nav-item" data-target="3d-lab">
-      <i class="ri-scan-line"></i>
-      <span>3D Lab</span>
+    <a href="#shop" class="mobile-nav-item" data-target="shop">
+      <i class="ri-search-line"></i>
+      <span>Explore</span>
     </a>
     <button class="mobile-nav-item mobile-cart-trigger" id="mobile-cart-btn" aria-label="Cart">
       <div class="cart-icon-wrapper">
@@ -888,6 +563,10 @@
       </div>
       <span>Bag</span>
     </button>
+    <a href="#newsletter" class="mobile-nav-item" data-target="newsletter">
+      <i class="ri-mail-line"></i>
+      <span>Club</span>
+    </a>
   </div>
 
   <!-- Size Chart Popup Overlay -->
@@ -956,8 +635,8 @@
         <a href="#shop">Oversized Tees</a>
         <a href="#shop">Heavy Hoodies (420 GSM)</a>
         <a href="#shop">Tactical Cargoes</a>
-        <a href="#builder">Build Your Fit Studio</a>
-        <a href="#3d-lab">3D Tee Lab</a>
+        <a href="#shop">Jackets & Outerwear</a>
+        <a href="#shop">Accessories</a>
       </div>
       <div class="footer-col">
         <h4>CLIENT SERVICE</h4>
