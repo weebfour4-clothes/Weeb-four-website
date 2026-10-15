@@ -77,6 +77,10 @@
           <span class="cart-badge">0</span>
         </button>
 
+        <button id="admin-studio-btn" class="admin-nav-btn" title="Open 3D Asset Studio & Admin Manager">
+          <i class="ri-box-3-line"></i> <span>3D ADMIN</span>
+        </button>
+
         <a href="#newsletter" class="nav-contact-link">
           CONTACT US <i class="ri-arrow-right-line"></i>
         </a>
@@ -297,23 +301,87 @@
     </div>
   </div>
 
-  <!-- Quick View / Product Details Modal -->
+  <!-- Quick View / 3D Garment Studio Modal -->
   <div class="modal-overlay" id="quick-view-overlay">
     <div class="modal-content quick-view-modal">
       <button class="close-modal-btn" id="quick-view-close" aria-label="Close modal"><i class="ri-close-line"></i></button>
       
       <div class="qv-grid">
-        <!-- Image Gallery Slider -->
-        <div class="qv-gallery">
-          <div class="qv-main-image-container">
-            <img id="qv-main-img" src="" alt="Product Main Image">
+        <!-- Visuals Column (3D Viewer / 2D Gallery) -->
+        <div class="qv-visuals-wrapper">
+          <!-- View Mode Switcher -->
+          <div class="qv-mode-switcher">
+            <button id="tab-mode-3d" class="qv-mode-tab tab-3d active" onclick="switchQvViewMode('3d')">
+              <span class="pulse-dot"></span> <i class="ri-box-3-fill"></i> 3D GARMENT STUDIO
+            </button>
+            <button id="tab-mode-2d" class="qv-mode-tab tab-2d" onclick="switchQvViewMode('2d')">
+              <i class="ri-image-line"></i> 2D EDITORIAL PHOTOS
+            </button>
           </div>
-          <div class="qv-thumbnails" id="qv-thumbnails-container">
-            <!-- Dynamic thumbnails -->
+
+          <!-- 1. 3D Interactive Viewport -->
+          <div id="qv-3d-viewport" class="qv-3d-viewport">
+            <div id="qv-3d-canvas-wrap" class="qv-3d-canvas-container"></div>
+            
+            <!-- Floating 3D Controls Bar -->
+            <div class="qv-3d-controls-bar">
+              <div class="qv-angles-group">
+                <button class="qv-ctrl-btn qv-angle-btn active" data-angle="front" onclick="setViewerAngle('front')">FRONT</button>
+                <button class="qv-ctrl-btn qv-angle-btn" data-angle="back" onclick="setViewerAngle('back')">BACK</button>
+                <button class="qv-ctrl-btn qv-angle-btn" data-angle="left" onclick="setViewerAngle('left')">SIDE</button>
+                <button class="qv-ctrl-btn qv-angle-btn" data-angle="angled" onclick="setViewerAngle('angled')">3/4 FIT</button>
+              </div>
+
+              <div class="qv-actions-group">
+                <button id="qv-autorotate-btn" class="qv-ctrl-btn qv-icon-btn active" title="Toggle 360° Auto Rotation" onclick="toggleViewerAutoRotate()">
+                  <i class="ri-refresh-line"></i>
+                </button>
+                <button class="qv-ctrl-btn qv-icon-btn" title="Zoom In" onclick="zoomViewerIn()">
+                  <i class="ri-zoom-in-line"></i>
+                </button>
+                <button class="qv-ctrl-btn qv-icon-btn" title="Zoom Out" onclick="zoomViewerOut()">
+                  <i class="ri-zoom-out-line"></i>
+                </button>
+                <button class="qv-ctrl-btn qv-icon-btn" title="Fullscreen Runway View" onclick="openStudioFullscreen()">
+                  <i class="ri-fullscreen-line"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Hint Pill -->
+            <div class="qv-3d-hint-pill">
+              <i class="ri-drag-move-2-line"></i> Drag mouse or touch to rotate • Scroll to zoom
+            </div>
+
+            <!-- 3D Texture & Garment Baking Spinner -->
+            <div id="qv-3d-loading" class="qv-3d-loading-overlay">
+              <div class="cyber-spinner"></div>
+              <span>COMPOSITING PBR GARMENT WEAVE & UV ARTWORK...</span>
+            </div>
+
+            <!-- Fallback Overlay (if product has no 3D or WebGL fails) -->
+            <div id="qv-3d-fallback" class="qv-3d-fallback-msg" style="display: none;">
+              <i class="ri-shirt-line"></i>
+              <h4>3D Model in Production</h4>
+              <p>This piece is currently available in editorial 2D photography while our 3D garment mesh is being tailored.</p>
+              <button class="btn btn-secondary btn-sm" onclick="switchQvViewMode('2d')">
+                <i class="ri-image-line"></i> VIEW 2D EDITORIAL PHOTOS
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. High-Res 2D Photo Gallery (Toggled via Switcher) -->
+          <div id="qv-2d-gallery-wrap" class="qv-gallery" style="display: none;">
+            <div class="qv-main-image-container">
+              <img id="qv-main-img" src="" alt="Product Main Image">
+            </div>
+            <div class="qv-thumbnails" id="qv-thumbnails-container">
+              <!-- Dynamic thumbnails -->
+            </div>
           </div>
         </div>
         
-        <!-- Info Content -->
+        <!-- Info Content Column -->
         <div class="qv-info">
           <div id="qv-tag" class="product-tag">BEST SELLER</div>
           <h2 id="qv-title">PRODUCT NAME</h2>
@@ -324,6 +392,24 @@
           </div>
           
           <p id="qv-description" class="qv-desc-text">Description goes here.</p>
+
+          <!-- Dynamic Colorway Selector (Live updates 3D Material & 2D Photos) -->
+          <div class="qv-color-section" id="qv-color-section">
+            <div class="color-header">
+              <span>COLORWAY:</span>
+              <strong id="qv-active-color-name">DEFAULT</strong>
+            </div>
+            <div class="color-swatches-grid" id="qv-color-swatches">
+              <!-- Dynamic color swatches -->
+            </div>
+          </div>
+
+          <!-- Garment Specs Badges -->
+          <div class="garment-specs-strip" id="qv-specs-strip">
+            <div class="spec-pill" id="spec-gsm"><i class="ri-scales-3-line"></i> <span>280 GSM FRENCH TERRY</span></div>
+            <div class="spec-pill" id="spec-fit"><i class="ri-t-shirt-2-line"></i> <span>BOXY STREETWEAR CUT</span></div>
+            <div class="spec-pill"><i class="ri-contrast-drop-2-line"></i> <span>SILICONE WASHED</span></div>
+          </div>
           
           <!-- Size Selector -->
           <div class="qv-size-section">
@@ -644,6 +730,7 @@
         <a href="#size-chart-overlay">Size Chart</a>
         <a href="#">Returns & Exchanges</a>
         <a href="#">Shipping Policy</a>
+        <a href="javascript:void(0)" onclick="openAdminStudio()"><i class="ri-settings-3-line"></i> 3D Asset Studio (Admin)</a>
         <a href="#newsletter">Contact Us</a>
       </div>
       <div class="footer-col">
@@ -657,7 +744,168 @@
     </div>
   </footer>
 
-  <!-- Product Database & Application Logic -->
+  <!-- 3D Garment Fullscreen Runway Studio -->
+  <div class="studio-fullscreen-modal" id="studio-fullscreen-modal">
+    <div class="fs-header">
+      <div class="fs-title-box">
+        <div class="badge-3d-pill"><i class="ri-box-3-fill"></i> 3D STUDIO</div>
+        <h3 id="fs-product-title">GARMENT RUNWAY INSPECTOR</h3>
+      </div>
+      <button class="close-modal-btn" onclick="closeStudioFullscreen()" aria-label="Exit Fullscreen">
+        <i class="ri-close-line"></i>
+      </button>
+    </div>
+    <div class="fs-viewport-container" id="fs-canvas-container"></div>
+    <div class="fs-bottom-dock">
+      <div class="qv-angles-group">
+        <button class="qv-ctrl-btn qv-angle-btn active" data-angle="front" onclick="setViewerAngle('front')">FRONT</button>
+        <button class="qv-ctrl-btn qv-angle-btn" data-angle="back" onclick="setViewerAngle('back')">BACK</button>
+        <button class="qv-ctrl-btn qv-angle-btn" data-angle="left" onclick="setViewerAngle('left')">SIDE</button>
+        <button class="qv-ctrl-btn qv-angle-btn" data-angle="angled" onclick="setViewerAngle('angled')">3/4 FIT</button>
+      </div>
+      <div class="qv-actions-group">
+        <button id="fs-autorotate-btn" class="qv-ctrl-btn qv-icon-btn active" title="Toggle Auto-Rotation" onclick="toggleViewerAutoRotate()">
+          <i class="ri-refresh-line"></i>
+        </button>
+        <button class="qv-ctrl-btn qv-icon-btn" title="Zoom In" onclick="zoomViewerIn()">
+          <i class="ri-zoom-in-line"></i>
+        </button>
+        <button class="qv-ctrl-btn qv-icon-btn" title="Zoom Out" onclick="zoomViewerOut()">
+          <i class="ri-zoom-out-line"></i>
+        </button>
+      </div>
+      <div class="color-swatches-grid" id="fs-color-swatches"></div>
+    </div>
+  </div>
+
+  <!-- Admin 3D Asset Studio Modal -->
+  <div class="modal-overlay" id="admin-studio-overlay">
+    <div class="modal-content admin-modal">
+      <div class="admin-header">
+        <div class="admin-title-box">
+          <i class="ri-box-3-line" style="color: var(--color-primary); font-size: 1.4rem;"></i>
+          <h2>3D ASSET STUDIO & MODEL MANAGER</h2>
+          <span class="admin-tag">ADMIN CONSOLE</span>
+        </div>
+        <button class="close-modal-btn" onclick="closeAdminStudio()" aria-label="Close Admin"><i class="ri-close-line"></i></button>
+      </div>
+      <div class="admin-layout-grid">
+        <!-- Configuration Form Column -->
+        <div class="admin-form-col">
+          <!-- Product Selector -->
+          <div class="admin-group">
+            <label class="admin-label">SELECT PRODUCT TO CONFIGURE</label>
+            <select id="admin-product-select" class="admin-select" onchange="onAdminSelectProduct(this.value)">
+              <!-- Dynamic options -->
+            </select>
+          </div>
+
+          <!-- 3D Availability Toggle -->
+          <div class="admin-group">
+            <div class="admin-group-title"><i class="ri-toggle-line"></i> 3D Availability</div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <input type="checkbox" id="admin-has-3d" style="width: 20px; height: 20px; accent-color: var(--color-primary);" onchange="onAdminToggle3D(this.checked)">
+              <label for="admin-has-3d" style="font-size: 0.82rem; font-weight: 700; cursor: pointer;">Enable Interactive 3D Viewer for this product</label>
+            </div>
+            <p style="font-size: 0.72rem; color: var(--color-text-muted); margin-top: 6px;">When disabled, customers will view editorial 2D photographs with graceful fallback.</p>
+          </div>
+
+          <!-- 3D Model Source -->
+          <div class="admin-group">
+            <div class="admin-group-title"><i class="ri-cube-line"></i> Garment Model Architecture</div>
+            <div class="admin-control-row">
+              <label class="admin-label">Garment Fit Archetype</label>
+              <select id="admin-fit-select" class="admin-select" onchange="onAdminUpdateFit(this.value)">
+                <option value="boxy_oversized">Boxy Oversized (280 GSM French Terry)</option>
+                <option value="acid_distressed_tee">Acid Wash Distressed Drop-Shoulder (260 GSM)</option>
+                <option value="minimal_heavyweight">Heavyweight Minimal Boxy (260 GSM)</option>
+              </select>
+            </div>
+            <div class="admin-control-row">
+              <label class="admin-label">Custom GLB / GLTF Model File (Optional)</label>
+              <div class="admin-file-box" onclick="document.getElementById('admin-glb-file').click()">
+                <i class="ri-upload-cloud-line"></i>
+                <div class="admin-file-text" id="admin-glb-filename">Upload .GLB garment model (&lt; 25MB)</div>
+                <input type="file" id="admin-glb-file" accept=".glb,.gltf" onchange="onAdminUploadGLB(event)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Artwork Texture Mapping -->
+          <div class="admin-group">
+            <div class="admin-group-title"><i class="ri-paint-brush-line"></i> UV Artwork & Texture Mapping</div>
+            <div class="admin-control-row">
+              <label class="admin-label">Front Artwork Texture (PNG / JPG)</label>
+              <div class="admin-file-box" onclick="document.getElementById('admin-front-file').click()">
+                <i class="ri-image-add-line"></i>
+                <div class="admin-file-text" id="admin-front-filename">Upload Front Graphic Art</div>
+                <input type="file" id="admin-front-file" accept="image/png,image/jpeg,image/webp" onchange="onAdminUploadArtwork(event, 'front')">
+              </div>
+              <div class="admin-slider-row" style="margin-top: 8px;">
+                <span class="admin-label" style="margin: 0; min-width: 75px;">Art Scale:</span>
+                <input type="range" id="admin-front-scale" min="0.2" max="1.0" step="0.02" value="0.64" oninput="onAdminUpdateArtworkPlacement()">
+                <span class="admin-slider-val" id="admin-front-scale-val">0.64</span>
+              </div>
+            </div>
+
+            <div class="admin-control-row" style="margin-top: 14px;">
+              <label class="admin-label">Back Artwork Texture (PNG / JPG)</label>
+              <div class="admin-file-box" onclick="document.getElementById('admin-back-file').click()">
+                <i class="ri-image-add-line"></i>
+                <div class="admin-file-text" id="admin-back-filename">Upload Back Graphic Art</div>
+                <input type="file" id="admin-back-file" accept="image/png,image/jpeg,image/webp" onchange="onAdminUploadArtwork(event, 'back')">
+              </div>
+              <div class="admin-slider-row" style="margin-top: 8px;">
+                <span class="admin-label" style="margin: 0; min-width: 75px;">Art Scale:</span>
+                <input type="range" id="admin-back-scale" min="0.2" max="1.0" step="0.02" value="0.70" oninput="onAdminUpdateArtworkPlacement()">
+                <span class="admin-slider-val" id="admin-back-scale-val">0.70</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Colorways & Fabric Material -->
+          <div class="admin-group">
+            <div class="admin-group-title"><i class="ri-palette-line"></i> Colorways & Fabric PBR</div>
+            <div class="admin-slider-row">
+              <span class="admin-label" style="margin: 0; min-width: 100px;">Fabric Roughness:</span>
+              <input type="range" id="admin-roughness" min="0.5" max="1.0" step="0.02" value="0.85" oninput="onAdminUpdateRoughness(this.value)">
+              <span class="admin-slider-val" id="admin-roughness-val">0.85</span>
+            </div>
+            <div id="admin-colors-list" style="margin-top: 14px; display: flex; flex-direction: column; gap: 8px;">
+              <!-- Dynamic admin color rows -->
+            </div>
+          </div>
+
+          <!-- Save Footer -->
+          <div class="admin-save-footer">
+            <button class="btn btn-primary" onclick="saveAdminChanges()">
+              <i class="ri-save-3-line"></i> SAVE & PUBLISH 3D ASSETS
+            </button>
+            <button class="btn btn-secondary" onclick="resetAdminDefaults()">
+              RESTORE FACTORY DEFAULTS
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Preview Viewport -->
+        <div class="admin-preview-col">
+          <div class="admin-preview-header">
+            <span>LIVE 3D PREVIEW VIEWPORT</span>
+            <span id="admin-preview-status" style="color: var(--color-success);"><i class="ri-checkbox-circle-fill"></i> ACTIVE</span>
+          </div>
+          <div class="admin-preview-canvas" id="admin-canvas-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three.js Suite for 3D Garment Studio -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+  <!-- Product Database, 3D Garment Studio Engine & Master App Controller -->
+  <script src="three-garment-viewer.js"></script>
   <script src="products.js"></script>
   <script src="app.js"></script>
 </body>
