@@ -93,7 +93,8 @@ const defaultProducts = [
     tag: "COLLECTIBLE",
     sizes: ["ONESIZE"],
     images: [
-      "https://images.unsplash.com/photo-1576871337622-98d48d4353d3?w=800&auto=format&fit=crop&q=80"
+      "https://images.unsplash.com/photo-1576871337622-98d48d4353d3?w=800&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=800&auto=format&fit=crop&q=80"
     ],
     description: "Four-way stretch knit beanie featuring a custom laser-etched polished steel hardware plate on the cuff with WEEBFOUR branding. Warm, snug, and acts as the perfect finishing touch to any street fit."
   },
@@ -106,7 +107,8 @@ const defaultProducts = [
     tag: "ESSENTIAL",
     sizes: ["ONESIZE"],
     images: [
-      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&auto=format&fit=crop&q=80"
+      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&auto=format&fit=crop&q=80"
     ],
     description: "Heavy-duty canvas belt with a quick-release metal cobra buckle. Features embroidered WEEBFOUR typographic branding and W4! logo accents. Fully adjustable and perfect for threading through our multi-pocket cargoes."
   },
@@ -119,7 +121,8 @@ const defaultProducts = [
     tag: "NEW DROP",
     sizes: ["S", "M", "L", "XL"],
     images: [
-      "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=800&auto=format&fit=crop&q=80"
+      "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=800&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=800&auto=format&fit=crop&q=80"
     ],
     description: "Ultra-wide parachute fit trousers with articulated knee pleats, bungee cinch ankles, and water-repellent nylon-cotton blend. Embroidered with subtle W4! emblem on the cargo flap."
   },
@@ -132,7 +135,8 @@ const defaultProducts = [
     tag: "ESSENTIAL",
     sizes: ["S", "M", "L", "XL"],
     images: [
-      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop&q=80"
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80"
     ],
     description: "Clean minimalist heavyweight boxy tee in 260 GSM combed cotton with subtle micro-embroidered W4! star emblem on the chest and high-density Kanji print on the rear collar."
   }
@@ -153,10 +157,11 @@ try {
 // Default Website Content, Offers & Words configuration
 const defaultSiteConfig = {
   announcements: [
-    "🔥 FREE SHIPPING ON ALL ORDERS ABOVE ₹1499!",
-    "⚡ USE CODE \"WEEB10\" FOR 10% OFF YOUR FIRST ORDER!",
-    "👑 WEEBFOUR FALL/WINTER 2026 DROP LIVE NOW",
-    "🤝 HASSLE-FREE 7-DAY RETURNS & EXCHANGES"
+    "FREE SHIPPING ON ALL ORDERS ACROSS INDIA",
+    "USE CODE 'WEEB10' FOR 10% OFF YOUR FIRST ORDER",
+    "CASH ON DELIVERY (COD) AVAILABLE NATIONWIDE",
+    "NEW STREETWEAR GRAILS DROP EVERY WEEK",
+    "7-DAY HASSLE-FREE RETURNS & EXCHANGES"
   ],
   offers: {
     shippingThreshold: 1499,
@@ -164,23 +169,23 @@ const defaultSiteConfig = {
     promos: [
       { code: "WEEB10", discountPercent: 10, description: "10% Welcome Discount" },
       { code: "WEEB20", discountPercent: 20, description: "20% VIP Drop Discount" },
-      { code: "GENZ10", discountPercent: 10, description: "10% Influencer Discount" }
+      { code: "APE10", discountPercent: 10, description: "10% Streetwear Special" }
     ]
   },
   texts: {
-    heroBadge: "WEEBFOUR FALL/WINTER 2026 DROP",
-    heroTitle: "WEAR THE FUTURE NOW",
-    heroSubtitle: "Engineered in Tokyo & Mumbai. Ultra-heavyweight French Terry tees, technical waterproof nylon cargoes, and structural outerwear designed for the modern subculture.",
-    heroCtaPrimary: "EXPLORE DROP",
-    heroCtaSecondary: "VIEW COLLECTIONS",
-    collectionsTitle: "CURATED STREETWEAR COLLECTIONS",
-    collectionsSubtitle: "Select your division. From 280 GSM heavyweight oversized tees to engineered tactical cargoes.",
-    catalogTitle: "THE FEED",
-    catalogSubtitle: "LATEST DROPS, RESTOCKS & LIMITED EDITION GRAILS",
-    newsletterTitle: "JOIN THE WEEBFOUR MOVEMENT",
+    heroBadge: "WEEBFOUR® / WINTER-SPRING 2026 ARCHIVE",
+    heroTitle: "BORN IN THE STREETS // WEAR THE REVOLUTION",
+    heroSubtitle: "Engineered in Tokyo & Mumbai. Ultra-heavyweight French Terry tees, technical waterproof nylon cargoes, and structural outerwear designed for the subculture.",
+    heroCtaPrimary: "EXPLORE COLLECTION",
+    heroCtaSecondary: "SHOP BEST SELLERS",
+    collectionsTitle: "SHOP BY COLLECTION",
+    collectionsSubtitle: "Curated divisions. From 280 GSM heavyweight oversized tees to engineered tactical cargoes.",
+    catalogTitle: "THE DROPS",
+    catalogSubtitle: "LATEST ARRIVALS, RESTOCKS & LIMITED EDITION GRAILS",
+    newsletterTitle: "JOIN THE WEEBFOUR SQUAD",
     newsletterSubtitle: "Subscribe to receive early access to seasonal drops, secret discount codes, and exclusive invitations to member releases.",
-    footerAbout: "Avant-garde anime & cyber streetwear engineered for the subculture. Heavyweight fabrics, structural cuts, and uncompromising attitude.",
-    storeAddress: "WEEBFOUR LAB & HQ\nCyber Fashion District, Sector-4\nMumbai, India - 400001",
+    footerAbout: "Avant-garde streetwear engineered for the subculture. Heavyweight fabrics, structural boxy cuts, and uncompromising attitude.",
+    storeAddress: "9/23, 5th Street, Cyber Fashion Hub\nSector 4, Bandra West, Mumbai - 400050",
     storeEmail: "support@weebfour.com"
   },
   media: {

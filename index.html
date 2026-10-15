@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WEEBFOUR | Avant-Garde Anime & Cyber Streetwear</title>
+  <title>WEEBFOUR | Avant-Garde Streetwear Archive</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Shop the latest avant-garde cyber & anime streetwear at WEEBFOUR. Heavyweight oversized tees, tactical cargoes, double-fleece 420 GSM hoodies, and exclusive grails. Designed for the culture.">
-  <meta property="og:title" content="WEEBFOUR | Avant-Garde Cyber Streetwear">
-  <meta property="og:description" content="Shop the latest avant-garde streetwear at WEEBFOUR. Heavyweight oversized tees, tactical cargoes, hoodies, and exclusive grails.">
+  <meta name="description" content="Shop the latest avant-garde luxury streetwear at WEEBFOUR. Heavyweight oversized graphic tees, tactical parachute cargoes, double-fleece 420 GSM hoodies, and exclusive grails. Inspired by subculture.">
+  <meta property="og:title" content="WEEBFOUR | Avant-Garde Streetwear">
+  <meta property="og:description" content="Premium oversized boxy fits, 280-420 GSM cottons, and designs inspired by youth subculture.">
   <meta property="og:type" content="website">
   
-  <!-- Favicon using secondary symbol -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/favicon.png">
   
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Bebas Neue for headers, Outfit for clean body typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <!-- Remix Icons (for UI icons) -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
@@ -27,522 +27,608 @@
 </head>
 <body>
 
-  <!-- Announcement Bar / Ticker -->
+  <!-- 1. Top Announcement Marquee Ticker -->
   <div class="announcement-bar">
     <div class="ticker-wrap">
       <div class="ticker">
-        <span class="ticker-item"><i class="ri-fire-fill"></i> FREE SHIPPING ON ALL ORDERS ABOVE ₹1499!</span>
-        <span class="ticker-item"><i class="ri-flashlight-fill"></i> USE CODE "WEEB10" FOR 10% OFF YOUR FIRST ORDER!</span>
-        <span class="ticker-item"><i class="ri-vip-crown-fill"></i> WEEBFOUR FALL/WINTER 2026 DROP LIVE NOW</span>
-        <span class="ticker-item"><i class="ri-shake-hands-fill"></i> HASSLE-FREE 7-DAY RETURNS & EXCHANGES</span>
-        <!-- Infinite Loop duplicates -->
-        <span class="ticker-item"><i class="ri-fire-fill"></i> FREE SHIPPING ON ALL ORDERS ABOVE ₹1499!</span>
-        <span class="ticker-item"><i class="ri-flashlight-fill"></i> USE CODE "WEEB10" FOR 10% OFF YOUR FIRST ORDER!</span>
-        <span class="ticker-item"><i class="ri-vip-crown-fill"></i> WEEBFOUR FALL/WINTER 2026 DROP LIVE NOW</span>
-        <span class="ticker-item"><i class="ri-shake-hands-fill"></i> HASSLE-FREE 7-DAY RETURNS & EXCHANGES</span>
+        <span class="ticker-item">FREE SHIPPING ON ALL ORDERS ACROSS INDIA</span>
+        <span class="ticker-item">USE CODE 'WEEB10' FOR 10% OFF YOUR FIRST ORDER</span>
+        <span class="ticker-item">CASH ON DELIVERY (COD) AVAILABLE NATIONWIDE</span>
+        <span class="ticker-item">NEW STREETWEAR GRAILS DROP EVERY WEEK</span>
+        <span class="ticker-item">7-DAY HASSLE-FREE RETURNS & EXCHANGES</span>
+        <!-- Duplicates for seamless infinite marquee scroll -->
+        <span class="ticker-item">FREE SHIPPING ON ALL ORDERS ACROSS INDIA</span>
+        <span class="ticker-item">USE CODE 'WEEB10' FOR 10% OFF YOUR FIRST ORDER</span>
+        <span class="ticker-item">CASH ON DELIVERY (COD) AVAILABLE NATIONWIDE</span>
+        <span class="ticker-item">NEW STREETWEAR GRAILS DROP EVERY WEEK</span>
+        <span class="ticker-item">7-DAY HASSLE-FREE RETURNS & EXCHANGES</span>
       </div>
     </div>
   </div>
 
-  <!-- Header Navigation -->
+  <!-- 2. Sticky Header Navigation -->
   <header class="main-header" id="main-header">
     <div class="header-container">
-      <!-- Primary Logo -->
-      <a href="#" class="brand-logo-link" aria-label="WEEBFOUR Home">
-        <img src="assets/weebfour_primary_logo_trans.png" alt="WEEBFOUR" class="brand-logo-img">
-      </a>
-
-      <!-- Desktop Navigation links -->
-      <nav class="nav-links">
-        <a href="#" class="active" data-nav="home">Home</a>
-        <a href="#collections" data-nav="collections">Collections</a>
-        <a href="#shop" data-nav="shop">Shop</a>
-        <a href="#newsletter" data-nav="newsletter">Join the Club</a>
-      </nav>
-
-      <!-- Action Icons -->
-      <div class="header-actions">
-        <!-- Secondary Symbol Status Pill -->
-        <div class="theme-pill" title="WEEBFOUR Cyber Grail">
-          <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4!" class="pill-symbol-img">
-          <span>W4! GRAIL</span>
-        </div>
-
-        <button id="search-toggle-btn" class="action-btn" aria-label="Search">
-          <i class="ri-search-line"></i>
+      <!-- Left: Mobile Drawer Trigger & Desktop Brand Logo -->
+      <div class="header-left">
+        <button class="mobile-drawer-toggle" id="mobile-drawer-open-btn" aria-label="Open Navigation Menu">
+          <i class="ri-menu-2-line"></i>
         </button>
+        <a href="#" class="brand-logo-link" aria-label="WEEBFOUR Home">
+          <img src="assets/weebfour_primary_logo_trans.png" alt="WEEBFOUR" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('brand-text-fallback').style.display='block';">
+          <span class="brand-logo-text" id="brand-text-fallback" style="display: none;">WEEBFOUR</span>
+        </a>
+      </div>
 
-        <button id="cart-toggle-btn" class="action-btn cart-btn" aria-label="Cart">
-          <i class="ri-shopping-bag-3-line"></i>
-          <span class="cart-badge">0</span>
-        </button>
+      <!-- Center: Desktop Navigation Links -->
+      <div class="header-center">
+        <nav class="desktop-nav">
+          <a href="#" class="nav-link-item active" data-nav="home">Home</a>
+          <a href="#shop" class="nav-link-item" data-nav="shop">Shop All</a>
+          <a href="#collections" class="nav-link-item" data-nav="collections">Collections</a>
+          <a href="#shop" class="nav-link-item" onclick="filterByCategory('tees')">T-Shirts</a>
+          <a href="#shop" class="nav-link-item" onclick="filterByCategory('hoodies')">Hoodies</a>
+          <a href="#shop" class="nav-link-item" onclick="filterByCategory('cargoes')">Cargoes</a>
+          <a href="#shop" class="nav-link-item" onclick="filterByTag('NEW DROP')">
+            New Arrivals <span class="new-tag">NEW</span>
+          </a>
+          <a href="#shop" class="nav-link-item sale-link" onclick="filterByTag('BEST SELLER')">Sale</a>
+        </nav>
+      </div>
 
-        <button id="admin-open-btn" class="admin-nav-btn" title="Open Master Admin Control Suite" onclick="openAdminModal()">
+      <!-- Right: Action Icons (Admin Access, Search, Wishlist, Cart) -->
+      <div class="header-right">
+        <!-- Master Admin Suite Access Button -->
+        <button class="admin-badge-btn" onclick="openAdminModal()" title="Store Admin Control Console">
           <i class="ri-shield-keyhole-line"></i> <span>ADMIN ACCESS</span>
         </button>
 
-        <a href="#newsletter" class="nav-contact-link">
-          CONTACT US <i class="ri-arrow-right-line"></i>
-        </a>
+        <!-- Search Icon Toggle -->
+        <button class="header-action-btn" id="search-toggle-btn" aria-label="Search Catalog">
+          <i class="ri-search-line"></i>
+        </button>
+
+        <!-- Wishlist Icon Toggle -->
+        <button class="header-action-btn" id="wishlist-toggle-btn" onclick="openWishlistModal()" aria-label="Wishlist">
+          <i class="ri-heart-line"></i>
+          <span class="count-bubble" id="wishlist-count-badge">0</span>
+        </button>
+
+        <!-- Cart Bag Icon Toggle -->
+        <button class="header-action-btn" id="cart-toggle-btn" aria-label="Shopping Bag">
+          <i class="ri-shopping-bag-3-line"></i>
+          <span class="count-bubble cart-bubble" id="cart-count-badge">0</span>
+        </button>
       </div>
     </div>
 
-    <!-- Inline Search overlay -->
-    <div id="search-overlay" class="search-overlay">
-      <div class="search-box">
-        <i class="ri-search-line"></i>
-        <input type="text" id="catalog-search" placeholder="Search oversized tees, cargoes, 420GSM hoodies...">
-        <button id="search-close-btn" aria-label="Close search"><i class="ri-close-line"></i></button>
+    <!-- Dropdown Search Modal -->
+    <div class="search-bar-modal" id="search-bar-modal">
+      <div class="search-input-wrapper">
+        <i class="ri-search-line" style="font-size: 1.2rem; color: #555;"></i>
+        <input type="text" id="catalog-search-input" placeholder="Search oversized tees, cargoes, hoodies, jackets...">
+        <button class="search-close-x" id="search-close-btn" aria-label="Close Search">
+          <i class="ri-close-line"></i>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Landing Section (Original Dark Streetwear Hero) -->
-  <section class="hero-section" id="hero">
-    <div class="hero-bg-overlay"></div>
-    <div class="hero-content">
-      <div class="hero-subtitle">NEW DROPS // WEEBFOUR GRAILS</div>
-      <h1 class="hero-title animate-text">WEAR THE<br>FUTURE NOW</h1>
-      <p class="hero-description font-outfit">Premium oversized fits, heavyweight 280-420 GSM cottons, and designs inspired by youth subculture. Engineered for the culture that refuses to fit in.</p>
-      <div class="hero-ctas">
-        <a href="#shop" class="btn btn-primary">SHOP THE DROP <i class="ri-arrow-right-line"></i></a>
-        <a href="#collections" class="btn btn-secondary">EXPLORE STYLES <i class="ri-compass-3-line"></i></a>
+  <!-- 3. Mobile Slide-in Drawer Menu (`thelastape.in` exact drawer) -->
+  <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+  <div class="mobile-menu-drawer" id="mobile-menu-drawer">
+    <div class="drawer-header">
+      <div class="brand-logo-text" style="font-size: 1.8rem;">WEEBFOUR</div>
+      <button class="drawer-close-btn" id="mobile-drawer-close-btn" aria-label="Close menu">
+        <i class="ri-close-line"></i>
+      </button>
+    </div>
+    <div class="drawer-nav-list">
+      <div class="drawer-nav-item">
+        <a href="#shop" class="drawer-nav-link sale" onclick="filterByTag('BEST SELLER'); closeMobileDrawer();">
+          Sale <i class="ri-arrow-right-s-line"></i>
+        </a>
+      </div>
+      <div class="drawer-nav-item">
+        <a href="#shop" class="drawer-nav-link" onclick="filterByTag('NEW DROP'); closeMobileDrawer();">
+          New Arrivals <span class="new-tag">NEW</span>
+        </a>
+      </div>
+      <div class="drawer-nav-item">
+        <a href="#" class="drawer-nav-link" onclick="closeMobileDrawer();">
+          Home
+        </a>
+      </div>
+      <div class="drawer-nav-item">
+        <a href="#shop" class="drawer-nav-link" onclick="filterByCategory('all'); closeMobileDrawer();">
+          Shop All <i class="ri-arrow-right-s-line"></i>
+        </a>
+      </div>
+      <div class="drawer-nav-item">
+        <div class="drawer-nav-link" style="cursor: pointer;" onclick="toggleDrawerSubmenu(this)">
+          Apparel <i class="ri-add-line"></i>
+        </div>
+        <div class="drawer-submenu" style="display: none;">
+          <a href="#shop" onclick="filterByCategory('tees'); closeMobileDrawer();">Oversized T-Shirts</a>
+          <a href="#shop" onclick="filterByCategory('hoodies'); closeMobileDrawer();">Hoodies & Sweaters</a>
+          <a href="#shop" onclick="filterByCategory('cargoes'); closeMobileDrawer();">Cargoes & Parachute Pants</a>
+          <a href="#shop" onclick="filterByCategory('jackets'); closeMobileDrawer();">Varsity Jackets</a>
+          <a href="#shop" onclick="filterByCategory('accessories'); closeMobileDrawer();">Street Accessories</a>
+        </div>
+      </div>
+      <div class="drawer-nav-item">
+        <a href="javascript:void(0)" class="drawer-nav-link" onclick="openAdminModal(); closeMobileDrawer();" style="color: #bf0000;">
+          <i class="ri-shield-keyhole-line"></i> Master Admin Access
+        </a>
       </div>
     </div>
-    <!-- Scroll indicator -->
-    <div class="scroll-indicator">
-      <span>SCROLL DOWN</span>
-      <div class="mouse-icon">
-        <div class="wheel"></div>
+    <div class="drawer-footer">
+      <p style="font-size: 0.85rem; color: #666; margin-bottom: 6px;">Support: support@weebfour.com</p>
+      <p style="font-size: 0.85rem; color: #666;">Pan-India Shipping | COD Available</p>
+      <div class="drawer-social-row">
+        <a href="#"><i class="ri-instagram-line"></i></a>
+        <a href="#"><i class="ri-whatsapp-line"></i></a>
+        <a href="#"><i class="ri-twitter-x-line"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Hero Editorial Slider / Banner -->
+  <section class="hero-slider-section" id="hero">
+    <div class="hero-slider-bg" id="hero-slider-bg" style="background-image: url('assets/hero_editorial_raw.png');"></div>
+    <div class="hero-slider-overlay"></div>
+    <div class="page-container hero-content-wrap">
+      <div class="hero-badge-pill" id="hero-badge-pill">
+        <i class="ri-fire-fill" style="color: var(--color-sale-red);"></i> WEEBFOUR® / WINTER-SPRING 2026 ARCHIVE
+      </div>
+      <h1 class="hero-main-title" id="hero-main-title">
+        BORN IN THE STREETS<br>WEAR THE REVOLUTION
+      </h1>
+      <p class="hero-subtext" id="hero-subtext">
+        Engineered in Tokyo & Mumbai. Ultra-heavyweight French Terry tees, technical waterproof nylon cargoes, and structural outerwear designed for the modern subculture.
+      </p>
+      <div class="hero-cta-row">
+        <a href="#shop" class="btn hero-btn-white" id="hero-cta-primary">
+          EXPLORE COLLECTION <i class="ri-arrow-right-line"></i>
+        </a>
+        <a href="#collections" class="btn hero-btn-ghost" id="hero-cta-secondary">
+          SHOP BEST SELLERS <i class="ri-compass-3-line"></i>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- Value Propositions Banner -->
-  <section class="features-bar">
-    <div class="feature-item">
-      <i class="ri-truck-line"></i>
-      <div>
-        <h3>Fast Pan-India Shipping</h3>
-        <p>Dispatched within 24 hrs</p>
-      </div>
-    </div>
-    <div class="feature-item">
-      <i class="ri-shield-check-line"></i>
-      <div>
-        <h3>280-420 GSM French Terry</h3>
-        <p>Ultra-heavyweight combed cotton</p>
-      </div>
-    </div>
-    <div class="feature-item">
-      <i class="ri-loop-left-line"></i>
-      <div>
-        <h3>7-Day Hassle-Free Returns</h3>
-        <p>No questions asked policy</p>
-      </div>
-    </div>
-    <div class="feature-item">
-      <i class="ri-vip-diamond-line"></i>
-      <div>
-        <h3>Grail Guaranteed</h3>
-        <p>High-density puff print & embroidery</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Collections Category Cards Grid -->
-  <section id="collections" class="collections-section">
-    <div class="section-header text-center">
-      <div class="section-tag"><i class="ri-fire-fill"></i> CURATED STYLES</div>
-      <h2 class="section-title">THE SELECTIONS</h2>
-      <p class="section-subtitle">Curated drops matching every street mood.</p>
-    </div>
-    <div class="collections-grid">
-      <!-- Tees Card -->
-      <div class="collection-card" data-category="tees">
-        <div class="card-bg" style="background-image: url('assets/tee_front_clean.jpg')"></div>
-        <div class="card-overlay"></div>
-        <div class="card-info">
-          <h3>OVERSIZED TEES</h3>
-          <span class="card-link">SHOP NOW <i class="ri-arrow-right-up-line"></i></span>
+  <!-- 5. Value Propositions Bar -->
+  <section class="value-props-bar">
+    <div class="page-container">
+      <div class="props-grid">
+        <div class="prop-card">
+          <i class="ri-truck-line prop-icon"></i>
+          <div>
+            <div class="prop-title">PAN-INDIA SHIPPING</div>
+            <div class="prop-desc">Dispatched within 24 hours</div>
+          </div>
         </div>
-      </div>
-      <!-- Hoodies Card -->
-      <div class="collection-card" data-category="hoodies">
-        <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&auto=format&fit=crop&q=80')"></div>
-        <div class="card-overlay"></div>
-        <div class="card-info">
-          <h3>HEAVY HOODIES</h3>
-          <span class="card-link">SHOP NOW <i class="ri-arrow-right-up-line"></i></span>
+        <div class="prop-card">
+          <i class="ri-t-shirt-2-line prop-icon"></i>
+          <div>
+            <div class="prop-title">280-420 GSM COTTON</div>
+            <div class="prop-desc">Ultra-heavy structural boxy drape</div>
+          </div>
         </div>
-      </div>
-      <!-- Cargoes Card -->
-      <div class="collection-card" data-category="cargoes">
-        <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80')"></div>
-        <div class="card-overlay"></div>
-        <div class="card-info">
-          <h3>TACTICAL CARGOES</h3>
-          <span class="card-link">SHOP NOW <i class="ri-arrow-right-up-line"></i></span>
+        <div class="prop-card">
+          <i class="ri-arrow-go-back-line prop-icon"></i>
+          <div>
+            <div class="prop-title">7-DAY FREE RETURNS</div>
+            <div class="prop-desc">Hassle-free instant exchanges</div>
+          </div>
+        </div>
+        <div class="prop-card">
+          <i class="ri-shield-star-line prop-icon"></i>
+          <div>
+            <div class="prop-title">100% AUTHENTIC GRAILS</div>
+            <div class="prop-desc">High-density puff print & chenille</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Catalog Section -->
-  <section id="shop" class="catalog-section">
-    <div class="section-header text-center">
-      <div class="section-tag"><i class="ri-flashlight-fill"></i> STREETWEAR VAULT</div>
-      <h2 class="section-title">THE FEED</h2>
-      <p class="section-subtitle">Drip feed updated weekly. Filter by item category below.</p>
-    </div>
-
-    <!-- Filters & Sort -->
-    <div class="catalog-controls">
-      <div class="filter-tabs">
-        <button class="filter-tab active" data-filter="all">ALL STYLES</button>
-        <button class="filter-tab" data-filter="tees">GRAPHIC TEES</button>
-        <button class="filter-tab" data-filter="hoodies">HOODIES & SWEATERS</button>
-        <button class="filter-tab" data-filter="cargoes">CARGOES & PANTS</button>
-        <button class="filter-tab" data-filter="jackets">JACKETS</button>
-        <button class="filter-tab" data-filter="accessories">ACCESSORIES</button>
+  <!-- 6. Shop by Collection / Categories Grid -->
+  <section class="collections-section" id="collections">
+    <div class="page-container">
+      <div class="section-title-wrap">
+        <h2 class="section-main-heading" id="collections-title">SHOP BY COLLECTION</h2>
+        <p class="section-subheading" id="collections-subtitle">Select your division. From 280 GSM heavyweight oversized tees to engineered tactical cargoes.</p>
       </div>
-      
-      <div class="catalog-actions">
-        <!-- Sort Select -->
-        <div class="select-wrapper">
-          <select id="sort-selector" class="sort-select">
-            <option value="default">SORT BY: LATEST</option>
+
+      <div class="categories-grid">
+        <!-- Tees Card -->
+        <div class="category-card" onclick="filterByCategory('tees')">
+          <div class="category-card-bg" style="background-image: url('assets/tee_front_clean.jpg');"></div>
+          <div class="category-card-overlay">
+            <h3 class="category-name">OVERSIZED TEES</h3>
+            <span class="category-explore-link">EXPLORE <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <!-- Hoodies Card -->
+        <div class="category-card" onclick="filterByCategory('hoodies')">
+          <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&auto=format&fit=crop&q=80');"></div>
+          <div class="category-card-overlay">
+            <h3 class="category-name">HEAVY HOODIES</h3>
+            <span class="category-explore-link">EXPLORE <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <!-- Cargoes Card -->
+        <div class="category-card" onclick="filterByCategory('cargoes')">
+          <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80');"></div>
+          <div class="category-card-overlay">
+            <h3 class="category-name">TACTICAL CARGOES</h3>
+            <span class="category-explore-link">EXPLORE <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <!-- Jackets Card -->
+        <div class="category-card" onclick="filterByCategory('jackets')">
+          <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?w=800&auto=format&fit=crop&q=80');"></div>
+          <div class="category-card-overlay">
+            <h3 class="category-name">VARSITY JACKETS</h3>
+            <span class="category-explore-link">EXPLORE <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Product Feed / Drops Section (4-Col Desktop / 2-Col Mobile Grid) -->
+  <section class="product-feed-section" id="shop">
+    <div class="page-container">
+      <div class="section-title-wrap">
+        <h2 class="section-main-heading" id="catalog-title">THE DROPS</h2>
+        <p class="section-subheading" id="catalog-subtitle">LATEST ARRIVALS, RESTOCKS & LIMITED EDITION GRAILS</p>
+      </div>
+
+      <!-- Filter Tabs (thelastape.in style) -->
+      <div class="feed-tabs-container">
+        <button class="feed-tab-btn active" data-filter="all" onclick="setFeedFilter('all')">ALL DROPS</button>
+        <button class="feed-tab-btn" data-filter="tees" onclick="setFeedFilter('tees')">T-SHIRTS</button>
+        <button class="feed-tab-btn" data-filter="hoodies" onclick="setFeedFilter('hoodies')">HOODIES & SWEATERS</button>
+        <button class="feed-tab-btn" data-filter="cargoes" onclick="setFeedFilter('cargoes')">CARGOES & BOTTOMS</button>
+        <button class="feed-tab-btn" data-filter="jackets" onclick="setFeedFilter('jackets')">JACKETS</button>
+        <button class="feed-tab-btn" data-filter="accessories" onclick="setFeedFilter('accessories')">ACCESSORIES</button>
+      </div>
+
+      <!-- Controls & Sort -->
+      <div class="feed-controls-bar">
+        <div id="active-filters-container" class="active-filters-row" style="display: none;">
+          <!-- Active filter chips -->
+        </div>
+
+        <div class="sort-select-wrapper">
+          <span style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: #666;">SORT BY:</span>
+          <select id="feed-sort-selector" class="sort-select" onchange="handleSortChange(this.value)">
+            <option value="default">FEATURED</option>
             <option value="price-low">PRICE: LOW TO HIGH</option>
             <option value="price-high">PRICE: HIGH TO LOW</option>
-            <option value="popular">POPULARITY</option>
+            <option value="popular">BEST SELLERS</option>
           </select>
-          <i class="ri-arrow-down-s-line"></i>
         </div>
       </div>
-    </div>
 
-    <!-- Active Search/Filter Badges -->
-    <div id="filter-badges" class="filter-badges-container" style="display: none;">
-      <span class="badges-label">Active Filters:</span>
-      <div class="badges-list" id="badges-list"></div>
-      <button id="clear-all-filters" class="clear-filters-btn">Clear All</button>
-    </div>
+      <!-- PRODUCT GRID CONTAINER: 4 Columns Desktop / 2 Columns Mobile -->
+      <div class="product-grid" id="product-grid-container">
+        <!-- Rendered dynamically by app.js -->
+      </div>
 
-    <!-- Product Grid Container -->
-    <div class="product-grid" id="product-grid-container">
-      <!-- Dynamic products go here via app.js -->
-    </div>
-    
-    <!-- Empty State -->
-    <div id="empty-state" class="empty-state-view" style="display: none;">
-      <i class="ri-emotion-sad-line"></i>
-      <h3>No drip matching your search</h3>
-      <p>Try clearing your filters or adjusting your search term.</p>
-      <button class="btn btn-primary" onclick="resetFilters()">Reset Filters</button>
-    </div>
-  </section>
-
-  <!-- Join the Club Newsletter -->
-  <section id="newsletter" class="newsletter-section">
-    <div class="newsletter-card">
-      <div class="glow-effect"></div>
-      <div class="newsletter-content">
-        <h2>JOIN THE WEEBFOUR MOVEMENT</h2>
-        <p>Subscribe to receive early access to seasonal drops, secret discount codes, and exclusive invitations to member releases.</p>
-        <form class="newsletter-form" id="newsletter-form">
-          <input type="email" placeholder="ENTER YOUR EMAIL ADDRESS" required>
-          <button type="submit" class="btn btn-primary">SUBMIT <i class="ri-arrow-right-line"></i></button>
-        </form>
-        <div class="success-message" id="newsletter-success">
-          <i class="ri-checkbox-circle-fill"></i> YOU'VE BEEN ADDED TO THE WEEBFOUR WHITELIST.
-        </div>
+      <!-- Empty State -->
+      <div id="empty-state-view" style="display: none; text-align: center; padding: 60px 20px;">
+        <i class="ri-search-eye-line" style="font-size: 3rem; color: #aaa;"></i>
+        <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 12px 0 6px;">NO ITEMS FOUND</h3>
+        <p style="color: #666; margin-bottom: 20px;">Try selecting another category or clearing your search query.</p>
+        <button class="btn btn-primary" onclick="resetAllFilters()">VIEW ALL DROPS</button>
       </div>
     </div>
   </section>
 
-  <!-- Cart Sidebar Drawer -->
-  <div class="cart-drawer-overlay" id="cart-overlay"></div>
+  <!-- 8. Brand Manifesto / Subculture Statement -->
+  <section class="brand-manifesto-section">
+    <div class="page-container manifesto-content">
+      <div class="manifesto-tag">ARCHIVE 2026 // LIMITED RELEASE</div>
+      <h2 class="manifesto-title">MADE FOR THE OUTLIERS.<br>BORN IN THE STREETS.</h2>
+      <p class="manifesto-body">
+        WEEBFOUR redefines contemporary streetwear by blending cyberpunk architecture, underground anime narratives, and architectural tailoring. We reject fast-fashion trends in favor of durable 280-420 GSM fabrics, double-fleece lining, and garments built to outlast seasons.
+      </p>
+      <a href="#shop" class="btn btn-sale">
+        DISCOVER THE DROP <i class="ri-arrow-right-line"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- 9. Newsletter Section -->
+  <section class="collections-section" id="newsletter" style="background: #fbfbfb; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+    <div class="page-container text-center" style="max-width: 680px;">
+      <h2 class="section-main-heading" id="newsletter-title">JOIN THE WEEBFOUR SQUAD</h2>
+      <p class="section-subheading" id="newsletter-subtitle" style="margin-bottom: 24px;">Subscribe to receive early access to seasonal drops, secret discount codes, and exclusive invitations to member releases.</p>
+      <form id="newsletter-form" onsubmit="handleNewsletterSubmit(event)" style="display: flex; gap: 8px;">
+        <input type="email" id="newsletter-email" required placeholder="ENTER YOUR EMAIL ADDRESS" style="flex: 1; padding: 14px 16px; border: 1px solid #101010; font-family: var(--font-body); outline: none;">
+        <button type="submit" class="btn btn-primary">JOIN</button>
+      </form>
+      <div id="newsletter-success-msg" style="display: none; margin-top: 14px; color: #2e7d32; font-weight: 600;">
+        <i class="ri-checkbox-circle-fill"></i> You have been added to the WEEBFOUR early-access drop list!
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Slide-Out Cart Drawer (`thelastape.in` exact drawer) -->
+  <div class="cart-drawer-backdrop" id="cart-drawer-backdrop" onclick="closeCartDrawer()"></div>
   <div class="cart-drawer" id="cart-drawer">
     <div class="cart-drawer-header">
-      <div class="cart-header-title">
-        <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4" class="cart-logo-icon">
-        <h2>YOUR BAG (<span id="cart-count-header">0</span>)</h2>
-      </div>
-      <button id="cart-close-btn" class="close-drawer-btn" aria-label="Close Cart">
+      <h3 class="cart-drawer-heading">YOUR BAG (<span id="cart-drawer-count">0</span>)</h3>
+      <button class="cart-close-x" onclick="closeCartDrawer()" aria-label="Close cart drawer">
         <i class="ri-close-line"></i>
       </button>
     </div>
 
-    <!-- Cart Shipping Progress Bar -->
-    <div class="shipping-meter-container">
-      <div class="shipping-message" id="shipping-message">Add more to unlock free shipping!</div>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="shipping-progress"></div>
+    <!-- Free Shipping Progress Meter -->
+    <div class="shipping-meter-wrap">
+      <div class="shipping-meter-text" id="shipping-progress-text">Add items to unlock free pan-India shipping</div>
+      <div class="shipping-progress-bg">
+        <div class="shipping-progress-bar" id="shipping-progress-fill"></div>
       </div>
     </div>
 
-    <!-- Cart Items list -->
-    <div class="cart-items" id="cart-items-container">
-      <!-- Dynamic cart items will be added here -->
+    <!-- Cart Items Scroll List -->
+    <div class="cart-items-scroll" id="cart-items-scroll">
+      <!-- Dynamic cart items rendered by app.js -->
     </div>
 
-    <!-- Cart Footer / Summary -->
-    <div class="cart-drawer-footer" id="cart-footer">
-      <div class="summary-line">
-        <span>SUBTOTAL</span>
-        <span class="subtotal-val" id="cart-subtotal-val">₹0</span>
+    <!-- Order Special Instructions Accordion -->
+    <details class="cart-instructions-details">
+      <summary>Order special instructions <i class="ri-arrow-down-s-line"></i></summary>
+      <textarea class="cart-note-textarea" id="cart-order-notes" placeholder="Notes for delivery, gift message, or special requests..."></textarea>
+    </details>
+
+    <!-- Cart Drawer Footer -->
+    <div class="cart-drawer-footer">
+      <div class="cart-subtotal-line">
+        <span class="subtotal-label">ESTIMATED TOTAL</span>
+        <span class="subtotal-amount" id="cart-drawer-subtotal">₹0</span>
       </div>
-      <div class="summary-line tax-line">
-        <span>Taxes & priority shipping calculated at checkout</span>
-      </div>
-      <button class="btn btn-primary btn-checkout" id="go-to-checkout-btn">
-        PROCEED TO CHECKOUT <i class="ri-secure-payment-line"></i>
+      <p class="cart-tax-notice">Taxes included. Discounts and shipping calculated at checkout.</p>
+      <button class="btn btn-primary btn-block" style="padding: 16px; font-size: 1.25rem; margin-bottom: 8px;" onclick="openCheckoutModal()">
+        CHECKOUT <i class="ri-arrow-right-line"></i>
+      </button>
+      <button class="btn btn-secondary btn-block" style="padding: 10px; font-size: 1rem;" onclick="closeCartDrawer()">
+        CONTINUE SHOPPING
       </button>
     </div>
   </div>
 
-  <!-- Quick View Modal (Ultra-Smooth High-Res Editorial Gallery) -->
+  <!-- 11. Quick View Modal -->
   <div class="modal-overlay" id="quick-view-overlay">
-    <div class="modal-content quick-view-modal">
-      <button class="close-modal-btn" id="quick-view-close" aria-label="Close modal"><i class="ri-close-line"></i></button>
+    <div class="modal-content-box" style="position: relative;">
+      <button class="modal-close-x" onclick="closeQuickView()" aria-label="Close modal">
+        <i class="ri-close-line"></i>
+      </button>
       
-      <div class="qv-grid">
-        <!-- Visuals Column (High-Res Editorial Photo Gallery) -->
-        <div class="qv-gallery">
-          <div class="qv-main-image-container">
-            <img id="qv-main-img" src="" alt="Product Main Image">
+      <div class="quickview-layout-grid">
+        <!-- Gallery Column -->
+        <div class="qv-gallery-side">
+          <div class="qv-main-display">
+            <img id="qv-main-image" src="assets/tee_front_clean.jpg" alt="Product view">
           </div>
-          <div class="qv-thumbnails" id="qv-thumbnails-container">
-            <!-- Dynamic thumbnails -->
+          <div class="qv-thumbs-row" id="qv-thumbs-row">
+            <!-- Dynamic thumbs -->
           </div>
         </div>
-        
-        <!-- Info Content Column -->
-        <div class="qv-info">
-          <div id="qv-tag" class="product-tag">BEST SELLER</div>
-          <h2 id="qv-title">PRODUCT NAME</h2>
-          <div class="qv-price-row">
-            <span class="current-price" id="qv-price">₹0</span>
-            <span class="compare-price" id="qv-compare-price">₹0</span>
-            <span class="discount-pill" id="qv-discount-percent">0% OFF</span>
+
+        <!-- Info Column -->
+        <div class="qv-details-side">
+          <span class="sale-pill-badge" id="qv-badge" style="width: fit-content; margin-bottom: 8px;">BEST SELLER</span>
+          <h2 class="qv-product-title" id="qv-title">PRODUCT NAME</h2>
+          <div class="qv-price-wrap">
+            <span class="qv-sale-price" id="qv-sale-price">₹999</span>
+            <span class="qv-compare-price" id="qv-compare-price">₹1,999</span>
+            <span class="sale-pill-badge" id="qv-discount-pill">50% OFF</span>
           </div>
-          
-          <p id="qv-description" class="qv-desc-text">Description goes here.</p>
-          
-          <!-- Size Selector -->
-          <div class="qv-size-section">
-            <div class="size-header">
-              <span>SELECT SIZE</span>
-              <button id="size-chart-toggle" class="size-chart-link">Size Chart <i class="ri-ruler-line"></i></button>
+
+          <p class="qv-description-text" id="qv-description">Description text...</p>
+
+          <!-- Size Selection -->
+          <div class="size-select-section">
+            <div class="size-header-row">
+              <span>SELECT SIZE:</span>
+              <span class="size-guide-trigger" onclick="openSizeChartModal()">Size Guide <i class="ri-ruler-line"></i></span>
             </div>
-            <div class="size-options-grid" id="qv-size-options">
-              <!-- Dynamic sizes -->
+            <div class="size-buttons-grid" id="qv-size-selector">
+              <!-- Dynamic size pills -->
             </div>
-            <div id="size-error" class="size-error-msg" style="display: none;">Please select a size to continue</div>
+            <div id="qv-size-alert" style="display: none; color: var(--color-sale-red); font-size: 0.85rem; margin-top: 6px;">
+              Please select a size to proceed.
+            </div>
           </div>
-          
-          <!-- Add to Cart CTA -->
-          <div class="qv-cta-group">
-            <button class="btn btn-primary btn-block" id="qv-add-to-cart-btn">
-              ADD TO BAG <i class="ri-shopping-bag-3-fill"></i>
+
+          <!-- Add to Cart Action -->
+          <div class="qv-actions-row">
+            <div class="qv-qty-box">
+              <button class="qv-qty-btn" onclick="adjustQuickViewQty(-1)">-</button>
+              <input type="text" class="qv-qty-input" id="qv-qty-input" value="1" readonly>
+              <button class="qv-qty-btn" onclick="adjustQuickViewQty(1)">+</button>
+            </div>
+            <button class="btn btn-primary qv-add-cart-btn" onclick="addQuickViewToCart()">
+              ADD TO BAG <i class="ri-shopping-bag-3-line"></i>
             </button>
           </div>
-          
-          <!-- Product Perks -->
-          <div class="qv-perks">
-            <div class="perk-item"><i class="ri-truck-line"></i> Dispatched in 24 hours</div>
-            <div class="perk-item"><i class="ri-arrow-go-back-line"></i> 7 Days Free Returns & Exchanges</div>
-            <div class="perk-item"><i class="ri-shield-star-line"></i> 100% Authentic WEEBFOUR Grail</div>
+
+          <div style="font-size: 0.85rem; color: #666; border-top: 1px solid #e8e8e8; padding-top: 14px;">
+            <p><i class="ri-truck-line"></i> Pan-India delivery within 2-4 business days</p>
+            <p><i class="ri-arrow-go-back-line"></i> 7-Day Hassle-Free Exchange Policy</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Multi-Step Checkout Modal -->
+  <!-- 12. Multi-Step Checkout Modal -->
   <div class="modal-overlay" id="checkout-modal-overlay">
-    <div class="modal-content checkout-modal">
-      <button class="close-modal-btn" id="checkout-close" aria-label="Close Checkout"><i class="ri-close-line"></i></button>
-      
-      <!-- Checkout Header -->
-      <div class="checkout-header">
-        <div class="checkout-logo">
-          <img src="assets/weebfour_primary_logo_trans.png" alt="WEEBFOUR" class="checkout-logo-img">
+    <div class="checkout-modal-box">
+      <button class="modal-close-x" onclick="closeCheckoutModal()" aria-label="Close Checkout">
+        <i class="ri-close-line"></i>
+      </button>
+
+      <div class="checkout-header-bar">
+        <div style="font-family: var(--font-heading); font-size: 1.8rem; letter-spacing: 0.06em;">WEEBFOUR CHECKOUT</div>
+        <div style="font-size: 0.85rem; color: #666;"><i class="ri-lock-line"></i> 256-Bit SSL Encrypted</div>
+      </div>
+
+      <!-- Steps Navigator -->
+      <div class="checkout-steps-nav">
+        <div class="checkout-step-tab active" id="checkout-tab-step1">
+          <span class="step-num-circle">1</span>
+          <span>SHIPPING ADDRESS</span>
         </div>
-        
-        <!-- Multi-Step Indicators -->
-        <div class="checkout-steps-bar">
-          <div class="step-indicator active" id="step-ind-1">
-            <div class="step-circle">1</div>
-            <span>Shipping</span>
-          </div>
-          <div class="step-line" id="step-line-1"></div>
-          <div class="step-indicator" id="step-ind-2">
-            <div class="step-circle">2</div>
-            <span>Payment</span>
-          </div>
-          <div class="step-line" id="step-line-2"></div>
-          <div class="step-indicator" id="step-ind-3">
-            <div class="step-circle">3</div>
-            <span>Confirmation</span>
-          </div>
+        <div class="checkout-step-tab" id="checkout-tab-step2">
+          <span class="step-num-circle">2</span>
+          <span>PAYMENT METHOD</span>
+        </div>
+        <div class="checkout-step-tab" id="checkout-tab-step3">
+          <span class="step-num-circle">3</span>
+          <span>CONFIRMATION</span>
         </div>
       </div>
 
-      <div class="checkout-body">
-        <div class="checkout-main">
-          <!-- Step 1: Shipping Address Form -->
-          <div id="checkout-step-1" class="checkout-step-panel active">
-            <h3 class="panel-step-title">Shipping Details</h3>
-            <form id="shipping-form" class="checkout-form">
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="ship-fname">First Name *</label>
-                  <input type="text" id="ship-fname" required placeholder="John">
+      <div class="checkout-layout-grid">
+        <!-- Left: Form Steps -->
+        <div class="checkout-form-column">
+          <!-- Step 1: Shipping -->
+          <div id="checkout-step1-panel">
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 16px;">DELIVERY INFORMATION</h3>
+            <form id="shipping-address-form" onsubmit="handleShippingFormSubmit(event)">
+              <div class="form-row-2col">
+                <div class="form-group-field">
+                  <label>First Name *</label>
+                  <input type="text" class="form-control-input" required placeholder="John">
                 </div>
-                <div class="form-group">
-                  <label for="ship-lname">Last Name *</label>
-                  <input type="text" id="ship-lname" required placeholder="Doe">
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label for="ship-email">Email Address *</label>
-                <input type="email" id="ship-email" required placeholder="you@domain.com">
-              </div>
-
-              <div class="form-group">
-                <label for="ship-phone">Phone Number *</label>
-                <input type="tel" id="ship-phone" required placeholder="9876543210">
-              </div>
-
-              <div class="form-group">
-                <label for="ship-address">Street Address *</label>
-                <input type="text" id="ship-address" required placeholder="Apartment, suite, unit, building, floor">
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="ship-city">City *</label>
-                  <input type="text" id="ship-city" required placeholder="Mumbai">
-                </div>
-                <div class="form-group">
-                  <label for="ship-state">State *</label>
-                  <input type="text" id="ship-state" required placeholder="Maharashtra">
-                </div>
-                <div class="form-group">
-                  <label for="ship-zip">PIN Code *</label>
-                  <input type="text" id="ship-zip" required placeholder="400001">
+                <div class="form-group-field">
+                  <label>Last Name *</label>
+                  <input type="text" class="form-control-input" required placeholder="Doe">
                 </div>
               </div>
-
-              <button type="submit" class="btn btn-primary btn-block">
+              <div class="form-row-2col">
+                <div class="form-group-field">
+                  <label>Email Address *</label>
+                  <input type="email" class="form-control-input" required placeholder="you@example.com">
+                </div>
+                <div class="form-group-field">
+                  <label>Phone Number *</label>
+                  <input type="tel" class="form-control-input" required placeholder="9876543210">
+                </div>
+              </div>
+              <div class="form-group-field">
+                <label>Street Address *</label>
+                <input type="text" class="form-control-input" required placeholder="House/Flat No., Street, Landmark">
+              </div>
+              <div class="form-row-2col">
+                <div class="form-group-field">
+                  <label>City *</label>
+                  <input type="text" class="form-control-input" required placeholder="Mumbai">
+                </div>
+                <div class="form-group-field">
+                  <label>State *</label>
+                  <input type="text" class="form-control-input" required placeholder="Maharashtra">
+                </div>
+              </div>
+              <div class="form-group-field" style="max-width: 200px;">
+                <label>PIN Code *</label>
+                <input type="text" class="form-control-input" required placeholder="400001">
+              </div>
+              <button type="submit" class="btn btn-primary btn-block" style="margin-top: 10px;">
                 CONTINUE TO PAYMENT <i class="ri-arrow-right-line"></i>
               </button>
             </form>
           </div>
 
           <!-- Step 2: Payment Simulator -->
-          <div id="checkout-step-2" class="checkout-step-panel">
-            <h3 class="panel-step-title">Select Payment Method</h3>
+          <div id="checkout-step2-panel" style="display: none;">
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 16px;">SELECT PAYMENT METHOD</h3>
             
-            <div class="payment-options">
-              <!-- UPI Payment -->
-              <label class="payment-method-card active">
-                <input type="radio" name="payment-method" value="upi" checked>
-                <div class="method-details">
-                  <div class="method-header">
-                    <i class="ri-smartphone-line"></i>
-                    <strong>UPI / QR Code</strong>
-                  </div>
-                  <p>Pay instantly via Google Pay, PhonePe, Paytm, or BHIM UPI.</p>
-                </div>
-              </label>
+            <label class="payment-method-tile selected" onclick="selectPaymentMethod(this, 'upi')">
+              <input type="radio" name="pay-method" checked style="margin-top: 4px;">
+              <div>
+                <strong style="display: block; font-size: 1.05rem;">UPI / Instant QR Code</strong>
+                <span style="font-size: 0.85rem; color: #666;">Google Pay, PhonePe, Paytm, BHIM UPI</span>
+              </div>
+            </label>
 
-              <!-- Cards Payment -->
-              <label class="payment-method-card">
-                <input type="radio" name="payment-method" value="card">
-                <div class="method-details">
-                  <div class="method-header">
-                    <i class="ri-bank-card-line"></i>
-                    <strong>Credit / Debit Card</strong>
-                  </div>
-                  <p>Visa, MasterCard, RuPay, and American Express accepted.</p>
-                </div>
-              </label>
+            <label class="payment-method-tile" onclick="selectPaymentMethod(this, 'cards')">
+              <input type="radio" name="pay-method" style="margin-top: 4px;">
+              <div>
+                <strong style="display: block; font-size: 1.05rem;">Credit / Debit Card</strong>
+                <span style="font-size: 0.85rem; color: #666;">Visa, MasterCard, RuPay, American Express</span>
+              </div>
+            </label>
 
-              <!-- Cash On Delivery -->
-              <label class="payment-method-card">
-                <input type="radio" name="payment-method" value="cod">
-                <div class="method-details">
-                  <div class="method-header">
-                    <i class="ri-money-rupee-circle-line"></i>
-                    <strong>Cash on Delivery (COD)</strong>
-                  </div>
-                  <p>Pay with cash upon delivery. Verified with OTP.</p>
-                </div>
-              </label>
-            </div>
+            <label class="payment-method-tile" onclick="selectPaymentMethod(this, 'cod')">
+              <input type="radio" name="pay-method" style="margin-top: 4px;">
+              <div>
+                <strong style="display: block; font-size: 1.05rem;">Cash on Delivery (COD)</strong>
+                <span style="font-size: 0.85rem; color: #666;">Pay upon delivery to the courier</span>
+              </div>
+            </label>
 
-            <div class="checkout-action-row">
-              <button type="button" class="btn btn-secondary" id="checkout-back-btn">
-                <i class="ri-arrow-left-line"></i> BACK
-              </button>
-              <button type="button" class="btn btn-primary" id="checkout-pay-btn">
-                PAY <span id="pay-button-amount">₹0</span> <i class="ri-check-line"></i>
+            <div style="display: flex; gap: 12px; margin-top: 24px;">
+              <button class="btn btn-secondary" onclick="goToCheckoutStep(1)"><i class="ri-arrow-left-line"></i> BACK</button>
+              <button class="btn btn-primary" style="flex: 1;" onclick="completeOrderPayment()">
+                PLACE ORDER (<span id="pay-button-total">₹0</span>) <i class="ri-check-line"></i>
               </button>
             </div>
           </div>
 
           <!-- Step 3: Order Confirmation -->
-          <div id="checkout-step-3" class="checkout-step-panel confirmation-panel">
-            <div class="confirmation-icon">
-              <i class="ri-checkbox-circle-fill"></i>
-            </div>
-            <h2>ORDER CONFIRMED!</h2>
-            <p class="order-id-label">ORDER ID: <span id="confirmed-order-id">WEEB-89312</span></p>
-            <p class="order-subtext">Thank you for your order! We've sent the invoice and tracking link to your email. Your WEEBFOUR grails are being prepared for dispatch.</p>
-
-            <button type="button" class="btn btn-primary" id="checkout-success-continue">
+          <div id="checkout-step3-panel" style="display: none; text-align: center; padding: 30px 10px;">
+            <i class="ri-checkbox-circle-fill" style="font-size: 4rem; color: #2e7d32;"></i>
+            <h2 style="font-family: var(--font-heading); font-size: 2.2rem; margin: 12px 0 6px;">ORDER CONFIRMED!</h2>
+            <p style="font-size: 1.1rem; color: #101010; font-weight: 600;">ORDER ID: <span id="confirmed-order-number">WEEB-98412</span></p>
+            <p style="color: #666; margin: 12px 0 24px;">Thank you for your order! Your WEEBFOUR grails are being prepared and dispatched. We've sent the invoice to your email.</p>
+            <button class="btn btn-primary" onclick="closeCheckoutModal(); clearCartAfterPurchase();">
               CONTINUE SHOPPING <i class="ri-shopping-bag-line"></i>
             </button>
           </div>
         </div>
 
-        <!-- Checkout Sidebar Summary -->
-        <div class="checkout-sidebar">
-          <h4>ORDER SUMMARY</h4>
+        <!-- Right: Order Summary Sidebar -->
+        <div class="checkout-summary-column" style="background: #fafafa; padding: 24px; border: 1px solid var(--color-border);">
+          <h4 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 16px;">ORDER SUMMARY</h4>
           
-          <!-- Mini items list -->
-          <div class="checkout-mini-items" id="checkout-items-list">
-            <!-- Dynamic items -->
+          <div id="checkout-summary-items" style="max-height: 240px; overflow-y: auto; margin-bottom: 18px;">
+            <!-- Mini items -->
           </div>
 
           <!-- Promo Code Box -->
-          <div class="promo-code-box">
-            <div class="promo-input-row">
-              <input type="text" id="promo-code" placeholder="PROMO CODE (e.g. WEEB10)">
-              <button id="promo-apply-btn">APPLY</button>
-            </div>
-            <div id="promo-message" class="promo-msg"></div>
+          <div class="promo-apply-box">
+            <input type="text" id="checkout-promo-input" placeholder="PROMO CODE (e.g. WEEB10)">
+            <button type="button" class="btn btn-primary btn-sm" onclick="applyPromoCode()">APPLY</button>
           </div>
+          <div id="promo-status-msg" style="display: none; font-size: 0.85rem; margin-bottom: 12px;"></div>
 
-          <div class="checkout-calc-lines">
-            <div class="calc-line">
+          <div style="border-top: 1px solid var(--color-border); padding-top: 14px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.95rem;">
               <span>Subtotal</span>
-              <span id="co-subtotal">₹0</span>
+              <span id="co-subtotal-val">₹0</span>
             </div>
-            <div class="calc-line">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.95rem;">
               <span>Shipping</span>
-              <span id="co-shipping">₹0</span>
+              <span id="co-shipping-val">FREE</span>
             </div>
-            <div class="calc-line discount-line" id="co-discount-row" style="display: none;">
+            <div id="co-discount-row" style="display: none; justify-content: space-between; margin-bottom: 6px; font-size: 0.95rem; color: var(--color-sale-red); font-weight: 600;">
               <span>Promo Discount</span>
-              <span id="co-discount">-₹0</span>
+              <span id="co-discount-val">-₹0</span>
             </div>
-            <div class="calc-line total-line">
-              <span>Total Amount</span>
-              <span id="co-total">₹0</span>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--color-border); font-family: var(--font-heading); font-size: 1.4rem;">
+              <span>TOTAL</span>
+              <span id="co-total-val">₹0</span>
             </div>
           </div>
         </div>
@@ -550,36 +636,36 @@
     </div>
   </div>
 
-  <!-- Mobile Bottom Navigation Tab-Bar -->
-  <div class="mobile-bottom-nav">
-    <a href="#" class="mobile-nav-item active" data-target="home">
-      <i class="ri-home-5-line"></i>
-      <span>Home</span>
-    </a>
-    <a href="#shop" class="mobile-nav-item" data-target="shop">
-      <i class="ri-search-line"></i>
-      <span>Explore</span>
-    </a>
-    <button class="mobile-nav-item mobile-cart-trigger" id="mobile-cart-btn" aria-label="Cart">
-      <div class="cart-icon-wrapper">
-        <i class="ri-shopping-bag-3-line"></i>
-        <span class="cart-badge-mobile">0</span>
+  <!-- 13. Wishlist Modal -->
+  <div class="modal-overlay" id="wishlist-modal-overlay">
+    <div class="wishlist-modal-box">
+      <button class="modal-close-x" onclick="closeWishlistModal()" aria-label="Close Wishlist">
+        <i class="ri-close-line"></i>
+      </button>
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid var(--color-border); padding-bottom: 12px;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.8rem;">SAVED GRAILS (<span id="wishlist-total-count">0</span>)</h3>
       </div>
-      <span>Bag</span>
-    </button>
-    <a href="#newsletter" class="mobile-nav-item" data-target="newsletter">
-      <i class="ri-mail-line"></i>
-      <span>Club</span>
-    </a>
+      <div id="wishlist-items-grid" class="product-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+        <!-- Rendered dynamically -->
+      </div>
+      <div id="wishlist-empty-msg" style="display: none; text-align: center; padding: 40px 20px;">
+        <i class="ri-heart-line" style="font-size: 3rem; color: #ccc;"></i>
+        <h4 style="font-family: var(--font-heading); font-size: 1.5rem; margin: 12px 0 6px;">YOUR WISHLIST IS EMPTY</h4>
+        <p style="color: #666; margin-bottom: 20px;">Save items you love by tapping the heart icon on any product.</p>
+        <button class="btn btn-primary" onclick="closeWishlistModal()">EXPLORE DROPS</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Size Chart Popup Overlay -->
+  <!-- 14. Size Chart Modal -->
   <div class="modal-overlay" id="size-chart-overlay">
-    <div class="modal-content size-chart-modal">
-      <button class="close-modal-btn" id="size-chart-close" aria-label="Close size guide"><i class="ri-close-line"></i></button>
-      <h3>WEEBFOUR SIZE GUIDE</h3>
-      <p>Oversized streetwear fit (boxy, drop-shoulder). Standard measurements in inches.</p>
-      <table>
+    <div class="modal-content-box" style="padding: 32px; max-width: 600px;">
+      <button class="modal-close-x" onclick="closeSizeChartModal()" aria-label="Close size guide">
+        <i class="ri-close-line"></i>
+      </button>
+      <h3 style="font-family: var(--font-heading); font-size: 2rem; margin-bottom: 6px;">WEEBFOUR SIZE GUIDE</h3>
+      <p style="font-size: 0.95rem; color: #666; margin-bottom: 20px;">Signature oversized streetwear boxy fit (relaxed drop shoulder). All measurements in inches.</p>
+      <table class="admin-table" style="font-size: 0.95rem;">
         <thead>
           <tr>
             <th>SIZE</th>
@@ -590,25 +676,25 @@
         </thead>
         <tbody>
           <tr>
-            <td>S</td>
+            <td><strong>S</strong></td>
             <td>44"</td>
             <td>27"</td>
             <td>20"</td>
           </tr>
           <tr>
-            <td>M</td>
+            <td><strong>M</strong></td>
             <td>46"</td>
             <td>28"</td>
             <td>21"</td>
           </tr>
           <tr>
-            <td>L</td>
+            <td><strong>L</strong></td>
             <td>48"</td>
             <td>29"</td>
             <td>22"</td>
           </tr>
           <tr>
-            <td>XL</td>
+            <td><strong>XL</strong></td>
             <td>50"</td>
             <td>30"</td>
             <td>23"</td>
@@ -618,414 +704,376 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- 15. Mobile Bottom Tab Bar (Fixed Navigation) -->
+  <div class="mobile-bottom-bar">
+    <a href="#" class="mobile-bar-tab active" data-target="home">
+      <i class="ri-home-5-line"></i>
+      <span>Home</span>
+    </a>
+    <a href="#shop" class="mobile-bar-tab" data-target="shop">
+      <i class="ri-search-line"></i>
+      <span>Explore</span>
+    </a>
+    <a href="javascript:void(0)" class="mobile-bar-tab" onclick="openWishlistModal()">
+      <i class="ri-heart-line"></i>
+      <span class="count-bubble" id="mobile-wishlist-count" style="top: 2px; right: 24%;">0</span>
+      <span>Wishlist</span>
+    </a>
+    <a href="javascript:void(0)" class="mobile-bar-tab" onclick="openCartDrawer()">
+      <i class="ri-shopping-bag-3-line"></i>
+      <span class="count-bubble cart-bubble" id="mobile-cart-count" style="top: 2px; right: 24%;">0</span>
+      <span>Bag</span>
+    </a>
+  </div>
+
+  <!-- 16. Footer (thelastape.in dark minimalist footer) -->
   <footer class="main-footer">
-    <div class="footer-grid">
-      <div class="footer-col branding-col">
-        <div class="footer-logos">
-          <img src="assets/weebfour_primary_logo_trans.png" alt="WEEBFOUR" class="footer-brand-logo">
-          <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4!" class="footer-symbol-logo">
+    <div class="page-container">
+      <div class="footer-columns-grid">
+        <!-- Col 1: Store HQ & Contact -->
+        <div>
+          <div class="brand-logo-text" style="color: #ffffff; font-size: 2.2rem; margin-bottom: 12px;">WEEBFOUR</div>
+          <p class="footer-about-text" id="footer-about">
+            Avant-garde streetwear engineered for the subculture. Heavyweight fabrics, structural boxy cuts, and uncompromising attitude.
+          </p>
+          <div class="footer-contact-item">
+            <i class="ri-map-pin-line" style="margin-top: 3px;"></i>
+            <span id="footer-address">9/23, 5th Street, Cyber Fashion Hub<br>Sector 4, Bandra West, Mumbai - 400050</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="ri-mail-line"></i>
+            <span id="footer-email">support@weebfour.com</span>
+          </div>
+          <div class="footer-social-row">
+            <a href="#" class="footer-social-btn" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="WhatsApp"><i class="ri-whatsapp-line"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="Twitter"><i class="ri-twitter-x-line"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="Discord"><i class="ri-discord-line"></i></a>
+          </div>
         </div>
-        <p>Avant-garde anime & cyber streetwear engineered for the subculture. Heavyweight fabrics, structural cuts, and uncompromising attitude.</p>
-        <div class="social-links">
-          <a href="#" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
-          <a href="#" aria-label="TikTok"><i class="ri-tiktok-line"></i></a>
-          <a href="#" aria-label="Twitter"><i class="ri-twitter-x-line"></i></a>
-          <a href="#" aria-label="Discord"><i class="ri-discord-line"></i></a>
+
+        <!-- Col 2: Shop by Collection -->
+        <div>
+          <h4 class="footer-col-title">SHOP BY COLLECTION</h4>
+          <ul class="footer-links-list">
+            <li><a href="#shop" onclick="filterByCategory('tees')">Oversized T-Shirts</a></li>
+            <li><a href="#shop" onclick="filterByCategory('hoodies')">Heavyweight Hoodies</a></li>
+            <li><a href="#shop" onclick="filterByCategory('cargoes')">Tactical Cargoes</a></li>
+            <li><a href="#shop" onclick="filterByCategory('jackets')">Varsity Jackets</a></li>
+            <li><a href="#shop" onclick="filterByCategory('accessories')">Street Accessories</a></li>
+            <li><a href="#shop" onclick="filterByTag('NEW DROP')">New Arrivals Drop</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Customer Care & Policies -->
+        <div>
+          <h4 class="footer-col-title">CLIENT SERVICES</h4>
+          <ul class="footer-links-list">
+            <li><a href="javascript:void(0)" onclick="openSizeChartModal()">Size Guide</a></li>
+            <li><a href="#newsletter">Track My Order</a></li>
+            <li><a href="#newsletter">Shipping & Delivery Policy</a></li>
+            <li><a href="#newsletter">7-Day Return & Exchange</a></li>
+            <li><a href="javascript:void(0)" onclick="openAdminModal()" style="color: #ff4a4a;"><i class="ri-shield-keyhole-line"></i> Master Admin Access</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Newsletter -->
+        <div>
+          <h4 class="footer-col-title">JOIN THE SQUAD</h4>
+          <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 12px;">Get 10% off your first drop order + secret VIP drop alerts.</p>
+          <form class="footer-newsletter-form" onsubmit="handleNewsletterSubmit(event)">
+            <input type="email" class="footer-newsletter-input" required placeholder="Enter your email">
+            <button type="submit" class="footer-newsletter-submit">JOIN</button>
+          </form>
         </div>
       </div>
-      <div class="footer-col">
-        <h4>COLLECTIONS</h4>
-        <a href="#shop">Oversized Tees</a>
-        <a href="#shop">Heavy Hoodies (420 GSM)</a>
-        <a href="#shop">Tactical Cargoes</a>
-        <a href="#shop">Jackets & Outerwear</a>
-        <a href="#shop">Accessories</a>
+
+      <div class="footer-bottom-bar">
+        <div>&copy; 2026 WEEBFOUR. ALL RIGHTS RESERVED.</div>
+        <div style="display: flex; gap: 16px;">
+          <span>Privacy Policy</span>
+          <span>Terms of Service</span>
+          <span>Pan-India Fulfillment</span>
+        </div>
       </div>
-      <div class="footer-col">
-        <h4>CLIENT SERVICE</h4>
-        <a href="#">Order Tracking</a>
-        <a href="#size-chart-overlay">Size Chart</a>
-        <a href="#">Returns & Exchanges</a>
-        <a href="#">Shipping Policy</a>
-        <a href="javascript:void(0)" onclick="openAdminStudio()"><i class="ri-settings-3-line"></i> 3D Asset Studio (Admin)</a>
-        <a href="#newsletter">Contact Us</a>
-      </div>
-      <div class="footer-col">
-        <h4>STORE LOCATION</h4>
-        <p class="address-text">WEEBFOUR LAB & HQ<br>Cyber Fashion District, Sector-4<br>Mumbai, India - 400001</p>
-        <p class="contact-email">support@weebfour.com</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 WEEBFOUR. All rights reserved. Crafted with passion for streetwear culture.</p>
     </div>
   </footer>
 
-  <!-- ==========================================
-       WEEBFOUR MASTER ADMIN SUITE
+  <!-- ==========================================================================
+       WEEBFOUR MASTER ADMIN CONTROL SUITE
        Full Control over Photos, Offers, Names, & Words
-       ========================================== -->
+       ========================================================================== -->
 
-  <!-- 1. Admin Authentication Gatekeeper Modal -->
+  <!-- Admin Gatekeeper Auth Modal -->
   <div class="modal-overlay" id="admin-auth-overlay">
-    <div class="modal-content admin-auth-modal">
-      <button class="close-modal-btn" onclick="closeAdminAuth()" aria-label="Close"><i class="ri-close-line"></i></button>
-      <div class="auth-header">
-        <i class="ri-shield-keyhole-line"></i>
-        <h2>WEEBFOUR HQ ACCESS</h2>
-        <p>Restricted to store administrators. Enter your security passcode to unlock the Master Admin Suite.</p>
-      </div>
-      <form id="admin-auth-form" onsubmit="handleAdminLogin(event)">
-        <div class="auth-input-group">
-          <input type="password" id="admin-passcode" placeholder="ENTER ADMIN PASSCODE (default: weebfour)" required autofocus autocomplete="off">
-          <button type="submit" class="btn btn-primary"><i class="ri-lock-unlock-line"></i> UNLOCK</button>
+    <div class="admin-auth-box">
+      <i class="ri-shield-keyhole-line"></i>
+      <h2>WEEBFOUR ADMIN ACCESS</h2>
+      <p>Enter security passcode to manage storefront catalog, photos, offers, and words.</p>
+      <form onsubmit="handleAdminLogin(event)">
+        <input type="password" id="admin-passcode-input" class="form-control-input" placeholder="PASSCODE (default: weebfour)" required autofocus style="text-align: center; margin-bottom: 14px;">
+        <button type="submit" class="btn btn-primary btn-block">UNLOCK CONSOLE</button>
+        <div id="admin-auth-error" style="display: none; color: var(--color-sale-red); font-size: 0.85rem; margin-top: 8px;">
+          Invalid passcode. Try: weebfour
         </div>
-        <div id="auth-error-msg" class="auth-error-msg" style="display: none;">Invalid security passcode. Try: weebfour</div>
       </form>
     </div>
   </div>
 
-  <!-- 2. Master Admin Control Console -->
+  <!-- Master Admin Console Modal -->
   <div class="modal-overlay" id="admin-suite-overlay">
-    <div class="modal-content master-admin-modal">
-      <div class="master-admin-header">
-        <div class="admin-brand-box">
-          <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4" class="admin-logo-badge">
-          <div>
-            <h2>WEEBFOUR MASTER ADMIN CONSOLE</h2>
-            <p>Live Storefront Management — Photos, Offers, Names, & Copy</p>
-          </div>
+    <div class="master-admin-box">
+      <div class="admin-header-row">
+        <div>
+          <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 0;">WEEBFOUR MASTER ADMIN CONSOLE</h2>
+          <p style="font-size: 0.85rem; color: #666; margin: 0;">Live Storefront Management Suite (Photos, Offers, Names, Words)</p>
         </div>
-        <div class="admin-top-actions">
+        <div style="display: flex; gap: 8px;">
           <button class="btn btn-sm btn-secondary" onclick="exportAdminData()"><i class="ri-download-2-line"></i> EXPORT JSON</button>
           <button class="btn btn-sm btn-secondary" onclick="resetToFactoryDefaults()"><i class="ri-restart-line"></i> RESET DEFAULTS</button>
           <button class="btn btn-sm btn-primary" onclick="saveAllAdminChanges()"><i class="ri-save-3-line"></i> SAVE & PUBLISH LIVE</button>
-          <button class="close-modal-btn" onclick="closeAdminSuite()" aria-label="Close Admin"><i class="ri-close-line"></i></button>
+          <button class="modal-close-x" style="position: static;" onclick="closeAdminSuite()"><i class="ri-close-line"></i></button>
         </div>
       </div>
 
-      <!-- Admin Navigation Tabs -->
-      <div class="admin-nav-tabs">
+      <!-- Admin Tabs Navigation -->
+      <div class="admin-tabs-nav">
         <button class="admin-tab-btn active" data-tab="products" onclick="switchAdminTab('products')">
-          <i class="ri-shopping-bag-3-line"></i> <span>PRODUCTS CATALOG</span>
+          <i class="ri-shopping-bag-3-line"></i> PRODUCTS CATALOG
         </button>
         <button class="admin-tab-btn" data-tab="offers" onclick="switchAdminTab('offers')">
-          <i class="ri-percent-line"></i> <span>OFFERS & PROMOS</span>
+          <i class="ri-percent-line"></i> OFFERS & PROMOS
         </button>
         <button class="admin-tab-btn" data-tab="texts" onclick="switchAdminTab('texts')">
-          <i class="ri-file-text-line"></i> <span>WORDS & COPYWRITING</span>
+          <i class="ri-file-text-line"></i> WORDS & COPYWRITING
         </button>
         <button class="admin-tab-btn" data-tab="media" onclick="switchAdminTab('media')">
-          <i class="ri-image-edit-line"></i> <span>BANNERS & PHOTOS</span>
+          <i class="ri-image-edit-line"></i> BANNERS & PHOTOS
         </button>
       </div>
 
-      <!-- Admin Tab 1: Products Catalog Manager -->
-      <div class="admin-tab-panel active" id="admin-panel-products">
-        <div class="panel-toolbar">
-          <div class="toolbar-search">
-            <i class="ri-search-line"></i>
-            <input type="text" id="admin-product-search" placeholder="Search catalog by name, tag, or category..." oninput="renderAdminProductsList()">
+      <!-- Admin Tab Panels Content -->
+      <div class="admin-panel-content">
+        <!-- Tab 1: Products Manager -->
+        <div class="admin-panel active" id="admin-panel-products">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <input type="text" id="admin-prod-search" class="form-control-input" placeholder="Search catalog..." style="max-width: 320px;" oninput="renderAdminProductsList()">
+            <button class="btn btn-primary btn-sm" onclick="openProductEditModal(null)"><i class="ri-add-line"></i> ADD NEW PRODUCT</button>
           </div>
-          <button class="btn btn-primary" onclick="openProductEditModal(null)">
-            <i class="ri-add-circle-line"></i> ADD NEW PRODUCT
-          </button>
-        </div>
-        <div class="admin-products-table-container">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>IMAGE</th>
-                <th>PRODUCT NAME</th>
-                <th>CATEGORY</th>
-                <th>PRICE</th>
-                <th>COMPARE</th>
-                <th>TAG</th>
-                <th>SIZES</th>
-                <th>ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody id="admin-products-table-body">
-              <!-- Dynamic rows via app.js -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Admin Tab 2: Offers, Promos & Shipping -->
-      <div class="admin-tab-panel" id="admin-panel-offers">
-        <div class="admin-grid-2col">
-          <!-- Left: Ticker Announcements -->
-          <div class="admin-card">
-            <div class="admin-card-header">
-              <h3><i class="ri-megaphone-line"></i> ANNOUNCEMENT BAR TICKER MESSAGES</h3>
-              <button class="btn btn-sm btn-secondary" onclick="addNewAnnouncementRow()"><i class="ri-add-line"></i> Add Message</button>
-            </div>
-            <p class="admin-hint">These messages stream across the top marquee bar on the storefront.</p>
-            <div class="admin-dynamic-list" id="admin-ticker-list">
-              <!-- Dynamic ticker lines -->
-            </div>
+          <div style="overflow-x: auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>IMAGE</th>
+                  <th>NAME</th>
+                  <th>CATEGORY</th>
+                  <th>PRICE</th>
+                  <th>COMPARE</th>
+                  <th>TAG</th>
+                  <th>SIZES</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="admin-products-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
           </div>
+        </div>
 
-          <!-- Right: Promo Codes & Shipping -->
-          <div class="admin-card">
-            <div class="admin-card-header">
-              <h3><i class="ri-coupon-3-line"></i> ACTIVE PROMO CODES</h3>
-              <button class="btn btn-sm btn-secondary" onclick="addNewPromoRow()"><i class="ri-add-line"></i> Add Code</button>
-            </div>
-            <p class="admin-hint">Customers apply these codes in the checkout drawer for instant discounts.</p>
-            <div class="admin-dynamic-list" id="admin-promos-list">
-              <!-- Dynamic promo codes -->
-            </div>
-
-            <div class="admin-card-header" style="margin-top: 24px; border-top: 1px solid var(--color-border); padding-top: 18px;">
-              <h3><i class="ri-truck-line"></i> SHIPPING RULES</h3>
-            </div>
-            <div class="admin-form-row" style="margin-top: 12px;">
-              <div class="form-group">
-                <label>Free Shipping Unlock Threshold (₹)</label>
-                <input type="number" id="admin-shipping-threshold" class="admin-form-input">
+        <!-- Tab 2: Offers & Promos -->
+        <div class="admin-panel" id="admin-panel-offers">
+          <div class="admin-2col-layout">
+            <div class="admin-card-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h4 style="font-family: var(--font-heading); font-size: 1.25rem;">MARQUEE ANNOUNCEMENTS</h4>
+                <button class="btn btn-sm btn-secondary" onclick="addNewAnnouncementRow()"><i class="ri-add-line"></i> Add Message</button>
               </div>
-              <div class="form-group">
-                <label>Flat Standard Shipping Fee (₹)</label>
-                <input type="number" id="admin-flat-shipping" class="admin-form-input">
+              <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px;">These ticker messages stream continuously across the black top bar.</p>
+              <div id="admin-ticker-list"></div>
+            </div>
+
+            <div class="admin-card-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h4 style="font-family: var(--font-heading); font-size: 1.25rem;">ACTIVE PROMO CODES</h4>
+                <button class="btn btn-sm btn-secondary" onclick="addNewPromoRow()"><i class="ri-add-line"></i> Add Code</button>
+              </div>
+              <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px;">Discounts applied in cart and checkout drawer.</p>
+              <div id="admin-promos-list"></div>
+
+              <h4 style="font-family: var(--font-heading); font-size: 1.2rem; margin: 20px 0 10px; border-top: 1px solid #e8e8e8; padding-top: 16px;">SHIPPING SETTINGS</h4>
+              <div class="form-row-2col">
+                <div class="form-group-field">
+                  <label>Free Shipping Threshold (₹)</label>
+                  <input type="number" id="admin-shipping-threshold" class="form-control-input">
+                </div>
+                <div class="form-group-field">
+                  <label>Standard Shipping Fee (₹)</label>
+                  <input type="number" id="admin-flat-shipping" class="form-control-input">
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Admin Tab 3: Words, Headings & Copywriting -->
-      <div class="admin-tab-panel" id="admin-panel-texts">
-        <div class="admin-grid-2col">
-          <!-- Hero Section Copy -->
-          <div class="admin-card">
-            <div class="admin-card-header">
-              <h3><i class="ri-layout-top-line"></i> HERO LANDING COPY</h3>
-            </div>
-            <div class="form-group">
-              <label>Hero Badge / Subtitle Pill</label>
-              <input type="text" id="admin-text-hero-badge" class="admin-form-input">
-            </div>
-            <div class="form-group">
-              <label>Main Hero Title (Headline)</label>
-              <input type="text" id="admin-text-hero-title" class="admin-form-input">
-            </div>
-            <div class="form-group">
-              <label>Hero Paragraph Description</label>
-              <textarea id="admin-text-hero-desc" class="admin-form-input" rows="3"></textarea>
-            </div>
-            <div class="admin-form-row">
-              <div class="form-group">
-                <label>Primary Button CTA Text</label>
-                <input type="text" id="admin-text-hero-cta1" class="admin-form-input">
+        <!-- Tab 3: Words & Copywriting -->
+        <div class="admin-panel" id="admin-panel-texts">
+          <div class="admin-2col-layout">
+            <div class="admin-card-box">
+              <h4 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 14px;">HERO SECTION HEADLINES</h4>
+              <div class="form-group-field">
+                <label>Hero Badge Pill</label>
+                <input type="text" id="admin-text-hero-badge" class="form-control-input">
               </div>
-              <div class="form-group">
-                <label>Secondary Button CTA Text</label>
-                <input type="text" id="admin-text-hero-cta2" class="admin-form-input">
+              <div class="form-group-field">
+                <label>Main Headline Title</label>
+                <input type="text" id="admin-text-hero-title" class="form-control-input">
+              </div>
+              <div class="form-group-field">
+                <label>Hero Paragraph Description</label>
+                <textarea id="admin-text-hero-desc" class="form-control-input" rows="3"></textarea>
+              </div>
+              <div class="form-row-2col">
+                <div class="form-group-field">
+                  <label>Primary CTA Text</label>
+                  <input type="text" id="admin-text-hero-cta1" class="form-control-input">
+                </div>
+                <div class="form-group-field">
+                  <label>Secondary CTA Text</label>
+                  <input type="text" id="admin-text-hero-cta2" class="form-control-input">
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Section Headings & Newsletter -->
-          <div class="admin-card">
-            <div class="admin-card-header">
-              <h3><i class="ri-text"></i> SECTION HEADINGS & NEWSLETTER</h3>
-            </div>
-            <div class="form-group">
-              <label>Collections Section Title</label>
-              <input type="text" id="admin-text-collections-title" class="admin-form-input">
-            </div>
-            <div class="form-group">
-              <label>Collections Section Subtitle</label>
-              <input type="text" id="admin-text-collections-sub" class="admin-form-input">
-            </div>
-            <div class="form-group">
-              <label>Product Feed ("THE FEED") Title</label>
-              <input type="text" id="admin-text-catalog-title" class="admin-form-input">
-            </div>
-            <div class="form-group">
-              <label>Product Feed Subtitle</label>
-              <input type="text" id="admin-text-catalog-sub" class="admin-form-input">
-            </div>
-            <div class="form-group">
-              <label>Newsletter / Club Heading</label>
-              <input type="text" id="admin-text-news-title" class="admin-form-input">
-            </div>
-            <div class="form-group">
-              <label>Newsletter Subtext</label>
-              <input type="text" id="admin-text-news-sub" class="admin-form-input">
-            </div>
-          </div>
-
-          <!-- Brand & Footer Info -->
-          <div class="admin-card" style="grid-column: 1 / -1;">
-            <div class="admin-card-header">
-              <h3><i class="ri-information-line"></i> STORE INFORMATION & FOOTER ABOUT</h3>
-            </div>
-            <div class="admin-form-row">
-              <div class="form-group" style="flex: 2;">
-                <label>Footer About Brand Paragraph</label>
-                <textarea id="admin-text-footer-about" class="admin-form-input" rows="2"></textarea>
+            <div class="admin-card-box">
+              <h4 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 14px;">SECTION HEADINGS & FOOTER</h4>
+              <div class="form-group-field">
+                <label>Collections Title</label>
+                <input type="text" id="admin-text-collections-title" class="form-control-input">
               </div>
-              <div class="form-group" style="flex: 1;">
-                <label>Store Support Email</label>
-                <input type="email" id="admin-text-store-email" class="admin-form-input">
+              <div class="form-group-field">
+                <label>Product Feed ("THE DROPS") Title</label>
+                <input type="text" id="admin-text-catalog-title" class="form-control-input">
               </div>
-              <div class="form-group" style="flex: 1;">
-                <label>Store Physical / HQ Address</label>
-                <textarea id="admin-text-store-addr" class="admin-form-input" rows="2"></textarea>
+              <div class="form-group-field">
+                <label>Newsletter Headline</label>
+                <input type="text" id="admin-text-news-title" class="form-control-input">
+              </div>
+              <div class="form-group-field">
+                <label>Store HQ Address</label>
+                <textarea id="admin-text-address" class="form-control-input" rows="2"></textarea>
+              </div>
+              <div class="form-group-field">
+                <label>Support Contact Email</label>
+                <input type="email" id="admin-text-email" class="form-control-input">
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Admin Tab 4: Photos, Banners & Media -->
-      <div class="admin-tab-panel" id="admin-panel-media">
-        <div class="admin-grid-2col">
-          <!-- Hero Background -->
-          <div class="admin-card">
-            <div class="admin-card-header">
-              <h3><i class="ri-image-2-line"></i> HERO LANDING BACKGROUND</h3>
+        <!-- Tab 4: Banners & Photos -->
+        <div class="admin-panel" id="admin-panel-media">
+          <div class="admin-2col-layout">
+            <div class="admin-card-box">
+              <h4 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 14px;">HERO BACKGROUND BANNER</h4>
+              <div class="form-group-field">
+                <label>Image URL or Path</label>
+                <input type="text" id="admin-hero-bg-url" class="form-control-input">
+              </div>
+              <div class="form-group-field">
+                <label>Or Upload New Image</label>
+                <input type="file" id="admin-hero-bg-file" accept="image/*" class="form-control-input" onchange="handleImageFileUpload(event, 'hero-bg')">
+              </div>
+              <div style="aspect-ratio: 16/9; background: #eee; overflow: hidden; margin-top: 10px;">
+                <img id="admin-hero-bg-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
             </div>
-            <div class="media-preview-box">
-              <img id="admin-preview-hero-bg" src="assets/hero_editorial_raw.png" alt="Hero Background">
-            </div>
-            <div class="form-group" style="margin-top: 14px;">
-              <label>Image URL</label>
-              <input type="text" id="admin-media-hero-bg" class="admin-form-input" oninput="updateMediaPreview('hero-bg', this.value)">
-            </div>
-            <div class="file-upload-strip">
-              <label class="btn btn-sm btn-secondary file-btn">
-                <i class="ri-upload-2-line"></i> Upload New Banner File
-                <input type="file" accept="image/*" onchange="handleAdminFileUpload(event, 'hero-bg')" style="display:none;">
-              </label>
-              <span class="file-upload-hint">PNG, JPG, or WEBP up to 5MB</span>
-            </div>
-          </div>
 
-          <!-- Brand Logos -->
-          <div class="admin-card">
-            <div class="admin-card-header">
-              <h3><i class="ri-shield-star-line"></i> BRAND LOGOS</h3>
+            <div class="admin-card-box">
+              <h4 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 14px;">STORE LOGOS</h4>
+              <div class="form-group-field">
+                <label>Primary Brand Logo URL</label>
+                <input type="text" id="admin-logo-url" class="form-control-input">
+              </div>
+              <div class="form-group-field">
+                <label>Upload Logo File</label>
+                <input type="file" id="admin-logo-file" accept="image/*" class="form-control-input" onchange="handleImageFileUpload(event, 'logo')">
+              </div>
+              <div style="height: 60px; background: #222; display: flex; align-items: center; justify-content: center; padding: 10px; margin-top: 10px;">
+                <img id="admin-logo-preview" src="" style="max-height: 100%; max-width: 100%;">
+              </div>
             </div>
-            
-            <label style="font-weight: 700; font-size: 0.78rem; display: block; margin-bottom: 6px;">Primary Logo (Header & Footer)</label>
-            <div class="logo-preview-box">
-              <img id="admin-preview-logo" src="assets/weebfour_primary_logo_trans.png" alt="Primary Logo">
-            </div>
-            <div class="form-group" style="margin-top: 10px;">
-              <input type="text" id="admin-media-logo" class="admin-form-input" placeholder="Logo URL" oninput="updateMediaPreview('logo', this.value)">
-            </div>
-            <label class="btn btn-sm btn-secondary file-btn" style="margin-bottom: 20px;">
-              <i class="ri-upload-2-line"></i> Upload Logo
-              <input type="file" accept="image/*" onchange="handleAdminFileUpload(event, 'logo')" style="display:none;">
-            </label>
-
-            <label style="font-weight: 700; font-size: 0.78rem; display: block; margin-bottom: 6px;">Secondary Symbol (Emblem / Shuriken)</label>
-            <div class="logo-preview-box symbol-box">
-              <img id="admin-preview-symbol" src="assets/weebfour_secondary_symbol_trans.png" alt="Symbol Logo">
-            </div>
-            <div class="form-group" style="margin-top: 10px;">
-              <input type="text" id="admin-media-symbol" class="admin-form-input" placeholder="Symbol URL" oninput="updateMediaPreview('symbol', this.value)">
-            </div>
-            <label class="btn btn-sm btn-secondary file-btn">
-              <i class="ri-upload-2-line"></i> Upload Symbol
-              <input type="file" accept="image/*" onchange="handleAdminFileUpload(event, 'symbol')" style="display:none;">
-            </label>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 3. Add / Edit Product Modal -->
+  <!-- Product Edit Modal (Used by Admin) -->
   <div class="modal-overlay" id="product-edit-overlay">
-    <div class="modal-content product-edit-modal">
-      <div class="admin-modal-header">
-        <h3 id="product-modal-title">EDIT PRODUCT</h3>
-        <button class="close-modal-btn" onclick="closeProductEditModal()" aria-label="Close"><i class="ri-close-line"></i></button>
-      </div>
-      <form id="product-edit-form" onsubmit="handleSaveProductForm(event)">
+    <div class="modal-content-box" style="padding: 30px; max-width: 700px;">
+      <button class="modal-close-x" onclick="closeProductEditModal()"><i class="ri-close-line"></i></button>
+      <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 18px;" id="prod-edit-modal-title">EDIT PRODUCT</h3>
+      <form id="product-edit-form" onsubmit="handleProductSave(event)">
         <input type="hidden" id="edit-prod-id">
-        
-        <div class="form-row">
-          <div class="form-group" style="flex: 2;">
-            <label>Product Name *</label>
-            <input type="text" id="edit-prod-name" class="admin-form-input" required>
-          </div>
-          <div class="form-group" style="flex: 1;">
+        <div class="form-group-field">
+          <label>Product Name *</label>
+          <input type="text" id="edit-prod-name" class="form-control-input" required>
+        </div>
+        <div class="form-row-2col">
+          <div class="form-group-field">
             <label>Category *</label>
-            <select id="edit-prod-category" class="admin-form-input" required>
-              <option value="tees">tees</option>
-              <option value="hoodies">hoodies</option>
-              <option value="cargoes">cargoes</option>
-              <option value="jackets">jackets</option>
-              <option value="accessories">accessories</option>
+            <select id="edit-prod-category" class="form-control-input">
+              <option value="tees">T-Shirts (Graphic & Boxy)</option>
+              <option value="hoodies">Hoodies & Sweaters</option>
+              <option value="cargoes">Cargoes & Parachute Pants</option>
+              <option value="jackets">Varsity Jackets</option>
+              <option value="accessories">Accessories</option>
             </select>
           </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Price (₹) *</label>
-            <input type="number" id="edit-prod-price" class="admin-form-input" required min="1">
-          </div>
-          <div class="form-group">
-            <label>Compare-at Price (Original ₹)</label>
-            <input type="number" id="edit-prod-compare" class="admin-form-input" min="1">
-          </div>
-          <div class="form-group">
-            <label>Product Tag / Badge</label>
-            <input type="text" id="edit-prod-tag" class="admin-form-input" placeholder="e.g. BEST SELLER, NEW DROP">
+          <div class="form-group-field">
+            <label>Badge / Tag</label>
+            <input type="text" id="edit-prod-tag" class="form-control-input" placeholder="BEST SELLER, NEW DROP, etc.">
           </div>
         </div>
-
-        <div class="form-group">
-          <label>Available Sizes</label>
-          <div class="sizes-checkbox-grid">
-            <label class="size-check-label"><input type="checkbox" value="S" class="size-cb"> S</label>
-            <label class="size-check-label"><input type="checkbox" value="M" class="size-cb"> M</label>
-            <label class="size-check-label"><input type="checkbox" value="L" class="size-cb"> L</label>
-            <label class="size-check-label"><input type="checkbox" value="XL" class="size-cb"> XL</label>
-            <label class="size-check-label"><input type="checkbox" value="XXL" class="size-cb"> XXL</label>
-            <label class="size-check-label"><input type="checkbox" value="ONESIZE" class="size-cb"> ONESIZE</label>
+        <div class="form-row-2col">
+          <div class="form-group-field">
+            <label>Sale Price (₹) *</label>
+            <input type="number" id="edit-prod-price" class="form-control-input" required>
+          </div>
+          <div class="form-group-field">
+            <label>Compare-at Price (₹)</label>
+            <input type="number" id="edit-prod-compare" class="form-control-input">
           </div>
         </div>
-
-        <!-- Product Images List -->
-        <div class="form-group">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <label style="margin: 0;">Product Photographs / Images</label>
-            <div style="display: flex; gap: 8px;">
-              <label class="btn btn-xs btn-secondary" style="cursor: pointer;">
-                <i class="ri-upload-2-line"></i> Upload Image
-                <input type="file" accept="image/*" onchange="handleProductImageUpload(event)" style="display: none;">
-              </label>
-              <button type="button" class="btn btn-xs btn-secondary" onclick="addEmptyImageUrlInput()"><i class="ri-add-line"></i> Add Image URL</button>
-            </div>
+        <div class="form-group-field">
+          <label>Available Sizes (comma separated)</label>
+          <input type="text" id="edit-prod-sizes" class="form-control-input" placeholder="S, M, L, XL">
+        </div>
+        <div class="form-group-field">
+          <label>Product Description</label>
+          <textarea id="edit-prod-desc" class="form-control-input" rows="3"></textarea>
+        </div>
+        <div class="form-group-field">
+          <label>Product Images (Primary & Hover Swap)</label>
+          <div id="edit-prod-images-list" style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;"></div>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="edit-prod-new-img-url" class="form-control-input" placeholder="Paste image URL here">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="addImageToEditingProduct()">ADD URL</button>
           </div>
-          <div id="product-images-inputs-container" class="images-inputs-container">
-            <!-- Dynamic image inputs & previews -->
+          <div style="margin-top: 8px;">
+            <input type="file" id="edit-prod-file-upload" accept="image/*" class="form-control-input" onchange="uploadImageToProduct(event)">
           </div>
         </div>
-
-        <div class="form-group">
-          <label>Description & Story</label>
-          <textarea id="edit-prod-desc" class="admin-form-input" rows="4" required></textarea>
-        </div>
-
-        <div class="modal-form-actions">
-          <button type="button" class="btn btn-secondary" onclick="closeProductEditModal()">Cancel</button>
-          <button type="submit" class="btn btn-primary"><i class="ri-check-line"></i> Save Product</button>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
+          <button type="button" class="btn btn-secondary" onclick="closeProductEditModal()">CANCEL</button>
+          <button type="submit" class="btn btn-primary">SAVE PRODUCT</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Master Application Logic -->
+  <!-- Scripts -->
   <script src="products.js"></script>
   <script src="app.js"></script>
 </body>
