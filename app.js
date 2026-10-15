@@ -1,6 +1,6 @@
 // ==========================================
-// WEEBFOUR (WEB4!) - MASTER APPLICATION CONTROLLER
-// Includes 3D Garment Studio Engine & Admin Asset Manager
+// WEEBFOUR (WEB4!) - MASTER STOREFRONT & ADMIN CONTROLLER
+// Ultra-Smooth, Fast, Full Admin Control for Photos, Offers, Names, & Words
 // ==========================================
 
 // 1. Application State
@@ -10,19 +10,8 @@ let searchQuery = '';
 let currentSort = 'default';
 let selectedQuickViewProduct = null;
 let selectedSize = '';
-let selectedColor = null;
-let activeViewerMode = '3d'; // '3d' or '2d'
-let activeDiscount = 0.0; // 0.10 for 10%
-
-// 3D Viewer Singletons
-let mainGarmentViewer = null;
-let adminGarmentViewer = null;
-let fsGarmentViewer = null;
-let currentAdminProduct = null;
-
-// Free Shipping Threshold
-const SHIPPING_THRESHOLD = 1499;
-const FLAT_SHIPPING_FEE = 150;
+let activeDiscount = 0.0;
+let isAdminAuthenticated = false;
 
 // 2. DOM Elements
 const productGrid = document.getElementById('product-grid-container');
@@ -70,43 +59,6 @@ const qvSizeOptions = document.getElementById('qv-size-options');
 const qvAddToCartBtn = document.getElementById('qv-add-to-cart-btn');
 const sizeError = document.getElementById('size-error');
 
-// 3D Viewport elements
-const qv3dViewport = document.getElementById('qv-3d-viewport');
-const qv2dGalleryWrap = document.getElementById('qv-2d-gallery-wrap');
-const qv3dCanvasWrap = document.getElementById('qv-3d-canvas-wrap');
-const qv3dLoading = document.getElementById('qv-3d-loading');
-const qv3dFallback = document.getElementById('qv-3d-fallback');
-const tabMode3D = document.getElementById('tab-mode-3d');
-const tabMode2D = document.getElementById('tab-mode-2d');
-const qvActiveColorName = document.getElementById('qv-active-color-name');
-const qvColorSwatches = document.getElementById('qv-color-swatches');
-const specGsm = document.getElementById('spec-gsm');
-const specFit = document.getElementById('spec-fit');
-
-// Fullscreen Modal elements
-const studioFsModal = document.getElementById('studio-fullscreen-modal');
-const fsCanvasContainer = document.getElementById('fs-canvas-container');
-const fsProductTitle = document.getElementById('fs-product-title');
-const fsColorSwatches = document.getElementById('fs-color-swatches');
-
-// Admin Studio Modal elements
-const adminStudioOverlay = document.getElementById('admin-studio-overlay');
-const adminStudioBtn = document.getElementById('admin-studio-btn');
-const adminProductSelect = document.getElementById('admin-product-select');
-const adminHas3D = document.getElementById('admin-has-3d');
-const adminFitSelect = document.getElementById('admin-fit-select');
-const adminGlbFilename = document.getElementById('admin-glb-filename');
-const adminFrontFilename = document.getElementById('admin-front-filename');
-const adminBackFilename = document.getElementById('admin-back-filename');
-const adminFrontScale = document.getElementById('admin-front-scale');
-const adminFrontScaleVal = document.getElementById('admin-front-scale-val');
-const adminBackScale = document.getElementById('admin-back-scale');
-const adminBackScaleVal = document.getElementById('admin-back-scale-val');
-const adminRoughness = document.getElementById('admin-roughness');
-const adminRoughnessVal = document.getElementById('admin-roughness-val');
-const adminColorsList = document.getElementById('admin-colors-list');
-const adminCanvasContainer = document.getElementById('admin-canvas-container');
-
 // Size Chart elements
 const sizeChartOverlay = document.getElementById('size-chart-overlay');
 const sizeChartClose = document.getElementById('size-chart-close');
@@ -150,16 +102,122 @@ const newsletterSuccess = document.getElementById('newsletter-success');
 // Mobile Bottom Nav elements
 const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
 
+// Admin Elements
+const adminAuthOverlay = document.getElementById('admin-auth-overlay');
+const adminSuiteOverlay = document.getElementById('admin-suite-overlay');
+const productEditOverlay = document.getElementById('product-edit-overlay');
+const authErrorMsg = document.getElementById('auth-error-msg');
+const adminPasscodeInput = document.getElementById('admin-passcode');
+
+// Temporary image array for product edit
+let currentEditingImages = [];
+
 // ==========================================
-// 3. INITIALIZE APP
+// 3. INITIALIZE STOREFRONT
 // ==========================================
 window.addEventListener('DOMContentLoaded', () => {
+  applySiteConfigToStorefront();
   renderProducts();
   setupEventListeners();
 });
 
+// Apply custom words, titles, photos & offers across the entire website
+function applySiteConfigToStorefront() {
+  if (!window.siteConfig) return;
+
+  const cfg = window.siteConfig;
+
+  // 1. Marquee Ticker Announcements
+  const tickerWrap = document.querySelector('.ticker');
+  if (tickerWrap && cfg.announcements && cfg.announcements.length > 0) {
+    const tickerHtml = cfg.announcements.map(msg => 
+      `<span class="ticker-item">${msg}</span>`
+    ).join('') + cfg.announcements.map(msg => 
+      `<span class="ticker-item">${msg}</span>`
+    ).join('');
+    tickerWrap.innerHTML = tickerHtml;
+  }
+
+  // 2. Hero Words & Headlines
+  if (cfg.texts) {
+    const heroBadge = document.querySelector('.hero-subtitle');
+    if (heroBadge && cfg.texts.heroBadge) heroBadge.textContent = cfg.texts.heroBadge;
+
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle && cfg.texts.heroTitle) {
+      heroTitle.innerHTML = cfg.texts.heroTitle.replace('\n', '<br>');
+    }
+
+    const heroDesc = document.querySelector('.hero-description');
+    if (heroDesc && cfg.texts.heroSubtitle) heroDesc.textContent = cfg.texts.heroSubtitle;
+
+    const heroCtas = document.querySelectorAll('.hero-ctas .btn');
+    if (heroCtas[0] && cfg.texts.heroCtaPrimary) {
+      heroCtas[0].innerHTML = `${cfg.texts.heroCtaPrimary} <i class="ri-arrow-right-line"></i>`;
+    }
+    if (heroCtas[1] && cfg.texts.heroCtaSecondary) {
+      heroCtas[1].innerHTML = `${cfg.texts.heroCtaSecondary} <i class="ri-compass-3-line"></i>`;
+    }
+
+    // Collections
+    const collTitle = document.querySelector('#collections .section-title');
+    if (collTitle && cfg.texts.collectionsTitle) collTitle.textContent = cfg.texts.collectionsTitle;
+
+    const collSub = document.querySelector('#collections .section-subtitle');
+    if (collSub && cfg.texts.collectionsSubtitle) collSub.textContent = cfg.texts.collectionsSubtitle;
+
+    // Feed / Catalog
+    const catTitle = document.querySelector('#shop .section-title');
+    if (catTitle && cfg.texts.catalogTitle) catTitle.textContent = cfg.texts.catalogTitle;
+
+    const catSub = document.querySelector('#shop .section-subtitle');
+    if (catSub && cfg.texts.catalogSubtitle) catSub.textContent = cfg.texts.catalogSubtitle;
+
+    // Newsletter
+    const newsTitle = document.querySelector('#newsletter .newsletter-content h2');
+    if (newsTitle && cfg.texts.newsletterTitle) newsTitle.textContent = cfg.texts.newsletterTitle;
+
+    const newsSub = document.querySelector('#newsletter .newsletter-content p');
+    if (newsSub && cfg.texts.newsletterSubtitle) newsSub.textContent = cfg.texts.newsletterSubtitle;
+
+    // Footer
+    const footerAbout = document.querySelector('.branding-col p');
+    if (footerAbout && cfg.texts.footerAbout) footerAbout.textContent = cfg.texts.footerAbout;
+
+    const storeAddr = document.querySelector('.address-text');
+    if (storeAddr && cfg.texts.storeAddress) {
+      storeAddr.innerHTML = cfg.texts.storeAddress.replace(/\n/g, '<br>');
+    }
+
+    const storeEmail = document.querySelector('.contact-email');
+    if (storeEmail && cfg.texts.storeEmail) storeEmail.textContent = cfg.texts.storeEmail;
+  }
+
+  // 3. Media & Logos
+  if (cfg.media) {
+    if (cfg.media.heroBg) {
+      const heroSection = document.getElementById('hero');
+      if (heroSection) {
+        heroSection.style.backgroundImage = `url('${cfg.media.heroBg}')`;
+        heroSection.style.backgroundSize = 'cover';
+        heroSection.style.backgroundPosition = 'center';
+      }
+    }
+    if (cfg.media.primaryLogo) {
+      document.querySelectorAll('.brand-logo-img, .footer-brand-logo').forEach(img => {
+        img.src = cfg.media.primaryLogo;
+      });
+    }
+    if (cfg.media.secondarySymbol) {
+      document.querySelectorAll('.pill-symbol-img, .cart-logo-icon, .footer-symbol-logo, .admin-logo-badge').forEach(img => {
+        img.src = cfg.media.secondarySymbol;
+      });
+    }
+  }
+}
+
 // ==========================================
-// 4. RENDER PRODUCT GRID
+// 4. RENDER PRODUCT GRID (SMOOTH & FAST)
 // ==========================================
 function renderProducts() {
   let filtered = products.filter(product => {
@@ -188,34 +246,14 @@ function renderProducts() {
     productGrid.innerHTML = filtered.map(product => {
       const discount = Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100);
       const tagHtml = product.tag ? `<div class="product-tag">${product.tag}</div>` : '';
-      const badge3DHtml = product.has_3d 
-        ? `<div class="badge-3d-pill"><i class="ri-box-3-fill"></i> 3D INTERACTIVE</div>` 
-        : '';
-      
-      const actionsHtml = product.has_3d ? `
-        <div class="card-actions-row">
-          <button class="btn btn-3d-view" onclick="openQuickView(${product.id}, '3d')">
-            <i class="ri-box-3-line"></i> 3D STUDIO
-          </button>
-          <button class="btn btn-quick-add" onclick="openQuickView(${product.id}, '2d')">
-            DETAILS <i class="ri-arrow-right-line"></i>
-          </button>
-        </div>
-      ` : `
-        <div class="card-actions-row single-btn">
-          <button class="btn btn-quick-add" onclick="openQuickView(${product.id}, '2d')">
-            SELECT OPTIONS <i class="ri-arrow-right-line"></i>
-          </button>
-        </div>
-      `;
+      const displayImg = product.images && product.images.length > 0 ? product.images[0] : 'assets/tee_front_clean.jpg';
 
       return `
         <div class="product-card" data-id="${product.id}">
           <div class="product-img-box">
-            ${badge3DHtml}
             ${tagHtml}
-            <img src="${product.images[0]}" alt="${product.name}">
-            <div class="quick-view-trigger"><i class="ri-eye-line"></i> ${product.has_3d ? '3D GARMENT STUDIO' : 'QUICK VIEW'}</div>
+            <img src="${displayImg}" alt="${product.name}" loading="lazy">
+            <div class="quick-view-trigger"><i class="ri-eye-line"></i> QUICK VIEW</div>
           </div>
           <div class="product-details">
             <h3 class="product-name">${product.name}</h3>
@@ -224,7 +262,11 @@ function renderProducts() {
               <span class="compare-price">₹${product.compareAtPrice}</span>
               <span class="discount-pill">${discount}% OFF</span>
             </div>
-            ${actionsHtml}
+            <div class="card-actions">
+              <button class="btn btn-quick-add" onclick="openQuickView(${product.id})">
+                SELECT OPTIONS <i class="ri-arrow-right-line"></i>
+              </button>
+            </div>
           </div>
         </div>
       `;
@@ -235,8 +277,7 @@ function renderProducts() {
       el.addEventListener('click', () => {
         const card = el.closest('.product-card');
         const id = parseInt(card.dataset.id);
-        const prod = products.find(p => p.id === id);
-        openQuickView(id, prod && prod.has_3d ? '3d' : '2d');
+        openQuickView(id);
       });
     });
   }
@@ -373,11 +414,6 @@ function setupEventListeners() {
     if (e.target === quickViewOverlay) closeQuickView();
   });
 
-  // Admin Studio Trigger
-  if (adminStudioBtn) {
-    adminStudioBtn.addEventListener('click', openAdminStudio);
-  }
-
   // Size Chart
   if (sizeChartToggle) {
     sizeChartToggle.addEventListener('click', (e) => {
@@ -401,13 +437,13 @@ function setupEventListeners() {
       return;
     }
     sizeError.style.display = 'none';
-    addToCart(selectedQuickViewProduct.id, selectedSize, selectedColor);
+    addToCart(selectedQuickViewProduct.id, selectedSize);
     closeQuickView();
     setTimeout(() => {
       cartDrawer.classList.add('active');
       cartOverlay.classList.add('active');
       renderCart();
-    }, 400);
+    }, 300);
   });
 
   // Checkout Modal
@@ -482,13 +518,19 @@ function setupEventListeners() {
     closeCheckout();
   });
 
-  // Promo apply
+  // Promo code validation from siteConfig
   promoApplyBtn.addEventListener('click', () => {
     const code = promoCodeInput.value.trim().toUpperCase();
-    if (code === 'WEEB10' || code === 'GENZ10') {
-      activeDiscount = 0.10;
+    const validPromos = window.siteConfig?.offers?.promos || [
+      { code: 'WEEB10', discountPercent: 10 },
+      { code: 'GENZ10', discountPercent: 10 }
+    ];
+
+    const match = validPromos.find(p => p.code.toUpperCase() === code);
+    if (match) {
+      activeDiscount = match.discountPercent / 100;
       promoMessage.style.color = 'var(--color-success)';
-      promoMessage.textContent = '10% WEEBFOUR Discount Applied!';
+      promoMessage.textContent = `${match.discountPercent}% WEEBFOUR Promo Code Applied!`;
       updateCheckoutSummary();
     } else {
       promoMessage.style.color = 'var(--color-error)';
@@ -511,13 +553,15 @@ function setupEventListeners() {
     });
   });
 
-  // Keyboard shortcut: ESC closes modals
+  // ESC key listener to close modals
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      if (studioFsModal && studioFsModal.classList.contains('active')) {
-        closeStudioFullscreen();
-      } else if (adminStudioOverlay && adminStudioOverlay.classList.contains('active')) {
-        closeAdminStudio();
+      if (productEditOverlay && productEditOverlay.classList.contains('active')) {
+        closeProductEditModal();
+      } else if (adminSuiteOverlay && adminSuiteOverlay.classList.contains('active')) {
+        closeAdminSuite();
+      } else if (adminAuthOverlay && adminAuthOverlay.classList.contains('active')) {
+        closeAdminAuth();
       } else if (quickViewOverlay && quickViewOverlay.classList.contains('active')) {
         closeQuickView();
       }
@@ -528,18 +572,11 @@ function setupEventListeners() {
 // ==========================================
 // 6. CART & BAG CONTROLLERS
 // ==========================================
-function addToCart(productId, size, color) {
+function addToCart(productId, size) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
 
-  const colorObj = color || (product.available_colors ? product.available_colors[0] : { id: 'std', name: 'Original', hex: '#000000' });
-
-  // Match item by product ID, size, and color
-  const existingItem = cart.find(item => 
-    item.product.id === productId && 
-    item.size === size && 
-    item.color?.id === colorObj.id
-  );
+  const existingItem = cart.find(item => item.product.id === productId && item.size === size);
 
   if (existingItem) {
     existingItem.quantity += 1;
@@ -547,7 +584,6 @@ function addToCart(productId, size, color) {
     cart.push({
       product: product,
       size: size,
-      color: colorObj,
       quantity: 1
     });
   }
@@ -599,16 +635,16 @@ function renderCart() {
   cartItemsContainer.innerHTML = cart.map((item, index) => {
     const itemTotal = item.product.price * item.quantity;
     subtotal += itemTotal;
-    const colorLabel = item.color ? ` • COLOR: ${item.color.name.toUpperCase()}` : '';
+    const itemImg = item.product.images && item.product.images.length > 0 ? item.product.images[0] : 'assets/tee_front_clean.jpg';
 
     return `
       <div class="cart-item">
         <div class="cart-item-img">
-          <img src="${item.color?.previewImg || item.product.images[0]}" alt="${item.product.name}">
+          <img src="${itemImg}" alt="${item.product.name}">
         </div>
         <div class="cart-item-info">
           <div class="cart-item-title">${item.product.name}</div>
-          <div class="cart-item-meta">SIZE: ${item.size}${colorLabel}</div>
+          <div class="cart-item-meta">SIZE: ${item.size}</div>
           <div class="cart-item-bottom">
             <div class="qty-control">
               <button class="qty-btn" onclick="updateQty(${index}, -1)"><i class="ri-subtract-line"></i></button>
@@ -625,13 +661,14 @@ function renderCart() {
 
   cartSubtotalVal.textContent = `₹${subtotal}`;
   
-  if (subtotal >= SHIPPING_THRESHOLD) {
+  const threshold = window.siteConfig?.offers?.shippingThreshold || SHIPPING_THRESHOLD;
+  if (subtotal >= threshold) {
     shippingMessage.innerHTML = `<span style="color: var(--color-primary)"><i class="ri-fire-fill"></i> FREE SHIPPING UNLOCKED!</span>`;
     shippingProgress.style.width = '100%';
   } else {
-    const remaining = SHIPPING_THRESHOLD - subtotal;
+    const remaining = threshold - subtotal;
     shippingMessage.textContent = `Add ₹${remaining} more for FREE SHIPPING`;
-    const percent = Math.min(100, (subtotal / SHIPPING_THRESHOLD) * 100);
+    const percent = Math.min(100, (subtotal / threshold) * 100);
     shippingProgress.style.width = `${percent}%`;
   }
 }
@@ -657,9 +694,9 @@ window.removeCartItem = function(index) {
 };
 
 // ==========================================
-// 7. QUICK VIEW & 3D GARMENT STUDIO CONTROLLER
+// 7. QUICK VIEW MODAL (SMOOTH & INSTANT)
 // ==========================================
-window.openQuickView = function(productId, preferredMode = '3d') {
+window.openQuickView = function(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
 
@@ -667,37 +704,23 @@ window.openQuickView = function(productId, preferredMode = '3d') {
   selectedSize = '';
   sizeError.style.display = 'none';
 
-  // Set Info
+  const mainPhoto = product.images && product.images.length > 0 ? product.images[0] : 'assets/tee_front_clean.jpg';
+  qvMainImg.src = mainPhoto;
+  qvMainImg.alt = product.name;
+  
   qvTag.textContent = product.tag || 'EXCLUSIVE DROP';
   qvTag.style.display = product.tag ? 'inline-block' : 'none';
+  
   qvTitle.textContent = product.name;
   qvPrice.textContent = `₹${product.price}`;
   qvComparePrice.textContent = `₹${product.compareAtPrice}`;
   
   const discount = Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100);
   qvDiscountPercent.textContent = `${discount}% OFF`;
+
   qvDescription.textContent = product.description;
 
-  // Specs Strip
-  if (product.fabric_gsm) {
-    specGsm.style.display = 'inline-flex';
-    specGsm.querySelector('span').textContent = `${product.fabric_gsm} GSM FRENCH TERRY`;
-  } else {
-    specGsm.style.display = 'none';
-  }
-
-  const fitNames = {
-    'boxy_oversized': 'BOXY OVERSIZED DROP SHOULDER',
-    'acid_distressed_tee': 'ACID DISTRESSED RELAXED CUT',
-    'minimal_heavyweight': 'HEAVYWEIGHT MINIMAL BOXY'
-  };
-  specFit.querySelector('span').textContent = fitNames[product.garment_fit] || 'STREETWEAR SILHOUETTE';
-
-  // 2D Photo Gallery Setup
-  qvMainImg.src = product.images[0];
-  qvMainImg.alt = product.name;
-
-  if (product.images.length > 1) {
+  if (product.images && product.images.length > 1) {
     qvThumbnailsContainer.style.display = 'flex';
     qvThumbnailsContainer.innerHTML = product.images.map((img, i) => 
       `<div class="qv-thumb ${i === 0 ? 'active' : ''}" onclick="switchQvImage(this, '${img}')">
@@ -708,207 +731,12 @@ window.openQuickView = function(productId, preferredMode = '3d') {
     qvThumbnailsContainer.style.display = 'none';
   }
 
-  // Size Options Setup
-  qvSizeOptions.innerHTML = product.sizes.map(size => 
+  const sizes = product.sizes || ["S", "M", "L", "XL"];
+  qvSizeOptions.innerHTML = sizes.map(size => 
     `<button class="qv-size-btn" onclick="selectSize(this, '${size}')">${size}</button>`
   ).join('');
 
-  // Colorways Swatches Setup
-  const colors = product.available_colors || [
-    { id: 'default', name: 'Original', hex: '#0e1014', inStock: true, previewImg: product.images[0] }
-  ];
-  
-  // Default to default_color_id or first color
-  selectedColor = colors.find(c => c.id === product.default_color_id) || colors[0];
-  qvActiveColorName.textContent = selectedColor.name.toUpperCase();
-
-  qvColorSwatches.innerHTML = colors.map(col => `
-    <button class="color-swatch-btn ${col.id === selectedColor.id ? 'active' : ''}" 
-            title="${col.name}" 
-            onclick="selectColorVariant('${col.id}')">
-      <span class="color-swatch-inner" style="background-color: ${col.hex};"></span>
-    </button>
-  `).join('');
-
-  // Mode Selection: 3D or 2D
-  if (product.has_3d) {
-    tabMode3D.style.display = 'inline-flex';
-    if (preferredMode === '3d') {
-      switchQvViewMode('3d');
-    } else {
-      switchQvViewMode('2d');
-    }
-  } else {
-    // Product has no 3D model yet
-    tabMode3D.style.display = 'none';
-    switchQvViewMode('2d');
-  }
-
   quickViewOverlay.classList.add('active');
-
-  // Trigger 3D Viewer if in 3D mode
-  if (product.has_3d && activeViewerMode === '3d') {
-    initOrUpdateMainViewer(product, selectedColor.id);
-  }
-};
-
-window.switchQvViewMode = function(mode) {
-  activeViewerMode = mode;
-  if (mode === '3d') {
-    tabMode3D.classList.add('active');
-    tabMode2D.classList.remove('active');
-    qv3dViewport.style.display = 'flex';
-    qv2dGalleryWrap.style.display = 'none';
-
-    if (selectedQuickViewProduct) {
-      if (selectedQuickViewProduct.has_3d) {
-        qv3dFallback.style.display = 'none';
-        initOrUpdateMainViewer(selectedQuickViewProduct, selectedColor?.id);
-      } else {
-        qv3dFallback.style.display = 'flex';
-        qv3dLoading.style.display = 'none';
-      }
-    }
-  } else {
-    tabMode2D.classList.add('active');
-    tabMode3D.classList.remove('active');
-    qv3dViewport.style.display = 'none';
-    qv2dGalleryWrap.style.display = 'block';
-  }
-};
-
-// Initialize or update the Three.js garment viewer
-function initOrUpdateMainViewer(product, colorId) {
-  if (!window.WeebGarmentViewer) {
-    console.warn("WeebGarmentViewer library is loading...");
-    setTimeout(() => initOrUpdateMainViewer(product, colorId), 150);
-    return;
-  }
-
-  qv3dLoading.style.display = 'flex';
-  qv3dLoading.style.opacity = '1';
-
-  if (!mainGarmentViewer) {
-    mainGarmentViewer = new WeebGarmentViewer({
-      container: qv3dCanvasWrap,
-      onLoadStart: () => {
-        qv3dLoading.style.display = 'flex';
-        qv3dLoading.style.opacity = '1';
-      },
-      onLoadComplete: () => {
-        qv3dLoading.style.opacity = '0';
-        setTimeout(() => { qv3dLoading.style.display = 'none'; }, 400);
-      },
-      onError: (err) => {
-        console.error("Main 3D Viewer error:", err);
-        qv3dLoading.style.display = 'none';
-        qv3dFallback.style.display = 'flex';
-      },
-      onAngleChange: (angle) => {
-        document.querySelectorAll('.qv-angle-btn').forEach(btn => {
-          if (btn.dataset.angle === angle) btn.classList.add('active');
-          else btn.classList.remove('active');
-        });
-      }
-    });
-  }
-
-  // Load product into viewer
-  mainGarmentViewer.loadProduct(product, colorId);
-  setTimeout(() => mainGarmentViewer.handleResize(), 80);
-}
-
-// Color variant selector handler
-window.selectColorVariant = function(colorId) {
-  if (!selectedQuickViewProduct) return;
-  const colors = selectedQuickViewProduct.available_colors || [];
-  const col = colors.find(c => c.id === colorId);
-  if (!col) return;
-
-  selectedColor = col;
-  qvActiveColorName.textContent = col.name.toUpperCase();
-
-  // Update swatches active ring in Quick View
-  document.querySelectorAll('#qv-color-swatches .color-swatch-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.title === col.name);
-  });
-
-  // Update swatches in Fullscreen if open
-  document.querySelectorAll('#fs-color-swatches .color-swatch-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.title === col.name);
-  });
-
-  // Update 3D Viewer material live
-  if (mainGarmentViewer && activeViewerMode === '3d') {
-    mainGarmentViewer.setColorVariant(colorId);
-  }
-
-  // Update 2D photo preview if image provided
-  if (col.previewImg) {
-    qvMainImg.src = col.previewImg;
-  }
-};
-
-// 3D View Angle Controls
-window.setViewerAngle = function(angle) {
-  if (mainGarmentViewer) {
-    mainGarmentViewer.viewAngle(angle);
-  }
-};
-
-window.toggleViewerAutoRotate = function() {
-  if (mainGarmentViewer) {
-    const isRotating = mainGarmentViewer.toggleAutoRotate();
-    const btn = document.getElementById('qv-autorotate-btn');
-    const fsBtn = document.getElementById('fs-autorotate-btn');
-    if (btn) btn.classList.toggle('active', isRotating);
-    if (fsBtn) fsBtn.classList.toggle('active', isRotating);
-  }
-};
-
-window.zoomViewerIn = function() {
-  if (mainGarmentViewer) mainGarmentViewer.zoomIn();
-};
-
-window.zoomViewerOut = function() {
-  if (mainGarmentViewer) mainGarmentViewer.zoomOut();
-};
-
-// Fullscreen Runway Studio
-window.openStudioFullscreen = function() {
-  if (!selectedQuickViewProduct) return;
-
-  studioFsModal.classList.add('active');
-  fsProductTitle.textContent = `${selectedQuickViewProduct.name} — 3D RUNWAY INSPECTOR`;
-
-  // Move canvas element to fullscreen container
-  if (mainGarmentViewer && mainGarmentViewer.renderer) {
-    fsCanvasContainer.appendChild(mainGarmentViewer.renderer.domElement);
-    setTimeout(() => {
-      mainGarmentViewer.handleResize();
-    }, 50);
-  }
-
-  // Populate color swatches dock
-  const colors = selectedQuickViewProduct.available_colors || [];
-  fsColorSwatches.innerHTML = colors.map(col => `
-    <button class="color-swatch-btn ${col.id === selectedColor?.id ? 'active' : ''}" 
-            title="${col.name}" 
-            onclick="selectColorVariant('${col.id}')">
-      <span class="color-swatch-inner" style="background-color: ${col.hex};"></span>
-    </button>
-  `).join('');
-};
-
-window.closeStudioFullscreen = function() {
-  studioFsModal.classList.remove('active');
-  // Return canvas back to quick view
-  if (mainGarmentViewer && mainGarmentViewer.renderer) {
-    qv3dCanvasWrap.appendChild(mainGarmentViewer.renderer.domElement);
-    setTimeout(() => {
-      mainGarmentViewer.handleResize();
-    }, 50);
-  }
 };
 
 window.switchQvImage = function(thumb, imgSrc) {
@@ -930,220 +758,480 @@ function closeQuickView() {
 }
 
 // ==========================================
-// 8. ADMIN 3D ASSET STUDIO CONTROLLER
+// 8. MASTER ADMIN CONTROL SUITE (PHOTOS, OFFERS, NAMES, WORDS)
 // ==========================================
-window.openAdminStudio = function() {
-  populateAdminProductSelect();
-  adminStudioOverlay.classList.add('active');
-
-  // Load first 3D product or product 1
-  const initialProduct = products.find(p => p.has_3d) || products[0];
-  if (initialProduct) {
-    adminProductSelect.value = initialProduct.id;
-    onAdminSelectProduct(initialProduct.id);
+window.openAdminModal = function() {
+  if (isAdminAuthenticated) {
+    openAdminSuite();
+  } else {
+    adminAuthOverlay.classList.add('active');
+    authErrorMsg.style.display = 'none';
+    adminPasscodeInput.value = '';
+    setTimeout(() => adminPasscodeInput.focus(), 100);
   }
 };
 
-window.closeAdminStudio = function() {
-  adminStudioOverlay.classList.remove('active');
+window.closeAdminAuth = function() {
+  adminAuthOverlay.classList.remove('active');
 };
 
-function populateAdminProductSelect() {
-  adminProductSelect.innerHTML = products.map(p => 
-    `<option value="${p.id}">${p.name} ${p.has_3d ? '[3D ACTIVE]' : '[2D ONLY]'}</option>`
-  ).join('');
-}
-
-window.onAdminSelectProduct = function(productId) {
-  const prod = products.find(p => p.id === parseInt(productId));
-  if (!prod) return;
-
-  currentAdminProduct = JSON.parse(JSON.stringify(prod));
-
-  // Populate Admin Form Fields
-  adminHas3D.checked = !!currentAdminProduct.has_3d;
-  adminFitSelect.value = currentAdminProduct.garment_fit || 'boxy_oversized';
-  adminGlbFilename.textContent = currentAdminProduct.model_3d_url || 'Using procedural streetwear garment geometry';
-  adminFrontFilename.textContent = currentAdminProduct.front_texture_url || 'No front artwork assigned';
-  adminBackFilename.textContent = currentAdminProduct.back_texture_url || 'No back artwork assigned';
-
-  const frontPlacement = currentAdminProduct.front_art_placement || { scale: 0.64 };
-  const backPlacement = currentAdminProduct.back_art_placement || { scale: 0.70 };
-
-  adminFrontScale.value = frontPlacement.scale || 0.64;
-  adminFrontScaleVal.textContent = adminFrontScale.value;
-  adminBackScale.value = backPlacement.scale || 0.70;
-  adminBackScaleVal.textContent = adminBackScale.value;
-
-  adminRoughness.value = currentAdminProduct.fabric_roughness || 0.85;
-  adminRoughnessVal.textContent = adminRoughness.value;
-
-  renderAdminColorways(currentAdminProduct.available_colors || []);
-
-  // Update Live Admin 3D Preview
-  updateAdminLivePreview(currentAdminProduct);
+window.handleAdminLogin = function(e) {
+  e.preventDefault();
+  const input = adminPasscodeInput.value.trim();
+  // Passcode: "weebfour" or "admin123"
+  if (input === 'weebfour' || input === 'admin123') {
+    isAdminAuthenticated = true;
+    closeAdminAuth();
+    openAdminSuite();
+  } else {
+    authErrorMsg.style.display = 'block';
+    adminPasscodeInput.select();
+  }
 };
 
-window.onAdminToggle3D = function(enabled) {
-  if (!currentAdminProduct) return;
-  currentAdminProduct.has_3d = enabled;
-  document.getElementById('admin-preview-status').innerHTML = enabled 
-    ? `<i class="ri-checkbox-circle-fill"></i> ACTIVE`
-    : `<span style="color: var(--color-error);"><i class="ri-close-circle-fill"></i> DISABLED (2D Fallback)</span>`;
+window.openAdminSuite = function() {
+  adminSuiteOverlay.classList.add('active');
+  loadAdminFormValues();
+  renderAdminProductsList();
+  renderAdminTickerList();
+  renderAdminPromosList();
 };
 
-window.onAdminUpdateFit = function(fit) {
-  if (!currentAdminProduct) return;
-  currentAdminProduct.garment_fit = fit;
-  updateAdminLivePreview(currentAdminProduct);
+window.closeAdminSuite = function() {
+  adminSuiteOverlay.classList.remove('active');
 };
 
-window.onAdminUploadGLB = function(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+// Switch Tabs inside Admin
+window.switchAdminTab = function(tabName) {
+  document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabName);
+  });
+  document.querySelectorAll('.admin-tab-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.id === `admin-panel-${tabName}`);
+  });
+};
 
-  // Validate extension
-  const validExts = ['.glb', '.gltf'];
-  const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
-  if (!validExts.includes(ext)) {
-    alert("Invalid file format. Please upload a .GLB or .GLTF garment 3D model.");
-    return;
+// --- TAB 1: Products List & Actions ---
+window.renderAdminProductsList = function() {
+  const query = (document.getElementById('admin-product-search')?.value || '').toLowerCase();
+  const tbody = document.getElementById('admin-products-table-body');
+  if (!tbody) return;
+
+  const filtered = products.filter(p => 
+    p.name.toLowerCase().includes(query) || 
+    (p.tag && p.tag.toLowerCase().includes(query)) ||
+    p.category.toLowerCase().includes(query)
+  );
+
+  tbody.innerHTML = filtered.map(p => {
+    const img = p.images && p.images.length > 0 ? p.images[0] : 'assets/tee_front_clean.jpg';
+    const tag = p.tag ? `<span class="table-tag">${p.tag}</span>` : '<span style="color:var(--color-text-dim)">—</span>';
+    const sizes = (p.sizes || []).join(', ');
+
+    return `
+      <tr>
+        <td><img src="${img}" class="table-prod-img" alt="${p.name}"></td>
+        <td><div class="table-prod-name">${p.name}</div></td>
+        <td><span style="text-transform: uppercase;">${p.category}</span></td>
+        <td><strong>₹${p.price}</strong></td>
+        <td><span style="color: var(--color-text-dim)">₹${p.compareAtPrice}</span></td>
+        <td>${tag}</td>
+        <td><span style="font-size: 0.75rem;">${sizes}</span></td>
+        <td>
+          <div class="table-actions">
+            <button class="table-action-btn" onclick="openProductEditModal(${p.id})"><i class="ri-edit-line"></i> Edit</button>
+            <button class="table-action-btn btn-delete" onclick="deleteProduct(${p.id})"><i class="ri-delete-bin-line"></i></button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+};
+
+// Add or Edit Product Modal
+window.openProductEditModal = function(productId) {
+  const modalTitle = document.getElementById('product-modal-title');
+  const editId = document.getElementById('edit-prod-id');
+  const editName = document.getElementById('edit-prod-name');
+  const editCategory = document.getElementById('edit-prod-category');
+  const editPrice = document.getElementById('edit-prod-price');
+  const editCompare = document.getElementById('edit-prod-compare');
+  const editTag = document.getElementById('edit-prod-tag');
+  const editDesc = document.getElementById('edit-prod-desc');
+
+  if (productId) {
+    const prod = products.find(p => p.id === productId);
+    if (!prod) return;
+    modalTitle.textContent = `EDIT PRODUCT: ${prod.name}`;
+    editId.value = prod.id;
+    editName.value = prod.name;
+    editCategory.value = prod.category;
+    editPrice.value = prod.price;
+    editCompare.value = prod.compareAtPrice || prod.price;
+    editTag.value = prod.tag || '';
+    editDesc.value = prod.description || '';
+
+    // Sizes checkboxes
+    const sizes = prod.sizes || [];
+    document.querySelectorAll('.size-cb').forEach(cb => {
+      cb.checked = sizes.includes(cb.value);
+    });
+
+    currentEditingImages = prod.images ? [...prod.images] : [];
+  } else {
+    // New product
+    modalTitle.textContent = "ADD NEW PRODUCT";
+    editId.value = "";
+    editName.value = "";
+    editCategory.value = "tees";
+    editPrice.value = "";
+    editCompare.value = "";
+    editTag.value = "NEW DROP";
+    editDesc.value = "";
+
+    document.querySelectorAll('.size-cb').forEach(cb => {
+      cb.checked = ["S", "M", "L", "XL"].includes(cb.value);
+    });
+
+    currentEditingImages = ["assets/tee_front_clean.jpg"];
   }
 
-  // Validate size (< 25MB)
-  if (file.size > 25 * 1024 * 1024) {
-    alert("File exceeds maximum allowed size (25MB). Please optimize your 3D asset.");
-    return;
-  }
-
-  const blobUrl = URL.createObjectURL(file);
-  currentAdminProduct.model_3d_url = blobUrl;
-  adminGlbFilename.textContent = `${file.name} (${Math.round(file.size / 1024)} KB)`;
-  updateAdminLivePreview(currentAdminProduct);
+  renderProductImageInputs();
+  productEditOverlay.classList.add('active');
 };
 
-window.onAdminUploadArtwork = function(event, side) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  // Validate image type
-  if (!file.type.startsWith('image/')) {
-    alert("Please upload a valid image file (PNG, JPG, or WEBP).");
-    return;
-  }
-
-  // Validate size (< 5MB)
-  if (file.size > 5 * 1024 * 1024) {
-    alert("Image file size exceeds 5MB. Please upload an optimized artwork map.");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const dataUrl = e.target.result;
-    if (side === 'front') {
-      currentAdminProduct.front_texture_url = dataUrl;
-      adminFrontFilename.textContent = file.name;
-    } else {
-      currentAdminProduct.back_texture_url = dataUrl;
-      adminBackFilename.textContent = file.name;
-    }
-    updateAdminLivePreview(currentAdminProduct);
-  };
-  reader.readAsDataURL(file);
+window.closeProductEditModal = function() {
+  productEditOverlay.classList.remove('active');
 };
 
-window.onAdminUpdateArtworkPlacement = function() {
-  if (!currentAdminProduct) return;
-  const fScale = parseFloat(adminFrontScale.value);
-  const bScale = parseFloat(adminBackScale.value);
-  adminFrontScaleVal.textContent = fScale.toFixed(2);
-  adminBackScaleVal.textContent = bScale.toFixed(2);
+function renderProductImageInputs() {
+  const container = document.getElementById('product-images-inputs-container');
+  if (!container) return;
 
-  currentAdminProduct.front_art_placement = { scale: fScale, offsetY: 0.04, offsetX: 0 };
-  currentAdminProduct.back_art_placement = { scale: bScale, offsetY: 0.02, offsetX: 0 };
-
-  updateAdminLivePreview(currentAdminProduct);
-};
-
-window.onAdminUpdateRoughness = function(val) {
-  if (!currentAdminProduct) return;
-  adminRoughnessVal.textContent = parseFloat(val).toFixed(2);
-  currentAdminProduct.fabric_roughness = parseFloat(val);
-  updateAdminLivePreview(currentAdminProduct);
-};
-
-function renderAdminColorways(colors) {
-  adminColorsList.innerHTML = colors.map((col, idx) => `
-    <div style="display: flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.02); padding: 6px 10px; border: 1px solid var(--color-border);">
-      <input type="color" value="${col.hex}" style="width: 28px; height: 28px; border: none; cursor: pointer; background: transparent;" onchange="onAdminUpdateColorHex(${idx}, this.value)">
-      <input type="text" value="${col.name}" class="admin-input" style="padding: 6px 10px; font-size: 0.78rem; flex: 1;" onchange="onAdminUpdateColorName(${idx}, this.value)">
-      <span style="font-size: 0.7rem; color: var(--color-primary); cursor: pointer;" onclick="onAdminPreviewColor(${idx})"><i class="ri-eye-line"></i> Preview</span>
+  container.innerHTML = currentEditingImages.map((imgUrl, i) => `
+    <div class="image-input-row">
+      <img src="${imgUrl}" class="image-thumb-mini" onerror="this.src='assets/tee_front_clean.jpg'">
+      <input type="text" class="admin-form-input" value="${imgUrl}" style="flex: 1;" onchange="updateProductImageUrl(${i}, this.value)">
+      <button type="button" class="btn btn-xs btn-secondary" onclick="removeProductImage(${i})" title="Remove photo"><i class="ri-close-line"></i></button>
     </div>
   `).join('');
 }
 
-window.onAdminUpdateColorHex = function(idx, hex) {
-  if (!currentAdminProduct || !currentAdminProduct.available_colors) return;
-  currentAdminProduct.available_colors[idx].hex = hex;
-  updateAdminLivePreview(currentAdminProduct);
+window.addEmptyImageUrlInput = function() {
+  currentEditingImages.push("");
+  renderProductImageInputs();
 };
 
-window.onAdminUpdateColorName = function(idx, name) {
-  if (!currentAdminProduct || !currentAdminProduct.available_colors) return;
-  currentAdminProduct.available_colors[idx].name = name;
-};
-
-window.onAdminPreviewColor = function(idx) {
-  if (!currentAdminProduct || !currentAdminProduct.available_colors) return;
-  const col = currentAdminProduct.available_colors[idx];
-  if (adminGarmentViewer) {
-    adminGarmentViewer.setColorVariant(col.id);
+window.removeProductImage = function(index) {
+  currentEditingImages.splice(index, 1);
+  if (currentEditingImages.length === 0) {
+    currentEditingImages.push("assets/tee_front_clean.jpg");
   }
+  renderProductImageInputs();
 };
 
-function updateAdminLivePreview(product) {
-  if (!window.WeebGarmentViewer) return;
+window.updateProductImageUrl = function(index, url) {
+  currentEditingImages[index] = url;
+  renderProductImageInputs();
+};
 
-  if (!adminGarmentViewer) {
-    adminGarmentViewer = new WeebGarmentViewer({
-      container: adminCanvasContainer,
-      onLoadStart: () => {},
-      onLoadComplete: () => {},
-      onError: (err) => console.warn("Admin preview error:", err)
+// Handle uploading a local image file for product photo
+window.handleProductImageUpload = function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const dataUrl = e.target.result;
+    currentEditingImages.push(dataUrl);
+    renderProductImageInputs();
+  };
+  reader.readAsDataURL(file);
+};
+
+// Save Product Form
+window.handleSaveProductForm = function(e) {
+  e.preventDefault();
+  const idVal = document.getElementById('edit-prod-id').value;
+  const nameVal = document.getElementById('edit-prod-name').value.trim();
+  const catVal = document.getElementById('edit-prod-category').value;
+  const priceVal = parseInt(document.getElementById('edit-prod-price').value) || 999;
+  const compareVal = parseInt(document.getElementById('edit-prod-compare').value) || priceVal * 2;
+  const tagVal = document.getElementById('edit-prod-tag').value.trim();
+  const descVal = document.getElementById('edit-prod-desc').value.trim();
+
+  // Selected sizes
+  const sizes = [];
+  document.querySelectorAll('.size-cb:checked').forEach(cb => sizes.push(cb.value));
+
+  // Valid image list
+  const validImages = currentEditingImages.filter(url => url.trim() !== '');
+  if (validImages.length === 0) validImages.push("assets/tee_front_clean.jpg");
+
+  if (idVal) {
+    // Update existing product
+    const prodId = parseInt(idVal);
+    const idx = products.findIndex(p => p.id === prodId);
+    if (idx !== -1) {
+      products[idx] = {
+        ...products[idx],
+        name: nameVal,
+        category: catVal,
+        price: priceVal,
+        compareAtPrice: compareVal,
+        tag: tagVal,
+        sizes: sizes.length > 0 ? sizes : ["S", "M", "L", "XL"],
+        images: validImages,
+        description: descVal
+      };
+    }
+  } else {
+    // Create brand new product
+    const newId = Math.max(...products.map(p => p.id), 0) + 1;
+    products.push({
+      id: newId,
+      name: nameVal,
+      category: catVal,
+      price: priceVal,
+      compareAtPrice: compareVal,
+      tag: tagVal,
+      sizes: sizes.length > 0 ? sizes : ["S", "M", "L", "XL"],
+      images: validImages,
+      description: descVal
     });
   }
 
-  adminGarmentViewer.loadProduct(product);
-  setTimeout(() => adminGarmentViewer.handleResize(), 80);
-}
+  // Persist immediately in localStorage
+  localStorage.setItem('weebfour_custom_catalog', JSON.stringify(products));
 
-window.saveAdminChanges = function() {
-  if (!currentAdminProduct) return;
+  closeProductEditModal();
+  renderAdminProductsList();
+  renderProducts();
+};
 
-  const targetIdx = products.findIndex(p => p.id === currentAdminProduct.id);
-  if (targetIdx !== -1) {
-    products[targetIdx] = { ...products[targetIdx], ...currentAdminProduct };
+window.deleteProduct = function(productId) {
+  const prod = products.find(p => p.id === productId);
+  if (!prod) return;
 
-    // Persist in localStorage
-    try {
-      localStorage.setItem('weebfour_custom_catalog', JSON.stringify(products));
-    } catch (e) {
-      console.warn("Could not save to localStorage", e);
-    }
-
+  if (confirm(`Are you sure you want to delete "${prod.name}" from your catalog?`)) {
+    products = products.filter(p => p.id !== productId);
+    localStorage.setItem('weebfour_custom_catalog', JSON.stringify(products));
+    renderAdminProductsList();
     renderProducts();
-    populateAdminProductSelect();
-    adminProductSelect.value = currentAdminProduct.id;
-
-    // Toast Alert
-    alert(`Successfully published 3D garment configuration for "${currentAdminProduct.name}"!`);
   }
 };
 
-window.resetAdminDefaults = function() {
-  if (confirm("Reset catalog back to initial state? All custom uploads and overrides will be cleared.")) {
+// --- TAB 2: Offers & Promos ---
+window.renderAdminTickerList = function() {
+  const list = document.getElementById('admin-ticker-list');
+  if (!list || !window.siteConfig) return;
+
+  const announcements = window.siteConfig.announcements || [];
+  list.innerHTML = announcements.map((msg, i) => `
+    <div class="dynamic-row-item">
+      <input type="text" value="${msg}" onchange="updateAnnouncementRow(${i}, this.value)">
+      <i class="ri-delete-bin-line del-row-btn" onclick="deleteAnnouncementRow(${i})" title="Delete message"></i>
+    </div>
+  `).join('');
+};
+
+window.addNewAnnouncementRow = function() {
+  if (!window.siteConfig.announcements) window.siteConfig.announcements = [];
+  window.siteConfig.announcements.push("🔥 NEW PROMO ANNOUNCEMENT MESSAGE");
+  renderAdminTickerList();
+};
+
+window.deleteAnnouncementRow = function(index) {
+  window.siteConfig.announcements.splice(index, 1);
+  renderAdminTickerList();
+};
+
+window.updateAnnouncementRow = function(index, val) {
+  window.siteConfig.announcements[index] = val;
+};
+
+window.renderAdminPromosList = function() {
+  const list = document.getElementById('admin-promos-list');
+  if (!list || !window.siteConfig) return;
+
+  const promos = window.siteConfig.offers?.promos || [];
+  list.innerHTML = promos.map((p, i) => `
+    <div class="dynamic-row-item">
+      <strong style="color: var(--color-primary); min-width: 80px;">CODE:</strong>
+      <input type="text" value="${p.code}" style="width: 90px; text-transform: uppercase;" onchange="updatePromoCode(${i}, this.value)">
+      <span style="font-size: 0.75rem; color: var(--color-text-dim);">DISCOUNT (%):</span>
+      <input type="number" value="${p.discountPercent}" style="width: 60px;" min="1" max="100" onchange="updatePromoPercent(${i}, this.value)">
+      <i class="ri-delete-bin-line del-row-btn" onclick="deletePromoRow(${i})" title="Delete promo"></i>
+    </div>
+  `).join('');
+};
+
+window.addNewPromoRow = function() {
+  if (!window.siteConfig.offers.promos) window.siteConfig.offers.promos = [];
+  window.siteConfig.offers.promos.push({ code: "SALE15", discountPercent: 15, description: "Seasonal Sale" });
+  renderAdminPromosList();
+};
+
+window.deletePromoRow = function(index) {
+  window.siteConfig.offers.promos.splice(index, 1);
+  renderAdminPromosList();
+};
+
+window.updatePromoCode = function(index, code) {
+  window.siteConfig.offers.promos[index].code = code.trim().toUpperCase();
+};
+
+window.updatePromoPercent = function(index, pct) {
+  window.siteConfig.offers.promos[index].discountPercent = parseInt(pct) || 10;
+};
+
+// --- TAB 3 & 4: Load Values into Form ---
+function loadAdminFormValues() {
+  if (!window.siteConfig) return;
+  const cfg = window.siteConfig;
+
+  // Shipping
+  const shipThresh = document.getElementById('admin-shipping-threshold');
+  if (shipThresh) shipThresh.value = cfg.offers?.shippingThreshold || 1499;
+
+  const flatShip = document.getElementById('admin-flat-shipping');
+  if (flatShip) flatShip.value = cfg.offers?.flatShippingFee || 150;
+
+  // Words & Texts
+  if (cfg.texts) {
+    setVal('admin-text-hero-badge', cfg.texts.heroBadge);
+    setVal('admin-text-hero-title', cfg.texts.heroTitle);
+    setVal('admin-text-hero-desc', cfg.texts.heroSubtitle);
+    setVal('admin-text-hero-cta1', cfg.texts.heroCtaPrimary);
+    setVal('admin-text-hero-cta2', cfg.texts.heroCtaSecondary);
+    setVal('admin-text-collections-title', cfg.texts.collectionsTitle);
+    setVal('admin-text-collections-sub', cfg.texts.collectionsSubtitle);
+    setVal('admin-text-catalog-title', cfg.texts.catalogTitle);
+    setVal('admin-text-catalog-sub', cfg.texts.catalogSubtitle);
+    setVal('admin-text-news-title', cfg.texts.newsletterTitle);
+    setVal('admin-text-news-sub', cfg.texts.newsletterSubtitle);
+    setVal('admin-text-footer-about', cfg.texts.footerAbout);
+    setVal('admin-text-store-email', cfg.texts.storeEmail);
+    setVal('admin-text-store-addr', cfg.texts.storeAddress);
+  }
+
+  // Media URLs & Previews
+  if (cfg.media) {
+    setVal('admin-media-hero-bg', cfg.media.heroBg);
+    setVal('admin-media-logo', cfg.media.primaryLogo);
+    setVal('admin-media-symbol', cfg.media.secondarySymbol);
+
+    if (cfg.media.heroBg) document.getElementById('admin-preview-hero-bg').src = cfg.media.heroBg;
+    if (cfg.media.primaryLogo) document.getElementById('admin-preview-logo').src = cfg.media.primaryLogo;
+    if (cfg.media.secondarySymbol) document.getElementById('admin-preview-symbol').src = cfg.media.secondarySymbol;
+  }
+}
+
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if (el && val !== undefined) el.value = val;
+}
+
+window.updateMediaPreview = function(type, url) {
+  if (type === 'hero-bg') document.getElementById('admin-preview-hero-bg').src = url;
+  if (type === 'logo') document.getElementById('admin-preview-logo').src = url;
+  if (type === 'symbol') document.getElementById('admin-preview-symbol').src = url;
+};
+
+// Upload banner / logo from file
+window.handleAdminFileUpload = function(event, type) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const dataUrl = e.target.result;
+    if (type === 'hero-bg') {
+      document.getElementById('admin-media-hero-bg').value = dataUrl;
+      document.getElementById('admin-preview-hero-bg').src = dataUrl;
+      window.siteConfig.media.heroBg = dataUrl;
+    } else if (type === 'logo') {
+      document.getElementById('admin-media-logo').value = dataUrl;
+      document.getElementById('admin-preview-logo').src = dataUrl;
+      window.siteConfig.media.primaryLogo = dataUrl;
+    } else if (type === 'symbol') {
+      document.getElementById('admin-media-symbol').value = dataUrl;
+      document.getElementById('admin-preview-symbol').src = dataUrl;
+      window.siteConfig.media.secondarySymbol = dataUrl;
+    }
+  };
+  reader.readAsDataURL(file);
+};
+
+// Save All Admin Changes
+window.saveAllAdminChanges = function() {
+  if (!window.siteConfig) return;
+
+  // Harvest form values
+  const cfg = window.siteConfig;
+
+  // Shipping
+  cfg.offers.shippingThreshold = parseInt(document.getElementById('admin-shipping-threshold').value) || 1499;
+  cfg.offers.flatShippingFee = parseInt(document.getElementById('admin-flat-shipping').value) || 150;
+
+  // Words & texts
+  cfg.texts.heroBadge = document.getElementById('admin-text-hero-badge').value;
+  cfg.texts.heroTitle = document.getElementById('admin-text-hero-title').value;
+  cfg.texts.heroSubtitle = document.getElementById('admin-text-hero-desc').value;
+  cfg.texts.heroCtaPrimary = document.getElementById('admin-text-hero-cta1').value;
+  cfg.texts.heroCtaSecondary = document.getElementById('admin-text-hero-cta2').value;
+  cfg.texts.collectionsTitle = document.getElementById('admin-text-collections-title').value;
+  cfg.texts.collectionsSubtitle = document.getElementById('admin-text-collections-sub').value;
+  cfg.texts.catalogTitle = document.getElementById('admin-text-catalog-title').value;
+  cfg.texts.catalogSubtitle = document.getElementById('admin-text-catalog-sub').value;
+  cfg.texts.newsletterTitle = document.getElementById('admin-text-news-title').value;
+  cfg.texts.newsletterSubtitle = document.getElementById('admin-text-news-sub').value;
+  cfg.texts.footerAbout = document.getElementById('admin-text-footer-about').value;
+  cfg.texts.storeEmail = document.getElementById('admin-text-store-email').value;
+  cfg.texts.storeAddress = document.getElementById('admin-text-store-addr').value;
+
+  // Media
+  cfg.media.heroBg = document.getElementById('admin-media-hero-bg').value;
+  cfg.media.primaryLogo = document.getElementById('admin-media-logo').value;
+  cfg.media.secondarySymbol = document.getElementById('admin-media-symbol').value;
+
+  // Persist to localStorage
+  try {
+    localStorage.setItem('weebfour_site_config', JSON.stringify(cfg));
+    localStorage.setItem('weebfour_custom_catalog', JSON.stringify(products));
+  } catch (e) {
+    console.warn("Could not save to localStorage", e);
+  }
+
+  // Update Live Storefront immediately!
+  applySiteConfigToStorefront();
+  renderProducts();
+
+  alert("SUCCESS: All website texts, photos, offers, and products have been saved & published live!");
+};
+
+// Export configuration to JSON file
+window.exportAdminData = function() {
+  const exportPayload = {
+    products: products,
+    siteConfig: window.siteConfig,
+    exportedAt: new Date().toISOString()
+  };
+
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportPayload, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `weebfour_backup_${Date.now()}.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+};
+
+// Reset to factory defaults
+window.resetToFactoryDefaults = function() {
+  if (confirm("Reset the entire storefront back to factory default products, words, photos, and offers?")) {
     localStorage.removeItem('weebfour_custom_catalog');
+    localStorage.removeItem('weebfour_site_config');
     window.location.reload();
   }
 };
@@ -1174,7 +1262,7 @@ function closeCheckout() {
 function renderCheckoutSummaryItems() {
   checkoutItemsList.innerHTML = cart.map(item => `
     <div class="mini-item">
-      <span class="mini-item-name">${item.product.name} (${item.size}${item.color ? ' / ' + item.color.name : ''}) x${item.quantity}</span>
+      <span class="mini-item-name">${item.product.name} (${item.size}) x${item.quantity}</span>
       <span class="mini-item-price">₹${item.product.price * item.quantity}</span>
     </div>
   `).join('');
@@ -1184,7 +1272,9 @@ function updateCheckoutSummary() {
   const subtotal = cart.reduce((total, item) => total + (item.product.price * item.quantity), 0);
   coSubtotal.textContent = `₹${subtotal}`;
 
-  const shipping = subtotal >= SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_FEE;
+  const threshold = window.siteConfig?.offers?.shippingThreshold || SHIPPING_THRESHOLD;
+  const flatFee = window.siteConfig?.offers?.flatShippingFee || FLAT_SHIPPING_FEE;
+  const shipping = subtotal >= threshold ? 0 : flatFee;
   coShipping.textContent = shipping === 0 ? 'FREE' : `₹${shipping}`;
 
   const discountVal = Math.round(subtotal * activeDiscount);

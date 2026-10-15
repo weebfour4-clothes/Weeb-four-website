@@ -77,8 +77,8 @@
           <span class="cart-badge">0</span>
         </button>
 
-        <button id="admin-studio-btn" class="admin-nav-btn" title="Open 3D Asset Studio & Admin Manager">
-          <i class="ri-box-3-line"></i> <span>3D ADMIN</span>
+        <button id="admin-open-btn" class="admin-nav-btn" title="Open Master Admin Control Suite" onclick="openAdminModal()">
+          <i class="ri-shield-keyhole-line"></i> <span>ADMIN ACCESS</span>
         </button>
 
         <a href="#newsletter" class="nav-contact-link">
@@ -301,83 +301,19 @@
     </div>
   </div>
 
-  <!-- Quick View / 3D Garment Studio Modal -->
+  <!-- Quick View Modal (Ultra-Smooth High-Res Editorial Gallery) -->
   <div class="modal-overlay" id="quick-view-overlay">
     <div class="modal-content quick-view-modal">
       <button class="close-modal-btn" id="quick-view-close" aria-label="Close modal"><i class="ri-close-line"></i></button>
       
       <div class="qv-grid">
-        <!-- Visuals Column (3D Viewer / 2D Gallery) -->
-        <div class="qv-visuals-wrapper">
-          <!-- View Mode Switcher -->
-          <div class="qv-mode-switcher">
-            <button id="tab-mode-3d" class="qv-mode-tab tab-3d active" onclick="switchQvViewMode('3d')">
-              <span class="pulse-dot"></span> <i class="ri-box-3-fill"></i> 3D GARMENT STUDIO
-            </button>
-            <button id="tab-mode-2d" class="qv-mode-tab tab-2d" onclick="switchQvViewMode('2d')">
-              <i class="ri-image-line"></i> 2D EDITORIAL PHOTOS
-            </button>
+        <!-- Visuals Column (High-Res Editorial Photo Gallery) -->
+        <div class="qv-gallery">
+          <div class="qv-main-image-container">
+            <img id="qv-main-img" src="" alt="Product Main Image">
           </div>
-
-          <!-- 1. 3D Interactive Viewport -->
-          <div id="qv-3d-viewport" class="qv-3d-viewport">
-            <div id="qv-3d-canvas-wrap" class="qv-3d-canvas-container"></div>
-            
-            <!-- Floating 3D Controls Bar -->
-            <div class="qv-3d-controls-bar">
-              <div class="qv-angles-group">
-                <button class="qv-ctrl-btn qv-angle-btn active" data-angle="front" onclick="setViewerAngle('front')">FRONT</button>
-                <button class="qv-ctrl-btn qv-angle-btn" data-angle="back" onclick="setViewerAngle('back')">BACK</button>
-                <button class="qv-ctrl-btn qv-angle-btn" data-angle="left" onclick="setViewerAngle('left')">SIDE</button>
-                <button class="qv-ctrl-btn qv-angle-btn" data-angle="angled" onclick="setViewerAngle('angled')">3/4 FIT</button>
-              </div>
-
-              <div class="qv-actions-group">
-                <button id="qv-autorotate-btn" class="qv-ctrl-btn qv-icon-btn active" title="Toggle 360° Auto Rotation" onclick="toggleViewerAutoRotate()">
-                  <i class="ri-refresh-line"></i>
-                </button>
-                <button class="qv-ctrl-btn qv-icon-btn" title="Zoom In" onclick="zoomViewerIn()">
-                  <i class="ri-zoom-in-line"></i>
-                </button>
-                <button class="qv-ctrl-btn qv-icon-btn" title="Zoom Out" onclick="zoomViewerOut()">
-                  <i class="ri-zoom-out-line"></i>
-                </button>
-                <button class="qv-ctrl-btn qv-icon-btn" title="Fullscreen Runway View" onclick="openStudioFullscreen()">
-                  <i class="ri-fullscreen-line"></i>
-                </button>
-              </div>
-            </div>
-
-            <!-- Hint Pill -->
-            <div class="qv-3d-hint-pill">
-              <i class="ri-drag-move-2-line"></i> Drag mouse or touch to rotate • Scroll to zoom
-            </div>
-
-            <!-- 3D Texture & Garment Baking Spinner -->
-            <div id="qv-3d-loading" class="qv-3d-loading-overlay">
-              <div class="cyber-spinner"></div>
-              <span>COMPOSITING PBR GARMENT WEAVE & UV ARTWORK...</span>
-            </div>
-
-            <!-- Fallback Overlay (if product has no 3D or WebGL fails) -->
-            <div id="qv-3d-fallback" class="qv-3d-fallback-msg" style="display: none;">
-              <i class="ri-shirt-line"></i>
-              <h4>3D Model in Production</h4>
-              <p>This piece is currently available in editorial 2D photography while our 3D garment mesh is being tailored.</p>
-              <button class="btn btn-secondary btn-sm" onclick="switchQvViewMode('2d')">
-                <i class="ri-image-line"></i> VIEW 2D EDITORIAL PHOTOS
-              </button>
-            </div>
-          </div>
-
-          <!-- 2. High-Res 2D Photo Gallery (Toggled via Switcher) -->
-          <div id="qv-2d-gallery-wrap" class="qv-gallery" style="display: none;">
-            <div class="qv-main-image-container">
-              <img id="qv-main-img" src="" alt="Product Main Image">
-            </div>
-            <div class="qv-thumbnails" id="qv-thumbnails-container">
-              <!-- Dynamic thumbnails -->
-            </div>
+          <div class="qv-thumbnails" id="qv-thumbnails-container">
+            <!-- Dynamic thumbnails -->
           </div>
         </div>
         
@@ -392,24 +328,6 @@
           </div>
           
           <p id="qv-description" class="qv-desc-text">Description goes here.</p>
-
-          <!-- Dynamic Colorway Selector (Live updates 3D Material & 2D Photos) -->
-          <div class="qv-color-section" id="qv-color-section">
-            <div class="color-header">
-              <span>COLORWAY:</span>
-              <strong id="qv-active-color-name">DEFAULT</strong>
-            </div>
-            <div class="color-swatches-grid" id="qv-color-swatches">
-              <!-- Dynamic color swatches -->
-            </div>
-          </div>
-
-          <!-- Garment Specs Badges -->
-          <div class="garment-specs-strip" id="qv-specs-strip">
-            <div class="spec-pill" id="spec-gsm"><i class="ri-scales-3-line"></i> <span>280 GSM FRENCH TERRY</span></div>
-            <div class="spec-pill" id="spec-fit"><i class="ri-t-shirt-2-line"></i> <span>BOXY STREETWEAR CUT</span></div>
-            <div class="spec-pill"><i class="ri-contrast-drop-2-line"></i> <span>SILICONE WASHED</span></div>
-          </div>
           
           <!-- Size Selector -->
           <div class="qv-size-section">
@@ -744,168 +662,370 @@
     </div>
   </footer>
 
-  <!-- 3D Garment Fullscreen Runway Studio -->
-  <div class="studio-fullscreen-modal" id="studio-fullscreen-modal">
-    <div class="fs-header">
-      <div class="fs-title-box">
-        <div class="badge-3d-pill"><i class="ri-box-3-fill"></i> 3D STUDIO</div>
-        <h3 id="fs-product-title">GARMENT RUNWAY INSPECTOR</h3>
+  <!-- ==========================================
+       WEEBFOUR MASTER ADMIN SUITE
+       Full Control over Photos, Offers, Names, & Words
+       ========================================== -->
+
+  <!-- 1. Admin Authentication Gatekeeper Modal -->
+  <div class="modal-overlay" id="admin-auth-overlay">
+    <div class="modal-content admin-auth-modal">
+      <button class="close-modal-btn" onclick="closeAdminAuth()" aria-label="Close"><i class="ri-close-line"></i></button>
+      <div class="auth-header">
+        <i class="ri-shield-keyhole-line"></i>
+        <h2>WEEBFOUR HQ ACCESS</h2>
+        <p>Restricted to store administrators. Enter your security passcode to unlock the Master Admin Suite.</p>
       </div>
-      <button class="close-modal-btn" onclick="closeStudioFullscreen()" aria-label="Exit Fullscreen">
-        <i class="ri-close-line"></i>
-      </button>
-    </div>
-    <div class="fs-viewport-container" id="fs-canvas-container"></div>
-    <div class="fs-bottom-dock">
-      <div class="qv-angles-group">
-        <button class="qv-ctrl-btn qv-angle-btn active" data-angle="front" onclick="setViewerAngle('front')">FRONT</button>
-        <button class="qv-ctrl-btn qv-angle-btn" data-angle="back" onclick="setViewerAngle('back')">BACK</button>
-        <button class="qv-ctrl-btn qv-angle-btn" data-angle="left" onclick="setViewerAngle('left')">SIDE</button>
-        <button class="qv-ctrl-btn qv-angle-btn" data-angle="angled" onclick="setViewerAngle('angled')">3/4 FIT</button>
-      </div>
-      <div class="qv-actions-group">
-        <button id="fs-autorotate-btn" class="qv-ctrl-btn qv-icon-btn active" title="Toggle Auto-Rotation" onclick="toggleViewerAutoRotate()">
-          <i class="ri-refresh-line"></i>
-        </button>
-        <button class="qv-ctrl-btn qv-icon-btn" title="Zoom In" onclick="zoomViewerIn()">
-          <i class="ri-zoom-in-line"></i>
-        </button>
-        <button class="qv-ctrl-btn qv-icon-btn" title="Zoom Out" onclick="zoomViewerOut()">
-          <i class="ri-zoom-out-line"></i>
-        </button>
-      </div>
-      <div class="color-swatches-grid" id="fs-color-swatches"></div>
+      <form id="admin-auth-form" onsubmit="handleAdminLogin(event)">
+        <div class="auth-input-group">
+          <input type="password" id="admin-passcode" placeholder="ENTER ADMIN PASSCODE (default: weebfour)" required autofocus autocomplete="off">
+          <button type="submit" class="btn btn-primary"><i class="ri-lock-unlock-line"></i> UNLOCK</button>
+        </div>
+        <div id="auth-error-msg" class="auth-error-msg" style="display: none;">Invalid security passcode. Try: weebfour</div>
+      </form>
     </div>
   </div>
 
-  <!-- Admin 3D Asset Studio Modal -->
-  <div class="modal-overlay" id="admin-studio-overlay">
-    <div class="modal-content admin-modal">
-      <div class="admin-header">
-        <div class="admin-title-box">
-          <i class="ri-box-3-line" style="color: var(--color-primary); font-size: 1.4rem;"></i>
-          <h2>3D ASSET STUDIO & MODEL MANAGER</h2>
-          <span class="admin-tag">ADMIN CONSOLE</span>
+  <!-- 2. Master Admin Control Console -->
+  <div class="modal-overlay" id="admin-suite-overlay">
+    <div class="modal-content master-admin-modal">
+      <div class="master-admin-header">
+        <div class="admin-brand-box">
+          <img src="assets/weebfour_secondary_symbol_trans.png" alt="W4" class="admin-logo-badge">
+          <div>
+            <h2>WEEBFOUR MASTER ADMIN CONSOLE</h2>
+            <p>Live Storefront Management — Photos, Offers, Names, & Copy</p>
+          </div>
         </div>
-        <button class="close-modal-btn" onclick="closeAdminStudio()" aria-label="Close Admin"><i class="ri-close-line"></i></button>
+        <div class="admin-top-actions">
+          <button class="btn btn-sm btn-secondary" onclick="exportAdminData()"><i class="ri-download-2-line"></i> EXPORT JSON</button>
+          <button class="btn btn-sm btn-secondary" onclick="resetToFactoryDefaults()"><i class="ri-restart-line"></i> RESET DEFAULTS</button>
+          <button class="btn btn-sm btn-primary" onclick="saveAllAdminChanges()"><i class="ri-save-3-line"></i> SAVE & PUBLISH LIVE</button>
+          <button class="close-modal-btn" onclick="closeAdminSuite()" aria-label="Close Admin"><i class="ri-close-line"></i></button>
+        </div>
       </div>
-      <div class="admin-layout-grid">
-        <!-- Configuration Form Column -->
-        <div class="admin-form-col">
-          <!-- Product Selector -->
-          <div class="admin-group">
-            <label class="admin-label">SELECT PRODUCT TO CONFIGURE</label>
-            <select id="admin-product-select" class="admin-select" onchange="onAdminSelectProduct(this.value)">
-              <!-- Dynamic options -->
+
+      <!-- Admin Navigation Tabs -->
+      <div class="admin-nav-tabs">
+        <button class="admin-tab-btn active" data-tab="products" onclick="switchAdminTab('products')">
+          <i class="ri-shopping-bag-3-line"></i> <span>PRODUCTS CATALOG</span>
+        </button>
+        <button class="admin-tab-btn" data-tab="offers" onclick="switchAdminTab('offers')">
+          <i class="ri-percent-line"></i> <span>OFFERS & PROMOS</span>
+        </button>
+        <button class="admin-tab-btn" data-tab="texts" onclick="switchAdminTab('texts')">
+          <i class="ri-file-text-line"></i> <span>WORDS & COPYWRITING</span>
+        </button>
+        <button class="admin-tab-btn" data-tab="media" onclick="switchAdminTab('media')">
+          <i class="ri-image-edit-line"></i> <span>BANNERS & PHOTOS</span>
+        </button>
+      </div>
+
+      <!-- Admin Tab 1: Products Catalog Manager -->
+      <div class="admin-tab-panel active" id="admin-panel-products">
+        <div class="panel-toolbar">
+          <div class="toolbar-search">
+            <i class="ri-search-line"></i>
+            <input type="text" id="admin-product-search" placeholder="Search catalog by name, tag, or category..." oninput="renderAdminProductsList()">
+          </div>
+          <button class="btn btn-primary" onclick="openProductEditModal(null)">
+            <i class="ri-add-circle-line"></i> ADD NEW PRODUCT
+          </button>
+        </div>
+        <div class="admin-products-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>IMAGE</th>
+                <th>PRODUCT NAME</th>
+                <th>CATEGORY</th>
+                <th>PRICE</th>
+                <th>COMPARE</th>
+                <th>TAG</th>
+                <th>SIZES</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="admin-products-table-body">
+              <!-- Dynamic rows via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Admin Tab 2: Offers, Promos & Shipping -->
+      <div class="admin-tab-panel" id="admin-panel-offers">
+        <div class="admin-grid-2col">
+          <!-- Left: Ticker Announcements -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3><i class="ri-megaphone-line"></i> ANNOUNCEMENT BAR TICKER MESSAGES</h3>
+              <button class="btn btn-sm btn-secondary" onclick="addNewAnnouncementRow()"><i class="ri-add-line"></i> Add Message</button>
+            </div>
+            <p class="admin-hint">These messages stream across the top marquee bar on the storefront.</p>
+            <div class="admin-dynamic-list" id="admin-ticker-list">
+              <!-- Dynamic ticker lines -->
+            </div>
+          </div>
+
+          <!-- Right: Promo Codes & Shipping -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3><i class="ri-coupon-3-line"></i> ACTIVE PROMO CODES</h3>
+              <button class="btn btn-sm btn-secondary" onclick="addNewPromoRow()"><i class="ri-add-line"></i> Add Code</button>
+            </div>
+            <p class="admin-hint">Customers apply these codes in the checkout drawer for instant discounts.</p>
+            <div class="admin-dynamic-list" id="admin-promos-list">
+              <!-- Dynamic promo codes -->
+            </div>
+
+            <div class="admin-card-header" style="margin-top: 24px; border-top: 1px solid var(--color-border); padding-top: 18px;">
+              <h3><i class="ri-truck-line"></i> SHIPPING RULES</h3>
+            </div>
+            <div class="admin-form-row" style="margin-top: 12px;">
+              <div class="form-group">
+                <label>Free Shipping Unlock Threshold (₹)</label>
+                <input type="number" id="admin-shipping-threshold" class="admin-form-input">
+              </div>
+              <div class="form-group">
+                <label>Flat Standard Shipping Fee (₹)</label>
+                <input type="number" id="admin-flat-shipping" class="admin-form-input">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Tab 3: Words, Headings & Copywriting -->
+      <div class="admin-tab-panel" id="admin-panel-texts">
+        <div class="admin-grid-2col">
+          <!-- Hero Section Copy -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3><i class="ri-layout-top-line"></i> HERO LANDING COPY</h3>
+            </div>
+            <div class="form-group">
+              <label>Hero Badge / Subtitle Pill</label>
+              <input type="text" id="admin-text-hero-badge" class="admin-form-input">
+            </div>
+            <div class="form-group">
+              <label>Main Hero Title (Headline)</label>
+              <input type="text" id="admin-text-hero-title" class="admin-form-input">
+            </div>
+            <div class="form-group">
+              <label>Hero Paragraph Description</label>
+              <textarea id="admin-text-hero-desc" class="admin-form-input" rows="3"></textarea>
+            </div>
+            <div class="admin-form-row">
+              <div class="form-group">
+                <label>Primary Button CTA Text</label>
+                <input type="text" id="admin-text-hero-cta1" class="admin-form-input">
+              </div>
+              <div class="form-group">
+                <label>Secondary Button CTA Text</label>
+                <input type="text" id="admin-text-hero-cta2" class="admin-form-input">
+              </div>
+            </div>
+          </div>
+
+          <!-- Section Headings & Newsletter -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3><i class="ri-text"></i> SECTION HEADINGS & NEWSLETTER</h3>
+            </div>
+            <div class="form-group">
+              <label>Collections Section Title</label>
+              <input type="text" id="admin-text-collections-title" class="admin-form-input">
+            </div>
+            <div class="form-group">
+              <label>Collections Section Subtitle</label>
+              <input type="text" id="admin-text-collections-sub" class="admin-form-input">
+            </div>
+            <div class="form-group">
+              <label>Product Feed ("THE FEED") Title</label>
+              <input type="text" id="admin-text-catalog-title" class="admin-form-input">
+            </div>
+            <div class="form-group">
+              <label>Product Feed Subtitle</label>
+              <input type="text" id="admin-text-catalog-sub" class="admin-form-input">
+            </div>
+            <div class="form-group">
+              <label>Newsletter / Club Heading</label>
+              <input type="text" id="admin-text-news-title" class="admin-form-input">
+            </div>
+            <div class="form-group">
+              <label>Newsletter Subtext</label>
+              <input type="text" id="admin-text-news-sub" class="admin-form-input">
+            </div>
+          </div>
+
+          <!-- Brand & Footer Info -->
+          <div class="admin-card" style="grid-column: 1 / -1;">
+            <div class="admin-card-header">
+              <h3><i class="ri-information-line"></i> STORE INFORMATION & FOOTER ABOUT</h3>
+            </div>
+            <div class="admin-form-row">
+              <div class="form-group" style="flex: 2;">
+                <label>Footer About Brand Paragraph</label>
+                <textarea id="admin-text-footer-about" class="admin-form-input" rows="2"></textarea>
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <label>Store Support Email</label>
+                <input type="email" id="admin-text-store-email" class="admin-form-input">
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <label>Store Physical / HQ Address</label>
+                <textarea id="admin-text-store-addr" class="admin-form-input" rows="2"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Tab 4: Photos, Banners & Media -->
+      <div class="admin-tab-panel" id="admin-panel-media">
+        <div class="admin-grid-2col">
+          <!-- Hero Background -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3><i class="ri-image-2-line"></i> HERO LANDING BACKGROUND</h3>
+            </div>
+            <div class="media-preview-box">
+              <img id="admin-preview-hero-bg" src="assets/hero_editorial_raw.png" alt="Hero Background">
+            </div>
+            <div class="form-group" style="margin-top: 14px;">
+              <label>Image URL</label>
+              <input type="text" id="admin-media-hero-bg" class="admin-form-input" oninput="updateMediaPreview('hero-bg', this.value)">
+            </div>
+            <div class="file-upload-strip">
+              <label class="btn btn-sm btn-secondary file-btn">
+                <i class="ri-upload-2-line"></i> Upload New Banner File
+                <input type="file" accept="image/*" onchange="handleAdminFileUpload(event, 'hero-bg')" style="display:none;">
+              </label>
+              <span class="file-upload-hint">PNG, JPG, or WEBP up to 5MB</span>
+            </div>
+          </div>
+
+          <!-- Brand Logos -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3><i class="ri-shield-star-line"></i> BRAND LOGOS</h3>
+            </div>
+            
+            <label style="font-weight: 700; font-size: 0.78rem; display: block; margin-bottom: 6px;">Primary Logo (Header & Footer)</label>
+            <div class="logo-preview-box">
+              <img id="admin-preview-logo" src="assets/weebfour_primary_logo_trans.png" alt="Primary Logo">
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+              <input type="text" id="admin-media-logo" class="admin-form-input" placeholder="Logo URL" oninput="updateMediaPreview('logo', this.value)">
+            </div>
+            <label class="btn btn-sm btn-secondary file-btn" style="margin-bottom: 20px;">
+              <i class="ri-upload-2-line"></i> Upload Logo
+              <input type="file" accept="image/*" onchange="handleAdminFileUpload(event, 'logo')" style="display:none;">
+            </label>
+
+            <label style="font-weight: 700; font-size: 0.78rem; display: block; margin-bottom: 6px;">Secondary Symbol (Emblem / Shuriken)</label>
+            <div class="logo-preview-box symbol-box">
+              <img id="admin-preview-symbol" src="assets/weebfour_secondary_symbol_trans.png" alt="Symbol Logo">
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+              <input type="text" id="admin-media-symbol" class="admin-form-input" placeholder="Symbol URL" oninput="updateMediaPreview('symbol', this.value)">
+            </div>
+            <label class="btn btn-sm btn-secondary file-btn">
+              <i class="ri-upload-2-line"></i> Upload Symbol
+              <input type="file" accept="image/*" onchange="handleAdminFileUpload(event, 'symbol')" style="display:none;">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Add / Edit Product Modal -->
+  <div class="modal-overlay" id="product-edit-overlay">
+    <div class="modal-content product-edit-modal">
+      <div class="admin-modal-header">
+        <h3 id="product-modal-title">EDIT PRODUCT</h3>
+        <button class="close-modal-btn" onclick="closeProductEditModal()" aria-label="Close"><i class="ri-close-line"></i></button>
+      </div>
+      <form id="product-edit-form" onsubmit="handleSaveProductForm(event)">
+        <input type="hidden" id="edit-prod-id">
+        
+        <div class="form-row">
+          <div class="form-group" style="flex: 2;">
+            <label>Product Name *</label>
+            <input type="text" id="edit-prod-name" class="admin-form-input" required>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label>Category *</label>
+            <select id="edit-prod-category" class="admin-form-input" required>
+              <option value="tees">tees</option>
+              <option value="hoodies">hoodies</option>
+              <option value="cargoes">cargoes</option>
+              <option value="jackets">jackets</option>
+              <option value="accessories">accessories</option>
             </select>
           </div>
+        </div>
 
-          <!-- 3D Availability Toggle -->
-          <div class="admin-group">
-            <div class="admin-group-title"><i class="ri-toggle-line"></i> 3D Availability</div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <input type="checkbox" id="admin-has-3d" style="width: 20px; height: 20px; accent-color: var(--color-primary);" onchange="onAdminToggle3D(this.checked)">
-              <label for="admin-has-3d" style="font-size: 0.82rem; font-weight: 700; cursor: pointer;">Enable Interactive 3D Viewer for this product</label>
-            </div>
-            <p style="font-size: 0.72rem; color: var(--color-text-muted); margin-top: 6px;">When disabled, customers will view editorial 2D photographs with graceful fallback.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Price (₹) *</label>
+            <input type="number" id="edit-prod-price" class="admin-form-input" required min="1">
           </div>
-
-          <!-- 3D Model Source -->
-          <div class="admin-group">
-            <div class="admin-group-title"><i class="ri-cube-line"></i> Garment Model Architecture</div>
-            <div class="admin-control-row">
-              <label class="admin-label">Garment Fit Archetype</label>
-              <select id="admin-fit-select" class="admin-select" onchange="onAdminUpdateFit(this.value)">
-                <option value="boxy_oversized">Boxy Oversized (280 GSM French Terry)</option>
-                <option value="acid_distressed_tee">Acid Wash Distressed Drop-Shoulder (260 GSM)</option>
-                <option value="minimal_heavyweight">Heavyweight Minimal Boxy (260 GSM)</option>
-              </select>
-            </div>
-            <div class="admin-control-row">
-              <label class="admin-label">Custom GLB / GLTF Model File (Optional)</label>
-              <div class="admin-file-box" onclick="document.getElementById('admin-glb-file').click()">
-                <i class="ri-upload-cloud-line"></i>
-                <div class="admin-file-text" id="admin-glb-filename">Upload .GLB garment model (&lt; 25MB)</div>
-                <input type="file" id="admin-glb-file" accept=".glb,.gltf" onchange="onAdminUploadGLB(event)">
-              </div>
-            </div>
+          <div class="form-group">
+            <label>Compare-at Price (Original ₹)</label>
+            <input type="number" id="edit-prod-compare" class="admin-form-input" min="1">
           </div>
-
-          <!-- Artwork Texture Mapping -->
-          <div class="admin-group">
-            <div class="admin-group-title"><i class="ri-paint-brush-line"></i> UV Artwork & Texture Mapping</div>
-            <div class="admin-control-row">
-              <label class="admin-label">Front Artwork Texture (PNG / JPG)</label>
-              <div class="admin-file-box" onclick="document.getElementById('admin-front-file').click()">
-                <i class="ri-image-add-line"></i>
-                <div class="admin-file-text" id="admin-front-filename">Upload Front Graphic Art</div>
-                <input type="file" id="admin-front-file" accept="image/png,image/jpeg,image/webp" onchange="onAdminUploadArtwork(event, 'front')">
-              </div>
-              <div class="admin-slider-row" style="margin-top: 8px;">
-                <span class="admin-label" style="margin: 0; min-width: 75px;">Art Scale:</span>
-                <input type="range" id="admin-front-scale" min="0.2" max="1.0" step="0.02" value="0.64" oninput="onAdminUpdateArtworkPlacement()">
-                <span class="admin-slider-val" id="admin-front-scale-val">0.64</span>
-              </div>
-            </div>
-
-            <div class="admin-control-row" style="margin-top: 14px;">
-              <label class="admin-label">Back Artwork Texture (PNG / JPG)</label>
-              <div class="admin-file-box" onclick="document.getElementById('admin-back-file').click()">
-                <i class="ri-image-add-line"></i>
-                <div class="admin-file-text" id="admin-back-filename">Upload Back Graphic Art</div>
-                <input type="file" id="admin-back-file" accept="image/png,image/jpeg,image/webp" onchange="onAdminUploadArtwork(event, 'back')">
-              </div>
-              <div class="admin-slider-row" style="margin-top: 8px;">
-                <span class="admin-label" style="margin: 0; min-width: 75px;">Art Scale:</span>
-                <input type="range" id="admin-back-scale" min="0.2" max="1.0" step="0.02" value="0.70" oninput="onAdminUpdateArtworkPlacement()">
-                <span class="admin-slider-val" id="admin-back-scale-val">0.70</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Colorways & Fabric Material -->
-          <div class="admin-group">
-            <div class="admin-group-title"><i class="ri-palette-line"></i> Colorways & Fabric PBR</div>
-            <div class="admin-slider-row">
-              <span class="admin-label" style="margin: 0; min-width: 100px;">Fabric Roughness:</span>
-              <input type="range" id="admin-roughness" min="0.5" max="1.0" step="0.02" value="0.85" oninput="onAdminUpdateRoughness(this.value)">
-              <span class="admin-slider-val" id="admin-roughness-val">0.85</span>
-            </div>
-            <div id="admin-colors-list" style="margin-top: 14px; display: flex; flex-direction: column; gap: 8px;">
-              <!-- Dynamic admin color rows -->
-            </div>
-          </div>
-
-          <!-- Save Footer -->
-          <div class="admin-save-footer">
-            <button class="btn btn-primary" onclick="saveAdminChanges()">
-              <i class="ri-save-3-line"></i> SAVE & PUBLISH 3D ASSETS
-            </button>
-            <button class="btn btn-secondary" onclick="resetAdminDefaults()">
-              RESTORE FACTORY DEFAULTS
-            </button>
+          <div class="form-group">
+            <label>Product Tag / Badge</label>
+            <input type="text" id="edit-prod-tag" class="admin-form-input" placeholder="e.g. BEST SELLER, NEW DROP">
           </div>
         </div>
 
-        <!-- Live Preview Viewport -->
-        <div class="admin-preview-col">
-          <div class="admin-preview-header">
-            <span>LIVE 3D PREVIEW VIEWPORT</span>
-            <span id="admin-preview-status" style="color: var(--color-success);"><i class="ri-checkbox-circle-fill"></i> ACTIVE</span>
+        <div class="form-group">
+          <label>Available Sizes</label>
+          <div class="sizes-checkbox-grid">
+            <label class="size-check-label"><input type="checkbox" value="S" class="size-cb"> S</label>
+            <label class="size-check-label"><input type="checkbox" value="M" class="size-cb"> M</label>
+            <label class="size-check-label"><input type="checkbox" value="L" class="size-cb"> L</label>
+            <label class="size-check-label"><input type="checkbox" value="XL" class="size-cb"> XL</label>
+            <label class="size-check-label"><input type="checkbox" value="XXL" class="size-cb"> XXL</label>
+            <label class="size-check-label"><input type="checkbox" value="ONESIZE" class="size-cb"> ONESIZE</label>
           </div>
-          <div class="admin-preview-canvas" id="admin-canvas-container"></div>
         </div>
-      </div>
+
+        <!-- Product Images List -->
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label style="margin: 0;">Product Photographs / Images</label>
+            <div style="display: flex; gap: 8px;">
+              <label class="btn btn-xs btn-secondary" style="cursor: pointer;">
+                <i class="ri-upload-2-line"></i> Upload Image
+                <input type="file" accept="image/*" onchange="handleProductImageUpload(event)" style="display: none;">
+              </label>
+              <button type="button" class="btn btn-xs btn-secondary" onclick="addEmptyImageUrlInput()"><i class="ri-add-line"></i> Add Image URL</button>
+            </div>
+          </div>
+          <div id="product-images-inputs-container" class="images-inputs-container">
+            <!-- Dynamic image inputs & previews -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description & Story</label>
+          <textarea id="edit-prod-desc" class="admin-form-input" rows="4" required></textarea>
+        </div>
+
+        <div class="modal-form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeProductEditModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="ri-check-line"></i> Save Product</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <!-- Three.js Suite for 3D Garment Studio -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-
-  <!-- Product Database, 3D Garment Studio Engine & Master App Controller -->
-  <script src="three-garment-viewer.js"></script>
+  <!-- Master Application Logic -->
   <script src="products.js"></script>
   <script src="app.js"></script>
 </body>

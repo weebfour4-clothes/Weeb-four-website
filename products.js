@@ -1,4 +1,4 @@
-const products = [
+const defaultProducts = [
   {
     id: 1,
     name: "CYBERPUNK GLITCH OVERSIZED TEE",
@@ -7,21 +7,6 @@ const products = [
     compareAtPrice: 1999,
     tag: "BEST SELLER",
     sizes: ["S", "M", "L", "XL"],
-    has_3d: true,
-    model_3d_url: null, // Custom .glb if provided via admin, otherwise high-precision garment mesh
-    garment_fit: "boxy_oversized",
-    fabric_gsm: 280,
-    fabric_roughness: 0.85,
-    front_texture_url: "assets/tee_front_clean.jpg",
-    back_texture_url: "assets/tee_back.jpg",
-    front_art_placement: { scale: 0.64, offsetY: 0.04, offsetX: 0 },
-    back_art_placement: { scale: 0.72, offsetY: 0.02, offsetX: 0 },
-    default_color_id: "black",
-    available_colors: [
-      { id: "black", name: "Onyx Black", hex: "#0c0d10", inStock: true, previewImg: "assets/tee_front_clean.jpg" },
-      { id: "acid_charcoal", name: "Acid Charcoal", hex: "#24272c", inStock: true, previewImg: "assets/tee_front_clean.jpg" },
-      { id: "cyber_green", name: "Cyber Pine", hex: "#15241c", inStock: true, previewImg: "assets/tee_front_clean.jpg" }
-    ],
     images: [
       "assets/tee_front_clean.jpg",
       "assets/tee_back.jpg",
@@ -37,21 +22,6 @@ const products = [
     compareAtPrice: 2199,
     tag: "NEW DROP",
     sizes: ["M", "L", "XL"],
-    has_3d: true,
-    model_3d_url: null,
-    garment_fit: "acid_distressed_tee",
-    fabric_gsm: 260,
-    fabric_roughness: 0.88,
-    front_texture_url: "assets/art_apes_skull.jpg",
-    back_texture_url: "assets/weebfour_primary_logo_trans.png",
-    front_art_placement: { scale: 0.65, offsetY: 0.04, offsetX: 0 },
-    back_art_placement: { scale: 0.60, offsetY: -0.05, offsetX: 0 },
-    default_color_id: "mineral_grey",
-    available_colors: [
-      { id: "mineral_grey", name: "Mineral Acid Grey", hex: "#292b30", inStock: true, previewImg: "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&auto=format&fit=crop&q=80" },
-      { id: "bleach_white", name: "Washed Chalk White", hex: "#e0e1e6", inStock: true, previewImg: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop&q=80" },
-      { id: "vintage_rust", name: "Vintage Rust", hex: "#3e2520", inStock: true, previewImg: "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&auto=format&fit=crop&q=80" }
-    ],
     images: [
       "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop&q=80"
@@ -66,8 +36,6 @@ const products = [
     compareAtPrice: 5999,
     tag: "LIMITED DROP",
     sizes: ["S", "M", "L", "XL"],
-    has_3d: false,
-    model_3d_url: null,
     images: [
       "https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?w=800&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&auto=format&fit=crop&q=80"
@@ -82,8 +50,6 @@ const products = [
     compareAtPrice: 4499,
     tag: "BEST SELLER",
     sizes: ["S", "M", "L", "XL"],
-    has_3d: false,
-    model_3d_url: null,
     images: [
       "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&auto=format&fit=crop&q=80"
@@ -98,8 +64,6 @@ const products = [
     compareAtPrice: 3499,
     tag: "RESTOCKED",
     sizes: ["S", "M", "L"],
-    has_3d: false,
-    model_3d_url: null,
     images: [
       "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1517462964-21fdcec3f25b?w=800&auto=format&fit=crop&q=80"
@@ -114,8 +78,6 @@ const products = [
     compareAtPrice: 2999,
     tag: "HOT",
     sizes: ["M", "L", "XL"],
-    has_3d: false,
-    model_3d_url: null,
     images: [
       "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?w=800&auto=format&fit=crop&q=80"
@@ -130,8 +92,6 @@ const products = [
     compareAtPrice: 999,
     tag: "COLLECTIBLE",
     sizes: ["ONESIZE"],
-    has_3d: false,
-    model_3d_url: null,
     images: [
       "https://images.unsplash.com/photo-1576871337622-98d48d4353d3?w=800&auto=format&fit=crop&q=80"
     ],
@@ -145,8 +105,6 @@ const products = [
     compareAtPrice: 799,
     tag: "ESSENTIAL",
     sizes: ["ONESIZE"],
-    has_3d: false,
-    model_3d_url: null,
     images: [
       "https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&auto=format&fit=crop&q=80"
     ],
@@ -160,8 +118,6 @@ const products = [
     compareAtPrice: 3299,
     tag: "NEW DROP",
     sizes: ["S", "M", "L", "XL"],
-    has_3d: false,
-    model_3d_url: null,
     images: [
       "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=800&auto=format&fit=crop&q=80"
     ],
@@ -175,21 +131,6 @@ const products = [
     compareAtPrice: 1799,
     tag: "ESSENTIAL",
     sizes: ["S", "M", "L", "XL"],
-    has_3d: true,
-    model_3d_url: null,
-    garment_fit: "minimal_heavyweight",
-    fabric_gsm: 260,
-    fabric_roughness: 0.80,
-    front_texture_url: "assets/weebfour_secondary_symbol_trans.png",
-    back_texture_url: "assets/art_tokyo_kanji.jpg",
-    front_art_placement: { scale: 0.28, offsetY: 0.16, offsetX: -0.14 },
-    back_art_placement: { scale: 0.70, offsetY: 0.04, offsetX: 0 },
-    default_color_id: "ecru",
-    available_colors: [
-      { id: "ecru", name: "Ecru Raw Cotton", hex: "#ebe6db", inStock: true, previewImg: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop&q=80" },
-      { id: "forest_sage", name: "Forest Sage", hex: "#223126", inStock: true, previewImg: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop&q=80" },
-      { id: "midnight_black", name: "Midnight Black", hex: "#111215", inStock: true, previewImg: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop&q=80" }
-    ],
     images: [
       "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop&q=80"
     ],
@@ -197,24 +138,73 @@ const products = [
   }
 ];
 
-// Allow localStorage persistence for Admin overrides if modified in Admin Studio
+// Load persisted custom catalog from localStorage if available
+let products = JSON.parse(JSON.stringify(defaultProducts));
+
 try {
-  const customCatalog = localStorage.getItem('weebfour_custom_catalog');
-  if (customCatalog) {
-    const parsed = JSON.parse(customCatalog);
-    parsed.forEach(customItem => {
-      const idx = products.findIndex(p => p.id === customItem.id);
-      if (idx !== -1) {
-        products[idx] = { ...products[idx], ...customItem };
-      }
-    });
+  const savedCatalog = localStorage.getItem('weebfour_custom_catalog');
+  if (savedCatalog) {
+    products = JSON.parse(savedCatalog);
   }
 } catch (e) {
-  console.warn("Could not load local storage overrides for catalog", e);
+  console.warn("Could not parse saved catalog from localStorage", e);
+}
+
+// Default Website Content, Offers & Words configuration
+const defaultSiteConfig = {
+  announcements: [
+    "🔥 FREE SHIPPING ON ALL ORDERS ABOVE ₹1499!",
+    "⚡ USE CODE \"WEEB10\" FOR 10% OFF YOUR FIRST ORDER!",
+    "👑 WEEBFOUR FALL/WINTER 2026 DROP LIVE NOW",
+    "🤝 HASSLE-FREE 7-DAY RETURNS & EXCHANGES"
+  ],
+  offers: {
+    shippingThreshold: 1499,
+    flatShippingFee: 150,
+    promos: [
+      { code: "WEEB10", discountPercent: 10, description: "10% Welcome Discount" },
+      { code: "WEEB20", discountPercent: 20, description: "20% VIP Drop Discount" },
+      { code: "GENZ10", discountPercent: 10, description: "10% Influencer Discount" }
+    ]
+  },
+  texts: {
+    heroBadge: "WEEBFOUR FALL/WINTER 2026 DROP",
+    heroTitle: "WEAR THE FUTURE NOW",
+    heroSubtitle: "Engineered in Tokyo & Mumbai. Ultra-heavyweight French Terry tees, technical waterproof nylon cargoes, and structural outerwear designed for the modern subculture.",
+    heroCtaPrimary: "EXPLORE DROP",
+    heroCtaSecondary: "VIEW COLLECTIONS",
+    collectionsTitle: "CURATED STREETWEAR COLLECTIONS",
+    collectionsSubtitle: "Select your division. From 280 GSM heavyweight oversized tees to engineered tactical cargoes.",
+    catalogTitle: "THE FEED",
+    catalogSubtitle: "LATEST DROPS, RESTOCKS & LIMITED EDITION GRAILS",
+    newsletterTitle: "JOIN THE WEEBFOUR MOVEMENT",
+    newsletterSubtitle: "Subscribe to receive early access to seasonal drops, secret discount codes, and exclusive invitations to member releases.",
+    footerAbout: "Avant-garde anime & cyber streetwear engineered for the subculture. Heavyweight fabrics, structural cuts, and uncompromising attitude.",
+    storeAddress: "WEEBFOUR LAB & HQ\nCyber Fashion District, Sector-4\nMumbai, India - 400001",
+    storeEmail: "support@weebfour.com"
+  },
+  media: {
+    heroBg: "assets/hero_editorial_raw.png",
+    primaryLogo: "assets/weebfour_primary_logo_trans.png",
+    secondarySymbol: "assets/weebfour_secondary_symbol_trans.png"
+  }
+};
+
+let siteConfig = JSON.parse(JSON.stringify(defaultSiteConfig));
+try {
+  const savedConfig = localStorage.getItem('weebfour_site_config');
+  if (savedConfig) {
+    siteConfig = JSON.parse(savedConfig);
+  }
+} catch (e) {
+  console.warn("Could not parse saved site config", e);
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = products;
+  module.exports = { products, siteConfig, defaultProducts, defaultSiteConfig };
 } else {
   window.products = products;
+  window.siteConfig = siteConfig;
+  window.defaultProducts = defaultProducts;
+  window.defaultSiteConfig = defaultSiteConfig;
 }
