@@ -189,7 +189,7 @@ const defaultSiteConfig = {
     storeEmail: "support@weebfour.com"
   },
   media: {
-    heroBg: "assets/hero_editorial_raw.png",
+    heroBg: "assets/hero_branding_photo.jpg",
     primaryLogo: "assets/weebfour_primary_logo_trans.png",
     secondarySymbol: "assets/weebfour_secondary_symbol_trans.png"
   }
@@ -200,6 +200,10 @@ try {
   const savedConfig = localStorage.getItem('weebfour_site_config');
   if (savedConfig) {
     siteConfig = JSON.parse(savedConfig);
+    if (!siteConfig.media || !siteConfig.media.heroBg || siteConfig.media.heroBg.includes('editorial_raw')) {
+      siteConfig.media = siteConfig.media || {};
+      siteConfig.media.heroBg = "assets/hero_branding_photo.jpg";
+    }
   }
 } catch (e) {
   console.warn("Could not parse saved site config", e);

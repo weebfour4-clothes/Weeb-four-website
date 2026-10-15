@@ -202,9 +202,13 @@ function applySiteConfigToStorefront() {
 
   // 3. Media & Banners
   if (cfg.media) {
-    if (cfg.media.heroBg) {
-      const heroBg = document.getElementById('hero-slider-bg');
-      if (heroBg) heroBg.style.backgroundImage = `url('${cfg.media.heroBg}')`;
+    const heroBg = document.getElementById('hero-slider-bg');
+    if (heroBg) {
+      if (cfg.media.heroBg && !cfg.media.heroBg.includes('editorial_raw')) {
+        heroBg.style.backgroundImage = `url('${cfg.media.heroBg}')`;
+      } else {
+        heroBg.style.backgroundImage = `url('assets/hero_branding_photo.jpg')`;
+      }
     }
     if (cfg.media.primaryLogo) {
       document.querySelectorAll('.brand-logo-img').forEach(img => img.src = cfg.media.primaryLogo);
