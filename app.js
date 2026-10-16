@@ -103,7 +103,6 @@ window.addEventListener('DOMContentLoaded', () => {
   updateWishlistUI();
   setupEventListeners();
   initFuturisticCyberMatrix();
-  initCyberCursor();
   loadProductsFromDatabase();
 
   // Restore saved order notes
@@ -1765,42 +1764,5 @@ function initFuturisticCyberMatrix() {
   }
 
   loop();
-}
-
-// ==========================================================================
-// 21. FUTURISTIC CYBER CURSOR FOLLOWER
-// ==========================================================================
-function initCyberCursor() {
-  const cursor = document.getElementById('cyber-cursor-glow');
-  if (!cursor || window.matchMedia('(pointer: coarse)').matches) return;
-
-  let mouseX = -100, mouseY = -100;
-  let cursorX = -100, cursorY = -100;
-
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  function renderCursor() {
-    cursorX += (mouseX - cursorX) * 0.22;
-    cursorY += (mouseY - cursorY) * 0.22;
-    cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
-    requestAnimationFrame(renderCursor);
-  }
-  requestAnimationFrame(renderCursor);
-
-  // Expand cursor on hovering interactive elements
-  const interactives = 'a, button, input, select, textarea, .collection-link-list li a, .collection-col-header';
-  document.addEventListener('mouseover', (e) => {
-    if (e.target.closest(interactives)) {
-      cursor.classList.add('active');
-    }
-  });
-  document.addEventListener('mouseout', (e) => {
-    if (e.target.closest(interactives)) {
-      cursor.classList.remove('active');
-    }
-  });
 }
 

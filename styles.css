@@ -2858,7 +2858,7 @@ select {
 
 /* --- C. Shop by Collection: 3-Column Minimalist Directory (Exact Replica of User Photo) --- */
 .collections-directory-section {
-  padding: 80px 0 90px;
+  padding: 56px 0 64px;
   background-color: #08090c;
   border-bottom: 1px solid var(--color-border);
   position: relative;
@@ -2867,16 +2867,9 @@ select {
 .collection-columns-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 48px;
-  max-width: 1200px;
+  gap: 36px;
+  max-width: 1100px;
   margin: 0 auto;
-}
-@media (max-width: 820px) {
-  .collection-columns-grid {
-    grid-template-columns: 1fr;
-    gap: 36px;
-    padding: 0 10px;
-  }
 }
 
 .collection-directory-col {
@@ -2886,12 +2879,12 @@ select {
 
 .collection-col-header {
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 3.2vw, 2.7rem);
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
   letter-spacing: 0.08em;
   color: #daf5ee;
   text-transform: uppercase;
-  margin-bottom: 24px;
-  line-height: 1;
+  margin-bottom: 18px;
+  line-height: 1.15;
   cursor: pointer;
   transition: color 0.25s ease, text-shadow 0.25s ease;
   user-select: none;
@@ -2907,12 +2900,12 @@ select {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .collection-link-list li a {
   font-family: var(--font-heading);
-  font-size: clamp(1.35rem, 2.1vw, 1.75rem);
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
   letter-spacing: 0.06em;
   color: rgba(255, 255, 255, 0.88);
   text-transform: uppercase;
@@ -2938,56 +2931,64 @@ select {
 .collection-link-list li a:hover {
   color: #00f2fe;
   text-shadow: 0 0 12px rgba(0, 242, 254, 0.8), 0 0 24px rgba(79, 172, 254, 0.45);
-  transform: translateX(10px);
+  transform: translateX(6px);
 }
 
 .collection-link-list li a:hover::before {
   width: 100%;
 }
 
-/* --- D. Futuristic Cybernetic Interactive Cursor --- */
-.cyber-cursor-glow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 999999;
-  transform: translate(-50%, -50%);
-  display: none;
-  transition: opacity 0.3s ease;
-}
-
-@media (pointer: fine) {
-  .cyber-cursor-glow {
-    display: block;
+/* Responsive Clean Mobile View for Shop by Collection (3 Compact Columns) */
+@media (max-width: 768px) {
+  .collections-directory-section {
+    padding: 36px 0 42px;
+  }
+  .collection-columns-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    padding: 0 12px;
+  }
+  .collection-col-header {
+    font-size: clamp(0.85rem, 3.2vw, 1rem);
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    line-height: 1.15;
+  }
+  .collection-link-list {
+    gap: 8px;
+  }
+  .collection-link-list li a {
+    font-size: clamp(0.72rem, 2.7vw, 0.82rem);
+    letter-spacing: 0.04em;
+    padding: 1px 0;
+  }
+  .collection-link-list li a:hover {
+    transform: translateX(3px);
   }
 }
 
-.cyber-cursor-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #00f2fe;
-  box-shadow: 0 0 12px #00f2fe;
-}
-
-.cyber-cursor-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 32px;
-  height: 32px;
-  border: 1px solid rgba(0, 242, 254, 0.4);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
-}
-
-.cyber-cursor-glow.active .cyber-cursor-ring {
-  width: 50px;
-  height: 50px;
-  border-color: rgba(255, 59, 92, 0.8);
-  background: rgba(255, 59, 92, 0.08);
+@media (max-width: 440px) {
+  .collections-directory-section {
+    padding: 28px 0 34px;
+  }
+  .collection-columns-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 0 8px;
+  }
+  .collection-col-header {
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    margin-bottom: 10px;
+    line-height: 1.1;
+  }
+  .collection-link-list {
+    gap: 6px;
+  }
+  .collection-link-list li a {
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+  }
 }
 
 /* --- D. Customer VIP Drop Phone Number Section (Minimalist UI) --- */
