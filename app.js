@@ -51,6 +51,8 @@ window.addEventListener('DOMContentLoaded', () => {
   updateCartUI();
   updateWishlistUI();
   setupEventListeners();
+  initFuturisticCyberMatrix();
+  initCyberCursor();
 
   // Restore saved order notes
   const noteEl = document.getElementById('cart-order-notes');
@@ -1523,3 +1525,155 @@ function resetToFactoryDefaults() {
     alert("Storefront reset to factory defaults.");
   }
 }
+
+// ==========================================================================
+// 20. FUTURISTIC CYBERNETIC PARTICLES & INTERACTIVE MATRIX CANVAS
+// ==========================================================================
+function initFuturisticCyberMatrix() {
+  const canvas = document.getElementById('cyber-matrix-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let width = canvas.width = canvas.parentElement.offsetWidth || window.innerWidth;
+  let height = canvas.height = canvas.parentElement.offsetHeight || 600;
+
+  function resize() {
+    if (!canvas.parentElement) return;
+    width = canvas.width = canvas.parentElement.offsetWidth || window.innerWidth;
+    height = canvas.height = canvas.parentElement.offsetHeight || 600;
+  }
+  window.addEventListener('resize', resize);
+
+  const particleCount = Math.min(65, Math.floor((width * height) / 12000));
+  const particles = [];
+  const mouse = { x: -1000, y: -1000, radius: 140 };
+
+  window.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
+  });
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.75,
+      vy: (Math.random() - 0.5) * 0.75,
+      size: Math.random() * 2 + 1,
+      baseColor: Math.random() > 0.3 ? 'rgba(0, 242, 254, ' : 'rgba(255, 42, 81, ',
+      alpha: Math.random() * 0.5 + 0.3
+    });
+  }
+
+  let isVisible = true;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) loop();
+    });
+  }, { threshold: 0.1 });
+  observer.observe(canvas);
+
+  function loop() {
+    if (!isVisible) return;
+    ctx.clearRect(0, 0, width, height);
+
+    // Draw connecting electric filaments
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 110) {
+          const lineAlpha = (1 - dist / 110) * 0.28;
+          ctx.strokeStyle = `rgba(0, 242, 254, ${lineAlpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Update and draw particles
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0) p.x = width;
+      if (p.x > width) p.x = 0;
+      if (p.y < 0) p.y = height;
+      if (p.y > height) p.y = 0;
+
+      // Mouse repulsion / cyber disturbance
+      const mdx = p.x - mouse.x;
+      const mdy = p.y - mouse.y;
+      const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+      if (mdist < mouse.radius) {
+        const force = (1 - mdist / mouse.radius) * 3;
+        p.x += (mdx / mdist) * force;
+        p.y += (mdy / mdist) * force;
+      }
+
+      ctx.fillStyle = p.baseColor + p.alpha + ')';
+      ctx.shadowColor = '#00f2fe';
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+}
+
+// ==========================================================================
+// 21. FUTURISTIC CYBER CURSOR FOLLOWER
+// ==========================================================================
+function initCyberCursor() {
+  const cursor = document.getElementById('cyber-cursor-glow');
+  if (!cursor || window.matchMedia('(pointer: coarse)').matches) return;
+
+  let mouseX = -100, mouseY = -100;
+  let cursorX = -100, cursorY = -100;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function renderCursor() {
+    cursorX += (mouseX - cursorX) * 0.22;
+    cursorY += (mouseY - cursorY) * 0.22;
+    cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+    requestAnimationFrame(renderCursor);
+  }
+  requestAnimationFrame(renderCursor);
+
+  // Expand cursor on hovering interactive elements
+  const interactives = 'a, button, input, select, textarea, .collection-link-list li a, .collection-col-header';
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(interactives)) {
+      cursor.classList.add('active');
+    }
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(interactives)) {
+      cursor.classList.remove('active');
+    }
+  });
+}
+

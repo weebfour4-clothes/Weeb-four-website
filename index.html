@@ -267,10 +267,30 @@
   </div>
 
   <!-- 4. Hero Editorial Slider / Banner -->
-  <!-- 4. Hero Editorial Slider / Banner with Minimalist UI -->
+  <!-- 4. Hero Futuristic Editorial Slider / Banner with Cyber Matrix -->
   <section class="hero-slider-section" id="hero">
     <div class="hero-slider-bg" id="hero-slider-bg" style="background-image: url('assets/hero_branding_photo.jpg');"></div>
     <div class="hero-slider-overlay"></div>
+    
+    <!-- Interactive Futuristic Cyber Matrix Particle Canvas -->
+    <canvas id="cyber-matrix-canvas" class="cyber-matrix-canvas" aria-hidden="true"></canvas>
+
+    <!-- Animated Futuristic Cybernetic HUD Overlay -->
+    <div class="futuristic-hud-telemetry" aria-hidden="true">
+      <div class="hud-status-box">
+        <span class="hud-pulse-dot"></span>
+        <span class="hud-text-mono">SYS_STATUS: ACTIVE // 2026 ARCHIVE</span>
+      </div>
+      <div class="hud-reticle-ring">
+        <div class="hud-inner-crosshair"></div>
+        <div class="hud-radar-sweep"></div>
+      </div>
+      <div class="hud-telemetry-data">
+        <span>[SYS.VER // 4.02.6]</span>
+        <span>[COORDS // 19.0760 N, 72.8777 E]</span>
+        <span>[FREQ // 144.20 MHZ]</span>
+      </div>
+    </div>
 
     <div class="page-container hero-content-wrap">
       <div class="hero-badge-pill" id="hero-badge-pill">
@@ -294,15 +314,6 @@
         <a href="#collections" class="btn hero-btn-ghost minimal-btn-outline" id="hero-cta-secondary">
           SHOP BEST SELLERS <i class="ri-compass-3-line"></i>
         </a>
-      </div>
-
-      <!-- Editorial Spec Stamp -->
-      <div class="hero-spec-stamp">
-        <span>ARCHIVE-SPEC: W4-TYO-BOM-2026</span>
-        <span>•</span>
-        <span>FABRIC: 280-420 GSM</span>
-        <span>•</span>
-        <span>BATCH: LIMITED RUN</span>
       </div>
     </div>
   </section>
@@ -361,169 +372,45 @@
     </div>
   </section>
 
-  <!-- 6. Shop by Collection / Categories Grid with Dynamic Product Photos -->
-  <section class="collections-section" id="collections">
+  <!-- 6. Shop by Collection - 3-Column Minimalist Directory (Exact Match to User Reference) -->
+  <section class="collections-section collections-directory-section" id="collections">
     <div class="page-container">
-      <div class="section-title-wrap">
-        <div class="section-tag-pill"><i class="ri-stack-line"></i> ARCHIVE DIVISIONS</div>
-        <h2 class="section-main-heading" id="collections-title">SHOP BY COLLECTION</h2>
-        <p class="section-subheading" id="collections-subtitle">Select your division: 6 Topwear lines, 5 Bottom Wear silhouettes, and 5 Street Accessories.</p>
-      </div>
-
-      <!-- Department Filter Pills for Collections -->
-      <div class="collection-dept-tabs">
-        <button class="dept-tab-btn active" onclick="switchCollectionDept('all', this)">ALL COLLECTIONS (16)</button>
-        <button class="dept-tab-btn" onclick="switchCollectionDept('topwear', this)">TOPWEAR (6)</button>
-        <button class="dept-tab-btn" onclick="switchCollectionDept('bottomwear', this)">BOTTOM WEARS (5)</button>
-        <button class="dept-tab-btn" onclick="switchCollectionDept('accessories', this)">ACCESSORIES (5)</button>
-      </div>
-
-      <div class="categories-grid" id="collections-grid">
-        <!-- TOPWEAR (6) -->
-        <div class="category-card" data-dept="topwear" data-category="shirts" onclick="filterByCategory('shirts')">
-          <div class="category-card-bg card-bg-shirts" id="cat-card-bg-shirts"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">TOPWEAR // 01</span>
-            <h3 class="category-name">SHIRTS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
+      <div class="collection-columns-grid">
+        <!-- Col 1: Shop by Collection (Topwear) -->
+        <div class="collection-directory-col">
+          <h2 class="collection-col-header" onclick="filterByCategory('topwear')">SHOP BY COLLECTION</h2>
+          <ul class="collection-link-list">
+            <li><a href="javascript:void(0)" onclick="filterByCategory('shirts')">SHIRTS</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('tshirts')">TSHIRTS</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('sweatshirts')">SWEATSHIRTS</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('hoodies')">HOODIES</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('bodysuits')">BODYSUITS</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('jackets')">JACKETS</a></li>
+          </ul>
         </div>
 
-        <div class="category-card" data-dept="topwear" data-category="tshirts" onclick="filterByCategory('tshirts')">
-          <div class="category-card-bg card-bg-tshirts" id="cat-card-bg-tshirts"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">TOPWEAR // 02</span>
-            <h3 class="category-name">T-SHIRTS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
+        <!-- Col 2: Bottom Wears -->
+        <div class="collection-directory-col">
+          <h2 class="collection-col-header" onclick="filterByCategory('bottomwear')">BOTTOM WEARS</h2>
+          <ul class="collection-link-list">
+            <li><a href="javascript:void(0)" onclick="filterByCategory('trousers')">TROUSERS</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('denims')">DENIMS</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('cargos')">CARGOS</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('joggers')">JOGGERS</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('shorts')">SHORTS</a></li>
+          </ul>
         </div>
 
-        <div class="category-card" data-dept="topwear" data-category="sweatshirts" onclick="filterByCategory('sweatshirts')">
-          <div class="category-card-bg card-bg-sweatshirts" id="cat-card-bg-sweatshirts"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">TOPWEAR // 03</span>
-            <h3 class="category-name">SWEATSHIRTS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <div class="category-card" data-dept="topwear" data-category="hoodies" onclick="filterByCategory('hoodies')">
-          <div class="category-card-bg card-bg-hoodies" id="cat-card-bg-hoodies"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">TOPWEAR // 04</span>
-            <h3 class="category-name">HOODIES</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <div class="category-card" data-dept="topwear" data-category="bodysuits" onclick="filterByCategory('bodysuits')">
-          <div class="category-card-bg card-bg-bodysuits" id="cat-card-bg-bodysuits"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">TOPWEAR // 05</span>
-            <h3 class="category-name">BODYSUITS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <div class="category-card" data-dept="topwear" data-category="jackets" onclick="filterByCategory('jackets')">
-          <div class="category-card-bg card-bg-jackets" id="cat-card-bg-jackets"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">TOPWEAR // 06</span>
-            <h3 class="category-name">JACKETS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <!-- BOTTOM WEARS (5) -->
-        <div class="category-card" data-dept="bottomwear" data-category="trousers" onclick="filterByCategory('trousers')">
-          <div class="category-card-bg card-bg-trousers" id="cat-card-bg-trousers"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">BOTTOM WEAR // 01</span>
-            <h3 class="category-name">TROUSERS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <div class="category-card" data-dept="bottomwear" data-category="denims" onclick="filterByCategory('denims')">
-          <div class="category-card-bg card-bg-denims" id="cat-card-bg-denims"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">BOTTOM WEAR // 02</span>
-            <h3 class="category-name">DENIMS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <div class="category-card" data-dept="bottomwear" data-category="cargos" onclick="filterByCategory('cargos')">
-          <div class="category-card-bg card-bg-cargos" id="cat-card-bg-cargos"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">BOTTOM WEAR // 03</span>
-            <h3 class="category-name">CARGOS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <div class="category-card" data-dept="bottomwear" data-category="joggers" onclick="filterByCategory('joggers')">
-          <div class="category-card-bg card-bg-joggers" id="cat-card-bg-joggers"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">BOTTOM WEAR // 04</span>
-            <h3 class="category-name">JOGGERS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <div class="category-card" data-dept="bottomwear" data-category="shorts" onclick="filterByCategory('shorts')">
-          <div class="category-card-bg card-bg-shorts" id="cat-card-bg-shorts"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">BOTTOM WEAR // 05</span>
-            <h3 class="category-name">SHORTS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <!-- ACCESSORIES (5) -->
-        <div class="category-card" data-dept="accessories" data-category="shades" onclick="filterByCategory('shades')">
-          <div class="category-card-bg card-bg-shades" id="cat-card-bg-shades"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">ACCESSORIES // 01</span>
-            <h3 class="category-name">SHADES</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <div class="category-card" data-dept="accessories" data-category="socks" onclick="filterByCategory('socks')">
-          <div class="category-card-bg card-bg-socks" id="cat-card-bg-socks"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">ACCESSORIES // 02</span>
-            <h3 class="category-name">SOCKS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <div class="category-card" data-dept="accessories" data-category="bags" onclick="filterByCategory('bags')">
-          <div class="category-card-bg card-bg-bags" id="cat-card-bg-bags"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">ACCESSORIES // 03</span>
-            <h3 class="category-name">BAGS</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <div class="category-card" data-dept="accessories" data-category="cap" onclick="filterByCategory('cap')">
-          <div class="category-card-bg card-bg-cap" id="cat-card-bg-cap"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">ACCESSORIES // 04</span>
-            <h3 class="category-name">CAP</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
-        </div>
-
-        <div class="category-card" data-dept="accessories" data-category="perfume" onclick="filterByCategory('perfume')">
-          <div class="category-card-bg card-bg-perfume" id="cat-card-bg-perfume"></div>
-          <div class="category-card-overlay">
-            <span class="category-dept-tag">ACCESSORIES // 05</span>
-            <h3 class="category-name">PERFUME</h3>
-            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
-          </div>
+        <!-- Col 3: Accessories -->
+        <div class="collection-directory-col">
+          <h2 class="collection-col-header" onclick="filterByCategory('accessories')">ACCESSORIES</h2>
+          <ul class="collection-link-list">
+            <li><a href="javascript:void(0)" onclick="filterByCategory('shades')">SHADES</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('socks')">SOCKS</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('bags')">BAGS</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('cap')">CAP</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByCategory('perfume')">PERFUME</a></li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1358,6 +1245,10 @@
         </div>
       </form>
     </div>
+  <!-- Futuristic Cybernetic Cursor Follower -->
+  <div class="cyber-cursor-glow" id="cyber-cursor-glow" aria-hidden="true">
+    <div class="cyber-cursor-dot"></div>
+    <div class="cyber-cursor-ring"></div>
   </div>
 
   <!-- Scripts -->
