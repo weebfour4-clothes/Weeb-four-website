@@ -34,6 +34,8 @@
   /* Typography */
   --font-heading: 'Bebas Neue', 'Outfit', sans-serif;
   --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-graffiti: 'Permanent Marker', cursive, sans-serif;
+  --font-mono: 'Space Mono', 'Courier New', monospace;
   
   /* Dimensions & Spacing */
   --header-height-desktop: 76px;
@@ -2673,4 +2675,405 @@ select {
   color: var(--color-background);
   border-color: var(--color-foreground);
 }
+
+/* ==========================================================================
+   19. Editorial, Graffiti & Minimalist UI Graphic Design & Animations
+   ========================================================================== */
+
+/* --- A. Animated Graffiti Caution Tape Marquee Strip --- */
+.graffiti-tape-strip {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #ffcc00;
+  color: #0c0d10;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  padding: 10px 0;
+  text-transform: uppercase;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+  box-shadow: 0 4px 18px rgba(255, 204, 0, 0.25);
+  z-index: 10;
+  transform: rotate(-0.5deg) scale(1.01);
+}
+
+.tape-track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  animation: marquee-tape 22s linear infinite;
+}
+
+.tape-track:hover {
+  animation-play-state: paused;
+}
+
+.tape-track span {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 24px;
+}
+
+.tape-track i {
+  color: #000000;
+  font-size: 1.1rem;
+}
+
+@keyframes marquee-tape {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* --- B. Editorial & Graffiti Hero Graphic Design --- */
+.hero-graffiti-float-tag {
+  position: absolute;
+  top: 15%;
+  right: 5%;
+  font-family: var(--font-graffiti);
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  color: #ff2a51;
+  text-shadow: 0 0 15px rgba(255, 42, 81, 0.65), 2px 2px 0px #000000;
+  transform: rotate(-9deg);
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  z-index: 5;
+  animation: float-tag 4s ease-in-out infinite alternate;
+}
+
+@keyframes float-tag {
+  0% {
+    transform: translateY(0px) rotate(-9deg) scale(1);
+  }
+  100% {
+    transform: translateY(-12px) rotate(-6deg) scale(1.04);
+  }
+}
+
+.graffiti-highlight-text {
+  position: relative;
+  display: inline-block;
+  color: #ff3b5c;
+  text-shadow: 0 0 20px rgba(255, 59, 92, 0.55);
+}
+
+.graffiti-highlight-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 59, 92, 0.45);
+  transform: skewX(-12deg);
+  border-radius: 2px;
+}
+
+.hero-spec-stamp {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 24px;
+  padding: 12px 18px;
+  background: rgba(16, 17, 23, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  position: relative;
+}
+
+.hero-spec-stamp::before {
+  content: "+";
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  color: var(--color-sale-red);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hero-spec-stamp::after {
+  content: "+";
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  color: var(--color-sale-red);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hero-spec-code {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.hero-barcode-svg {
+  height: 22px;
+  opacity: 0.75;
+  filter: invert(1);
+  transition: opacity 0.2s ease;
+}
+.hero-barcode-svg:hover {
+  opacity: 1;
+}
+
+/* --- C. Streetwear Category Cards Graffiti & Dynamic Image Styling --- */
+.category-card {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-card-bg);
+  aspect-ratio: 4 / 5;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s ease, 
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.category-card::before {
+  content: "+";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  z-index: 3;
+  transition: color 0.2s ease;
+}
+.category-card:hover::before {
+  color: var(--color-sale-red);
+}
+
+.category-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  border-color: var(--color-sale-red);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 24px rgba(214, 0, 47, 0.35);
+}
+
+.category-card-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+}
+
+.category-card:hover .category-card-bg {
+  transform: scale(1.08);
+}
+
+/* Dynamic product image when applied to category card */
+.category-card-bg[style*="background-image"] {
+  filter: contrast(108%) brightness(96%);
+}
+.category-card:hover .category-card-bg[style*="background-image"] {
+  filter: contrast(115%) brightness(102%);
+}
+
+.card-graffiti-sticker {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #ffcc00;
+  color: #0c0d10;
+  font-family: var(--font-graffiti);
+  font-size: 0.95rem;
+  padding: 2px 8px;
+  letter-spacing: 0.05em;
+  transform: rotate(8deg);
+  box-shadow: 2px 2px 0px #000000;
+  border: 1px solid #000000;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 4;
+}
+
+.category-card:hover .card-graffiti-sticker {
+  transform: rotate(-4deg) scale(1.15);
+  background: #ff2a51;
+  color: #ffffff;
+}
+
+/* --- D. Customer VIP Drop Phone Number Section --- */
+.vip-phone-section {
+  position: relative;
+  padding: 80px 20px;
+  background: linear-gradient(180deg, rgba(9, 10, 13, 0.95) 0%, rgba(16, 17, 23, 0.98) 100%);
+  border-top: 1px dashed var(--color-border);
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.graffiti-drop-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-graffiti);
+  font-size: 1.15rem;
+  color: #ffcc00;
+  margin-bottom: 12px;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
+}
+
+.phone-signup-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 580px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.phone-input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0px;
+  flex: 1;
+  min-width: 280px;
+  padding: 0 14px;
+  height: 52px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.phone-input-wrap:focus-within {
+  border-color: var(--color-sale-red);
+  box-shadow: 0 0 16px rgba(214, 0, 47, 0.3);
+}
+
+.phone-prefix {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-sale-red);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 10px;
+  border-right: 1px solid var(--color-border);
+  user-select: none;
+}
+
+.phone-input-wrap input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-foreground);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  padding-left: 12px;
+}
+
+.phone-input-wrap input::placeholder {
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+/* Button with Graffiti Spray Glow */
+.graffiti-btn {
+  height: 52px;
+  padding: 0 28px;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--color-sale-red);
+  color: #ffffff;
+  border: 1px solid var(--color-sale-red);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(214, 0, 47, 0.4);
+}
+
+.graffiti-btn:hover {
+  background: #ff1a48;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(214, 0, 47, 0.65), 0 0 15px rgba(255, 42, 81, 0.5);
+}
+
+/* Footer phone input */
+.footer-newsletter-form {
+  display: flex;
+  margin-top: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+.footer-newsletter-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 10px 14px;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  outline: none;
+}
+.footer-newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+.footer-newsletter-submit {
+  background: var(--color-sale-red);
+  color: #ffffff;
+  border: none;
+  padding: 0 18px;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.footer-newsletter-submit:hover {
+  background: #ff1a48;
+}
+
+/* --- E. Rich Micro-Animations & Editorial Interactions --- */
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: 0 0 10px rgba(214, 0, 47, 0.8), 0 0 20px rgba(214, 0, 47, 0.4);
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+.brand-logo-text:hover {
+  animation: neon-flicker 1.8s infinite;
+}
+
+/* Subtle street spray stamp watermark */
+.product-feed-section::before {
+  content: "WEEBFOUR // 2026 ARCHIVE";
+  position: absolute;
+  top: 12px;
+  right: 24px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--color-text-dim);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 

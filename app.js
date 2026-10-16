@@ -47,6 +47,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initTheme();
   applySiteConfigToStorefront();
   renderProducts();
+  updateCategoryCardBackgrounds();
   updateCartUI();
   updateWishlistUI();
   setupEventListeners();
@@ -123,6 +124,14 @@ function setupEventListeners() {
     });
   }
 
+  // Admin shortcut Ctrl+Alt+A or Cmd+Alt+A
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.altKey && (e.key === 'a' || e.key === 'A')) {
+      e.preventDefault();
+      openAdminModal();
+    }
+  });
+
   // Close modals on ESC key
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -135,6 +144,38 @@ function setupEventListeners() {
       closeAdminAuth();
       closeAdminSuite();
       closeProductEditModal();
+    }
+  });
+}
+
+// Dynamic Category Card Photos: Automatically sets background photo from category products
+function updateCategoryCardBackgrounds() {
+  const allCategories = [
+    'shirts', 'tshirts', 'sweatshirts', 'hoodies', 'bodysuits', 'jackets',
+    'trousers', 'denims', 'cargos', 'joggers', 'shorts',
+    'shades', 'socks', 'bags', 'cap', 'perfume'
+  ];
+
+  allCategories.forEach(cat => {
+    const cardBgEl = document.getElementById(`cat-card-bg-${cat}`);
+    if (!cardBgEl) return;
+
+    // Find the first product in this category that has a valid image
+    const prodWithImg = (window.products || []).find(p => 
+      p.category === cat && 
+      p.images && 
+      p.images.length > 0 && 
+      p.images[0] && 
+      p.images[0].trim() !== ''
+    );
+
+    if (prodWithImg) {
+      cardBgEl.style.backgroundImage = `url("${prodWithImg.images[0]}")`;
+      cardBgEl.style.backgroundSize = 'cover';
+      cardBgEl.style.backgroundPosition = 'center';
+    } else {
+      // Normal state: keep procedural gradient from CSS
+      cardBgEl.style.backgroundImage = '';
     }
   });
 }
@@ -999,17 +1040,40 @@ function toggleDrawerSubmenu(el) {
 }
 
 // ==========================================================================
-// 11. NEWSLETTER SUBMISSION
+// 11. VIP PHONE NUMBER SUBMISSION (SMS & WHATSAPP DROPS)
 // ==========================================================================
 function handleNewsletterSubmit(e) {
   e.preventDefault();
+  let phoneVal = '';
+  const p1 = document.getElementById('newsletter-phone');
+  const p2 = document.getElementById('footer-newsletter-phone');
+
+  if (p1 && p1.value.trim()) {
+    phoneVal = p1.value.trim();
+  } else if (p2 && p2.value.trim()) {
+    phoneVal = p2.value.trim();
+  }
+
+  if (phoneVal) {
+    try {
+      const stored = JSON.parse(localStorage.getItem('weebfour_phone_subscribers') || '[]');
+      if (!stored.includes(phoneVal)) {
+        stored.push(phoneVal);
+        localStorage.setItem('weebfour_phone_subscribers', JSON.stringify(stored));
+      }
+    } catch (err) {
+      console.warn("Could not save phone subscriber", err);
+    }
+  }
+
   const success = document.getElementById('newsletter-success-msg');
   if (success) {
     success.style.display = 'block';
     setTimeout(() => { success.style.display = 'none'; }, 6000);
   }
-  const input = document.getElementById('newsletter-email');
-  if (input) input.value = '';
+
+  if (p1) p1.value = '';
+  if (p2) p2.value = '';
 }
 
 // ==========================================================================
@@ -1281,6 +1345,7 @@ function handleProductSave(e) {
   localStorage.setItem('weebfour_custom_catalog', JSON.stringify(window.products));
   renderAdminProductsList();
   renderProducts();
+  updateCategoryCardBackgrounds();
   closeProductEditModal();
 }
 
@@ -1290,6 +1355,7 @@ function deleteAdminProduct(productId) {
     localStorage.setItem('weebfour_custom_catalog', JSON.stringify(window.products));
     renderAdminProductsList();
     renderProducts();
+    updateCategoryCardBackgrounds();
   }
 }
 
@@ -1452,6 +1518,7 @@ function resetToFactoryDefaults() {
     renderAdminOffersList();
     applySiteConfigToStorefront();
     renderProducts();
+    updateCategoryCardBackgrounds();
     updateCartUI();
     alert("Storefront reset to factory defaults.");
   }

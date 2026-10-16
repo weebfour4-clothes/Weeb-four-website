@@ -14,10 +14,10 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/favicon.png">
   
-  <!-- Google Fonts: Bebas Neue for headers, Outfit for clean body typography -->
+  <!-- Google Fonts: Bebas Neue for editorial headers, Permanent Marker for graffiti tags, Space Mono for tech-pack specs, Outfit for clean typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&family=Permanent+Marker&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   
   <!-- Remix Icons (for UI icons) -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
@@ -123,16 +123,11 @@
         </nav>
       </div>
 
-      <!-- Right: Action Icons (Theme Toggle, Admin Access, Search, Wishlist, Cart) -->
+      <!-- Right: Action Icons (Theme Toggle, Search, Wishlist, Cart) -->
       <div class="header-right">
         <!-- Visual Theme Switcher -->
         <button class="header-action-btn theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="Switch Theme (Dark Cyber / Industrial Concrete)" aria-label="Toggle Theme">
           <i class="ri-moon-fill" id="theme-toggle-icon"></i>
-        </button>
-
-        <!-- Master Admin Suite Access Button -->
-        <button class="admin-badge-btn" onclick="openAdminModal()" title="Store Admin Control Console">
-          <i class="ri-shield-keyhole-line"></i> <span>ADMIN ACCESS</span>
         </button>
 
         <!-- Search Icon Toggle -->
@@ -272,57 +267,98 @@
   </div>
 
   <!-- 4. Hero Editorial Slider / Banner -->
+  <!-- 4. Hero Editorial Slider / Banner with Graffiti & Minimalist UI -->
   <section class="hero-slider-section" id="hero">
     <div class="hero-slider-bg" id="hero-slider-bg" style="background-image: url('assets/hero_branding_photo.jpg');"></div>
     <div class="hero-slider-overlay"></div>
+    
+    <!-- Floating Graffiti Japanese Tag Decal -->
+    <div class="hero-graffiti-float-tag" aria-hidden="true">
+      <span>東京</span>
+      <span class="sub-kanji">反骨精神</span>
+      <span class="spray-badge">TAGGED #026</span>
+    </div>
+
     <div class="page-container hero-content-wrap">
       <div class="hero-badge-pill" id="hero-badge-pill">
         <i class="ri-fire-fill" style="color: var(--color-sale-red);"></i> WEEBFOUR® / WINTER-SPRING 2026 ARCHIVE
+        <span class="editorial-barcode-micro">||||| ||| ||||</span>
       </div>
+
       <h1 class="hero-main-title" id="hero-main-title">
-        BORN IN THE STREETS<br>WEAR THE REVOLUTION
+        BORN IN THE STREETS<br>
+        <span class="graffiti-highlight-text">WEAR THE REVOLUTION</span>
       </h1>
+
       <p class="hero-subtext" id="hero-subtext">
         Engineered in Tokyo & Mumbai. Ultra-heavyweight French Terry tees, technical waterproof nylon cargoes, and structural outerwear designed for the modern subculture.
       </p>
+
       <div class="hero-cta-row">
-        <a href="#shop" class="btn hero-btn-white" id="hero-cta-primary">
+        <a href="#shop" class="btn hero-btn-white graffiti-btn" id="hero-cta-primary">
           EXPLORE COLLECTION <i class="ri-arrow-right-line"></i>
         </a>
-        <a href="#collections" class="btn hero-btn-ghost" id="hero-cta-secondary">
+        <a href="#collections" class="btn hero-btn-ghost graffiti-btn-outline" id="hero-cta-secondary">
           SHOP BEST SELLERS <i class="ri-compass-3-line"></i>
         </a>
       </div>
+
+      <!-- Editorial Spec Stamp -->
+      <div class="hero-spec-stamp">
+        <span>ARCHIVE-SPEC: W4-TYO-BOM-2026</span>
+        <span>•</span>
+        <span>FABRIC: 280-420 GSM</span>
+        <span>•</span>
+        <span>BATCH: LIMITED RUN</span>
+      </div>
     </div>
   </section>
+
+  <!-- Animated Editorial Graffiti Caution Ribbon Tape -->
+  <div class="graffiti-tape-strip" aria-hidden="true">
+    <div class="tape-track tape-track-left">
+      <span>★ WEEBFOUR ARCHIVE 2026</span>
+      <span>/// STREET COUTURE // 東京</span>
+      <span>[ RAW GRAFFITI EDITION ]</span>
+      <span>DO NOT REPLICATE ///</span>
+      <span>HEAVYWEIGHT BOX DRAPE</span>
+      <span>SUB-CULTURE ARCHIVE</span>
+      <span>★ WEEBFOUR ARCHIVE 2026</span>
+      <span>/// STREET COUTURE // 東京</span>
+      <span>[ RAW GRAFFITI EDITION ]</span>
+      <span>DO NOT REPLICATE ///</span>
+      <span>HEAVYWEIGHT BOX DRAPE</span>
+      <span>SUB-CULTURE ARCHIVE</span>
+    </div>
+  </div>
 
   <!-- 5. Value Propositions Bar -->
   <section class="value-props-bar">
     <div class="page-container">
       <div class="props-grid">
         <div class="prop-card">
-          <i class="ri-truck-line prop-icon"></i>
+          <div class="prop-icon-wrap"><i class="ri-truck-line prop-icon"></i></div>
           <div>
             <div class="prop-title">PAN-INDIA SHIPPING</div>
             <div class="prop-desc">Dispatched within 24 hours</div>
           </div>
         </div>
         <div class="prop-card">
-          <i class="ri-t-shirt-2-line prop-icon"></i>
+          <div class="prop-icon-wrap"><i class="ri-t-shirt-2-line prop-icon"></i></div>
           <div>
             <div class="prop-title">280-420 GSM COTTON</div>
             <div class="prop-desc">Ultra-heavy structural boxy drape</div>
           </div>
         </div>
         <div class="prop-card">
-          <i class="ri-arrow-go-back-line prop-icon"></i>
+          <div class="prop-icon-wrap"><i class="ri-arrow-go-back-line prop-icon"></i></div>
           <div>
             <div class="prop-title">7-DAY FREE RETURNS</div>
             <div class="prop-desc">Hassle-free instant exchanges</div>
           </div>
         </div>
         <div class="prop-card">
-          <i class="ri-shield-star-line prop-icon"></i>
+          <div class="prop-icon-wrap"><i class="ri-shield-star-line prop-icon"></i></div>
           <div>
             <div class="prop-title">100% AUTHENTIC GRAILS</div>
             <div class="prop-desc">High-density puff print & chenille</div>
@@ -332,7 +368,7 @@
     </div>
   </section>
 
-  <!-- 6. Shop by Collection / Categories Grid -->
+  <!-- 6. Shop by Collection / Categories Grid with Dynamic Product Photos -->
   <section class="collections-section" id="collections">
     <div class="page-container">
       <div class="section-title-wrap">
@@ -351,54 +387,60 @@
 
       <div class="categories-grid" id="collections-grid">
         <!-- TOPWEAR (6) -->
-        <div class="category-card" data-dept="topwear" onclick="filterByCategory('shirts')">
-          <div class="category-card-bg card-bg-shirts"></div>
+        <div class="category-card" data-dept="topwear" data-category="shirts" onclick="filterByCategory('shirts')">
+          <div class="category-card-bg card-bg-shirts" id="cat-card-bg-shirts"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">TOPWEAR // 01</span>
             <h3 class="category-name">SHIRTS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="topwear" onclick="filterByCategory('tshirts')">
-          <div class="category-card-bg card-bg-tshirts"></div>
+        <div class="category-card" data-dept="topwear" data-category="tshirts" onclick="filterByCategory('tshirts')">
+          <div class="category-card-bg card-bg-tshirts" id="cat-card-bg-tshirts"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">TOPWEAR // 02</span>
             <h3 class="category-name">T-SHIRTS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="topwear" onclick="filterByCategory('sweatshirts')">
-          <div class="category-card-bg card-bg-sweatshirts"></div>
+        <div class="category-card" data-dept="topwear" data-category="sweatshirts" onclick="filterByCategory('sweatshirts')">
+          <div class="category-card-bg card-bg-sweatshirts" id="cat-card-bg-sweatshirts"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">TOPWEAR // 03</span>
             <h3 class="category-name">SWEATSHIRTS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="topwear" onclick="filterByCategory('hoodies')">
-          <div class="category-card-bg card-bg-hoodies"></div>
+        <div class="category-card" data-dept="topwear" data-category="hoodies" onclick="filterByCategory('hoodies')">
+          <div class="category-card-bg card-bg-hoodies" id="cat-card-bg-hoodies"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">TOPWEAR // 04</span>
             <h3 class="category-name">HOODIES</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="topwear" onclick="filterByCategory('bodysuits')">
-          <div class="category-card-bg card-bg-bodysuits"></div>
+        <div class="category-card" data-dept="topwear" data-category="bodysuits" onclick="filterByCategory('bodysuits')">
+          <div class="category-card-bg card-bg-bodysuits" id="cat-card-bg-bodysuits"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">TOPWEAR // 05</span>
             <h3 class="category-name">BODYSUITS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="topwear" onclick="filterByCategory('jackets')">
-          <div class="category-card-bg card-bg-jackets"></div>
+        <div class="category-card" data-dept="topwear" data-category="jackets" onclick="filterByCategory('jackets')">
+          <div class="category-card-bg card-bg-jackets" id="cat-card-bg-jackets"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">TOPWEAR // 06</span>
             <h3 class="category-name">JACKETS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
@@ -406,45 +448,50 @@
         </div>
 
         <!-- BOTTOM WEARS (5) -->
-        <div class="category-card" data-dept="bottomwear" onclick="filterByCategory('trousers')">
-          <div class="category-card-bg card-bg-trousers"></div>
+        <div class="category-card" data-dept="bottomwear" data-category="trousers" onclick="filterByCategory('trousers')">
+          <div class="category-card-bg card-bg-trousers" id="cat-card-bg-trousers"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">BOTTOM WEAR // 01</span>
             <h3 class="category-name">TROUSERS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="bottomwear" onclick="filterByCategory('denims')">
-          <div class="category-card-bg card-bg-denims"></div>
+        <div class="category-card" data-dept="bottomwear" data-category="denims" onclick="filterByCategory('denims')">
+          <div class="category-card-bg card-bg-denims" id="cat-card-bg-denims"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">BOTTOM WEAR // 02</span>
             <h3 class="category-name">DENIMS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="bottomwear" onclick="filterByCategory('cargos')">
-          <div class="category-card-bg card-bg-cargos"></div>
+        <div class="category-card" data-dept="bottomwear" data-category="cargos" onclick="filterByCategory('cargos')">
+          <div class="category-card-bg card-bg-cargos" id="cat-card-bg-cargos"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">BOTTOM WEAR // 03</span>
             <h3 class="category-name">CARGOS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="bottomwear" onclick="filterByCategory('joggers')">
-          <div class="category-card-bg card-bg-joggers"></div>
+        <div class="category-card" data-dept="bottomwear" data-category="joggers" onclick="filterByCategory('joggers')">
+          <div class="category-card-bg card-bg-joggers" id="cat-card-bg-joggers"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">BOTTOM WEAR // 04</span>
             <h3 class="category-name">JOGGERS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="bottomwear" onclick="filterByCategory('shorts')">
-          <div class="category-card-bg card-bg-shorts"></div>
+        <div class="category-card" data-dept="bottomwear" data-category="shorts" onclick="filterByCategory('shorts')">
+          <div class="category-card-bg card-bg-shorts" id="cat-card-bg-shorts"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">BOTTOM WEAR // 05</span>
             <h3 class="category-name">SHORTS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
@@ -452,50 +499,54 @@
         </div>
 
         <!-- ACCESSORIES (5) -->
-        <div class="category-card" data-dept="accessories" onclick="filterByCategory('shades')">
-          <div class="category-card-bg card-bg-shades"></div>
+        <div class="category-card" data-dept="accessories" data-category="shades" onclick="filterByCategory('shades')">
+          <div class="category-card-bg card-bg-shades" id="cat-card-bg-shades"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">ACCESSORIES // 01</span>
             <h3 class="category-name">SHADES</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="accessories" onclick="filterByCategory('socks')">
-          <div class="category-card-bg card-bg-socks"></div>
+        <div class="category-card" data-dept="accessories" data-category="socks" onclick="filterByCategory('socks')">
+          <div class="category-card-bg card-bg-socks" id="cat-card-bg-socks"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">ACCESSORIES // 02</span>
             <h3 class="category-name">SOCKS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="accessories" onclick="filterByCategory('bags')">
-          <div class="category-card-bg card-bg-bags"></div>
+        <div class="category-card" data-dept="accessories" data-category="bags" onclick="filterByCategory('bags')">
+          <div class="category-card-bg card-bg-bags" id="cat-card-bg-bags"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">ACCESSORIES // 03</span>
             <h3 class="category-name">BAGS</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="accessories" onclick="filterByCategory('cap')">
-          <div class="category-card-bg card-bg-cap"></div>
+        <div class="category-card" data-dept="accessories" data-category="cap" onclick="filterByCategory('cap')">
+          <div class="category-card-bg card-bg-cap" id="cat-card-bg-cap"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">ACCESSORIES // 04</span>
             <h3 class="category-name">CAP</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <div class="category-card" data-dept="accessories" onclick="filterByCategory('perfume')">
-          <div class="category-card-bg card-bg-perfume"></div>
+        <div class="category-card" data-dept="accessories" data-category="perfume" onclick="filterByCategory('perfume')">
+          <div class="category-card-bg card-bg-perfume" id="cat-card-bg-perfume"></div>
           <div class="category-card-overlay">
+            <span class="card-graffiti-sticker">W4!</span>
             <span class="category-dept-tag">ACCESSORIES // 05</span>
             <h3 class="category-name">PERFUME</h3>
             <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
-        </div>
       </div>
     </div>
   </section>
@@ -583,17 +634,23 @@
     </div>
   </section>
 
-  <!-- 9. Newsletter Section -->
-  <section class="collections-section" id="newsletter" style="background: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
-    <div class="page-container text-center" style="max-width: 680px;">
-      <h2 class="section-main-heading" id="newsletter-title">JOIN THE WEEBFOUR SQUAD</h2>
-      <p class="section-subheading" id="newsletter-subtitle" style="margin-bottom: 24px;">Subscribe to receive early access to seasonal drops, secret discount codes, and exclusive invitations to member releases.</p>
-      <form id="newsletter-form" onsubmit="handleNewsletterSubmit(event)" style="display: flex; gap: 8px;">
-        <input type="email" id="newsletter-email" required placeholder="ENTER YOUR EMAIL ADDRESS" style="flex: 1; padding: 14px 16px; border: 1px solid var(--color-border); background: var(--color-surface-hover); color: var(--color-foreground); font-family: var(--font-body); outline: none;">
-        <button type="submit" class="btn btn-primary">JOIN</button>
+  <!-- 9. VIP Drop Access Section (Phone Number for Direct SMS / WhatsApp Drops) -->
+  <section class="collections-section vip-phone-section" id="newsletter">
+    <div class="page-container text-center" style="max-width: 720px;">
+      <div class="graffiti-drop-tag"><i class="ri-fire-line"></i> VIP ACCESS // PRIORITY DROPS</div>
+      <h2 class="section-main-heading" id="newsletter-title">JOIN THE WEEBFOUR DROP SQUAD</h2>
+      <p class="section-subheading" id="newsletter-subtitle" style="margin-bottom: 24px;">Enter your phone number to receive instant SMS & WhatsApp drop links, secret discount codes, and priority early access.</p>
+      <form id="newsletter-form" onsubmit="handleNewsletterSubmit(event)" class="phone-signup-form">
+        <div class="phone-input-wrap">
+          <span class="phone-prefix"><i class="ri-phone-line"></i> +91</span>
+          <input type="tel" id="newsletter-phone" required pattern="[0-9]{10}" placeholder="ENTER 10-DIGIT MOBILE NUMBER" maxlength="10">
+        </div>
+        <button type="submit" class="btn btn-sale graffiti-btn">
+          GET DROP ALERTS <i class="ri-arrow-right-line"></i>
+        </button>
       </form>
-      <div id="newsletter-success-msg" style="display: none; margin-top: 14px; color: #2e7d32; font-weight: 600;">
-        <i class="ri-checkbox-circle-fill"></i> You have been added to the WEEBFOUR early-access drop list!
+      <div id="newsletter-success-msg" style="display: none; margin-top: 16px; color: #00d66c; font-weight: 700; font-family: var(--font-heading); font-size: 1.2rem; letter-spacing: 0.05em;">
+        <i class="ri-checkbox-circle-fill"></i> YOU'RE LOCKED IN! VIP DROP ALERTS WILL BE SENT TO YOUR PHONE.
       </div>
     </div>
   </section>
@@ -1014,12 +1071,12 @@
           </ul>
         </div>
 
-        <!-- Col 4: Newsletter -->
+        <!-- Col 4: VIP Phone Drop List -->
         <div>
           <h4 class="footer-col-title">JOIN THE SQUAD</h4>
-          <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 12px;">Get 10% off your first drop order + secret VIP drop alerts.</p>
+          <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 12px;">Get 10% off your first drop order + instant VIP mobile drop alerts.</p>
           <form class="footer-newsletter-form" onsubmit="handleNewsletterSubmit(event)">
-            <input type="email" class="footer-newsletter-input" required placeholder="Enter your email">
+            <input type="tel" class="footer-newsletter-input" id="footer-newsletter-phone" required pattern="[0-9]{10}" placeholder="Enter 10-digit phone" maxlength="10">
             <button type="submit" class="footer-newsletter-submit">JOIN</button>
           </form>
         </div>
@@ -1066,8 +1123,6 @@
           <p style="font-size: 0.85rem; color: #666; margin: 0;">Live Storefront Management Suite (Photos, Offers, Names, Words)</p>
         </div>
         <div style="display: flex; gap: 8px;">
-          <button class="btn btn-sm btn-secondary" onclick="exportAdminData()"><i class="ri-download-2-line"></i> EXPORT JSON</button>
-          <button class="btn btn-sm btn-secondary" onclick="resetToFactoryDefaults()"><i class="ri-restart-line"></i> RESET DEFAULTS</button>
           <button class="btn btn-sm btn-primary" onclick="saveAllAdminChanges()"><i class="ri-save-3-line"></i> SAVE & PUBLISH LIVE</button>
           <button class="modal-close-x" style="position: static;" onclick="closeAdminSuite()"><i class="ri-close-line"></i></button>
         </div>
