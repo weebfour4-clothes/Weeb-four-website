@@ -23,6 +23,57 @@ let appliedPromoCode = '';
 let orderInstructions = '';
 let isAdminAuthenticated = false;
 
+// ==========================================================================
+// SUPABASE CLIENT CONFIGURATION & CLOUD DATABASE SYNC
+// ==========================================================================
+const SUPABASE_URL = 'https://lcxsztthumrxnhematle.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjeHN6dHRodW1yeG5oZW1hdGxlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNTk2MTMsImV4cCI6MjEwNzczNTYxM30.jH3l15TEXGVptqfmKpDPRqAcvi8OGSG3mQF5UOf5xsw';
+
+let supabaseClient = null;
+try {
+  if (window.supabase && typeof window.supabase.createClient === 'function') {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log("Supabase Client initialized successfully!");
+  }
+} catch (e) {
+  console.warn("Could not initialize Supabase client:", e);
+}
+
+// Fetch products from Supabase cloud database
+async function loadProductsFromDatabase() {
+  if (!supabaseClient) return;
+  try {
+    const { data, error } = await supabaseClient
+      .from('products')
+      .select('*')
+      .order('id', { ascending: false });
+
+    if (error) {
+      console.warn("Supabase products fetch warning:", error.message);
+      return;
+    }
+
+    if (data && data.length > 0) {
+      window.products = data.map(item => ({
+        id: item.id,
+        name: item.name,
+        category: item.category,
+        tag: item.tag || '',
+        price: item.price,
+        compareAtPrice: item.compare_at_price || 0,
+        sizes: item.sizes || ['S', 'M', 'L', 'XL'],
+        description: item.description || '',
+        images: item.images || []
+      }));
+      renderProducts();
+      updateCategoryCardBackgrounds();
+      console.log(`Loaded ${data.length} products from Supabase cloud database.`);
+    }
+  } catch (err) {
+    console.warn("Failed to load products from Supabase:", err);
+  }
+}
+
 // Load persisted cart, wishlist, and config from localStorage
 try {
   const savedCart = localStorage.getItem('weebfour_cart');
@@ -53,6 +104,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   initFuturisticCyberMatrix();
   initCyberCursor();
+  loadProductsFromDatabase();
 
   // Restore saved order notes
   const noteEl = document.getElementById('cart-order-notes');
@@ -910,8 +962,22 @@ function goToCheckoutStep(step) {
   if (t3) t3.classList.toggle('active', step >= 3);
 }
 
+let currentShippingAddress = null;
+
 function handleShippingFormSubmit(e) {
   e.preventDefault();
+  const form = e.target;
+  const inputs = form.querySelectorAll('input');
+  currentShippingAddress = {
+    firstName: inputs[0] ? inputs[0].value.trim() : '',
+    lastName: inputs[1] ? inputs[1].value.trim() : '',
+    email: inputs[2] ? inputs[2].value.trim() : '',
+    phone: inputs[3] ? inputs[3].value.trim() : '',
+    street: inputs[4] ? inputs[4].value.trim() : '',
+    city: inputs[5] ? inputs[5].value.trim() : '',
+    state: inputs[6] ? inputs[6].value.trim() : '',
+    pincode: inputs[7] ? inputs[7].value.trim() : ''
+  };
   goToCheckoutStep(2);
 }
 
@@ -997,6 +1063,30 @@ function completeOrderPayment() {
   const orderNumEl = document.getElementById('confirmed-order-number');
   if (orderNumEl) orderNumEl.textContent = orderNumber;
 
+  // Insert Order to Supabase cloud database
+  if (supabaseClient) {
+    const selectedPayRadio = document.querySelector('input[name="pay-method"]:checked');
+    const payMethod = selectedPayRadio ? selectedPayRadio.closest('label').querySelector('strong').textContent.trim() : 'UPI';
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const discountAmount = Math.round(subtotal * activePromoDiscount);
+    const total = Math.max(0, subtotal - discountAmount);
+
+    supabaseClient.from('orders').insert({
+      id: orderNumber,
+      customer_name: currentShippingAddress ? `${currentShippingAddress.firstName} ${currentShippingAddress.lastName}` : 'Direct Customer',
+      customer_phone: currentShippingAddress ? currentShippingAddress.phone : '',
+      customer_email: currentShippingAddress ? currentShippingAddress.email : '',
+      shipping_address: currentShippingAddress || {},
+      items: cart,
+      total_amount: total,
+      payment_method: payMethod,
+      status: 'CONFIRMED'
+    }).then(({ error }) => {
+      if (error) console.error("Supabase order insert error:", error);
+      else console.log("Order saved to Supabase successfully!", orderNumber);
+    });
+  }
+
   goToCheckoutStep(3);
 }
 
@@ -1065,6 +1155,14 @@ function handleNewsletterSubmit(e) {
       }
     } catch (err) {
       console.warn("Could not save phone subscriber", err);
+    }
+
+    // Save subscriber phone to Supabase cloud database
+    if (supabaseClient) {
+      supabaseClient.from('subscribers').upsert({ phone: phoneVal }, { onConflict: 'phone' }).then(({ error }) => {
+        if (error) console.warn("Supabase subscriber error:", error.message);
+        else console.log("Subscriber phone saved to Supabase:", phoneVal);
+      });
     }
   }
 
@@ -1343,11 +1441,33 @@ function handleProductSave(e) {
     });
   }
 
-  // Persist catalog
+  // Persist catalog locally
   localStorage.setItem('weebfour_custom_catalog', JSON.stringify(window.products));
   renderAdminProductsList();
   renderProducts();
   updateCategoryCardBackgrounds();
+
+  // Save product to Supabase cloud database
+  if (supabaseClient) {
+    const itemPayload = {
+      name,
+      category,
+      tag,
+      price,
+      compare_at_price: compareAtPrice,
+      sizes,
+      description,
+      images: [...currentEditingImages]
+    };
+    if (idInput && idInput.value) {
+      itemPayload.id = parseInt(idInput.value);
+    }
+    supabaseClient.from('products').upsert(itemPayload).then(({ error }) => {
+      if (error) console.error("Supabase product save error:", error);
+      else console.log("Product synced to Supabase successfully!");
+    });
+  }
+
   closeProductEditModal();
 }
 
@@ -1358,6 +1478,13 @@ function deleteAdminProduct(productId) {
     renderAdminProductsList();
     renderProducts();
     updateCategoryCardBackgrounds();
+
+    // Delete from Supabase cloud database
+    if (supabaseClient) {
+      supabaseClient.from('products').delete().eq('id', productId).then(({ error }) => {
+        if (error) console.error("Supabase product delete error:", error);
+      });
+    }
   }
 }
 
