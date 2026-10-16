@@ -60,24 +60,76 @@
         </a>
       </div>
 
-      <!-- Center: Desktop Navigation Links -->
+      <!-- Center: Desktop Navigation Links with Dropdowns -->
       <div class="header-center">
         <nav class="desktop-nav">
           <a href="#" class="nav-link-item active" data-nav="home">Home</a>
-          <a href="#shop" class="nav-link-item" data-nav="shop">Shop All</a>
+          <a href="#shop" class="nav-link-item" data-nav="shop" onclick="filterByCategory('all')">Shop All</a>
+
+          <!-- Topwear Dropdown -->
+          <div class="nav-dropdown-item">
+            <a href="#shop" class="nav-link-item" onclick="filterByCategory('topwear')">
+              Topwear <i class="ri-arrow-down-s-line nav-caret"></i>
+            </a>
+            <div class="nav-dropdown-menu">
+              <a href="#shop" class="dropdown-link-bold" onclick="filterByCategory('topwear')">All Topwear</a>
+              <div class="dropdown-divider"></div>
+              <a href="#shop" onclick="filterByCategory('shirts')">Shirts</a>
+              <a href="#shop" onclick="filterByCategory('tshirts')">T-Shirts</a>
+              <a href="#shop" onclick="filterByCategory('sweatshirts')">Sweatshirts</a>
+              <a href="#shop" onclick="filterByCategory('hoodies')">Hoodies</a>
+              <a href="#shop" onclick="filterByCategory('bodysuits')">Bodysuits</a>
+              <a href="#shop" onclick="filterByCategory('jackets')">Jackets</a>
+            </div>
+          </div>
+
+          <!-- Bottom Wears Dropdown -->
+          <div class="nav-dropdown-item">
+            <a href="#shop" class="nav-link-item" onclick="filterByCategory('bottomwear')">
+              Bottom Wears <i class="ri-arrow-down-s-line nav-caret"></i>
+            </a>
+            <div class="nav-dropdown-menu">
+              <a href="#shop" class="dropdown-link-bold" onclick="filterByCategory('bottomwear')">All Bottom Wears</a>
+              <div class="dropdown-divider"></div>
+              <a href="#shop" onclick="filterByCategory('trousers')">Trousers</a>
+              <a href="#shop" onclick="filterByCategory('denims')">Denims</a>
+              <a href="#shop" onclick="filterByCategory('cargos')">Cargos</a>
+              <a href="#shop" onclick="filterByCategory('joggers')">Joggers</a>
+              <a href="#shop" onclick="filterByCategory('shorts')">Shorts</a>
+            </div>
+          </div>
+
+          <!-- Accessories Dropdown -->
+          <div class="nav-dropdown-item">
+            <a href="#shop" class="nav-link-item" onclick="filterByCategory('accessories')">
+              Accessories <i class="ri-arrow-down-s-line nav-caret"></i>
+            </a>
+            <div class="nav-dropdown-menu">
+              <a href="#shop" class="dropdown-link-bold" onclick="filterByCategory('accessories')">All Accessories</a>
+              <div class="dropdown-divider"></div>
+              <a href="#shop" onclick="filterByCategory('shades')">Shades</a>
+              <a href="#shop" onclick="filterByCategory('socks')">Socks</a>
+              <a href="#shop" onclick="filterByCategory('bags')">Bags</a>
+              <a href="#shop" onclick="filterByCategory('cap')">Cap</a>
+              <a href="#shop" onclick="filterByCategory('perfume')">Perfume</a>
+            </div>
+          </div>
+
           <a href="#collections" class="nav-link-item" data-nav="collections">Collections</a>
-          <a href="#shop" class="nav-link-item" onclick="filterByCategory('tees')">T-Shirts</a>
-          <a href="#shop" class="nav-link-item" onclick="filterByCategory('hoodies')">Hoodies</a>
-          <a href="#shop" class="nav-link-item" onclick="filterByCategory('cargoes')">Cargoes</a>
           <a href="#shop" class="nav-link-item" onclick="filterByTag('NEW DROP')">
-            New Arrivals <span class="new-tag">NEW</span>
+            New <span class="new-tag">NEW</span>
           </a>
           <a href="#shop" class="nav-link-item sale-link" onclick="filterByTag('BEST SELLER')">Sale</a>
         </nav>
       </div>
 
-      <!-- Right: Action Icons (Admin Access, Search, Wishlist, Cart) -->
+      <!-- Right: Action Icons (Theme Toggle, Admin Access, Search, Wishlist, Cart) -->
       <div class="header-right">
+        <!-- Visual Theme Switcher -->
+        <button class="header-action-btn theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="Switch Theme (Dark Cyber / Industrial Concrete)" aria-label="Toggle Theme">
+          <i class="ri-moon-fill" id="theme-toggle-icon"></i>
+        </button>
+
         <!-- Master Admin Suite Access Button -->
         <button class="admin-badge-btn" onclick="openAdminModal()" title="Store Admin Control Console">
           <i class="ri-shield-keyhole-line"></i> <span>ADMIN ACCESS</span>
@@ -144,27 +196,73 @@
           Shop All <i class="ri-arrow-right-s-line"></i>
         </a>
       </div>
+      <!-- Topwear Accordion -->
       <div class="drawer-nav-item">
         <div class="drawer-nav-link" style="cursor: pointer;" onclick="toggleDrawerSubmenu(this)">
-          Apparel <i class="ri-add-line"></i>
+          Topwear <i class="ri-add-line"></i>
         </div>
         <div class="drawer-submenu" style="display: none;">
-          <a href="#shop" onclick="filterByCategory('tees'); closeMobileDrawer();">Oversized T-Shirts</a>
-          <a href="#shop" onclick="filterByCategory('hoodies'); closeMobileDrawer();">Hoodies & Sweaters</a>
-          <a href="#shop" onclick="filterByCategory('cargoes'); closeMobileDrawer();">Cargoes & Parachute Pants</a>
-          <a href="#shop" onclick="filterByCategory('jackets'); closeMobileDrawer();">Varsity Jackets</a>
-          <a href="#shop" onclick="filterByCategory('accessories'); closeMobileDrawer();">Street Accessories</a>
+          <a href="#shop" onclick="filterByCategory('topwear'); closeMobileDrawer();" style="font-weight: 700;">All Topwear</a>
+          <a href="#shop" onclick="filterByCategory('shirts'); closeMobileDrawer();">Shirts</a>
+          <a href="#shop" onclick="filterByCategory('tshirts'); closeMobileDrawer();">T-Shirts</a>
+          <a href="#shop" onclick="filterByCategory('sweatshirts'); closeMobileDrawer();">Sweatshirts</a>
+          <a href="#shop" onclick="filterByCategory('hoodies'); closeMobileDrawer();">Hoodies</a>
+          <a href="#shop" onclick="filterByCategory('bodysuits'); closeMobileDrawer();">Bodysuits</a>
+          <a href="#shop" onclick="filterByCategory('jackets'); closeMobileDrawer();">Jackets</a>
         </div>
       </div>
+
+      <!-- Bottom Wears Accordion -->
       <div class="drawer-nav-item">
-        <a href="javascript:void(0)" class="drawer-nav-link" onclick="openAdminModal(); closeMobileDrawer();" style="color: #bf0000;">
+        <div class="drawer-nav-link" style="cursor: pointer;" onclick="toggleDrawerSubmenu(this)">
+          Bottom Wears <i class="ri-add-line"></i>
+        </div>
+        <div class="drawer-submenu" style="display: none;">
+          <a href="#shop" onclick="filterByCategory('bottomwear'); closeMobileDrawer();" style="font-weight: 700;">All Bottom Wears</a>
+          <a href="#shop" onclick="filterByCategory('trousers'); closeMobileDrawer();">Trousers</a>
+          <a href="#shop" onclick="filterByCategory('denims'); closeMobileDrawer();">Denims</a>
+          <a href="#shop" onclick="filterByCategory('cargos'); closeMobileDrawer();">Cargos</a>
+          <a href="#shop" onclick="filterByCategory('joggers'); closeMobileDrawer();">Joggers</a>
+          <a href="#shop" onclick="filterByCategory('shorts'); closeMobileDrawer();">Shorts</a>
+        </div>
+      </div>
+
+      <!-- Accessories Accordion -->
+      <div class="drawer-nav-item">
+        <div class="drawer-nav-link" style="cursor: pointer;" onclick="toggleDrawerSubmenu(this)">
+          Accessories <i class="ri-add-line"></i>
+        </div>
+        <div class="drawer-submenu" style="display: none;">
+          <a href="#shop" onclick="filterByCategory('accessories'); closeMobileDrawer();" style="font-weight: 700;">All Accessories</a>
+          <a href="#shop" onclick="filterByCategory('shades'); closeMobileDrawer();">Shades</a>
+          <a href="#shop" onclick="filterByCategory('socks'); closeMobileDrawer();">Socks</a>
+          <a href="#shop" onclick="filterByCategory('bags'); closeMobileDrawer();">Bags</a>
+          <a href="#shop" onclick="filterByCategory('cap'); closeMobileDrawer();">Cap</a>
+          <a href="#shop" onclick="filterByCategory('perfume'); closeMobileDrawer();">Perfume</a>
+        </div>
+      </div>
+
+      <div class="drawer-nav-item">
+        <a href="#collections" class="drawer-nav-link" onclick="closeMobileDrawer();">
+          Browse Collections <i class="ri-arrow-right-s-line"></i>
+        </a>
+      </div>
+
+      <div class="drawer-nav-item">
+        <a href="javascript:void(0)" class="drawer-nav-link" onclick="openAdminModal(); closeMobileDrawer();" style="color: var(--color-sale-red);">
           <i class="ri-shield-keyhole-line"></i> Master Admin Access
         </a>
       </div>
     </div>
     <div class="drawer-footer">
-      <p style="font-size: 0.85rem; color: #666; margin-bottom: 6px;">Support: support@weebfour.com</p>
-      <p style="font-size: 0.85rem; color: #666;">Pan-India Shipping | COD Available</p>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--color-border);">
+        <span style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">THEME MODE</span>
+        <button class="btn btn-sm btn-secondary" onclick="toggleTheme()" style="padding: 4px 10px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px;">
+          <i class="ri-moon-line" id="drawer-theme-icon"></i> <span id="drawer-theme-text">DARK MODE</span>
+        </button>
+      </div>
+      <p style="font-size: 0.85rem; color: #888; margin-bottom: 6px;">Support: support@weebfour.com</p>
+      <p style="font-size: 0.85rem; color: #888;">Pan-India Shipping | COD Available</p>
       <div class="drawer-social-row">
         <a href="#"><i class="ri-instagram-line"></i></a>
         <a href="#"><i class="ri-whatsapp-line"></i></a>
@@ -238,44 +336,164 @@
   <section class="collections-section" id="collections">
     <div class="page-container">
       <div class="section-title-wrap">
+        <div class="section-tag-pill"><i class="ri-stack-line"></i> ARCHIVE DIVISIONS</div>
         <h2 class="section-main-heading" id="collections-title">SHOP BY COLLECTION</h2>
-        <p class="section-subheading" id="collections-subtitle">Select your division. From 280 GSM heavyweight oversized tees to engineered tactical cargoes.</p>
+        <p class="section-subheading" id="collections-subtitle">Select your division: 6 Topwear lines, 5 Bottom Wear silhouettes, and 5 Street Accessories.</p>
       </div>
 
-      <div class="categories-grid">
-        <!-- Tees Card -->
-        <div class="category-card" onclick="filterByCategory('tees')">
-          <div class="category-card-bg" style="background-image: url('assets/tee_front_clean.jpg');"></div>
+      <!-- Department Filter Pills for Collections -->
+      <div class="collection-dept-tabs">
+        <button class="dept-tab-btn active" onclick="switchCollectionDept('all', this)">ALL COLLECTIONS (16)</button>
+        <button class="dept-tab-btn" onclick="switchCollectionDept('topwear', this)">TOPWEAR (6)</button>
+        <button class="dept-tab-btn" onclick="switchCollectionDept('bottomwear', this)">BOTTOM WEARS (5)</button>
+        <button class="dept-tab-btn" onclick="switchCollectionDept('accessories', this)">ACCESSORIES (5)</button>
+      </div>
+
+      <div class="categories-grid" id="collections-grid">
+        <!-- TOPWEAR (6) -->
+        <div class="category-card" data-dept="topwear" onclick="filterByCategory('shirts')">
+          <div class="category-card-bg card-bg-shirts"></div>
           <div class="category-card-overlay">
-            <h3 class="category-name">OVERSIZED TEES</h3>
-            <span class="category-explore-link">EXPLORE <i class="ri-arrow-right-line"></i></span>
+            <span class="category-dept-tag">TOPWEAR // 01</span>
+            <h3 class="category-name">SHIRTS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <!-- Hoodies Card -->
-        <div class="category-card" onclick="filterByCategory('hoodies')">
-          <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&auto=format&fit=crop&q=80');"></div>
+        <div class="category-card" data-dept="topwear" onclick="filterByCategory('tshirts')">
+          <div class="category-card-bg card-bg-tshirts"></div>
           <div class="category-card-overlay">
-            <h3 class="category-name">HEAVY HOODIES</h3>
-            <span class="category-explore-link">EXPLORE <i class="ri-arrow-right-line"></i></span>
+            <span class="category-dept-tag">TOPWEAR // 02</span>
+            <h3 class="category-name">T-SHIRTS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <!-- Cargoes Card -->
-        <div class="category-card" onclick="filterByCategory('cargoes')">
-          <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80');"></div>
+        <div class="category-card" data-dept="topwear" onclick="filterByCategory('sweatshirts')">
+          <div class="category-card-bg card-bg-sweatshirts"></div>
           <div class="category-card-overlay">
-            <h3 class="category-name">TACTICAL CARGOES</h3>
-            <span class="category-explore-link">EXPLORE <i class="ri-arrow-right-line"></i></span>
+            <span class="category-dept-tag">TOPWEAR // 03</span>
+            <h3 class="category-name">SWEATSHIRTS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
 
-        <!-- Jackets Card -->
-        <div class="category-card" onclick="filterByCategory('jackets')">
-          <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?w=800&auto=format&fit=crop&q=80');"></div>
+        <div class="category-card" data-dept="topwear" onclick="filterByCategory('hoodies')">
+          <div class="category-card-bg card-bg-hoodies"></div>
           <div class="category-card-overlay">
-            <h3 class="category-name">VARSITY JACKETS</h3>
-            <span class="category-explore-link">EXPLORE <i class="ri-arrow-right-line"></i></span>
+            <span class="category-dept-tag">TOPWEAR // 04</span>
+            <h3 class="category-name">HOODIES</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <div class="category-card" data-dept="topwear" onclick="filterByCategory('bodysuits')">
+          <div class="category-card-bg card-bg-bodysuits"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">TOPWEAR // 05</span>
+            <h3 class="category-name">BODYSUITS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <div class="category-card" data-dept="topwear" onclick="filterByCategory('jackets')">
+          <div class="category-card-bg card-bg-jackets"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">TOPWEAR // 06</span>
+            <h3 class="category-name">JACKETS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <!-- BOTTOM WEARS (5) -->
+        <div class="category-card" data-dept="bottomwear" onclick="filterByCategory('trousers')">
+          <div class="category-card-bg card-bg-trousers"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">BOTTOM WEAR // 01</span>
+            <h3 class="category-name">TROUSERS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <div class="category-card" data-dept="bottomwear" onclick="filterByCategory('denims')">
+          <div class="category-card-bg card-bg-denims"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">BOTTOM WEAR // 02</span>
+            <h3 class="category-name">DENIMS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <div class="category-card" data-dept="bottomwear" onclick="filterByCategory('cargos')">
+          <div class="category-card-bg card-bg-cargos"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">BOTTOM WEAR // 03</span>
+            <h3 class="category-name">CARGOS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <div class="category-card" data-dept="bottomwear" onclick="filterByCategory('joggers')">
+          <div class="category-card-bg card-bg-joggers"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">BOTTOM WEAR // 04</span>
+            <h3 class="category-name">JOGGERS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <div class="category-card" data-dept="bottomwear" onclick="filterByCategory('shorts')">
+          <div class="category-card-bg card-bg-shorts"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">BOTTOM WEAR // 05</span>
+            <h3 class="category-name">SHORTS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <!-- ACCESSORIES (5) -->
+        <div class="category-card" data-dept="accessories" onclick="filterByCategory('shades')">
+          <div class="category-card-bg card-bg-shades"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">ACCESSORIES // 01</span>
+            <h3 class="category-name">SHADES</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <div class="category-card" data-dept="accessories" onclick="filterByCategory('socks')">
+          <div class="category-card-bg card-bg-socks"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">ACCESSORIES // 02</span>
+            <h3 class="category-name">SOCKS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <div class="category-card" data-dept="accessories" onclick="filterByCategory('bags')">
+          <div class="category-card-bg card-bg-bags"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">ACCESSORIES // 03</span>
+            <h3 class="category-name">BAGS</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <div class="category-card" data-dept="accessories" onclick="filterByCategory('cap')">
+          <div class="category-card-bg card-bg-cap"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">ACCESSORIES // 04</span>
+            <h3 class="category-name">CAP</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
+          </div>
+        </div>
+
+        <div class="category-card" data-dept="accessories" onclick="filterByCategory('perfume')">
+          <div class="category-card-bg card-bg-perfume"></div>
+          <div class="category-card-overlay">
+            <span class="category-dept-tag">ACCESSORIES // 05</span>
+            <h3 class="category-name">PERFUME</h3>
+            <span class="category-explore-link">VIEW COLLECTION <i class="ri-arrow-right-line"></i></span>
           </div>
         </div>
       </div>
@@ -286,18 +504,39 @@
   <section class="product-feed-section" id="shop">
     <div class="page-container">
       <div class="section-title-wrap">
+        <div class="section-tag-pill"><i class="ri-drop-line"></i> STREET ARCHIVE</div>
         <h2 class="section-main-heading" id="catalog-title">THE DROPS</h2>
         <p class="section-subheading" id="catalog-subtitle">LATEST ARRIVALS, RESTOCKS & LIMITED EDITION GRAILS</p>
       </div>
 
-      <!-- Filter Tabs (thelastape.in style) -->
+      <!-- Department Filter Tabs -->
       <div class="feed-tabs-container">
         <button class="feed-tab-btn active" data-filter="all" onclick="setFeedFilter('all')">ALL DROPS</button>
-        <button class="feed-tab-btn" data-filter="tees" onclick="setFeedFilter('tees')">T-SHIRTS</button>
-        <button class="feed-tab-btn" data-filter="hoodies" onclick="setFeedFilter('hoodies')">HOODIES & SWEATERS</button>
-        <button class="feed-tab-btn" data-filter="cargoes" onclick="setFeedFilter('cargoes')">CARGOES & BOTTOMS</button>
-        <button class="feed-tab-btn" data-filter="jackets" onclick="setFeedFilter('jackets')">JACKETS</button>
+        <button class="feed-tab-btn" data-filter="topwear" onclick="setFeedFilter('topwear')">TOPWEAR</button>
+        <button class="feed-tab-btn" data-filter="bottomwear" onclick="setFeedFilter('bottomwear')">BOTTOM WEARS</button>
         <button class="feed-tab-btn" data-filter="accessories" onclick="setFeedFilter('accessories')">ACCESSORIES</button>
+      </div>
+
+      <!-- Quick Sub-Collection Pills Bar -->
+      <div class="feed-subpills-container" id="feed-subpills-container">
+        <button class="subpill-btn" data-cat="shirts" onclick="setFeedFilter('shirts')">Shirts</button>
+        <button class="subpill-btn" data-cat="tshirts" onclick="setFeedFilter('tshirts')">T-Shirts</button>
+        <button class="subpill-btn" data-cat="sweatshirts" onclick="setFeedFilter('sweatshirts')">Sweatshirts</button>
+        <button class="subpill-btn" data-cat="hoodies" onclick="setFeedFilter('hoodies')">Hoodies</button>
+        <button class="subpill-btn" data-cat="bodysuits" onclick="setFeedFilter('bodysuits')">Bodysuits</button>
+        <button class="subpill-btn" data-cat="jackets" onclick="setFeedFilter('jackets')">Jackets</button>
+        <span class="subpill-divider">|</span>
+        <button class="subpill-btn" data-cat="trousers" onclick="setFeedFilter('trousers')">Trousers</button>
+        <button class="subpill-btn" data-cat="denims" onclick="setFeedFilter('denims')">Denims</button>
+        <button class="subpill-btn" data-cat="cargos" onclick="setFeedFilter('cargos')">Cargos</button>
+        <button class="subpill-btn" data-cat="joggers" onclick="setFeedFilter('joggers')">Joggers</button>
+        <button class="subpill-btn" data-cat="shorts" onclick="setFeedFilter('shorts')">Shorts</button>
+        <span class="subpill-divider">|</span>
+        <button class="subpill-btn" data-cat="shades" onclick="setFeedFilter('shades')">Shades</button>
+        <button class="subpill-btn" data-cat="socks" onclick="setFeedFilter('socks')">Socks</button>
+        <button class="subpill-btn" data-cat="bags" onclick="setFeedFilter('bags')">Bags</button>
+        <button class="subpill-btn" data-cat="cap" onclick="setFeedFilter('cap')">Cap</button>
+        <button class="subpill-btn" data-cat="perfume" onclick="setFeedFilter('perfume')">Perfume</button>
       </div>
 
       <!-- Controls & Sort -->
@@ -307,7 +546,7 @@
         </div>
 
         <div class="sort-select-wrapper">
-          <span style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: #666;">SORT BY:</span>
+          <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted);">SORT BY:</span>
           <select id="feed-sort-selector" class="sort-select" onchange="handleSortChange(this.value)">
             <option value="default">FEATURED</option>
             <option value="price-low">PRICE: LOW TO HIGH</option>
@@ -322,12 +561,10 @@
         <!-- Rendered dynamically by app.js -->
       </div>
 
-      <!-- Empty State -->
-      <div id="empty-state-view" style="display: none; text-align: center; padding: 60px 20px;">
-        <i class="ri-search-eye-line" style="font-size: 3rem; color: #aaa;"></i>
-        <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 12px 0 6px;">NO ITEMS FOUND</h3>
-        <p style="color: #666; margin-bottom: 20px;">Try selecting another category or clearing your search query.</p>
-        <button class="btn btn-primary" onclick="resetAllFilters()">VIEW ALL DROPS</button>
+      <!-- Empty State: Exact 1:1 replica of the user-provided reference screen -->
+      <div id="empty-state-view" class="empty-state-view" style="display: none;">
+        <h2 class="empty-state-title">NO PRODUCTS FOUND</h2>
+        <p class="empty-state-subtitle">USE FEWER FILTERS OR <button type="button" class="empty-remove-link" onclick="resetAllFilters()">REMOVE ALL</button></p>
       </div>
     </div>
   </section>
@@ -347,12 +584,12 @@
   </section>
 
   <!-- 9. Newsletter Section -->
-  <section class="collections-section" id="newsletter" style="background: #fbfbfb; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+  <section class="collections-section" id="newsletter" style="background: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
     <div class="page-container text-center" style="max-width: 680px;">
       <h2 class="section-main-heading" id="newsletter-title">JOIN THE WEEBFOUR SQUAD</h2>
       <p class="section-subheading" id="newsletter-subtitle" style="margin-bottom: 24px;">Subscribe to receive early access to seasonal drops, secret discount codes, and exclusive invitations to member releases.</p>
       <form id="newsletter-form" onsubmit="handleNewsletterSubmit(event)" style="display: flex; gap: 8px;">
-        <input type="email" id="newsletter-email" required placeholder="ENTER YOUR EMAIL ADDRESS" style="flex: 1; padding: 14px 16px; border: 1px solid #101010; font-family: var(--font-body); outline: none;">
+        <input type="email" id="newsletter-email" required placeholder="ENTER YOUR EMAIL ADDRESS" style="flex: 1; padding: 14px 16px; border: 1px solid var(--color-border); background: var(--color-surface-hover); color: var(--color-foreground); font-family: var(--font-body); outline: none;">
         <button type="submit" class="btn btn-primary">JOIN</button>
       </form>
       <div id="newsletter-success-msg" style="display: none; margin-top: 14px; color: #2e7d32; font-weight: 600;">
@@ -1024,11 +1261,28 @@
           <div class="form-group-field">
             <label>Category *</label>
             <select id="edit-prod-category" class="form-control-input">
-              <option value="tees">T-Shirts (Graphic & Boxy)</option>
-              <option value="hoodies">Hoodies & Sweaters</option>
-              <option value="cargoes">Cargoes & Parachute Pants</option>
-              <option value="jackets">Varsity Jackets</option>
-              <option value="accessories">Accessories</option>
+              <optgroup label="TOPWEAR">
+                <option value="shirts">Shirts</option>
+                <option value="tshirts">T-Shirts</option>
+                <option value="sweatshirts">Sweatshirts</option>
+                <option value="hoodies">Hoodies</option>
+                <option value="bodysuits">Bodysuits</option>
+                <option value="jackets">Jackets</option>
+              </optgroup>
+              <optgroup label="BOTTOM WEARS">
+                <option value="trousers">Trousers</option>
+                <option value="denims">Denims</option>
+                <option value="cargos">Cargos</option>
+                <option value="joggers">Joggers</option>
+                <option value="shorts">Shorts</option>
+              </optgroup>
+              <optgroup label="ACCESSORIES">
+                <option value="shades">Shades</option>
+                <option value="socks">Socks</option>
+                <option value="bags">Bags</option>
+                <option value="cap">Cap</option>
+                <option value="perfume">Perfume</option>
+              </optgroup>
             </select>
           </div>
           <div class="form-group-field">

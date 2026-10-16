@@ -3,7 +3,13 @@
 // Responsive 4-Col Desktop / 2-Col Mobile, Hover Image Swap, Cart Drawer & Admin Suite
 // ==========================================================================
 
-// 1. Application State
+// 1. Application State & Taxonomy Definitions
+const DEPARTMENTS = {
+  topwear: ['shirts', 'tshirts', 'sweatshirts', 'hoodies', 'bodysuits', 'jackets'],
+  bottomwear: ['trousers', 'denims', 'cargos', 'joggers', 'shorts'],
+  accessories: ['shades', 'socks', 'bags', 'cap', 'perfume']
+};
+
 let cart = [];
 let wishlist = new Set();
 let activeCategory = 'all';
@@ -38,6 +44,7 @@ let currentEditingImages = [];
 // 2. INITIALIZATION ON DOM READY
 // ==========================================================================
 window.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   applySiteConfigToStorefront();
   renderProducts();
   updateCartUI();
@@ -224,14 +231,23 @@ function renderProducts() {
   const emptyView = document.getElementById('empty-state-view');
   if (!container) return;
 
-  // Filter products
-  let filtered = window.products.filter(item => {
-    const matchesCat = activeCategory === 'all' || item.category === activeCategory;
+  // Filter products by department or specific collection category
+  let filtered = (window.products || []).filter(item => {
+    let matchesCat = false;
+    if (activeCategory === 'all') {
+      matchesCat = true;
+    } else if (DEPARTMENTS[activeCategory]) {
+      matchesCat = DEPARTMENTS[activeCategory].includes(item.category);
+    } else {
+      matchesCat = (item.category === activeCategory);
+    }
+
     const matchesTag = !activeTag || item.tag === activeTag;
     const matchesSearch = !searchQuery || 
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchQuery.toLowerCase());
+      (item.name && item.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (item.description && item.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (item.category && item.category.toLowerCase().includes(searchQuery.toLowerCase()));
+
     return matchesCat && matchesTag && matchesSearch;
   });
 
@@ -244,29 +260,33 @@ function renderProducts() {
     filtered.sort((a, b) => (a.tag === 'BEST SELLER' ? -1 : 1));
   }
 
+  // Exact 1:1 view matching user's reference screenshot when empty
   if (filtered.length === 0) {
     container.style.display = 'none';
-    if (emptyView) emptyView.style.display = 'block';
+    if (emptyView) emptyView.style.display = 'flex';
   } else {
     container.style.display = 'grid';
     if (emptyView) emptyView.style.display = 'none';
 
     container.innerHTML = filtered.map(item => {
-      const discount = Math.round(((item.compareAtPrice - item.price) / item.compareAtPrice) * 100);
+      const discount = item.compareAtPrice && item.compareAtPrice > item.price
+        ? Math.round(((item.compareAtPrice - item.price) / item.compareAtPrice) * 100)
+        : 0;
       const isWishlisted = wishlist.has(item.id);
       
-      const mainImg = (item.images && item.images.length > 0) ? item.images[0] : 'assets/tee_front_clean.jpg';
+      const hasImages = item.images && item.images.length > 0 && item.images[0];
+      const mainImg = hasImages ? item.images[0] : '';
       const hoverImg = (item.images && item.images.length > 1) ? item.images[1] : mainImg;
 
       const sizePills = item.sizes ? item.sizes.map(s => `<span class="mini-size-pill">${s}</span>`).join('') : '';
 
       return `
         <div class="product-card" data-id="${item.id}">
-          <!-- Media Box with Hover Swap -->
+          <!-- Media Box with Hover Swap or Placeholder -->
           <div class="card-media-box" onclick="openQuickView(${item.id})">
             <!-- Badges Left -->
             <div class="card-badges-left">
-              <span class="sale-pill-badge">-${discount}% OFF</span>
+              ${discount > 0 ? `<span class="sale-pill-badge">-${discount}% OFF</span>` : ''}
               ${item.tag ? `<span class="bestseller-badge">${item.tag}</span>` : ''}
             </div>
 
@@ -292,9 +312,17 @@ function renderProducts() {
               </button>
             </div>
 
-            <!-- Primary and Hover Swap Images -->
-            <img src="${mainImg}" alt="${item.name}" class="card-img-main" loading="lazy">
-            <img src="${hoverImg}" alt="${item.name} alternate angle" class="card-img-hover" loading="lazy">
+            <!-- Primary and Hover Swap Images, or Styled Placeholder -->
+            ${hasImages ? `
+              <img src="${mainImg}" alt="${item.name}" class="card-img-main" loading="lazy">
+              <img src="${hoverImg}" alt="${item.name} alternate angle" class="card-img-hover" loading="lazy">
+            ` : `
+              <div class="card-img-placeholder">
+                <i class="ri-t-shirt-2-line"></i>
+                <span>${item.name}</span>
+                <small style="font-size:0.75rem; color:var(--color-text-dim); margin-top:4px;">ARCHIVE IMAGE PENDING</small>
+              </div>
+            `}
           </div>
 
           <!-- Product Details -->
@@ -308,8 +336,8 @@ function renderProducts() {
 
             <div class="card-price-row">
               <span class="card-sale-price">₹${item.price.toLocaleString('en-IN')}</span>
-              <span class="card-compare-price">₹${item.compareAtPrice.toLocaleString('en-IN')}</span>
-              <span class="card-save-amount">Save ₹${(item.compareAtPrice - item.price).toLocaleString('en-IN')}</span>
+              ${item.compareAtPrice ? `<span class="card-compare-price">₹${item.compareAtPrice.toLocaleString('en-IN')}</span>` : ''}
+              ${item.compareAtPrice && item.compareAtPrice > item.price ? `<span class="card-save-amount">Save ₹${(item.compareAtPrice - item.price).toLocaleString('en-IN')}</span>` : ''}
             </div>
           </div>
         </div>
@@ -365,22 +393,18 @@ function updateActiveFilterBadges() {
   container.innerHTML = chips;
 }
 
-// Filter Actions
+// Filter Actions with Tab and Pill Synchronization
 function setFeedFilter(category) {
   activeCategory = category;
   activeTag = '';
-  document.querySelectorAll('.feed-tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.filter === category);
-  });
+  syncFilterButtons();
   renderProducts();
 }
 
 function filterByCategory(category) {
   activeCategory = category;
   activeTag = '';
-  document.querySelectorAll('.feed-tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.filter === category);
-  });
+  syncFilterButtons();
   renderProducts();
   const shopEl = document.getElementById('shop');
   if (shopEl) shopEl.scrollIntoView({ behavior: 'smooth' });
@@ -389,10 +413,33 @@ function filterByCategory(category) {
 function filterByTag(tag) {
   activeTag = tag;
   activeCategory = 'all';
-  document.querySelectorAll('.feed-tab-btn').forEach(btn => btn.classList.remove('active'));
+  syncFilterButtons();
   renderProducts();
   const shopEl = document.getElementById('shop');
   if (shopEl) shopEl.scrollIntoView({ behavior: 'smooth' });
+}
+
+function syncFilterButtons() {
+  document.querySelectorAll('.feed-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === activeCategory);
+  });
+  document.querySelectorAll('.subpill-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.cat === activeCategory);
+  });
+}
+
+function switchCollectionDept(dept, btn) {
+  document.querySelectorAll('.dept-tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  
+  const cards = document.querySelectorAll('#collections-grid .category-card');
+  cards.forEach(card => {
+    if (dept === 'all' || card.dataset.dept === dept) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
 }
 
 function handleSortChange(sortVal) {
@@ -416,10 +463,41 @@ function resetAllFilters() {
   if (input) input.value = '';
   const sort = document.getElementById('feed-sort-selector');
   if (sort) sort.value = 'default';
-  document.querySelectorAll('.feed-tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.filter === 'all');
-  });
+  syncFilterButtons();
   renderProducts();
+}
+
+// Visual Theme Management (Dark Cyberpunk / Concrete Industrial)
+function initTheme() {
+  const savedTheme = localStorage.getItem('weebfour_theme') || 'dark';
+  applyTheme(savedTheme);
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  applyTheme(newTheme);
+  try {
+    localStorage.setItem('weebfour_theme', newTheme);
+  } catch (e) {}
+}
+
+function applyTheme(theme) {
+  const icon = document.getElementById('theme-toggle-icon');
+  const drawerIcon = document.getElementById('drawer-theme-icon');
+  const drawerText = document.getElementById('drawer-theme-text');
+
+  if (theme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    if (icon) icon.className = 'ri-sun-fill';
+    if (drawerIcon) drawerIcon.className = 'ri-sun-line';
+    if (drawerText) drawerText.textContent = 'LIGHT CONCRETE';
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    if (icon) icon.className = 'ri-moon-fill';
+    if (drawerIcon) drawerIcon.className = 'ri-moon-line';
+    if (drawerText) drawerText.textContent = 'DARK CYBER';
+  }
 }
 
 // ==========================================================================

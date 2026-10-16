@@ -1,155 +1,66 @@
-const defaultProducts = [
-  {
-    id: 1,
-    name: "CYBERPUNK GLITCH OVERSIZED TEE",
-    category: "tees",
-    price: 999,
-    compareAtPrice: 1999,
-    tag: "BEST SELLER",
-    sizes: ["S", "M", "L", "XL"],
-    images: [
-      "assets/tee_front_clean.jpg",
-      "assets/tee_back.jpg",
-      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80"
-    ],
-    description: "Upgrade your streetwear game with the signature WEEBFOUR Cyberpunk Glitch Oversized Tee. Cut from 280 GSM ultra-dense French Terry Cotton, this tee offers a heavy structural boxy fit designed to maintain its shape. Featuring high-density puff print calligraphy and the iconic WEB4! symbol, pre-shrunk and silicone washed."
+// ==========================================================================
+// WEEBFOUR STOREFRONT - CATALOG & TAXONOMY CONFIGURATION
+// Collections:
+// 1. Topwear: Shirts, T-Shirts, Sweatshirts, Hoodies, Bodysuits, Jackets
+// 2. Bottom Wears: Trousers, Denims, Cargos, Joggers, Shorts
+// 3. Accessories: Shades, Socks, Bags, Cap, Perfume
+// ==========================================================================
+
+const COLLECTIONS_CONFIG = {
+  topwear: {
+    id: "topwear",
+    name: "TOPWEAR",
+    title: "TOPWEAR DIVISION",
+    subtitle: "Heavyweight French Terry, oversized tailored cuts, and technical outerwear.",
+    items: [
+      { id: "shirts", name: "Shirts", slug: "shirts", tag: "NEW SEASON" },
+      { id: "tshirts", name: "T-Shirts", slug: "tshirts", tag: "HEAVYWEIGHT 280 GSM" },
+      { id: "sweatshirts", name: "Sweatshirts", slug: "sweatshirts", tag: "FRENCH TERRY" },
+      { id: "hoodies", name: "Hoodies", slug: "hoodies", tag: "420 GSM FLEECE" },
+      { id: "bodysuits", name: "Bodysuits", slug: "bodysuits", tag: "SECOND SKIN" },
+      { id: "jackets", name: "Jackets", slug: "jackets", tag: "OUTERWEAR" }
+    ]
   },
-  {
-    id: 2,
-    name: "APES SKULL ACID WASH TEE",
-    category: "tees",
-    price: 1099,
-    compareAtPrice: 2199,
-    tag: "NEW DROP",
-    sizes: ["M", "L", "XL"],
-    images: [
-      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop&q=80"
-    ],
-    description: "Custom acid-washed t-shirt featuring our signature distressed Apes Skull design. Every shirt features a unique mineral distress pattern. Heavyweight 260 GSM fabric, ribbed crewneck collar, and double-needle stitching make this piece extremely durable and ready for daily wear."
+  bottomwear: {
+    id: "bottomwear",
+    name: "BOTTOM WEARS",
+    title: "BOTTOM WEAR DIVISION",
+    subtitle: "Articulated knee cuts, tactical ripstop cargo pockets, and relaxed drapery.",
+    items: [
+      { id: "trousers", name: "Trousers", slug: "trousers", tag: "TAILORED RELAXED" },
+      { id: "denims", name: "Denims", slug: "denims", tag: "RAW SELVEDGE" },
+      { id: "cargos", name: "Cargos", slug: "cargos", tag: "MULTI-POCKET" },
+      { id: "joggers", name: "Joggers", slug: "joggers", tag: "HEAVY FLEECE" },
+      { id: "shorts", name: "Shorts", slug: "shorts", tag: "BOXER & COMBAT" }
+    ]
   },
-  {
-    id: 3,
-    name: "TOKYO DRIFT VARSITY JACKET",
-    category: "jackets",
-    price: 2999,
-    compareAtPrice: 5999,
-    tag: "LIMITED DROP",
-    sizes: ["S", "M", "L", "XL"],
-    images: [
-      "https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&auto=format&fit=crop&q=80"
-    ],
-    description: "The ultimate WEEBFOUR streetwear grail. Features vegan leather sleeves, a premium wool blend body, and detailed chenille embroidery patches with the W4! shuriken emblem on the chest and back. Quilted satin lining ensures premium warmth and comfort. Relaxed dropped-shoulder fit."
-  },
-  {
-    id: 4,
-    name: "LOST MINDS HEAVYWEIGHT HOODIE",
-    category: "hoodies",
-    price: 2499,
-    compareAtPrice: 4499,
-    tag: "BEST SELLER",
-    sizes: ["S", "M", "L", "XL"],
-    images: [
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&auto=format&fit=crop&q=80"
-    ],
-    description: "Constructed from an ultra-thick 420 GSM double-fleece cotton blend. Features a double-lined hood (no drawstrings for a clean architectural aesthetic), kangaroo pocket with reinforced stitches, and tight ribbed cuffs. Finished with high-density WEEBFOUR typographic puff printing."
-  },
-  {
-    id: 5,
-    name: "UTILITY MULTI-POCKET CARGOES",
-    category: "cargoes",
-    price: 1999,
-    compareAtPrice: 3499,
-    tag: "RESTOCKED",
-    sizes: ["S", "M", "L"],
-    images: [
-      "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517462964-21fdcec3f25b?w=800&auto=format&fit=crop&q=80"
-    ],
-    description: "Engineered utility trousers featuring 6 tactical pockets, an adjustable integrated webbing belt, and toggles at the leg openings for a custom taper. Made from a heavy-duty cotton ripstop fabric that is both breathable and highly tear-resistant."
-  },
-  {
-    id: 6,
-    name: "DISTRESSED STREETWEAR SWEATER",
-    category: "hoodies",
-    price: 1799,
-    compareAtPrice: 2999,
-    tag: "HOT",
-    sizes: ["M", "L", "XL"],
-    images: [
-      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?w=800&auto=format&fit=crop&q=80"
-    ],
-    description: "Knitted loose-gauge sweater with distressed detailing along the hem and collar. Very soft cotton acrylic blend that is warm yet breathable. Gives that effortless grunge avant-garde look."
-  },
-  {
-    id: 7,
-    name: "WEEBFOUR INDUSTRIAL METALLIC BEANIE",
-    category: "accessories",
-    price: 499,
-    compareAtPrice: 999,
-    tag: "COLLECTIBLE",
-    sizes: ["ONESIZE"],
-    images: [
-      "https://images.unsplash.com/photo-1576871337622-98d48d4353d3?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=800&auto=format&fit=crop&q=80"
-    ],
-    description: "Four-way stretch knit beanie featuring a custom laser-etched polished steel hardware plate on the cuff with WEEBFOUR branding. Warm, snug, and acts as the perfect finishing touch to any street fit."
-  },
-  {
-    id: 8,
-    name: "TACTICAL INDUSTRIAL COBRA BELT",
-    category: "accessories",
-    price: 399,
-    compareAtPrice: 799,
-    tag: "ESSENTIAL",
-    sizes: ["ONESIZE"],
-    images: [
-      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&auto=format&fit=crop&q=80"
-    ],
-    description: "Heavy-duty canvas belt with a quick-release metal cobra buckle. Features embroidered WEEBFOUR typographic branding and W4! logo accents. Fully adjustable and perfect for threading through our multi-pocket cargoes."
-  },
-  {
-    id: 9,
-    name: "SHURIKEN CYBER TECH PARACHUTE PANTS",
-    category: "cargoes",
-    price: 1899,
-    compareAtPrice: 3299,
-    tag: "NEW DROP",
-    sizes: ["S", "M", "L", "XL"],
-    images: [
-      "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=800&auto=format&fit=crop&q=80"
-    ],
-    description: "Ultra-wide parachute fit trousers with articulated knee pleats, bungee cinch ankles, and water-repellent nylon-cotton blend. Embroidered with subtle W4! emblem on the cargo flap."
-  },
-  {
-    id: 10,
-    name: "NEO TOKYO MINIMAL BOXY TEE",
-    category: "tees",
-    price: 899,
-    compareAtPrice: 1799,
-    tag: "ESSENTIAL",
-    sizes: ["S", "M", "L", "XL"],
-    images: [
-      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80"
-    ],
-    description: "Clean minimalist heavyweight boxy tee in 260 GSM combed cotton with subtle micro-embroidered W4! star emblem on the chest and high-density Kanji print on the rear collar."
+  accessories: {
+    id: "accessories",
+    name: "ACCESSORIES",
+    title: "ACCESSORIES & OBJECTS",
+    subtitle: "Finishing statement pieces, technical utility carriers, and dark fragrances.",
+    items: [
+      { id: "shades", name: "Shades", slug: "shades", tag: "UV400 STREETWEAR" },
+      { id: "socks", name: "Socks", slug: "socks", tag: "CUSHIONED RIB" },
+      { id: "bags", name: "Bags", slug: "bags", tag: "TACTICAL NYLON" },
+      { id: "cap", name: "Cap", slug: "cap", tag: "STRUCTURED 6-PANEL" },
+      { id: "perfume", name: "Perfume", slug: "perfume", tag: "SIGNATURE EXTRACT" }
+    ]
   }
-];
+};
 
-// Load persisted custom catalog from localStorage if available
-let products = JSON.parse(JSON.stringify(defaultProducts));
+// All product pictures removed as requested. Catalog starts clean ready for your real pictures.
+const defaultProducts = [];
 
+// Load custom catalog from localStorage if user adds items via Admin
+let products = [];
 try {
-  const savedCatalog = localStorage.getItem('weebfour_custom_catalog');
+  const savedCatalog = localStorage.getItem('weebfour_custom_catalog_v2');
   if (savedCatalog) {
     products = JSON.parse(savedCatalog);
   }
+  // Clear legacy mock products from previous sessions
+  localStorage.removeItem('weebfour_custom_catalog');
 } catch (e) {
   console.warn("Could not parse saved catalog from localStorage", e);
 }
@@ -158,9 +69,9 @@ try {
 const defaultSiteConfig = {
   announcements: [
     "FREE SHIPPING ON ALL ORDERS ACROSS INDIA",
+    "NEW STREETWEAR COLLECTIONS LAUNCHING FOR WINTER-SPRING 2026",
     "USE CODE 'WEEB10' FOR 10% OFF YOUR FIRST ORDER",
     "CASH ON DELIVERY (COD) AVAILABLE NATIONWIDE",
-    "NEW STREETWEAR GRAILS DROP EVERY WEEK",
     "7-DAY HASSLE-FREE RETURNS & EXCHANGES"
   ],
   offers: {
@@ -174,12 +85,12 @@ const defaultSiteConfig = {
   },
   texts: {
     heroBadge: "WEEBFOUR® / WINTER-SPRING 2026 ARCHIVE",
-    heroTitle: "BORN IN THE STREETS // WEAR THE REVOLUTION",
-    heroSubtitle: "Engineered in Tokyo & Mumbai. Ultra-heavyweight French Terry tees, technical waterproof nylon cargoes, and structural outerwear designed for the subculture.",
-    heroCtaPrimary: "EXPLORE COLLECTION",
-    heroCtaSecondary: "SHOP BEST SELLERS",
+    heroTitle: "BORN IN THE STREETS\nWEAR THE REVOLUTION",
+    heroSubtitle: "Engineered in Tokyo & Mumbai. Ultra-heavyweight French Terry tees, technical waterproof nylon cargoes, and structural outerwear designed for the modern subculture.",
+    heroCtaPrimary: "EXPLORE COLLECTIONS",
+    heroCtaSecondary: "SHOP BY DIVISION",
     collectionsTitle: "SHOP BY COLLECTION",
-    collectionsSubtitle: "Curated divisions. From 280 GSM heavyweight oversized tees to engineered tactical cargoes.",
+    collectionsSubtitle: "Select your division: Topwear, Bottom Wears, and Street Accessories.",
     catalogTitle: "THE DROPS",
     catalogSubtitle: "LATEST ARRIVALS, RESTOCKS & LIMITED EDITION GRAILS",
     newsletterTitle: "JOIN THE WEEBFOUR SQUAD",
@@ -200,20 +111,17 @@ try {
   const savedConfig = localStorage.getItem('weebfour_site_config');
   if (savedConfig) {
     siteConfig = JSON.parse(savedConfig);
-    if (!siteConfig.media || !siteConfig.media.heroBg || siteConfig.media.heroBg.includes('editorial_raw')) {
-      siteConfig.media = siteConfig.media || {};
-      siteConfig.media.heroBg = "assets/hero_branding_photo.jpg";
-    }
   }
 } catch (e) {
   console.warn("Could not parse saved site config", e);
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { products, siteConfig, defaultProducts, defaultSiteConfig };
+  module.exports = { products, siteConfig, defaultProducts, defaultSiteConfig, COLLECTIONS_CONFIG };
 } else {
   window.products = products;
   window.siteConfig = siteConfig;
   window.defaultProducts = defaultProducts;
   window.defaultSiteConfig = defaultSiteConfig;
+  window.COLLECTIONS_CONFIG = COLLECTIONS_CONFIG;
 }
