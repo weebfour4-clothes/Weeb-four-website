@@ -34,7 +34,6 @@
   /* Typography */
   --font-heading: 'Bebas Neue', 'Outfit', sans-serif;
   --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-graffiti: 'Permanent Marker', cursive, sans-serif;
   --font-mono: 'Space Mono', 'Courier New', monospace;
   
   /* Dimensions & Spacing */
@@ -2677,34 +2676,32 @@ select {
 }
 
 /* ==========================================================================
-   19. Editorial, Graffiti & Minimalist UI Graphic Design & Animations
+   19. Minimalist Editorial UI Graphic Design & Refined Animations
    ========================================================================== */
 
-/* --- A. Animated Graffiti Caution Tape Marquee Strip --- */
-.graffiti-tape-strip {
+/* --- A. Minimalist Monospace Editorial Ticker Ribbon --- */
+.minimal-ticker-strip {
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: #ffcc00;
-  color: #0c0d10;
-  font-family: var(--font-heading);
-  font-size: 1.15rem;
-  letter-spacing: 0.14em;
-  font-weight: 700;
-  padding: 10px 0;
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  letter-spacing: 0.16em;
+  font-weight: 400;
+  padding: 13px 0;
   text-transform: uppercase;
-  border-top: 2px solid #000;
-  border-bottom: 2px solid #000;
-  box-shadow: 0 4px 18px rgba(255, 204, 0, 0.25);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   z-index: 10;
-  transform: rotate(-0.5deg) scale(1.01);
 }
 
 .tape-track {
   display: flex;
   width: max-content;
   white-space: nowrap;
-  animation: marquee-tape 22s linear infinite;
+  animation: marquee-tape 32s linear infinite;
 }
 
 .tape-track:hover {
@@ -2714,13 +2711,15 @@ select {
 .tape-track span {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
-  padding: 0 24px;
+  gap: 16px;
+  padding: 0 28px;
+  color: var(--color-foreground);
+  opacity: 0.88;
 }
 
 .tape-track i {
-  color: #000000;
-  font-size: 1.1rem;
+  color: var(--color-sale-red);
+  font-size: 0.95rem;
 }
 
 @keyframes marquee-tape {
@@ -2732,60 +2731,29 @@ select {
   }
 }
 
-/* --- B. Editorial & Graffiti Hero Graphic Design --- */
-.hero-graffiti-float-tag {
-  position: absolute;
-  top: 15%;
-  right: 5%;
-  font-family: var(--font-graffiti);
-  font-size: clamp(2rem, 4.5vw, 4rem);
-  color: #ff2a51;
-  text-shadow: 0 0 15px rgba(255, 42, 81, 0.65), 2px 2px 0px #000000;
-  transform: rotate(-9deg);
-  letter-spacing: 0.05em;
-  pointer-events: none;
-  z-index: 5;
-  animation: float-tag 4s ease-in-out infinite alternate;
-}
-
-@keyframes float-tag {
-  0% {
-    transform: translateY(0px) rotate(-9deg) scale(1);
-  }
-  100% {
-    transform: translateY(-12px) rotate(-6deg) scale(1.04);
-  }
-}
-
-.graffiti-highlight-text {
+/* --- B. Minimalist Editorial Hero Typography & Stamps --- */
+.hero-title-highlight {
   position: relative;
   display: inline-block;
-  color: #ff3b5c;
-  text-shadow: 0 0 20px rgba(255, 59, 92, 0.55);
-}
-
-.graffiti-highlight-text::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 4px;
-  width: 100%;
-  height: 6px;
-  background: rgba(255, 59, 92, 0.45);
-  transform: skewX(-12deg);
-  border-radius: 2px;
+  color: #ffffff;
+  letter-spacing: 0.05em;
 }
 
 .hero-spec-stamp {
   display: inline-flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 14px;
   margin-top: 24px;
-  padding: 12px 18px;
-  background: rgba(16, 17, 23, 0.85);
-  backdrop-filter: blur(8px);
-  border: 1px dashed rgba(255, 255, 255, 0.25);
+  padding: 10px 18px;
+  background: rgba(16, 17, 23, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--color-border);
   position: relative;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
 }
 
 .hero-spec-stamp::before {
@@ -2793,9 +2761,9 @@ select {
   position: absolute;
   top: -8px;
   left: -8px;
-  color: var(--color-sale-red);
+  color: var(--color-text-dim);
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -2804,23 +2772,15 @@ select {
   position: absolute;
   bottom: -8px;
   right: -8px;
-  color: var(--color-sale-red);
+  color: var(--color-text-dim);
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
 }
 
-.hero-spec-code {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-}
-
 .hero-barcode-svg {
-  height: 22px;
-  opacity: 0.75;
+  height: 20px;
+  opacity: 0.7;
   filter: invert(1);
   transition: opacity 0.2s ease;
 }
@@ -2828,7 +2788,7 @@ select {
   opacity: 1;
 }
 
-/* --- C. Streetwear Category Cards Graffiti & Dynamic Image Styling --- */
+/* --- C. Minimalist Streetwear Category Cards & Dynamic Backgrounds --- */
 .category-card {
   position: relative;
   overflow: hidden;
@@ -2836,9 +2796,9 @@ select {
   aspect-ratio: 4 / 5;
   cursor: pointer;
   border: 1px solid var(--color-border);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 0.3s ease, 
-              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.25s ease, 
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .category-card::before {
@@ -2846,20 +2806,20 @@ select {
   position: absolute;
   top: 8px;
   left: 8px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.2);
   font-family: var(--font-mono);
   font-size: 12px;
   z-index: 3;
   transition: color 0.2s ease;
 }
 .category-card:hover::before {
-  color: var(--color-sale-red);
+  color: var(--color-foreground);
 }
 
 .category-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  border-color: var(--color-sale-red);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 24px rgba(214, 0, 47, 0.35);
+  transform: translateY(-5px);
+  border-color: var(--color-foreground);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
 }
 
 .category-card-bg {
@@ -2874,59 +2834,33 @@ select {
 }
 
 .category-card:hover .category-card-bg {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 /* Dynamic product image when applied to category card */
 .category-card-bg[style*="background-image"] {
-  filter: contrast(108%) brightness(96%);
+  filter: contrast(106%) brightness(96%);
 }
 .category-card:hover .category-card-bg[style*="background-image"] {
-  filter: contrast(115%) brightness(102%);
+  filter: contrast(112%) brightness(100%);
 }
 
-.card-graffiti-sticker {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background: #ffcc00;
-  color: #0c0d10;
-  font-family: var(--font-graffiti);
-  font-size: 0.95rem;
-  padding: 2px 8px;
-  letter-spacing: 0.05em;
-  transform: rotate(8deg);
-  box-shadow: 2px 2px 0px #000000;
-  border: 1px solid #000000;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 4;
+.category-dept-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--color-sale-red);
+  text-transform: uppercase;
+  margin-bottom: 4px;
 }
 
-.category-card:hover .card-graffiti-sticker {
-  transform: rotate(-4deg) scale(1.15);
-  background: #ff2a51;
-  color: #ffffff;
-}
-
-/* --- D. Customer VIP Drop Phone Number Section --- */
+/* --- D. Customer VIP Drop Phone Number Section (Minimalist UI) --- */
 .vip-phone-section {
   position: relative;
   padding: 80px 20px;
-  background: linear-gradient(180deg, rgba(9, 10, 13, 0.95) 0%, rgba(16, 17, 23, 0.98) 100%);
-  border-top: 1px dashed var(--color-border);
-  border-bottom: 1px dashed var(--color-border);
-}
-
-.graffiti-drop-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-graffiti);
-  font-size: 1.15rem;
-  color: #ffcc00;
-  margin-bottom: 12px;
-  letter-spacing: 0.08em;
-  text-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .phone-signup-form {
@@ -2942,30 +2876,30 @@ select {
 .phone-input-wrap {
   display: flex;
   align-items: center;
-  background: var(--color-surface);
+  background: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: 0px;
   flex: 1;
   min-width: 280px;
-  padding: 0 14px;
+  padding: 0 16px;
   height: 52px;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .phone-input-wrap:focus-within {
-  border-color: var(--color-sale-red);
-  box-shadow: 0 0 16px rgba(214, 0, 47, 0.3);
+  border-color: var(--color-foreground);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
 }
 
 .phone-prefix {
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--color-sale-red);
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   gap: 6px;
-  padding-right: 10px;
+  padding-right: 12px;
   border-right: 1px solid var(--color-border);
   user-select: none;
 }
@@ -2977,40 +2911,63 @@ select {
   outline: none;
   color: var(--color-foreground);
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: 0.95rem;
   letter-spacing: 0.08em;
-  padding-left: 12px;
+  padding-left: 14px;
 }
 
 .phone-input-wrap input::placeholder {
   color: var(--color-text-dim);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   letter-spacing: 0.05em;
 }
 
-/* Button with Graffiti Spray Glow */
-.graffiti-btn {
+/* Minimalist Button Styling */
+.minimal-btn {
   height: 52px;
   padding: 0 28px;
   font-family: var(--font-heading);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: var(--color-sale-red);
-  color: #ffffff;
-  border: 1px solid var(--color-sale-red);
+  background: var(--color-foreground);
+  color: var(--color-background);
+  border: 1px solid var(--color-foreground);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 16px rgba(214, 0, 47, 0.4);
 }
 
-.graffiti-btn:hover {
-  background: #ff1a48;
+.minimal-btn:hover {
+  background: transparent;
+  color: var(--color-foreground);
+  border-color: var(--color-foreground);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(214, 0, 47, 0.65), 0 0 15px rgba(255, 42, 81, 0.5);
+}
+
+.minimal-btn-outline {
+  height: 52px;
+  padding: 0 28px;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--color-foreground);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.minimal-btn-outline:hover {
+  background: var(--color-foreground);
+  color: var(--color-background);
+  border-color: var(--color-foreground);
 }
 
 /* Footer phone input */
@@ -3034,45 +2991,31 @@ select {
   color: rgba(255, 255, 255, 0.4);
 }
 .footer-newsletter-submit {
-  background: var(--color-sale-red);
-  color: #ffffff;
+  background: var(--color-foreground);
+  color: var(--color-background);
   border: none;
   padding: 0 18px;
   font-family: var(--font-heading);
   font-size: 1.05rem;
   letter-spacing: 0.06em;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 .footer-newsletter-submit:hover {
-  background: #ff1a48;
+  opacity: 0.85;
 }
 
-/* --- E. Rich Micro-Animations & Editorial Interactions --- */
-@keyframes neon-flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-    text-shadow: 0 0 10px rgba(214, 0, 47, 0.8), 0 0 20px rgba(214, 0, 47, 0.4);
-  }
-  20%, 24%, 55% {
-    text-shadow: none;
-  }
-}
-
-.brand-logo-text:hover {
-  animation: neon-flicker 1.8s infinite;
-}
-
-/* Subtle street spray stamp watermark */
+/* Subtle architectural watermark */
 .product-feed-section::before {
-  content: "WEEBFOUR // 2026 ARCHIVE";
+  content: "WEEBFOUR // ARCHIVE 2026";
   position: absolute;
-  top: 12px;
+  top: 14px;
   right: 24px;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   color: var(--color-text-dim);
-  opacity: 0.4;
+  opacity: 0.35;
   pointer-events: none;
 }
 
