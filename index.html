@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WEEBFOUR | Avant-Garde Streetwear Archive</title>
+  <title>weebfour.com</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Shop the latest avant-garde luxury streetwear at WEEBFOUR. Heavyweight oversized graphic tees, tactical parachute cargoes, double-fleece 420 GSM hoodies, and exclusive grails. Inspired by subculture.">
-  <meta property="og:title" content="WEEBFOUR | Avant-Garde Streetwear">
-  <meta property="og:description" content="Premium oversized boxy fits, 280-420 GSM cottons, and designs inspired by youth subculture.">
+  <meta name="description" content="weebfour.com - Minimalist Streetwear Archive. Heavyweight oversized graphic tees, tactical parachute cargoes, double-fleece 420 GSM hoodies.">
+  <meta property="og:title" content="weebfour.com">
+  <meta property="og:description" content="weebfour.com - Minimalist Streetwear Archive. Heavyweight 280-420 GSM cottons, architectural silhouettes.">
   <meta property="og:type" content="website">
   
   <!-- Favicon -->
@@ -29,25 +29,6 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-  <!-- 1. Top Announcement Marquee Ticker -->
-  <div class="announcement-bar">
-    <div class="ticker-wrap">
-      <div class="ticker">
-        <span class="ticker-item">FREE SHIPPING ON ALL ORDERS ACROSS INDIA</span>
-        <span class="ticker-item">USE CODE 'WEEB10' FOR 10% OFF YOUR FIRST ORDER</span>
-        <span class="ticker-item">CASH ON DELIVERY (COD) AVAILABLE NATIONWIDE</span>
-        <span class="ticker-item">NEW STREETWEAR GRAILS DROP EVERY WEEK</span>
-        <span class="ticker-item">7-DAY HASSLE-FREE RETURNS & EXCHANGES</span>
-        <!-- Duplicates for seamless infinite marquee scroll -->
-        <span class="ticker-item">FREE SHIPPING ON ALL ORDERS ACROSS INDIA</span>
-        <span class="ticker-item">USE CODE 'WEEB10' FOR 10% OFF YOUR FIRST ORDER</span>
-        <span class="ticker-item">CASH ON DELIVERY (COD) AVAILABLE NATIONWIDE</span>
-        <span class="ticker-item">NEW STREETWEAR GRAILS DROP EVERY WEEK</span>
-        <span class="ticker-item">7-DAY HASSLE-FREE RETURNS & EXCHANGES</span>
-      </div>
-    </div>
-  </div>
 
   <!-- 2. Sticky Header Navigation -->
   <header class="main-header" id="main-header">
@@ -303,24 +284,6 @@
       </div>
     </div>
   </section>
-
-  <!-- Minimalist Editorial Monospace Ticker Ribbon (100% English Only) -->
-  <div class="minimal-ticker-strip" aria-hidden="true">
-    <div class="tape-track tape-track-left">
-      <span>★ WEEBFOUR ARCHIVE 2026</span>
-      <span>/// STREET COUTURE ARCHIVE</span>
-      <span>[ MINIMALIST EDITION ]</span>
-      <span>WORLDWIDE DISPATCH ///</span>
-      <span>HEAVYWEIGHT 280-420 GSM FABRICS</span>
-      <span>AVANT-GARDE ARCHITECTURAL SILHOUETTES</span>
-      <span>★ WEEBFOUR ARCHIVE 2026</span>
-      <span>/// STREET COUTURE ARCHIVE</span>
-      <span>[ MINIMALIST EDITION ]</span>
-      <span>WORLDWIDE DISPATCH ///</span>
-      <span>HEAVYWEIGHT 280-420 GSM FABRICS</span>
-      <span>AVANT-GARDE ARCHITECTURAL SILHOUETTES</span>
-    </div>
-  </div>
 
   <!-- 5. Value Propositions Bar -->
   <section class="value-props-bar">
@@ -1199,6 +1162,9 @@
         <button class="admin-tab-btn" data-tab="media" onclick="switchAdminTab('media')">
           <i class="ri-image-edit-line"></i> BANNERS & PHOTOS
         </button>
+        <button class="admin-tab-btn" data-tab="storytelling" onclick="switchAdminTab('storytelling')">
+          <i class="ri-slideshow-3-line"></i> SCROLL STORY (4 PANELS)
+        </button>
       </div>
 
       <!-- Admin Tab Panels Content -->
@@ -1352,6 +1318,20 @@
                 <img id="admin-logo-preview" src="" style="max-height: 100%; max-width: 100%;">
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Tab 5: Horizontal Scroll Storytelling Panels (4 Panels) -->
+        <div class="admin-panel" id="admin-panel-storytelling">
+          <div style="margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.45rem; margin: 0; letter-spacing: 0.05em;">SCROLL STORY ANIMATION (4 PANELS & WORDS)</h3>
+              <p style="font-size: 0.85rem; color: #888; margin: 2px 0 0;">Edit the 4 full-screen images and all words (titles, descriptions, badges, specs, buttons) displayed in the horizontal scroll animation.</p>
+            </div>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="resetStoryPanelsToDefault()"><i class="ri-refresh-line"></i> Reset Default Panels</button>
+          </div>
+          <div id="admin-story-panels-container" class="admin-story-panels-grid">
+            <!-- Dynamically populated by renderAdminStoryPanels() in app.js -->
           </div>
         </div>
       </div>

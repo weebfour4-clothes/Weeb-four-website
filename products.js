@@ -293,14 +293,96 @@ const defaultSiteConfig = {
     heroMobileBg: "assets/hero_classy_mobile.jpg",
     primaryLogo: "assets/weebfour_primary_logo_trans.png",
     secondarySymbol: "assets/weebfour_secondary_symbol_trans.png"
-  }
+  },
+  storyPanels: [
+    {
+      id: 1,
+      image: "assets/tee_front_clean.jpg",
+      badge1Title: "420 GSM FRENCH TERRY",
+      badge1Sub: "Combed Long-Staple Cotton",
+      badge2Title: "TOKYO & MUMBAI ATELIER",
+      badge2Sub: "Subculture Architecture",
+      stepIndicator: "PHASE 01 // MATERIAL GENESIS",
+      title: "HEAVYWEIGHT 280-420 GSM DRAPE",
+      description: "Engineered for maximum structural boxiness. We custom knit high-density combed cotton that resists deformation, maintains dropped shoulder geometry, and delivers an uncompromising tactile weight.",
+      specs: [
+        { label: "FABRIC DENSITY", value: "420 GSM" },
+        { label: "TAILOR FIT", value: "BOXY OVERSIZED" },
+        { label: "RIB COLLAR", value: "HIGH-ELASTICITY 1x1" },
+        { label: "WASH LIFESPAN", value: "100+ CYCLES" }
+      ],
+      ctaText: "EXPLORE TEES",
+      ctaCategory: "tshirts"
+    },
+    {
+      id: 2,
+      image: "assets/editorial_models.png",
+      badge1Title: "WEATHERPROOF NYLON",
+      badge1Sub: "DWR Coated Ripstop",
+      badge2Title: "ARTICULATED KNEE CUTS",
+      badge2Sub: "3D Ergonomic Silhouette",
+      stepIndicator: "PHASE 02 // STRUCTURAL TAILORING",
+      title: "TACTICAL PARACHUTE CARGOES",
+      description: "Merging Japanese technical military wear with modern streetwear proportions. Deep gusseted bellows pockets, adjustable ankle bungee drawcords, and custom matte black zinc-alloy hardware.",
+      specs: [
+        { label: "POCKET CAPACITY", value: "8 UTILITY ZONES" },
+        { label: "ZIPPER HARDWARE", value: "YKK MATTE BLACK" },
+        { label: "CUFF ADJUST", value: "BUNGEE CINCH" },
+        { label: "STRETCH WEAVE", value: "4-WAY RIPSTOP" }
+      ],
+      ctaText: "VIEW CARGO DIVISION",
+      ctaCategory: "cargos"
+    },
+    {
+      id: 3,
+      image: "assets/art_tokyo_kanji.jpg",
+      badge1Title: "HIGH-DENSITY PUFF",
+      badge1Sub: "3D Tactile Screenprint",
+      badge2Title: "REFLECTIVE 3M INKS",
+      badge2Sub: "Low-Light Cyber Visibility",
+      stepIndicator: "PHASE 03 // GRAPHIC ARCHIVE",
+      title: "SUBCULTURE HIGH-DENSITY PRINTS",
+      description: "Typography and graphics forged from cyberpunk architecture, retro-futurism, and subculture graphic design. Multi-layer screen printing combined with tactile chenille patches and high-density 3D puff.",
+      specs: [
+        { label: "PRINT METHOD", value: "HIGH-DENSITY PLASTISOL" },
+        { label: "CRACK RESISTANCE", value: "ZERO FLAKING" },
+        { label: "TEXTURE", value: "3D ELEVATED TACTILE" },
+        { label: "INK CURING", value: "INFRARED HEATSET" }
+      ],
+      ctaText: "SHOP HOODIES & GRAILS",
+      ctaCategory: "hoodies"
+    },
+    {
+      id: 4,
+      image: "assets/art_apes_skull.jpg",
+      badge1Title: "STRICTLY LIMITED EDITIONS",
+      badge1Sub: "Zero Restock Archive Policy",
+      badge2Title: "24-HOUR DISPATCH",
+      badge2Sub: "Express Pan-India Shipping",
+      stepIndicator: "PHASE 04 // DROP ECOSYSTEM",
+      title: "ZERO RESTOCK. PURE GRAILS.",
+      description: "Every drop is limited in batch quantity and hand-inspected in our atelier. When an archive run sells out, it enters our permanent vault. Lock in your piece before sizes vanish.",
+      specs: [
+        { label: "BATCH QUANTITY", value: "100 - 250 PIECES" },
+        { label: "RESTOCK POLICY", value: "STRICTLY NEVER" },
+        { label: "PACKAGING", value: "MATTE FOIL ZIP BAG" },
+        { label: "SHIPPING", value: "FREE ACROSS INDIA" }
+      ],
+      ctaText: "ENTER LIVE DROPS",
+      ctaCategory: "all"
+    }
+  ]
 };
 
 let siteConfig = JSON.parse(JSON.stringify(defaultSiteConfig));
 try {
   const savedConfig = localStorage.getItem('weebfour_site_config');
   if (savedConfig) {
-    siteConfig = JSON.parse(savedConfig);
+    const parsed = JSON.parse(savedConfig);
+    siteConfig = Object.assign({}, defaultSiteConfig, parsed);
+    if (!siteConfig.storyPanels || siteConfig.storyPanels.length === 0) {
+      siteConfig.storyPanels = JSON.parse(JSON.stringify(defaultSiteConfig.storyPanels));
+    }
   }
 } catch (e) {
   console.warn("Could not parse saved site config", e);

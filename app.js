@@ -104,6 +104,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   initFuturisticCyberMatrix();
   initLenisSmoothScroll();
+  renderStoryPanels();
   initHorizontalStorytelling();
   loadProductsFromDatabase();
 
@@ -1231,6 +1232,7 @@ function openAdminSuite() {
   populateAdminFields();
   renderAdminProductsList();
   renderAdminOffersList();
+  renderAdminStoryPanels();
 }
 
 function closeAdminSuite() {
@@ -1623,12 +1625,51 @@ function saveAllAdminChanges() {
     window.siteConfig.media.primaryLogo = logoUrl.value.trim();
   }
 
+  // 6. Story Panels (4 Panels & Words)
+  if (!window.siteConfig.storyPanels || window.siteConfig.storyPanels.length === 0) {
+    window.siteConfig.storyPanels = JSON.parse(JSON.stringify(window.defaultSiteConfig.storyPanels));
+  }
+  window.siteConfig.storyPanels.forEach((panel, i) => {
+    const imgInp = document.getElementById(`admin-story-img-url-${i}`);
+    const b1Title = document.getElementById(`admin-story-b1-title-${i}`);
+    const b1Sub = document.getElementById(`admin-story-b1-sub-${i}`);
+    const b2Title = document.getElementById(`admin-story-b2-title-${i}`);
+    const b2Sub = document.getElementById(`admin-story-b2-sub-${i}`);
+    const stepInp = document.getElementById(`admin-story-step-${i}`);
+    const titleInp = document.getElementById(`admin-story-title-${i}`);
+    const descInp = document.getElementById(`admin-story-desc-${i}`);
+    const ctaTextInp = document.getElementById(`admin-story-cta-text-${i}`);
+    const ctaCatInp = document.getElementById(`admin-story-cta-cat-${i}`);
+
+    if (imgInp && imgInp.value.trim()) panel.image = imgInp.value.trim();
+    if (b1Title) panel.badge1Title = b1Title.value.trim();
+    if (b1Sub) panel.badge1Sub = b1Sub.value.trim();
+    if (b2Title) panel.badge2Title = b2Title.value.trim();
+    if (b2Sub) panel.badge2Sub = b2Sub.value.trim();
+    if (stepInp) panel.stepIndicator = stepInp.value.trim();
+    if (titleInp) panel.title = titleInp.value.trim();
+    if (descInp) panel.description = descInp.value.trim();
+    if (ctaTextInp) panel.ctaText = ctaTextInp.value.trim();
+    if (ctaCatInp) panel.ctaCategory = ctaCatInp.value.trim();
+
+    if (panel.specs && Array.isArray(panel.specs)) {
+      panel.specs.forEach((spec, sIdx) => {
+        const sLabel = document.getElementById(`admin-story-spec-label-${i}-${sIdx}`);
+        const sVal = document.getElementById(`admin-story-spec-val-${i}-${sIdx}`);
+        if (sLabel) spec.label = sLabel.value.trim();
+        if (sVal) spec.value = sVal.value.trim();
+      });
+    }
+  });
+
   // Persist to localStorage
   localStorage.setItem('weebfour_site_config', JSON.stringify(window.siteConfig));
 
   // Live Apply across Storefront
   applySiteConfigToStorefront();
   renderProducts();
+  renderStoryPanels();
+  initHorizontalStorytelling();
   updateCartUI();
 
   alert("All changes published live to your storefront successfully!");
@@ -1820,9 +1861,226 @@ function initLenisSmoothScroll() {
 }
 
 // ==========================================================================
-// 18. GSAP SCROLLTRIGGER PINNED HORIZONTAL ROLLING-SCREEN STORYTELLING
-// (RECREATED FROM SMARTNESTS.IN KNX SECTION WITH WEEBFOUR STREETWEAR STORY)
+// 18. DYNAMIC STORY PANELS (4 PANELS & WORDS) + ADMIN EDITOR & GSAP TIMELINE
 // ==========================================================================
+let activeStoryTimeline = null;
+
+// Renders the 4 full-screen storytelling panels dynamically from siteConfig.storyPanels
+function renderStoryPanels() {
+  const track = document.getElementById('story-panels-track');
+  if (!track) return;
+
+  const panels = (window.siteConfig && window.siteConfig.storyPanels && window.siteConfig.storyPanels.length > 0)
+    ? window.siteConfig.storyPanels
+    : (window.defaultSiteConfig && window.defaultSiteConfig.storyPanels) || [];
+
+  if (panels.length === 0) return;
+
+  const badgeIcons = [
+    { b1: 'ri-shield-check-fill', b1Color: 'var(--color-sale-red)', b2: 'ri-compass-3-line', b2Color: '#ffffff' },
+    { b1: 'ri-water-flash-line', b1Color: '#00d66c', b2: 'ri-settings-5-line', b2Color: 'var(--color-sale-red)' },
+    { b1: 'ri-fire-line', b1Color: 'var(--color-sale-red)', b2: 'ri-eye-2-line', b2Color: '#60a5fa' },
+    { b1: 'ri-vip-diamond-line', b1Color: '#f59e0b', b2: 'ri-truck-fill', b2Color: '#22c55e' }
+  ];
+
+  track.innerHTML = panels.map((panel, idx) => {
+    const icons = badgeIcons[idx % badgeIcons.length];
+    const specsHtml = (panel.specs || []).map(s => `
+      <div class="spec-item">
+        <span class="spec-label">${s.label}</span>
+        <span class="spec-val">${s.value}</span>
+      </div>
+    `).join('');
+
+    return `
+      <article class="story-panel story-panel-${idx + 1}" data-panel="${panel.id || idx + 1}">
+        <div class="story-panel-grid">
+          <div class="story-media-side">
+            <div class="story-img-frame">
+              <img src="${panel.image}" alt="${panel.title}" class="story-panel-img">
+              <div class="story-img-overlay"></div>
+              
+              <!-- Floating Parallax Badges (Smartnests KNX style) -->
+              <div class="showcase-floating-badge-1 story-badge-1">
+                <i class="${icons.b1}" style="color: ${icons.b1Color}; font-size: 1.4rem;"></i>
+                <div>
+                  <div class="badge-title">${panel.badge1Title}</div>
+                  <div class="badge-sub">${panel.badge1Sub}</div>
+                </div>
+              </div>
+              <div class="showcase-floating-badge-2 story-badge-2">
+                <i class="${icons.b2}" style="color: ${icons.b2Color}; font-size: 1.4rem;"></i>
+                <div>
+                  <div class="badge-title">${panel.badge2Title}</div>
+                  <div class="badge-sub">${panel.badge2Sub}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="story-text-side">
+            <div class="story-step-indicator">${panel.stepIndicator}</div>
+            <h2 class="story-panel-title">${panel.title}</h2>
+            <p class="story-panel-desc">${panel.description}</p>
+            <div class="story-spec-grid">
+              ${specsHtml}
+            </div>
+            <div class="story-panel-actions">
+              <a href="#shop" onclick="filterByCategory('${panel.ctaCategory || 'all'}')" class="btn btn-primary minimal-btn">
+                ${panel.ctaText || 'EXPLORE COLLECTION'} <i class="ri-arrow-right-line"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+// Populates the 4 panel cards inside Master Admin Suite
+function renderAdminStoryPanels() {
+  const container = document.getElementById('admin-story-panels-container');
+  if (!container) return;
+
+  if (!window.siteConfig.storyPanels || window.siteConfig.storyPanels.length === 0) {
+    window.siteConfig.storyPanels = JSON.parse(JSON.stringify(window.defaultSiteConfig.storyPanels));
+  }
+
+  container.innerHTML = window.siteConfig.storyPanels.map((panel, i) => `
+    <div class="admin-story-card">
+      <div class="admin-story-header">
+        <span class="admin-story-phase">PANEL 0${i + 1} // ${panel.stepIndicator || `PHASE 0${i + 1}`}</span>
+        <span class="mini-size-pill">SLIDE ${i + 1} OF 4</span>
+      </div>
+
+      <!-- Image Editor Row -->
+      <div class="admin-story-preview-row">
+        <img id="admin-story-preview-${i}" src="${panel.image}" class="admin-story-thumb" alt="Panel ${i + 1} Preview">
+        <div>
+          <div class="form-group-field" style="margin-bottom: 8px;">
+            <label style="font-size: 0.8rem;">Image URL or Path</label>
+            <input type="text" id="admin-story-img-url-${i}" class="form-control-input" value="${panel.image}" oninput="document.getElementById('admin-story-preview-${i}').src = this.value">
+          </div>
+          <div class="form-group-field" style="margin-bottom: 0;">
+            <label style="font-size: 0.8rem;">Or Upload Image</label>
+            <input type="file" id="admin-story-img-file-${i}" accept="image/*" class="form-control-input" onchange="handleStoryPanelImageUpload(event, ${i})">
+          </div>
+        </div>
+      </div>
+
+      <!-- Headline & Story Words -->
+      <div class="form-group-field">
+        <label>Step Indicator (e.g. PHASE 01 // MATERIAL GENESIS)</label>
+        <input type="text" id="admin-story-step-${i}" class="form-control-input" value="${panel.stepIndicator}">
+      </div>
+
+      <div class="form-group-field">
+        <label>Panel Main Title</label>
+        <input type="text" id="admin-story-title-${i}" class="form-control-input" value="${panel.title}">
+      </div>
+
+      <div class="form-group-field">
+        <label>Panel Description Words</label>
+        <textarea id="admin-story-desc-${i}" class="form-control-input" rows="3">${panel.description}</textarea>
+      </div>
+
+      <!-- Floating Badges Words -->
+      <div class="admin-sub-section-title">FLOATING BADGES (WORDS & ACCENTS)</div>
+      <div class="admin-badge-inputs-box">
+        <div class="form-row-2col">
+          <div class="form-group-field">
+            <label style="font-size: 0.78rem;">Badge 1 Title</label>
+            <input type="text" id="admin-story-b1-title-${i}" class="form-control-input" value="${panel.badge1Title}">
+          </div>
+          <div class="form-group-field">
+            <label style="font-size: 0.78rem;">Badge 1 Subtitle</label>
+            <input type="text" id="admin-story-b1-sub-${i}" class="form-control-input" value="${panel.badge1Sub}">
+          </div>
+        </div>
+        <div class="form-row-2col">
+          <div class="form-group-field">
+            <label style="font-size: 0.78rem;">Badge 2 Title</label>
+            <input type="text" id="admin-story-b2-title-${i}" class="form-control-input" value="${panel.badge2Title}">
+          </div>
+          <div class="form-group-field">
+            <label style="font-size: 0.78rem;">Badge 2 Subtitle</label>
+            <input type="text" id="admin-story-b2-sub-${i}" class="form-control-input" value="${panel.badge2Sub}">
+          </div>
+        </div>
+      </div>
+
+      <!-- Technical Specifications (4 Spec Pairs) -->
+      <div class="admin-sub-section-title">TECHNICAL SPECIFICATIONS (WORDS & VALUES)</div>
+      <div class="admin-specs-grid">
+        ${(panel.specs || []).map((spec, sIdx) => `
+          <div style="background: rgba(0,0,0,0.15); padding: 8px; border-radius: 4px; border: 1px solid var(--color-border);">
+            <div class="form-group-field" style="margin-bottom: 4px;">
+              <label style="font-size: 0.72rem;">Spec ${sIdx + 1} Label</label>
+              <input type="text" id="admin-story-spec-label-${i}-${sIdx}" class="form-control-input" value="${spec.label}" style="font-size: 0.8rem; padding: 6px;">
+            </div>
+            <div class="form-group-field" style="margin-bottom: 0;">
+              <label style="font-size: 0.72rem;">Spec ${sIdx + 1} Value</label>
+              <input type="text" id="admin-story-spec-val-${i}-${sIdx}" class="form-control-input" value="${spec.value}" style="font-size: 0.8rem; padding: 6px; font-weight: 700;">
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Action Button -->
+      <div class="form-row-2col">
+        <div class="form-group-field">
+          <label>Button Text</label>
+          <input type="text" id="admin-story-cta-text-${i}" class="form-control-input" value="${panel.ctaText || 'EXPLORE'}">
+        </div>
+        <div class="form-group-field">
+          <label>Category Filter Target</label>
+          <select id="admin-story-cta-cat-${i}" class="form-control-input">
+            <option value="all" ${panel.ctaCategory === 'all' ? 'selected' : ''}>All Catalog</option>
+            <option value="tshirts" ${panel.ctaCategory === 'tshirts' ? 'selected' : ''}>T-Shirts</option>
+            <option value="hoodies" ${panel.ctaCategory === 'hoodies' ? 'selected' : ''}>Hoodies</option>
+            <option value="cargos" ${panel.ctaCategory === 'cargos' ? 'selected' : ''}>Cargos</option>
+            <option value="jackets" ${panel.ctaCategory === 'jackets' ? 'selected' : ''}>Jackets</option>
+            <option value="shirts" ${panel.ctaCategory === 'shirts' ? 'selected' : ''}>Shirts</option>
+            <option value="bottomwear" ${panel.ctaCategory === 'bottomwear' ? 'selected' : ''}>Bottom Wears</option>
+            <option value="accessories" ${panel.ctaCategory === 'accessories' ? 'selected' : ''}>Accessories</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Handles file uploads for any of the 4 story panels
+function handleStoryPanelImageUpload(e, panelIndex) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const dataUrl = event.target.result;
+    const urlInput = document.getElementById(`admin-story-img-url-${panelIndex}`);
+    const preview = document.getElementById(`admin-story-preview-${panelIndex}`);
+    if (urlInput) urlInput.value = dataUrl;
+    if (preview) preview.src = dataUrl;
+    if (window.siteConfig.storyPanels && window.siteConfig.storyPanels[panelIndex]) {
+      window.siteConfig.storyPanels[panelIndex].image = dataUrl;
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+// Resets story panels to original default values
+function resetStoryPanelsToDefault() {
+  if (confirm("Reset all 4 story animation panels and words to original defaults?")) {
+    window.siteConfig.storyPanels = JSON.parse(JSON.stringify(window.defaultSiteConfig.storyPanels));
+    localStorage.setItem('weebfour_site_config', JSON.stringify(window.siteConfig));
+    renderAdminStoryPanels();
+    renderStoryPanels();
+    initHorizontalStorytelling();
+    showToast("Story animation panels reset to default!", "ri-refresh-line");
+  }
+}
+
+// Initializes or re-initializes GSAP ScrollTrigger Pinned Horizontal Storytelling
 function initHorizontalStorytelling() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
     console.warn("GSAP or ScrollTrigger not loaded.");
@@ -1830,6 +2088,15 @@ function initHorizontalStorytelling() {
   }
 
   gsap.registerPlugin(ScrollTrigger);
+
+  // Clean up existing timeline if re-rendering from admin
+  if (activeStoryTimeline) {
+    if (activeStoryTimeline.scrollTrigger) {
+      activeStoryTimeline.scrollTrigger.kill();
+    }
+    activeStoryTimeline.kill();
+    activeStoryTimeline = null;
+  }
 
   const storySection = document.querySelector('#storytelling-scroll');
   const track = document.querySelector('#story-panels-track');
@@ -1849,7 +2116,7 @@ function initHorizontalStorytelling() {
   const getScrollDistance = () => track.scrollWidth - window.innerWidth;
 
   // Master Timeline: Pins section while vertical scroll advances horizontal storytelling
-  const storyTimeline = gsap.timeline({
+  activeStoryTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: storySection,
       start: 'top top',
@@ -1875,7 +2142,7 @@ function initHorizontalStorytelling() {
   });
 
   // 1. Horizontal Track Translation
-  storyTimeline.to(track, {
+  activeStoryTimeline.to(track, {
     x: () => -getScrollDistance(),
     ease: 'none',
     duration: 1
@@ -1895,7 +2162,7 @@ function initHorizontalStorytelling() {
 
     // Panel 1 scale from slight zoom
     if (i === 0 && img) {
-      storyTimeline.fromTo(img,
+      activeStoryTimeline.fromTo(img,
         { scale: 1.08 },
         { scale: 1.0, ease: 'power1.out', duration: 0.25 },
         0
@@ -1904,7 +2171,7 @@ function initHorizontalStorytelling() {
 
     // Panels 2, 3, 4: Image scaling and brightness reveal as scrolled into view
     if (i > 0 && img) {
-      storyTimeline.fromTo(img,
+      activeStoryTimeline.fromTo(img,
         { scale: 1.18, filter: 'brightness(0.7)' },
         { scale: 1.0, filter: 'brightness(1)', ease: 'power2.out', duration: 0.35 },
         progressStart
@@ -1913,7 +2180,7 @@ function initHorizontalStorytelling() {
 
     // Floating badges flying in with back.out(1.7) matching smartnests.in
     if (badge1) {
-      storyTimeline.fromTo(badge1,
+      activeStoryTimeline.fromTo(badge1,
         { x: -100, opacity: 0 },
         { x: 0, opacity: 1, ease: 'back.out(1.7)', duration: 0.25 },
         progressStart + 0.05
@@ -1921,7 +2188,7 @@ function initHorizontalStorytelling() {
     }
 
     if (badge2) {
-      storyTimeline.fromTo(badge2,
+      activeStoryTimeline.fromTo(badge2,
         { x: 100, opacity: 0 },
         { x: 0, opacity: 1, ease: 'back.out(1.7)', duration: 0.25 },
         progressStart + 0.08
@@ -1930,7 +2197,7 @@ function initHorizontalStorytelling() {
 
     // Text reveals: title & description slide up smoothly
     if (title && i > 0) {
-      storyTimeline.fromTo(title,
+      activeStoryTimeline.fromTo(title,
         { y: 50, opacity: 0.1 },
         { y: 0, opacity: 1, ease: 'power2.out', duration: 0.25 },
         progressStart + 0.04
@@ -1938,7 +2205,7 @@ function initHorizontalStorytelling() {
     }
 
     if (desc && i > 0) {
-      storyTimeline.fromTo(desc,
+      activeStoryTimeline.fromTo(desc,
         { y: 30, opacity: 0.1 },
         { y: 0, opacity: 1, ease: 'power2.out', duration: 0.2 },
         progressStart + 0.07
@@ -1946,7 +2213,7 @@ function initHorizontalStorytelling() {
     }
 
     if (specs && i > 0) {
-      storyTimeline.fromTo(specs,
+      activeStoryTimeline.fromTo(specs,
         { y: 25, opacity: 0.1 },
         { y: 0, opacity: 1, ease: 'power2.out', duration: 0.2 },
         progressStart + 0.1

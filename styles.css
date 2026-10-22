@@ -39,7 +39,7 @@
   /* Dimensions & Spacing */
   --header-height-desktop: 76px;
   --header-height-mobile: 62px;
-  --announcement-height: 38px;
+  --announcement-height: 0px;
   --page-width: 1440px;
   
   /* Grid Spacings (thelastape.in standards) */
@@ -221,17 +221,11 @@ img {
 
 /* 3. Top Announcement Bar (Marquee Ticker) */
 .announcement-bar {
+  display: none !important;
   background-color: var(--color-brand-black);
   color: #ffffff;
-  height: var(--announcement-height);
-  display: flex;
-  align-items: center;
+  height: 0px;
   overflow: hidden;
-  position: relative;
-  z-index: 1001;
-  font-family: var(--font-heading);
-  font-size: 0.95rem;
-  letter-spacing: 0.1em;
 }
 
 .ticker-wrap {
@@ -2751,20 +2745,11 @@ select {
 
 /* --- A. Minimalist Monospace Editorial Ticker Ribbon --- */
 .minimal-ticker-strip {
+  display: none !important;
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: var(--color-surface);
-  color: var(--color-foreground);
-  font-family: var(--font-mono);
-  font-size: 0.84rem;
-  letter-spacing: 0.16em;
-  font-weight: 400;
-  padding: 13px 0;
-  text-transform: uppercase;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  z-index: 10;
+  height: 0px;
 }
 
 .tape-track {
@@ -3689,6 +3674,86 @@ select {
     overflow: visible;
   }
 }
+
+/* ==========================================================================
+   21. Admin Story Panels Editor Styling
+   ========================================================================== */
+.admin-story-panels-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+@media (max-width: 1024px) {
+  .admin-story-panels-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.admin-story-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.admin-story-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 10px;
+}
+.admin-story-phase {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-sale-red);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.admin-story-preview-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 14px;
+  align-items: center;
+}
+.admin-story-thumb {
+  width: 110px;
+  height: 135px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: #15161e;
+}
+.admin-sub-section-title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  color: var(--color-foreground);
+  margin: 8px 0 6px;
+  text-transform: uppercase;
+}
+.admin-badge-inputs-box {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.admin-specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+@media (max-width: 600px) {
+  .admin-specs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 
 
