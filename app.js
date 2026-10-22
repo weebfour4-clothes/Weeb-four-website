@@ -103,6 +103,8 @@ window.addEventListener('DOMContentLoaded', () => {
   updateWishlistUI();
   setupEventListeners();
   initFuturisticCyberMatrix();
+  initLenisSmoothScroll();
+  initHorizontalStorytelling();
   loadProductsFromDatabase();
 
   // Restore saved order notes
@@ -417,6 +419,14 @@ function renderProducts() {
                 <small style="font-size:0.75rem; color:var(--color-text-dim); margin-top:4px;">ARCHIVE IMAGE PENDING</small>
               </div>
             `}
+
+            <!-- Interactive Quick Size Selector Bar (thelastape.in signature feature) -->
+            <div class="card-quick-sizes" onclick="event.stopPropagation();">
+              <span class="quick-size-label">QUICK ADD:</span>
+              ${(item.sizes && item.sizes.length > 0 ? item.sizes : ['S', 'M', 'L', 'XL']).map(s => `
+                <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, ${item.id}, '${s}')" title="Quick add ${s}">${s}</button>
+              `).join('')}
+            </div>
           </div>
 
           <!-- Product Details -->
@@ -598,10 +608,13 @@ function applyTheme(theme) {
 // 5. WISHLIST MANAGEMENT
 // ==========================================================================
 function toggleWishlist(productId) {
+  const product = (window.products || []).find(p => p.id === productId);
   if (wishlist.has(productId)) {
     wishlist.delete(productId);
+    showToast(`Removed from Wishlist`, 'ri-heart-line');
   } else {
     wishlist.add(productId);
+    showToast(`Added ${product ? product.name : 'item'} to Wishlist!`, 'ri-heart-fill');
   }
   localStorage.setItem('weebfour_wishlist', JSON.stringify([...wishlist]));
   updateWishlistUI();
@@ -709,6 +722,7 @@ function addToCart(product, size, qty = 1) {
 
   localStorage.setItem('weebfour_cart', JSON.stringify(cart));
   updateCartUI();
+  showToast(`Added ${product.name} (${size}) to Bag!`, 'ri-shopping-bag-3-line');
 }
 
 function adjustCartQty(index, delta) {
@@ -1765,4 +1779,234 @@ function initFuturisticCyberMatrix() {
 
   loop();
 }
+
+// ==========================================================================
+// 17. LENIS SMOOTH SCROLL (EXACT SMARTNESTS.IN ARCHITECTURE)
+// ==========================================================================
+let masterLenis = null;
+
+function initLenisSmoothScroll() {
+  if (typeof Lenis === 'undefined') return;
+
+  try {
+    masterLenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      touchMultiplier: 1.8,
+      infinite: false
+    });
+
+    function raf(time) {
+      masterLenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Synchronize Lenis with GSAP ScrollTrigger
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+      masterLenis.on('scroll', ScrollTrigger.update);
+
+      gsap.ticker.add((time) => {
+        masterLenis.raf(time * 1000);
+      });
+
+      gsap.ticker.lagSmoothing(0);
+    }
+    console.log("Lenis Smooth Scrolling initialized.");
+  } catch (err) {
+    console.warn("Could not initialize Lenis:", err);
+  }
+}
+
+// ==========================================================================
+// 18. GSAP SCROLLTRIGGER PINNED HORIZONTAL ROLLING-SCREEN STORYTELLING
+// (RECREATED FROM SMARTNESTS.IN KNX SECTION WITH WEEBFOUR STREETWEAR STORY)
+// ==========================================================================
+function initHorizontalStorytelling() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    console.warn("GSAP or ScrollTrigger not loaded.");
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const storySection = document.querySelector('#storytelling-scroll');
+  const track = document.querySelector('#story-panels-track');
+  const panels = gsap.utils.toArray('.story-panel');
+  const progressBar = document.querySelector('#story-progress-bar');
+  const indexDisplay = document.querySelector('#story-current-index');
+
+  if (!storySection || !track || panels.length === 0) return;
+
+  // Respect reduced motion accessibility
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    console.log("Reduced motion detected: horizontal storytelling pin disabled.");
+    return;
+  }
+
+  // Calculate dynamic scroll distance based on full track width
+  const getScrollDistance = () => track.scrollWidth - window.innerWidth;
+
+  // Master Timeline: Pins section while vertical scroll advances horizontal storytelling
+  const storyTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: storySection,
+      start: 'top top',
+      end: () => `+=${Math.max(getScrollDistance(), window.innerHeight * 2.2)}`,
+      pin: true,
+      scrub: 1, // Smooth scrub matching smartnests.in KNX section
+      anticipatePin: 1,
+      invalidateOnRefresh: true, // Dynamically adapts to window resize
+      onUpdate: (self) => {
+        // 1. Live Progress Bar (fills smoothly from 25% to 100%)
+        if (progressBar) {
+          const widthPercent = Math.min(100, Math.max(25, 25 + self.progress * 75));
+          progressBar.style.width = `${widthPercent}%`;
+        }
+
+        // 2. Active Panel Counter Index (01, 02, 03, 04)
+        if (indexDisplay) {
+          const activeIndex = Math.min(panels.length, Math.floor(self.progress * panels.length) + 1);
+          indexDisplay.textContent = `0${activeIndex}`;
+        }
+      }
+    }
+  });
+
+  // 1. Horizontal Track Translation
+  storyTimeline.to(track, {
+    x: () => -getScrollDistance(),
+    ease: 'none',
+    duration: 1
+  });
+
+  // 2. Individual Panel Parallax, Scale & Text Reveal Transitions (Exact Smartnests KNX style)
+  panels.forEach((panel, i) => {
+    const img = panel.querySelector('.story-panel-img');
+    const badge1 = panel.querySelector('.story-badge-1');
+    const badge2 = panel.querySelector('.story-badge-2');
+    const title = panel.querySelector('.story-panel-title');
+    const desc = panel.querySelector('.story-panel-desc');
+    const specs = panel.querySelector('.story-spec-grid');
+    const actionBtn = panel.querySelector('.story-panel-actions');
+
+    const progressStart = i / panels.length;
+
+    // Panel 1 scale from slight zoom
+    if (i === 0 && img) {
+      storyTimeline.fromTo(img,
+        { scale: 1.08 },
+        { scale: 1.0, ease: 'power1.out', duration: 0.25 },
+        0
+      );
+    }
+
+    // Panels 2, 3, 4: Image scaling and brightness reveal as scrolled into view
+    if (i > 0 && img) {
+      storyTimeline.fromTo(img,
+        { scale: 1.18, filter: 'brightness(0.7)' },
+        { scale: 1.0, filter: 'brightness(1)', ease: 'power2.out', duration: 0.35 },
+        progressStart
+      );
+    }
+
+    // Floating badges flying in with back.out(1.7) matching smartnests.in
+    if (badge1) {
+      storyTimeline.fromTo(badge1,
+        { x: -100, opacity: 0 },
+        { x: 0, opacity: 1, ease: 'back.out(1.7)', duration: 0.25 },
+        progressStart + 0.05
+      );
+    }
+
+    if (badge2) {
+      storyTimeline.fromTo(badge2,
+        { x: 100, opacity: 0 },
+        { x: 0, opacity: 1, ease: 'back.out(1.7)', duration: 0.25 },
+        progressStart + 0.08
+      );
+    }
+
+    // Text reveals: title & description slide up smoothly
+    if (title && i > 0) {
+      storyTimeline.fromTo(title,
+        { y: 50, opacity: 0.1 },
+        { y: 0, opacity: 1, ease: 'power2.out', duration: 0.25 },
+        progressStart + 0.04
+      );
+    }
+
+    if (desc && i > 0) {
+      storyTimeline.fromTo(desc,
+        { y: 30, opacity: 0.1 },
+        { y: 0, opacity: 1, ease: 'power2.out', duration: 0.2 },
+        progressStart + 0.07
+      );
+    }
+
+    if (specs && i > 0) {
+      storyTimeline.fromTo(specs,
+        { y: 25, opacity: 0.1 },
+        { y: 0, opacity: 1, ease: 'power2.out', duration: 0.2 },
+        progressStart + 0.1
+      );
+    }
+  });
+
+  // Refresh on load and resize
+  setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 300);
+
+  window.addEventListener('resize', () => {
+    ScrollTrigger.refresh();
+  });
+
+  console.log("KNX-inspired ScrollTrigger Horizontal Storytelling initialized!");
+}
+
+// ==========================================================================
+// 19. THELASTAPE.IN QUICK-ADD SIZE SELECTOR & TOAST SYSTEM
+// ==========================================================================
+function quickAddWithSize(event, productId, size) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  const product = (window.products || []).find(p => p.id === productId);
+  if (!product) return;
+
+  addToCart(product, size, 1);
+  openCartDrawer();
+}
+
+function showToast(message, iconClass = 'ri-checkbox-circle-fill') {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = 'toast-message';
+  toast.innerHTML = `
+    <i class="${iconClass}"></i>
+    <span>${message}</span>
+  `;
+
+  container.appendChild(toast);
+
+  // Trigger enter animation
+  requestAnimationFrame(() => {
+    toast.classList.add('show');
+  });
+
+  // Auto remove after 3.2 seconds
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => {
+      if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 400);
+  }, 3200);
+}
+
 

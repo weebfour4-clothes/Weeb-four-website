@@ -49,19 +49,208 @@ const COLLECTIONS_CONFIG = {
   }
 };
 
-// All product pictures removed as requested. Catalog starts clean ready for your real pictures.
-const defaultProducts = [];
+// Default curated streetwear catalog inspired by thelastape.in
+const defaultProducts = [
+  {
+    id: 1,
+    name: "RISE // OVERSIZED GRAPHIC TEE",
+    category: "tshirts",
+    tag: "NEW DROP",
+    price: 999,
+    compareAtPrice: 1999,
+    sizes: ["S", "M", "L", "XL"],
+    description: "Engineered from 280 GSM heavyweight combed cotton. Features Tokyo streetwear architectural typography, dropped shoulder seams, and reinforced collar.",
+    images: ["assets/tee_front_clean.jpg", "assets/art_tokyo_kanji.jpg"]
+  },
+  {
+    id: 2,
+    name: "CHAMP // THE LAST APE HEAVY TEE",
+    category: "tshirts",
+    tag: "BEST SELLER",
+    price: 1199,
+    compareAtPrice: 2299,
+    sizes: ["S", "M", "L", "XL"],
+    description: "High-density 300 GSM French Terry t-shirt featuring signature The Last Ape graphic back-print in elevated tactile puff ink. Boxy oversized drape.",
+    images: ["assets/tee_front.jpg", "assets/art_apes_skull.jpg"]
+  },
+  {
+    id: 3,
+    name: "CYBER-HEAVYWEIGHT 420 GSM HOODIE",
+    category: "hoodies",
+    tag: "BEST SELLER",
+    price: 2199,
+    compareAtPrice: 3999,
+    sizes: ["S", "M", "L", "XL"],
+    description: "Ultra-heavy 420 GSM double-fleece cotton hoodie. Double-layered structured hood without drawstrings for a sleek architectural streetwear silhouette.",
+    images: ["assets/hero_branding_photo.jpg", "assets/editorial_models.png"]
+  },
+  {
+    id: 4,
+    name: "TACTICAL PARACHUTE CARGOS",
+    category: "cargos",
+    tag: "NEW DROP",
+    price: 1899,
+    compareAtPrice: 3499,
+    sizes: ["S", "M", "L", "XL"],
+    description: "Japanese DWR coated ripstop nylon cargo pants with 8 modular utility pockets, 3D articulated knee pleats, and adjustable ankle bungee cords.",
+    images: ["assets/editorial_card.png", "assets/editorial_models.png"]
+  },
+  {
+    id: 5,
+    name: "ATELIER RELAXED BOX SHIRT",
+    category: "shirts",
+    tag: "NEW SEASON",
+    price: 1499,
+    compareAtPrice: 2499,
+    sizes: ["S", "M", "L", "XL"],
+    description: "Structured Cuban collar camp shirt in textured matte rayon blend. Relaxed drop-shoulder cut designed for modern high-fashion layering.",
+    images: ["assets/editorial_models.png", "assets/editorial_card.png"]
+  },
+  {
+    id: 6,
+    name: "RAW SELVEDGE LOOSE DENIMS",
+    category: "denims",
+    tag: "LIMITED GRAIL",
+    price: 2499,
+    compareAtPrice: 4299,
+    sizes: ["S", "M", "L", "XL"],
+    description: "14.5 oz Japanese raw selvedge denim. Vintage stone-wash finish, wide-leg skate silhouette, custom matte black hardware, and chain-stitched hems.",
+    images: ["assets/editorial_card.png", "assets/hero_branding_photo.jpg"]
+  },
+  {
+    id: 7,
+    name: "TOKYO RUNNER BOMBER JACKET",
+    category: "jackets",
+    tag: "OUTERWEAR",
+    price: 2999,
+    compareAtPrice: 4999,
+    sizes: ["S", "M", "L", "XL"],
+    description: "Water-resistant flight satin nylon bomber jacket with heavy quilted lining, oversized sleeves, utility arm pocket, and custom metal zip pulls.",
+    images: ["assets/hero_branding_photo.jpg", "assets/editorial_card.png"]
+  },
+  {
+    id: 8,
+    name: "ARCHITECTURAL HEAVY SWEATSHIRT",
+    category: "sweatshirts",
+    tag: "FRENCH TERRY",
+    price: 1699,
+    compareAtPrice: 2999,
+    sizes: ["S", "M", "L", "XL"],
+    description: "380 GSM loopback cotton crewneck. Minimalist chest embroidery, ribbed side panels for mobility, and wide ribbed hem band.",
+    images: ["assets/tee_back.jpg", "assets/tee_front_clean.jpg"]
+  },
+  {
+    id: 9,
+    name: "SECOND-SKIN TECHNICAL BODYSUIT",
+    category: "bodysuits",
+    tag: "NEW DROP",
+    price: 1299,
+    compareAtPrice: 2199,
+    sizes: ["S", "M", "L"],
+    description: "Moisture-wicking matte technical compression fabric with flatlock ergonomic seams and reflective branding details.",
+    images: ["assets/editorial_models.png", "assets/editorial_card.png"]
+  },
+  {
+    id: 10,
+    name: "WIDE-LEG PLEATED TROUSERS",
+    category: "trousers",
+    tag: "TAILORED",
+    price: 1799,
+    compareAtPrice: 3199,
+    sizes: ["S", "M", "L", "XL"],
+    description: "Deep double-pleat tailored trousers crafted from durable poly-viscose twill with a flowing drape and relaxed puddle leg hem.",
+    images: ["assets/editorial_card.png", "assets/editorial_models.png"]
+  },
+  {
+    id: 11,
+    name: "HEAVYWEIGHT DRAWSTRING JOGGERS",
+    category: "joggers",
+    tag: "420 GSM",
+    price: 1599,
+    compareAtPrice: 2799,
+    sizes: ["S", "M", "L", "XL"],
+    description: "Thick double-knit cotton fleece sweatpants with deep zipper pockets, extra-long natural drawstrings, and elasticated cuffs.",
+    images: ["assets/editorial_models.png", "assets/hero_branding_photo.jpg"]
+  },
+  {
+    id: 12,
+    name: "TACTICAL COMBAT SHORTS",
+    category: "shorts",
+    tag: "SUMMER GRAIL",
+    price: 1199,
+    compareAtPrice: 1999,
+    sizes: ["S", "M", "L", "XL"],
+    description: "Ripstop utility shorts featuring 3D cargo side compartments, keychain D-ring attachment, and elastic waistband with cinch clip.",
+    images: ["assets/editorial_card.png", "assets/editorial_models.png"]
+  },
+  {
+    id: 13,
+    name: "CYBER MATRIX UV400 SHADES",
+    category: "shades",
+    tag: "ACCESSORIES",
+    price: 799,
+    compareAtPrice: 1499,
+    sizes: ["ONE SIZE"],
+    description: "Futuristic wraparound cyberpunk sunglasses with UV400 polarized mirrored lenses and lightweight acetate frame.",
+    images: ["assets/editorial_models.png", "assets/hero_branding_photo.jpg"]
+  },
+  {
+    id: 14,
+    name: "STRUCTURED 6-PANEL STREET CAP",
+    category: "cap",
+    tag: "6-PANEL",
+    price: 699,
+    compareAtPrice: 1299,
+    sizes: ["ONE SIZE"],
+    description: "100% heavy cotton twill structured 6-panel cap with high-density 3D embroidery and antique brass buckle closure.",
+    images: ["assets/art_apes_skull.jpg", "assets/editorial_card.png"]
+  },
+  {
+    id: 15,
+    name: "MODULAR CORDURA TACTICAL BAG",
+    category: "bags",
+    tag: "CORDURA",
+    price: 1099,
+    compareAtPrice: 1999,
+    sizes: ["ONE SIZE"],
+    description: "Waterproof 500D Cordura crossbody sling bag with MOLLE webbing system, magnetic quick-release buckle, and padded strap.",
+    images: ["assets/hero_branding_photo.jpg", "assets/editorial_models.png"]
+  },
+  {
+    id: 16,
+    name: "HEAVY RIBBED SOCKS (3-PACK)",
+    category: "socks",
+    tag: "RIBBED",
+    price: 499,
+    compareAtPrice: 899,
+    sizes: ["FREE SIZE"],
+    description: "Cushioned combed cotton crew socks with arch compression support and woven technical coordinates on the ankle.",
+    images: ["assets/tee_front_clean.jpg", "assets/art_tokyo_kanji.jpg"]
+  },
+  {
+    id: 17,
+    name: "OBSIDIAN EXTRACT EAU DE PARFUM",
+    category: "perfume",
+    tag: "SIGNATURE",
+    price: 1499,
+    compareAtPrice: 2499,
+    sizes: ["50 ML"],
+    description: "Smoky dark woody fragrance with top notes of black pepper and bergamot, cedarwood heart, and rich ambergris base. 25% oil concentration.",
+    images: ["assets/hero_branding_photo.jpg", "assets/art_apes_skull.jpg"]
+  }
+];
 
-// Load custom catalog from localStorage if user adds items via Admin
+// Load catalog: prioritize custom catalog, fall back to default rich catalog
 let products = [];
 try {
   const savedCatalog = localStorage.getItem('weebfour_custom_catalog_v2');
-  if (savedCatalog) {
+  if (savedCatalog && JSON.parse(savedCatalog).length > 0) {
     products = JSON.parse(savedCatalog);
+  } else {
+    products = [...defaultProducts];
   }
-  // Clear legacy mock products from previous sessions
-  localStorage.removeItem('weebfour_custom_catalog');
 } catch (e) {
+  products = [...defaultProducts];
   console.warn("Could not parse saved catalog from localStorage", e);
 }
 

@@ -22,6 +22,9 @@
   <!-- Remix Icons (for UI icons) -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
   
+  <!-- Lenis Smooth Scroll CSS (matching smartnests.in) -->
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.9/dist/lenis.css">
+  
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -412,6 +415,212 @@
             <li><a href="javascript:void(0)" onclick="filterByCategory('perfume')">PERFUME</a></li>
           </ul>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6.5. GSAP SCROLLTRIGGER PINNED HORIZONTAL ROLLING STORYTELLING SECTION (SMARTNESTS.IN KNX ROLLING-SCREEN RECREATION) -->
+  <section class="horizontal-story-section" id="storytelling-scroll" aria-label="WEEBFOUR Craftsmanship & Architectural Story">
+    <!-- Pinned Viewport Container -->
+    <div class="story-pinned-viewport">
+      
+      <!-- Top Story HUD Navigation & Live Scroll Progress Bar -->
+      <div class="story-hud-header">
+        <div class="story-hud-left">
+          <span class="story-hud-badge"><i class="ri-radar-line"></i> ARCHIVE 2026 // KNX STORY ROLLING ENGINE</span>
+          <span class="story-hud-title">ATELIER CRAFTSMANSHIP & BLUEPRINT</span>
+        </div>
+        <div class="story-hud-progress-wrap">
+          <div class="story-hud-counter"><span id="story-current-index">01</span> <span class="story-counter-sep">/</span> 04</div>
+          <div class="story-progress-track">
+            <div class="story-progress-bar" id="story-progress-bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Horizontal Panels Track (Animated Horizontally by GSAP ScrollTrigger) -->
+      <div class="story-panels-track" id="story-panels-track">
+        
+        <!-- Panel 01: Material Genesis (Heavyweight French Terry) -->
+        <article class="story-panel story-panel-1" data-panel="1">
+          <div class="story-panel-grid">
+            <div class="story-media-side">
+              <div class="story-img-frame">
+                <img src="assets/tee_front_clean.jpg" alt="Heavyweight 280-420 GSM Streetwear" class="story-panel-img">
+                <div class="story-img-overlay"></div>
+                <!-- Floating Parallax Badges (Exact Smartnests motion style) -->
+                <div class="showcase-floating-badge-1 story-badge-1">
+                  <i class="ri-shield-check-fill" style="color: var(--color-sale-red); font-size: 1.4rem;"></i>
+                  <div>
+                    <div class="badge-title">420 GSM FRENCH TERRY</div>
+                    <div class="badge-sub">Combed Long-Staple Cotton</div>
+                  </div>
+                </div>
+                <div class="showcase-floating-badge-2 story-badge-2">
+                  <i class="ri-compass-3-line" style="color: #ffffff; font-size: 1.4rem;"></i>
+                  <div>
+                    <div class="badge-title">TOKYO & MUMBAI ATELIER</div>
+                    <div class="badge-sub">Subculture Architecture</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="story-text-side">
+              <div class="story-step-indicator">PHASE 01 // MATERIAL GENESIS</div>
+              <h2 class="story-panel-title">HEAVYWEIGHT 280-420 GSM DRAPE</h2>
+              <p class="story-panel-desc">
+                Engineered for maximum structural boxiness. We custom knit high-density combed cotton that resists deformation, maintains dropped shoulder geometry, and delivers an uncompromising tactile weight.
+              </p>
+              <div class="story-spec-grid">
+                <div class="spec-item"><span class="spec-label">FABRIC DENSITY</span><span class="spec-val">420 GSM</span></div>
+                <div class="spec-item"><span class="spec-label">TAILOR FIT</span><span class="spec-val">BOXY OVERSIZED</span></div>
+                <div class="spec-item"><span class="spec-label">RIB COLLAR</span><span class="spec-val">HIGH-ELASTICITY 1x1</span></div>
+                <div class="spec-item"><span class="spec-label">WASH LIFESPAN</span><span class="spec-val">100+ CYCLES</span></div>
+              </div>
+              <div class="story-panel-actions">
+                <a href="#shop" onclick="filterByCategory('tshirts')" class="btn btn-primary minimal-btn">
+                  EXPLORE TEES <i class="ri-arrow-right-line"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Panel 02: Tactical Parachute Cargo Architecture -->
+        <article class="story-panel story-panel-2" data-panel="2">
+          <div class="story-panel-grid">
+            <div class="story-media-side">
+              <div class="story-img-frame">
+                <img src="assets/editorial_models.png" alt="Tactical Parachute Cargoes" class="story-panel-img">
+                <div class="story-img-overlay"></div>
+                <!-- Floating Parallax Badges -->
+                <div class="showcase-floating-badge-1 story-badge-1">
+                  <i class="ri-water-flash-line" style="color: #00d66c; font-size: 1.4rem;"></i>
+                  <div>
+                    <div class="badge-title">WEATHERPROOF NYLON</div>
+                    <div class="badge-sub">DWR Coated Ripstop</div>
+                  </div>
+                </div>
+                <div class="showcase-floating-badge-2 story-badge-2">
+                  <i class="ri-settings-5-line" style="color: var(--color-sale-red); font-size: 1.4rem;"></i>
+                  <div>
+                    <div class="badge-title">ARTICULATED KNEE CUTS</div>
+                    <div class="badge-sub">3D Ergonomic Silhouette</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="story-text-side">
+              <div class="story-step-indicator">PHASE 02 // STRUCTURAL TAILORING</div>
+              <h2 class="story-panel-title">TACTICAL PARACHUTE CARGOES</h2>
+              <p class="story-panel-desc">
+                Merging Japanese technical military wear with modern streetwear proportions. Deep gusseted bellows pockets, adjustable ankle bungee drawcords, and custom matte black zinc-alloy hardware.
+              </p>
+              <div class="story-spec-grid">
+                <div class="spec-item"><span class="spec-label">POCKET CAPACITY</span><span class="spec-val">8 UTILITY ZONES</span></div>
+                <div class="spec-item"><span class="spec-label">ZIPPER HARDWARE</span><span class="spec-val">YKK MATTE BLACK</span></div>
+                <div class="spec-item"><span class="spec-label">CUFF ADJUST</span><span class="spec-val">BUNGEE CINCH</span></div>
+                <div class="spec-item"><span class="spec-label">STRETCH WEAVE</span><span class="spec-val">4-WAY RIPSTOP</span></div>
+              </div>
+              <div class="story-panel-actions">
+                <a href="#shop" onclick="filterByCategory('cargos')" class="btn btn-primary minimal-btn">
+                  VIEW CARGO DIVISION <i class="ri-arrow-right-line"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Panel 03: Underground Graphics & High-Density Puff -->
+        <article class="story-panel story-panel-3" data-panel="3">
+          <div class="story-panel-grid">
+            <div class="story-media-side">
+              <div class="story-img-frame">
+                <img src="assets/art_tokyo_kanji.jpg" alt="Underground Graphic Chenille & Puff Print" class="story-panel-img">
+                <div class="story-img-overlay"></div>
+                <!-- Floating Parallax Badges -->
+                <div class="showcase-floating-badge-1 story-badge-1">
+                  <i class="ri-fire-line" style="color: var(--color-sale-red); font-size: 1.4rem;"></i>
+                  <div>
+                    <div class="badge-title">HIGH-DENSITY PUFF</div>
+                    <div class="badge-sub">3D Tactile Screenprint</div>
+                  </div>
+                </div>
+                <div class="showcase-floating-badge-2 story-badge-2">
+                  <i class="ri-eye-2-line" style="color: #60a5fa; font-size: 1.4rem;"></i>
+                  <div>
+                    <div class="badge-title">REFLECTIVE 3M INKS</div>
+                    <div class="badge-sub">Low-Light Cyber Visibility</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="story-text-side">
+              <div class="story-step-indicator">PHASE 03 // GRAPHIC ARCHIVE</div>
+              <h2 class="story-panel-title">SUBCULTURE HIGH-DENSITY PRINTS</h2>
+              <p class="story-panel-desc">
+                Typography and graphics forged from cyberpunk architecture, retro-futurism, and subculture graphic design. Multi-layer screen printing combined with tactile chenille patches and high-density 3D puff.
+              </p>
+              <div class="story-spec-grid">
+                <div class="spec-item"><span class="spec-label">PRINT METHOD</span><span class="spec-val">HIGH-DENSITY PLASTISOL</span></div>
+                <div class="spec-item"><span class="spec-label">CRACK RESISTANCE</span><span class="spec-val">ZERO FLAKING</span></div>
+                <div class="spec-item"><span class="spec-label">TEXTURE</span><span class="spec-val">3D ELEVATED TACTILE</span></div>
+                <div class="spec-item"><span class="spec-label">INK CURING</span><span class="spec-val">INFRARED HEATSET</span></div>
+              </div>
+              <div class="story-panel-actions">
+                <a href="#shop" onclick="filterByCategory('hoodies')" class="btn btn-primary minimal-btn">
+                  SHOP HOODIES & GRAILS <i class="ri-arrow-right-line"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Panel 04: Limited Drops & Grail Access -->
+        <article class="story-panel story-panel-4" data-panel="4">
+          <div class="story-panel-grid">
+            <div class="story-media-side">
+              <div class="story-img-frame">
+                <img src="assets/art_apes_skull.jpg" alt="Limited Edition Streetwear Grails" class="story-panel-img">
+                <div class="story-img-overlay"></div>
+                <!-- Floating Parallax Badges -->
+                <div class="showcase-floating-badge-1 story-badge-1">
+                  <i class="ri-vip-diamond-line" style="color: #f59e0b; font-size: 1.4rem;"></i>
+                  <div>
+                    <div class="badge-title">STRICTLY LIMITED EDITIONS</div>
+                    <div class="badge-sub">Zero Restock Archive Policy</div>
+                  </div>
+                </div>
+                <div class="showcase-floating-badge-2 story-badge-2">
+                  <i class="ri-truck-fill" style="color: #22c55e; font-size: 1.4rem;"></i>
+                  <div>
+                    <div class="badge-title">24-HOUR DISPATCH</div>
+                    <div class="badge-sub">Express Pan-India Shipping</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="story-text-side">
+              <div class="story-step-indicator">PHASE 04 // DROP ECOSYSTEM</div>
+              <h2 class="story-panel-title">ZERO RESTOCK. PURE GRAILS.</h2>
+              <p class="story-panel-desc">
+                Every drop is limited in batch quantity and hand-inspected in our atelier. When an archive run sells out, it enters our permanent vault. Lock in your piece before sizes vanish.
+              </p>
+              <div class="story-spec-grid">
+                <div class="spec-item"><span class="spec-label">BATCH QUANTITY</span><span class="spec-val">100 - 250 PIECES</span></div>
+                <div class="spec-item"><span class="spec-label">RESTOCK POLICY</span><span class="spec-val">STRICTLY NEVER</span></div>
+                <div class="spec-item"><span class="spec-label">PACKAGING</span><span class="spec-val">MATTE FOIL ZIP BAG</span></div>
+                <div class="spec-item"><span class="spec-label">SHIPPING</span><span class="spec-val">FREE ACROSS INDIA</span></div>
+              </div>
+              <div class="story-panel-actions">
+                <a href="#shop" class="btn btn-sale" style="padding: 16px 36px; font-size: 1.15rem;">
+                  ENTER LIVE DROPS <i class="ri-arrow-down-line"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
@@ -1245,6 +1454,14 @@
         </div>
       </form>
     </div>
+
+  <!-- Floating Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Lenis & GSAP Animation Suite (Exactly matching smartnests.in KNX architecture) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
 
   <!-- Supabase JS Client & Storefront Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
