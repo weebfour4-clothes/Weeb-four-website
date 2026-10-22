@@ -273,11 +273,11 @@ const defaultSiteConfig = {
     ]
   },
   texts: {
-    heroBadge: "WEEBFOUR® / WINTER-SPRING 2026 ARCHIVE",
-    heroTitle: "BORN IN THE STREETS\nWEAR THE REVOLUTION",
-    heroSubtitle: "Engineered in Tokyo & Mumbai. Ultra-heavyweight French Terry tees, technical waterproof nylon cargoes, and structural outerwear designed for the modern subculture.",
-    heroCtaPrimary: "EXPLORE COLLECTIONS",
-    heroCtaSecondary: "SHOP BY DIVISION",
+    heroBadge: "★ 2026 ARCHIVE COLLECTION",
+    heroTitle: "WEEBFOUR\nSTREETWEAR ARCHIVE",
+    heroSubtitle: "Heavyweight French Terry & Japanese Tailored Silhouettes. Engineered for modern subculture.",
+    heroCtaPrimary: "SHOP NOW",
+    heroCtaSecondary: "EXPLORE COLLECTIONS",
     collectionsTitle: "SHOP BY COLLECTION",
     collectionsSubtitle: "Select your division: Topwear, Bottom Wears, and Street Accessories.",
     catalogTitle: "THE DROPS",
@@ -289,7 +289,8 @@ const defaultSiteConfig = {
     storeEmail: "support@weebfour.com"
   },
   media: {
-    heroBg: "assets/hero_branding_photo.jpg",
+    heroBg: "assets/hero_classy_streetwear.jpg",
+    heroMobileBg: "assets/hero_classy_mobile.jpg",
     primaryLogo: "assets/weebfour_primary_logo_trans.png",
     secondarySymbol: "assets/weebfour_secondary_symbol_trans.png"
   }

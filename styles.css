@@ -740,13 +740,13 @@ img {
   font-size: 1.3rem;
 }
 
-/* 6. Hero Slider Section (thelastape.in editorial banner) */
+/* 6. Hero Slider Section (thelastape.in Clean Classy Studio Style) */
 .hero-slider-section {
   position: relative;
-  background-color: #101010;
-  color: #ffffff;
+  background-color: #090a0d;
+  color: var(--color-foreground);
   overflow: hidden;
-  min-height: 95vh;
+  min-height: 92vh;
   display: flex;
   align-items: center;
   padding-top: calc(var(--header-height-desktop) + var(--announcement-height) + 16px);
@@ -754,24 +754,37 @@ img {
 }
 @media (max-width: 768px) {
   .hero-slider-section {
-    min-height: 80vh;
+    min-height: 82vh;
     padding-top: calc(var(--header-height-mobile) + var(--announcement-height) + 14px);
   }
 }
 
-.hero-slider-bg {
+.hero-picture-wrap {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center 25%;
-  opacity: 0.88;
-  transition: transform 6s ease;
+  z-index: 1;
+  overflow: hidden;
 }
-.hero-slider-section:hover .hero-slider-bg {
-  transform: scale(1.04);
+
+.hero-picture {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hero-slider-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right 25%;
+  transition: transform 6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.hero-slider-section:hover .hero-slider-img {
+  transform: scale(1.03);
 }
 
 .hero-slider-overlay {
@@ -780,18 +793,36 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, rgba(10, 10, 10, 0.45) 0%, rgba(10, 10, 10, 0.15) 35%, rgba(10, 10, 10, 0.88) 100%);
+  background: linear-gradient(90deg, rgba(9, 10, 13, 0.92) 0%, rgba(9, 10, 13, 0.75) 45%, rgba(9, 10, 13, 0.2) 75%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+[data-theme="light"] .hero-slider-overlay {
+  background: linear-gradient(90deg, rgba(245, 244, 240, 0.95) 0%, rgba(245, 244, 240, 0.8) 45%, rgba(245, 244, 240, 0.2) 75%, transparent 100%);
+}
+
+@media (max-width: 768px) {
+  .hero-slider-img {
+    object-position: center bottom;
+  }
+  .hero-slider-overlay {
+    background: linear-gradient(180deg, rgba(9, 10, 13, 0.88) 0%, rgba(9, 10, 13, 0.65) 50%, rgba(9, 10, 13, 0.94) 100%);
+  }
+  [data-theme="light"] .hero-slider-overlay {
+    background: linear-gradient(180deg, rgba(245, 244, 240, 0.92) 0%, rgba(245, 244, 240, 0.65) 50%, rgba(245, 244, 240, 0.95) 100%);
+  }
 }
 
 .hero-content-wrap {
   position: relative;
-  z-index: 2;
-  max-width: 900px;
+  z-index: 3;
+  max-width: 780px;
   padding: 40px 0;
 }
 @media (max-width: 768px) {
   .hero-content-wrap {
-    padding: 20px 0;
+    padding: 24px 0;
   }
 }
 
@@ -799,34 +830,48 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  font-family: var(--font-heading);
-  font-size: 1.05rem;
-  letter-spacing: 0.1em;
-  padding: 6px 16px;
-  margin-bottom: 18px;
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  padding: 6px 14px;
+  margin-bottom: 20px;
   text-transform: uppercase;
+}
+
+[data-theme="light"] .hero-badge-pill {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 .hero-main-title {
   font-family: var(--font-heading);
-  font-size: clamp(3rem, 7vw, 6.2rem);
-  line-height: 0.95;
-  letter-spacing: 0.04em;
+  font-size: clamp(3.2rem, 7.5vw, 6.2rem);
+  line-height: 0.96;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  margin-bottom: 20px;
-  color: #ffffff;
+  margin-bottom: 18px;
+  color: var(--color-foreground);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.65);
+}
+
+.hero-title-highlight {
+  color: var(--color-foreground);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.65);
 }
 
 .hero-subtext {
-  font-size: clamp(1rem, 1.8vw, 1.25rem);
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 650px;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  color: #e2e4ec;
+  max-width: 540px;
   line-height: 1.6;
-  margin-bottom: 32px;
+  margin-bottom: 30px;
+  font-family: var(--font-body);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
 }
 
 .hero-cta-row {
@@ -840,24 +885,49 @@ img {
   }
 }
 
-.hero-btn-white {
-  background: #ffffff;
-  color: #101010;
-  border: 1px solid #ffffff;
+/* thelastape.in signature clean minimal buttons */
+.hero-btn-black {
+  background: var(--color-foreground);
+  color: var(--color-background);
+  border: 1px solid var(--color-foreground);
+  padding: 14px 34px;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  border-radius: 0px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
 }
-.hero-btn-white:hover {
-  background: #e5e5e5;
-  border-color: #e5e5e5;
+.hero-btn-black:hover {
+  background: var(--color-sale-red);
+  color: #ffffff;
+  border-color: var(--color-sale-red);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--color-sale-red-glow);
 }
 
-.hero-btn-ghost {
+.hero-btn-outline {
   background: transparent;
-  color: #ffffff;
-  border: 1px solid #ffffff;
+  color: var(--color-foreground);
+  border: 1px solid rgba(var(--color-foreground-rgb), 0.35);
+  padding: 14px 30px;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  border-radius: 0px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
 }
-.hero-btn-ghost:hover {
-  background: #ffffff;
-  color: #101010;
+.hero-btn-outline:hover {
+  background: var(--color-foreground);
+  color: var(--color-background);
+  border-color: var(--color-foreground);
+  transform: translateY(-2px);
 }
 
 /* 7. Value Proposition Bar (Below Hero) */
