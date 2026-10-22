@@ -633,6 +633,22 @@ function updateWishlistUI() {
   if (totBadge) totBadge.textContent = count;
 }
 
+// Scroll management helpers for modals and drawers to ensure 100% natural mousewheel scrolling
+let activeModalCount = 0;
+function pausePageScroll() {
+  activeModalCount++;
+  document.body.style.overflow = 'hidden';
+  if (window.masterLenis) window.masterLenis.stop();
+}
+
+function resumePageScroll() {
+  activeModalCount = Math.max(0, activeModalCount - 1);
+  if (activeModalCount === 0) {
+    document.body.style.overflow = '';
+    if (window.masterLenis) window.masterLenis.start();
+  }
+}
+
 function openWishlistModal() {
   const overlay = document.getElementById('wishlist-modal-overlay');
   const grid = document.getElementById('wishlist-items-grid');
@@ -665,12 +681,14 @@ function openWishlistModal() {
     `).join('');
   }
 
+  pausePageScroll();
   overlay.classList.add('active');
 }
 
 function closeWishlistModal() {
   const overlay = document.getElementById('wishlist-modal-overlay');
   if (overlay) overlay.classList.remove('active');
+  resumePageScroll();
 }
 
 // ==========================================================================
@@ -680,9 +698,9 @@ function openCartDrawer() {
   const drawer = document.getElementById('cart-drawer');
   const backdrop = document.getElementById('cart-drawer-backdrop');
   if (drawer && backdrop) {
+    pausePageScroll();
     drawer.classList.add('active');
     backdrop.classList.add('active');
-    document.body.style.overflow = 'hidden';
   }
 }
 
@@ -692,7 +710,7 @@ function closeCartDrawer() {
   if (drawer && backdrop) {
     drawer.classList.remove('active');
     backdrop.classList.remove('active');
-    document.body.style.overflow = '';
+    resumePageScroll();
   }
 }
 
@@ -877,6 +895,7 @@ function openQuickView(productId) {
     `).join('');
   }
 
+  pausePageScroll();
   if (overlay) overlay.classList.add('active');
 }
 
@@ -923,6 +942,7 @@ function closeQuickView() {
   const overlay = document.getElementById('quick-view-overlay');
   if (overlay) overlay.classList.remove('active');
   selectedQuickViewProduct = null;
+  resumePageScroll();
 }
 
 // ==========================================================================
@@ -930,11 +950,15 @@ function closeQuickView() {
 // ==========================================================================
 function openSizeChartModal() {
   const overlay = document.getElementById('size-chart-overlay');
-  if (overlay) overlay.classList.add('active');
+  if (overlay) {
+    pausePageScroll();
+    overlay.classList.add('active');
+  }
 }
 function closeSizeChartModal() {
   const overlay = document.getElementById('size-chart-overlay');
   if (overlay) overlay.classList.remove('active');
+  resumePageScroll();
 }
 
 // ==========================================================================
@@ -948,6 +972,7 @@ function openCheckoutModal() {
   closeCartDrawer();
   const overlay = document.getElementById('checkout-modal-overlay');
   if (overlay) {
+    pausePageScroll();
     overlay.classList.add('active');
     goToCheckoutStep(1);
     renderCheckoutSummary();
@@ -957,6 +982,7 @@ function openCheckoutModal() {
 function closeCheckoutModal() {
   const overlay = document.getElementById('checkout-modal-overlay');
   if (overlay) overlay.classList.remove('active');
+  resumePageScroll();
 }
 
 function goToCheckoutStep(step) {
@@ -1117,9 +1143,9 @@ function openMobileDrawer() {
   const drawer = document.getElementById('mobile-menu-drawer');
   const overlay = document.getElementById('mobile-drawer-overlay');
   if (drawer && overlay) {
+    pausePageScroll();
     drawer.classList.add('active');
     overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
   }
 }
 
@@ -1129,7 +1155,7 @@ function closeMobileDrawer() {
   if (drawer && overlay) {
     drawer.classList.remove('active');
     overlay.classList.remove('active');
-    document.body.style.overflow = '';
+    resumePageScroll();
   }
 }
 
@@ -1199,13 +1225,19 @@ function openAdminModal() {
     openAdminSuite();
   } else {
     const authOverlay = document.getElementById('admin-auth-overlay');
-    if (authOverlay) authOverlay.classList.add('active');
+    if (authOverlay) {
+      pausePageScroll();
+      authOverlay.classList.add('active');
+    }
   }
 }
 
 function closeAdminAuth() {
   const authOverlay = document.getElementById('admin-auth-overlay');
-  if (authOverlay) authOverlay.classList.remove('active');
+  if (authOverlay && authOverlay.classList.contains('active')) {
+    authOverlay.classList.remove('active');
+    resumePageScroll();
+  }
 }
 
 function handleAdminLogin(e) {
@@ -1228,6 +1260,7 @@ function openAdminSuite() {
   const suiteOverlay = document.getElementById('admin-suite-overlay');
   if (!suiteOverlay) return;
 
+  pausePageScroll();
   suiteOverlay.classList.add('active');
   populateAdminFields();
   renderAdminProductsList();
@@ -1237,7 +1270,10 @@ function openAdminSuite() {
 
 function closeAdminSuite() {
   const suiteOverlay = document.getElementById('admin-suite-overlay');
-  if (suiteOverlay) suiteOverlay.classList.remove('active');
+  if (suiteOverlay && suiteOverlay.classList.contains('active')) {
+    suiteOverlay.classList.remove('active');
+    resumePageScroll();
+  }
 }
 
 function switchAdminTab(tabName) {
@@ -1363,12 +1399,18 @@ function openProductEditModal(productId) {
   }
 
   renderEditingProductImages();
-  if (overlay) overlay.classList.add('active');
+  if (overlay) {
+    pausePageScroll();
+    overlay.classList.add('active');
+  }
 }
 
 function closeProductEditModal() {
   const overlay = document.getElementById('product-edit-overlay');
-  if (overlay) overlay.classList.remove('active');
+  if (overlay && overlay.classList.contains('active')) {
+    overlay.classList.remove('active');
+    resumePageScroll();
+  }
 }
 
 function renderEditingProductImages() {
@@ -1831,11 +1873,26 @@ function initLenisSmoothScroll() {
 
   try {
     masterLenis = new Lenis({
-      duration: 1.2,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 1.8,
-      infinite: false
+      touchMultiplier: 1.2,
+      infinite: false,
+      prevent: (node) => {
+        return (
+          node.hasAttribute('data-lenis-prevent') ||
+          node.closest('[data-lenis-prevent]') !== null ||
+          node.closest('.admin-panel-content') !== null ||
+          node.closest('.master-admin-box') !== null ||
+          node.closest('.admin-auth-box') !== null ||
+          node.closest('.cart-drawer') !== null ||
+          node.closest('.mobile-menu-drawer') !== null ||
+          node.closest('.checkout-modal-box') !== null ||
+          node.closest('.quick-view-box') !== null
+        );
+      }
     });
+
+    window.masterLenis = masterLenis;
 
     function raf(time) {
       masterLenis.raf(time);
@@ -2149,6 +2206,12 @@ function initHorizontalStorytelling() {
   });
 
   // 2. Individual Panel Parallax, Scale & Text Reveal Transitions (Exact Smartnests KNX style)
+  const isMobile = window.innerWidth <= 768;
+  const badgeX = isMobile ? 32 : 100;
+  const titleY = isMobile ? 22 : 50;
+  const descY = isMobile ? 14 : 30;
+  const specsY = isMobile ? 12 : 25;
+
   panels.forEach((panel, i) => {
     const img = panel.querySelector('.story-panel-img');
     const badge1 = panel.querySelector('.story-badge-1');
@@ -2181,7 +2244,7 @@ function initHorizontalStorytelling() {
     // Floating badges flying in with back.out(1.7) matching smartnests.in
     if (badge1) {
       activeStoryTimeline.fromTo(badge1,
-        { x: -100, opacity: 0 },
+        { x: -badgeX, opacity: 0 },
         { x: 0, opacity: 1, ease: 'back.out(1.7)', duration: 0.25 },
         progressStart + 0.05
       );
@@ -2189,7 +2252,7 @@ function initHorizontalStorytelling() {
 
     if (badge2) {
       activeStoryTimeline.fromTo(badge2,
-        { x: 100, opacity: 0 },
+        { x: badgeX, opacity: 0 },
         { x: 0, opacity: 1, ease: 'back.out(1.7)', duration: 0.25 },
         progressStart + 0.08
       );
@@ -2198,7 +2261,7 @@ function initHorizontalStorytelling() {
     // Text reveals: title & description slide up smoothly
     if (title && i > 0) {
       activeStoryTimeline.fromTo(title,
-        { y: 50, opacity: 0.1 },
+        { y: titleY, opacity: 0.1 },
         { y: 0, opacity: 1, ease: 'power2.out', duration: 0.25 },
         progressStart + 0.04
       );
@@ -2206,7 +2269,7 @@ function initHorizontalStorytelling() {
 
     if (desc && i > 0) {
       activeStoryTimeline.fromTo(desc,
-        { y: 30, opacity: 0.1 },
+        { y: descY, opacity: 0.1 },
         { y: 0, opacity: 1, ease: 'power2.out', duration: 0.2 },
         progressStart + 0.07
       );
@@ -2214,7 +2277,7 @@ function initHorizontalStorytelling() {
 
     if (specs && i > 0) {
       activeStoryTimeline.fromTo(specs,
-        { y: 25, opacity: 0.1 },
+        { y: specsY, opacity: 0.1 },
         { y: 0, opacity: 1, ease: 'power2.out', duration: 0.2 },
         progressStart + 0.1
       );
@@ -2232,6 +2295,24 @@ function initHorizontalStorytelling() {
 
   console.log("KNX-inspired ScrollTrigger Horizontal Storytelling initialized!");
 }
+
+// HUD Next/Prev button navigation for smooth storytelling jumping
+window.goToNextStoryPanel = function(direction) {
+  if (!activeStoryTimeline || !activeStoryTimeline.scrollTrigger) return;
+  const st = activeStoryTimeline.scrollTrigger;
+  const panelsList = document.querySelectorAll('.story-panel');
+  const count = panelsList.length || 4;
+  const currentIdx = Math.round(st.progress * (count - 1));
+  const targetIdx = Math.max(0, Math.min(count - 1, currentIdx + direction));
+  const targetProgress = targetIdx / (count - 1);
+  const targetScroll = st.start + (targetProgress * (st.end - st.start));
+
+  if (window.masterLenis) {
+    window.masterLenis.scrollTo(targetScroll, { duration: 0.8 });
+  } else {
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+  }
+};
 
 // ==========================================================================
 // 19. THELASTAPE.IN QUICK-ADD SIZE SELECTOR & TOAST SYSTEM

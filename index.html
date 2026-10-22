@@ -147,7 +147,7 @@
 
   <!-- 3. Mobile Slide-in Drawer Menu (`thelastape.in` exact drawer) -->
   <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
-  <div class="mobile-menu-drawer" id="mobile-menu-drawer">
+  <div class="mobile-menu-drawer" id="mobile-menu-drawer" data-lenis-prevent>
     <div class="drawer-header">
       <div class="brand-logo-text" style="font-size: 1.8rem;">WEEBFOUR</div>
       <button class="drawer-close-btn" id="mobile-drawer-close-btn" aria-label="Close menu">
@@ -373,7 +373,7 @@
       <!-- Top Story HUD Navigation & Live Scroll Progress Bar -->
       <div class="story-hud-header">
         <div class="story-hud-left">
-          <span class="story-hud-badge"><i class="ri-radar-line"></i> ARCHIVE 2026 // KNX STORY ROLLING ENGINE</span>
+          <span class="story-hud-badge"><i class="ri-radar-line"></i> ARCHIVE 2026 // ATELIER STORY ENGINE</span>
           <span class="story-hud-title">ATELIER CRAFTSMANSHIP & BLUEPRINT</span>
         </div>
         <div class="story-hud-progress-wrap">
@@ -381,41 +381,45 @@
           <div class="story-progress-track">
             <div class="story-progress-bar" id="story-progress-bar"></div>
           </div>
+          <div class="story-hud-arrows">
+            <button type="button" class="story-arrow-btn" onclick="goToNextStoryPanel(-1)" aria-label="Previous story phase"><i class="ri-arrow-left-s-line"></i></button>
+            <button type="button" class="story-arrow-btn" onclick="goToNextStoryPanel(1)" aria-label="Next story phase"><i class="ri-arrow-right-s-line"></i></button>
+          </div>
         </div>
       </div>
 
       <!-- Horizontal Panels Track (Animated Horizontally by GSAP ScrollTrigger) -->
       <div class="story-panels-track" id="story-panels-track">
         
-        <!-- Panel 01: Material Genesis (Heavyweight French Terry) -->
+        <!-- Panel 01: Material Archive (Antique French Terry) -->
         <article class="story-panel story-panel-1" data-panel="1">
           <div class="story-panel-grid">
             <div class="story-media-side">
               <div class="story-img-frame">
-                <img src="assets/tee_front_clean.jpg" alt="Heavyweight 280-420 GSM Streetwear" class="story-panel-img">
+                <img src="assets/antique_tee_studio.jpg" alt="Heavyweight 280-420 GSM Streetwear" class="story-panel-img">
                 <div class="story-img-overlay"></div>
-                <!-- Floating Parallax Badges (Exact Smartnests motion style) -->
+                <!-- Floating Parallax Badges (Smartnests motion style) -->
                 <div class="showcase-floating-badge-1 story-badge-1">
                   <i class="ri-shield-check-fill" style="color: var(--color-sale-red); font-size: 1.4rem;"></i>
                   <div>
                     <div class="badge-title">420 GSM FRENCH TERRY</div>
-                    <div class="badge-sub">Combed Long-Staple Cotton</div>
+                    <div class="badge-sub">Antique Combed Cotton</div>
                   </div>
                 </div>
                 <div class="showcase-floating-badge-2 story-badge-2">
                   <i class="ri-compass-3-line" style="color: #ffffff; font-size: 1.4rem;"></i>
                   <div>
-                    <div class="badge-title">TOKYO & MUMBAI ATELIER</div>
-                    <div class="badge-sub">Subculture Architecture</div>
+                    <div class="badge-title">ARCHIVAL ATELIER</div>
+                    <div class="badge-sub">Sculptural Silhouette</div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="story-text-side">
-              <div class="story-step-indicator">PHASE 01 // MATERIAL GENESIS</div>
+              <div class="story-step-indicator">PHASE 01 // MATERIAL ARCHIVE</div>
               <h2 class="story-panel-title">HEAVYWEIGHT 280-420 GSM DRAPE</h2>
               <p class="story-panel-desc">
-                Engineered for maximum structural boxiness. We custom knit high-density combed cotton that resists deformation, maintains dropped shoulder geometry, and delivers an uncompromising tactile weight.
+                Engineered from custom-knit high-density combed cotton with an antique wash. Maintains structural dropped-shoulder architecture and delivers an authentic, uncompromising tactile weight.
               </p>
               <div class="story-spec-grid">
                 <div class="spec-item"><span class="spec-label">FABRIC DENSITY</span><span class="spec-val">420 GSM</span></div>
@@ -432,35 +436,35 @@
           </div>
         </article>
 
-        <!-- Panel 02: Tactical Parachute Cargo Architecture -->
+        <!-- Panel 02: Structural Tailoring (Antique Pleated & Cargo Drapes) -->
         <article class="story-panel story-panel-2" data-panel="2">
           <div class="story-panel-grid">
             <div class="story-media-side">
               <div class="story-img-frame">
-                <img src="assets/editorial_models.png" alt="Tactical Parachute Cargoes" class="story-panel-img">
+                <img src="assets/antique_cargo_tailored.jpg" alt="Tailored Cargo Architecture" class="story-panel-img">
                 <div class="story-img-overlay"></div>
                 <!-- Floating Parallax Badges -->
                 <div class="showcase-floating-badge-1 story-badge-1">
                   <i class="ri-water-flash-line" style="color: #00d66c; font-size: 1.4rem;"></i>
                   <div>
-                    <div class="badge-title">WEATHERPROOF NYLON</div>
-                    <div class="badge-sub">DWR Coated Ripstop</div>
+                    <div class="badge-title">TAILORED RIPSTOP</div>
+                    <div class="badge-sub">Architectural Pleats</div>
                   </div>
                 </div>
                 <div class="showcase-floating-badge-2 story-badge-2">
                   <i class="ri-settings-5-line" style="color: var(--color-sale-red); font-size: 1.4rem;"></i>
                   <div>
-                    <div class="badge-title">ARTICULATED KNEE CUTS</div>
-                    <div class="badge-sub">3D Ergonomic Silhouette</div>
+                    <div class="badge-title">MINIMAL UTILITY</div>
+                    <div class="badge-sub">Antique Hardware</div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="story-text-side">
               <div class="story-step-indicator">PHASE 02 // STRUCTURAL TAILORING</div>
-              <h2 class="story-panel-title">TACTICAL PARACHUTE CARGOES</h2>
+              <h2 class="story-panel-title">CLASSIC PLEATED & CARGO DRAPES</h2>
               <p class="story-panel-desc">
-                Merging Japanese technical military wear with modern streetwear proportions. Deep gusseted bellows pockets, adjustable ankle bungee drawcords, and custom matte black zinc-alloy hardware.
+                Blending antique tailoring with technical streetwear proportions. Articulated knee pleats, deep gusseted pockets, and matte black alloy hardware for timeless elegance.
               </p>
               <div class="story-spec-grid">
                 <div class="spec-item"><span class="spec-label">POCKET CAPACITY</span><span class="spec-val">8 UTILITY ZONES</span></div>
@@ -477,41 +481,41 @@
           </div>
         </article>
 
-        <!-- Panel 03: Underground Graphics & High-Density Puff -->
+        <!-- Panel 03: Archival Fleece (Antique Double-Fleece Structured Hoodie) -->
         <article class="story-panel story-panel-3" data-panel="3">
           <div class="story-panel-grid">
             <div class="story-media-side">
               <div class="story-img-frame">
-                <img src="assets/art_tokyo_kanji.jpg" alt="Underground Graphic Chenille & Puff Print" class="story-panel-img">
+                <img src="assets/antique_hoodie_archive.jpg" alt="Double-Fleece Structured Hoodie" class="story-panel-img">
                 <div class="story-img-overlay"></div>
                 <!-- Floating Parallax Badges -->
                 <div class="showcase-floating-badge-1 story-badge-1">
                   <i class="ri-fire-line" style="color: var(--color-sale-red); font-size: 1.4rem;"></i>
                   <div>
-                    <div class="badge-title">HIGH-DENSITY PUFF</div>
-                    <div class="badge-sub">3D Tactile Screenprint</div>
+                    <div class="badge-title">420 GSM DOUBLE-FLEECE</div>
+                    <div class="badge-sub">Vintage Washed Black</div>
                   </div>
                 </div>
                 <div class="showcase-floating-badge-2 story-badge-2">
                   <i class="ri-eye-2-line" style="color: #60a5fa; font-size: 1.4rem;"></i>
                   <div>
-                    <div class="badge-title">REFLECTIVE 3M INKS</div>
-                    <div class="badge-sub">Low-Light Cyber Visibility</div>
+                    <div class="badge-title">TACTILE CRAFTSMANSHIP</div>
+                    <div class="badge-sub">Archival Finish</div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="story-text-side">
-              <div class="story-step-indicator">PHASE 03 // GRAPHIC ARCHIVE</div>
-              <h2 class="story-panel-title">SUBCULTURE HIGH-DENSITY PRINTS</h2>
+              <div class="story-step-indicator">PHASE 03 // ARCHIVAL FLEECE</div>
+              <h2 class="story-panel-title">DOUBLE-FLEECE HOODIE SILHOUETTES</h2>
               <p class="story-panel-desc">
-                Typography and graphics forged from cyberpunk architecture, retro-futurism, and subculture graphic design. Multi-layer screen printing combined with tactile chenille patches and high-density 3D puff.
+                Custom double-fleece cotton hoodie with a double-layered structured hood. Tailored without drawstrings to preserve a clean, sculptural silhouette inspired by antique ateliers.
               </p>
               <div class="story-spec-grid">
-                <div class="spec-item"><span class="spec-label">PRINT METHOD</span><span class="spec-val">HIGH-DENSITY PLASTISOL</span></div>
-                <div class="spec-item"><span class="spec-label">CRACK RESISTANCE</span><span class="spec-val">ZERO FLAKING</span></div>
-                <div class="spec-item"><span class="spec-label">TEXTURE</span><span class="spec-val">3D ELEVATED TACTILE</span></div>
-                <div class="spec-item"><span class="spec-label">INK CURING</span><span class="spec-val">INFRARED HEATSET</span></div>
+                <div class="spec-item"><span class="spec-label">FABRIC WEAVE</span><span class="spec-val">DOUBLE-BRUSHED FLEECE</span></div>
+                <div class="spec-item"><span class="spec-label">HOOD DESIGN</span><span class="spec-val">SEAMLESS STRUCTURED</span></div>
+                <div class="spec-item"><span class="spec-label">TEXTURE</span><span class="spec-val">HEAVYWEIGHT SOFT DRAPE</span></div>
+                <div class="spec-item"><span class="spec-label">FIT PROFILE</span><span class="spec-val">ARCHITECTURAL DROP</span></div>
               </div>
               <div class="story-panel-actions">
                 <a href="#shop" onclick="filterByCategory('hoodies')" class="btn btn-primary minimal-btn">
@@ -522,35 +526,35 @@
           </div>
         </article>
 
-        <!-- Panel 04: Limited Drops & Grail Access -->
+        <!-- Panel 04: The Vault Drop (Antique Grails & Vault Access) -->
         <article class="story-panel story-panel-4" data-panel="4">
           <div class="story-panel-grid">
             <div class="story-media-side">
               <div class="story-img-frame">
-                <img src="assets/art_apes_skull.jpg" alt="Limited Edition Streetwear Grails" class="story-panel-img">
+                <img src="assets/antique_grails_vault.jpg" alt="Limited Edition Archival Grails" class="story-panel-img">
                 <div class="story-img-overlay"></div>
                 <!-- Floating Parallax Badges -->
                 <div class="showcase-floating-badge-1 story-badge-1">
                   <i class="ri-vip-diamond-line" style="color: #f59e0b; font-size: 1.4rem;"></i>
                   <div>
-                    <div class="badge-title">STRICTLY LIMITED EDITIONS</div>
-                    <div class="badge-sub">Zero Restock Archive Policy</div>
+                    <div class="badge-title">STRICTLY LIMITED VAULT</div>
+                    <div class="badge-sub">Permanent Archive</div>
                   </div>
                 </div>
                 <div class="showcase-floating-badge-2 story-badge-2">
                   <i class="ri-truck-fill" style="color: #22c55e; font-size: 1.4rem;"></i>
                   <div>
-                    <div class="badge-title">24-HOUR DISPATCH</div>
-                    <div class="badge-sub">Express Pan-India Shipping</div>
+                    <div class="badge-title">COMPLIMENTARY DISPATCH</div>
+                    <div class="badge-sub">Express Delivery</div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="story-text-side">
-              <div class="story-step-indicator">PHASE 04 // DROP ECOSYSTEM</div>
-              <h2 class="story-panel-title">ZERO RESTOCK. PURE GRAILS.</h2>
+              <div class="story-step-indicator">PHASE 04 // THE VAULT DROP</div>
+              <h2 class="story-panel-title">TIMELESS GRAILS & ARCHIVE PIECES</h2>
               <p class="story-panel-desc">
-                Every drop is limited in batch quantity and hand-inspected in our atelier. When an archive run sells out, it enters our permanent vault. Lock in your piece before sizes vanish.
+                Crafted in small numbered batches and hand-finished in our atelier. Once an archive release sells out, it is permanently retired to our private vault.
               </p>
               <div class="story-spec-grid">
                 <div class="spec-item"><span class="spec-label">BATCH QUANTITY</span><span class="spec-val">100 - 250 PIECES</span></div>
@@ -559,8 +563,8 @@
                 <div class="spec-item"><span class="spec-label">SHIPPING</span><span class="spec-val">FREE ACROSS INDIA</span></div>
               </div>
               <div class="story-panel-actions">
-                <a href="#shop" class="btn btn-sale" style="padding: 16px 36px; font-size: 1.15rem;">
-                  ENTER LIVE DROPS <i class="ri-arrow-down-line"></i>
+                <a href="#shop" onclick="filterByCategory('all')" class="btn btn-primary minimal-btn">
+                  ENTER LIVE DROPS <i class="ri-arrow-right-line"></i>
                 </a>
               </div>
             </div>
@@ -677,7 +681,7 @@
 
   <!-- 10. Slide-Out Cart Drawer (`thelastape.in` exact drawer) -->
   <div class="cart-drawer-backdrop" id="cart-drawer-backdrop" onclick="closeCartDrawer()"></div>
-  <div class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer" id="cart-drawer" data-lenis-prevent>
     <div class="cart-drawer-header">
       <h3 class="cart-drawer-heading">YOUR BAG (<span id="cart-drawer-count">0</span>)</h3>
       <button class="cart-close-x" onclick="closeCartDrawer()" aria-label="Close cart drawer">
@@ -694,7 +698,7 @@
     </div>
 
     <!-- Cart Items Scroll List -->
-    <div class="cart-items-scroll" id="cart-items-scroll">
+    <div class="cart-items-scroll" id="cart-items-scroll" data-lenis-prevent>
       <!-- Dynamic cart items rendered by app.js -->
     </div>
 
@@ -721,8 +725,8 @@
   </div>
 
   <!-- 11. Quick View Modal -->
-  <div class="modal-overlay" id="quick-view-overlay">
-    <div class="modal-content-box" style="position: relative;">
+  <div class="modal-overlay" id="quick-view-overlay" data-lenis-prevent>
+    <div class="modal-content-box" style="position: relative;" data-lenis-prevent>
       <button class="modal-close-x" onclick="closeQuickView()" aria-label="Close modal">
         <i class="ri-close-line"></i>
       </button>
@@ -786,8 +790,8 @@
   </div>
 
   <!-- 12. Multi-Step Checkout Modal -->
-  <div class="modal-overlay" id="checkout-modal-overlay">
-    <div class="checkout-modal-box">
+  <div class="modal-overlay" id="checkout-modal-overlay" data-lenis-prevent>
+    <div class="checkout-modal-box" data-lenis-prevent>
       <button class="modal-close-x" onclick="closeCheckoutModal()" aria-label="Close Checkout">
         <i class="ri-close-line"></i>
       </button>
@@ -951,15 +955,15 @@
   </div>
 
   <!-- 13. Wishlist Modal -->
-  <div class="modal-overlay" id="wishlist-modal-overlay">
-    <div class="wishlist-modal-box">
+  <div class="modal-overlay" id="wishlist-modal-overlay" data-lenis-prevent>
+    <div class="wishlist-modal-box" data-lenis-prevent>
       <button class="modal-close-x" onclick="closeWishlistModal()" aria-label="Close Wishlist">
         <i class="ri-close-line"></i>
       </button>
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid var(--color-border); padding-bottom: 12px;">
         <h3 style="font-family: var(--font-heading); font-size: 1.8rem;">SAVED GRAILS (<span id="wishlist-total-count">0</span>)</h3>
       </div>
-      <div id="wishlist-items-grid" class="product-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+      <div id="wishlist-items-grid" class="product-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));" data-lenis-prevent>
         <!-- Rendered dynamically -->
       </div>
       <div id="wishlist-empty-msg" style="display: none; text-align: center; padding: 40px 20px;">
@@ -972,8 +976,8 @@
   </div>
 
   <!-- 14. Size Chart Modal -->
-  <div class="modal-overlay" id="size-chart-overlay">
-    <div class="modal-content-box" style="padding: 32px; max-width: 600px;">
+  <div class="modal-overlay" id="size-chart-overlay" data-lenis-prevent>
+    <div class="modal-content-box" style="padding: 32px; max-width: 600px;" data-lenis-prevent>
       <button class="modal-close-x" onclick="closeSizeChartModal()" aria-label="Close size guide">
         <i class="ri-close-line"></i>
       </button>
@@ -1119,8 +1123,8 @@
        ========================================================================== -->
 
   <!-- Admin Gatekeeper Auth Modal -->
-  <div class="modal-overlay" id="admin-auth-overlay">
-    <div class="admin-auth-box">
+  <div class="modal-overlay" id="admin-auth-overlay" data-lenis-prevent>
+    <div class="admin-auth-box" data-lenis-prevent>
       <i class="ri-shield-keyhole-line"></i>
       <h2>WEEBFOUR ADMIN ACCESS</h2>
       <p>Enter security passcode to manage storefront catalog, photos, offers, and words.</p>
@@ -1135,8 +1139,8 @@
   </div>
 
   <!-- Master Admin Console Modal -->
-  <div class="modal-overlay" id="admin-suite-overlay">
-    <div class="master-admin-box">
+  <div class="modal-overlay" id="admin-suite-overlay" data-lenis-prevent>
+    <div class="master-admin-box" data-lenis-prevent>
       <div class="admin-header-row">
         <div>
           <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 0;">WEEBFOUR MASTER ADMIN CONSOLE</h2>
@@ -1149,7 +1153,7 @@
       </div>
 
       <!-- Admin Tabs Navigation -->
-      <div class="admin-tabs-nav">
+      <div class="admin-tabs-nav" data-lenis-prevent>
         <button class="admin-tab-btn active" data-tab="products" onclick="switchAdminTab('products')">
           <i class="ri-shopping-bag-3-line"></i> PRODUCTS CATALOG
         </button>
@@ -1168,7 +1172,7 @@
       </div>
 
       <!-- Admin Tab Panels Content -->
-      <div class="admin-panel-content">
+      <div class="admin-panel-content" data-lenis-prevent>
         <!-- Tab 1: Products Manager -->
         <div class="admin-panel active" id="admin-panel-products">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
@@ -1339,8 +1343,8 @@
   </div>
 
   <!-- Product Edit Modal (Used by Admin) -->
-  <div class="modal-overlay" id="product-edit-overlay">
-    <div class="modal-content-box" style="padding: 30px; max-width: 700px;">
+  <div class="modal-overlay" id="product-edit-overlay" data-lenis-prevent>
+    <div class="modal-content-box" style="padding: 30px; max-width: 700px;" data-lenis-prevent>
       <button class="modal-close-x" onclick="closeProductEditModal()"><i class="ri-close-line"></i></button>
       <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 18px;" id="prod-edit-modal-title">EDIT PRODUCT</h3>
       <form id="product-edit-form" onsubmit="handleProductSave(event)">
