@@ -48,7 +48,6 @@
       <div class="header-center">
         <nav class="desktop-nav">
           <a href="#" class="nav-link-item active" data-nav="home">Home</a>
-          <a href="#grail-3d-lab" class="nav-link-item" style="color: var(--color-sale-red);"><i class="ri-cube-line" style="font-size: 1rem; margin-right: 2px;"></i> 3D LAB <span class="new-tag">3D</span></a>
           <a href="#shop" class="nav-link-item" data-nav="shop" onclick="filterByCategory('all')">Shop All</a>
 
           <!-- Topwear Dropdown -->
@@ -169,11 +168,6 @@
       <div class="drawer-nav-item">
         <a href="#" class="drawer-nav-link" onclick="closeMobileDrawer();">
           Home
-        </a>
-      </div>
-      <div class="drawer-nav-item">
-        <a href="#grail-3d-lab" class="drawer-nav-link" onclick="closeMobileDrawer();" style="color: var(--color-sale-red); font-weight: 700;">
-          <i class="ri-cube-line"></i> 3D Cyber Lab <span class="new-tag">3D</span>
         </a>
       </div>
       <div class="drawer-nav-item">
@@ -321,117 +315,6 @@
           <div>
             <div class="prop-title">100% AUTHENTIC GRAILS</div>
             <div class="prop-desc">High-density puff print & chenille</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5B. 3D Interactive Cyber-Grail Atelier / Three.js Lab -->
-  <section class="grail-3d-section" id="grail-3d-lab">
-    <div class="page-container">
-      <div class="grail-3d-header">
-        <div class="section-tag-pill"><i class="ri-radar-line"></i> WEBGL THREE.JS ENGINE</div>
-        <h2 class="section-main-heading">3D CYBER-GRAIL ATELIER</h2>
-        <p class="section-subheading">REAL-TIME 3D PROCEDURAL ARCHIVE // ROTATE, CUSTOMIZE & EXPLODE</p>
-      </div>
-
-      <div class="grail-3d-wrapper">
-        <!-- 3D Canvas Viewport Container -->
-        <div class="grail-3d-viewport" id="grail-3d-viewport">
-          <canvas id="grail-3d-canvas"></canvas>
-          
-          <!-- Holographic Status Badges -->
-          <div class="grail-3d-badge-top-left">
-            <span class="grail-pulse-dot"></span>
-            <span class="grail-badge-label">ONLINE // THREE.JS r128</span>
-          </div>
-          
-          <div class="grail-3d-badge-top-right">
-            <span class="grail-fps-badge" id="grail-fps-counter">60 FPS</span>
-          </div>
-
-          <!-- Interactive 3D Touch Hint -->
-          <div class="grail-3d-touch-hint" id="grail-touch-hint">
-            <i class="ri-drag-move-2-line"></i> DRAG / SWIPE TO ROTATE IN 3D
-          </div>
-          
-          <!-- 3D View Mode Switcher Pills -->
-          <div class="grail-3d-view-controls">
-            <button type="button" class="view-ctrl-btn active" data-view="solid" onclick="setGrailViewMode('solid')">
-              <i class="ri-cube-line"></i> SOLID
-            </button>
-            <button type="button" class="view-ctrl-btn" data-view="wireframe" onclick="setGrailViewMode('wireframe')">
-              <i class="ri-grid-line"></i> WIREFRAME
-            </button>
-            <button type="button" class="view-ctrl-btn" data-view="hologram" onclick="setGrailViewMode('hologram')">
-              <i class="ri-radar-line"></i> HOLO-CORE
-            </button>
-          </div>
-        </div>
-
-        <!-- Telemetry HUD & Interactive Customizer -->
-        <div class="grail-3d-hud">
-          <div class="grail-hud-phase">EXPERIMENT 004 // CYBERNETIC APPAREL</div>
-          <h3 class="grail-hud-title">CYBER-GRAIL MK-IV</h3>
-          <p class="grail-hud-desc">
-            Sculptural streetwear footwear architecture featuring an extruded aerodynamic outsole, high-top Japanese cyber-collar, dual counter-rotating anti-gravity toruses, and 450+ orbiting stardust energy particles.
-          </p>
-
-          <!-- Telemetry Stats Grid -->
-          <div class="grail-telemetry-grid">
-            <div class="telemetry-card">
-              <span class="telemetry-key">CHASSIS MESH</span>
-              <span class="telemetry-val">CARBON OBSIDIAN</span>
-            </div>
-            <div class="telemetry-card">
-              <span class="telemetry-key">AURA PARTICLES</span>
-              <span class="telemetry-val">450+ EMISSIVE NODES</span>
-            </div>
-            <div class="telemetry-card">
-              <span class="telemetry-key">GYRO MATRIX</span>
-              <span class="telemetry-val" id="grail-rot-stat">X: 0° | Y: 0°</span>
-            </div>
-            <div class="telemetry-card">
-              <span class="telemetry-key">ARCHIVE RUN</span>
-              <span class="telemetry-val">STRICTLY 50 PIECES</span>
-            </div>
-          </div>
-
-          <!-- Colorway Customizer -->
-          <div class="grail-customizer-box">
-            <div class="customizer-title"><i class="ri-palette-line"></i> HOLOGRAPHIC COLORWAY SELECTOR:</div>
-            <div class="colorway-buttons-grid">
-              <button type="button" class="colorway-btn active" data-color="crimson" onclick="setGrailColorway('crimson')">
-                <span class="color-dot" style="background: #d6002f; box-shadow: 0 0 10px rgba(214,0,47,0.8);"></span>
-                <span>TOKYO RED</span>
-              </button>
-              <button type="button" class="colorway-btn" data-color="cyan" onclick="setGrailColorway('cyan')">
-                <span class="color-dot" style="background: #00f2ff; box-shadow: 0 0 10px rgba(0,242,255,0.8);"></span>
-                <span>CYBER CYAN</span>
-              </button>
-              <button type="button" class="colorway-btn" data-color="emerald" onclick="setGrailColorway('emerald')">
-                <span class="color-dot" style="background: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.8);"></span>
-                <span>NEO EMERALD</span>
-              </button>
-              <button type="button" class="colorway-btn" data-color="violet" onclick="setGrailColorway('violet')">
-                <span class="color-dot" style="background: #b026ff; box-shadow: 0 0 10px rgba(176,38,255,0.8);"></span>
-                <span>SYNTH VIOLET</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Interactive Actions -->
-          <div class="grail-actions-row">
-            <button type="button" class="btn btn-secondary grail-fx-btn" id="grail-explode-btn" onclick="toggleGrailExplode()">
-              <i class="ri-aspect-ratio-line"></i> <span id="explode-btn-text">EXPLODE VIEW</span>
-            </button>
-            <button type="button" class="btn btn-secondary grail-fx-btn" onclick="triggerGrailTurboSpin()">
-              <i class="ri-flashlight-line"></i> TURBO PULSE
-            </button>
-            <button type="button" class="btn btn-primary grail-order-btn" onclick="orderCustomGrail()">
-              EXPLORE CATALOG <i class="ri-arrow-right-line"></i>
-            </button>
           </div>
         </div>
       </div>
@@ -1551,9 +1434,5 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="products.js"></script>
   <script src="app.js"></script>
-
-  <!-- Three.js 3D WebGL Engine & Cyber-Grail Atelier -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="grail-3d.js"></script>
 </body>
 </html>

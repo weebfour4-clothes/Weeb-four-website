@@ -1901,8 +1901,7 @@ function initLenisSmoothScroll() {
           node.closest('.cart-drawer') !== null ||
           node.closest('.mobile-menu-drawer') !== null ||
           node.closest('.checkout-modal-box') !== null ||
-          node.closest('.quick-view-box') !== null ||
-          node.closest('.grail-3d-viewport') !== null
+          node.closest('.quick-view-box') !== null
         );
       }
     });
