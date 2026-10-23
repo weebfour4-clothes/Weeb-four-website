@@ -643,7 +643,9 @@ function pausePageScroll() {
 
 function resumePageScroll() {
   activeModalCount = Math.max(0, activeModalCount - 1);
-  if (activeModalCount === 0) {
+  const anyActiveOverlay = document.querySelector('.modal-overlay.active, .cart-drawer.active, .mobile-menu-drawer.active');
+  if (activeModalCount === 0 || !anyActiveOverlay) {
+    activeModalCount = 0;
     document.body.style.overflow = '';
     if (window.masterLenis) window.masterLenis.start();
   }
@@ -1871,11 +1873,23 @@ let masterLenis = null;
 function initLenisSmoothScroll() {
   if (typeof Lenis === 'undefined') return;
 
+  // On touch mobile devices, native hardware-accelerated momentum scrolling provides
+  // 120Hz fluid gestures, zero lag, and prevents touch scroll locking.
+  const isTouchMobile = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) && window.innerWidth <= 820;
+  if (isTouchMobile) {
+    console.log("Mobile touch device: Native momentum scrolling active for optimal responsiveness.");
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.config({ ignoreMobileResize: true });
+    }
+    return;
+  }
+
   try {
     masterLenis = new Lenis({
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 1.2,
+      touchMultiplier: 0, // Never hijack native touch
+      smoothTouch: false,
       infinite: false,
       prevent: (node) => {
         return (
@@ -1887,20 +1901,15 @@ function initLenisSmoothScroll() {
           node.closest('.cart-drawer') !== null ||
           node.closest('.mobile-menu-drawer') !== null ||
           node.closest('.checkout-modal-box') !== null ||
-          node.closest('.quick-view-box') !== null
+          node.closest('.quick-view-box') !== null ||
+          node.closest('.grail-3d-viewport') !== null
         );
       }
     });
 
     window.masterLenis = masterLenis;
 
-    function raf(time) {
-      masterLenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    // Synchronize Lenis with GSAP ScrollTrigger
+    // Synchronize Lenis with GSAP ScrollTrigger using SINGLE unified RAF ticker
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
       masterLenis.on('scroll', ScrollTrigger.update);
@@ -1908,8 +1917,13 @@ function initLenisSmoothScroll() {
       gsap.ticker.add((time) => {
         masterLenis.raf(time * 1000);
       });
-
       gsap.ticker.lagSmoothing(0);
+    } else {
+      function raf(time) {
+        masterLenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
     }
     console.log("Lenis Smooth Scrolling initialized.");
   } catch (err) {
@@ -2163,6 +2177,32 @@ function initHorizontalStorytelling() {
 
   if (!storySection || !track || panels.length === 0) return;
 
+  // On mobile screens (<= 768px), disable full-screen pinned scroll trap.
+  // Instead, enable smooth horizontal touch-snap carousel with live counter updates.
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    console.log("Mobile viewport: Horizontal storytelling carousel mode active.");
+    gsap.set(track, { clearProps: "all" });
+    gsap.set(panels, { clearProps: "all" });
+
+    track.onscroll = () => {
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      if (maxScroll > 0) {
+        const progress = Math.max(0, Math.min(1, track.scrollLeft / maxScroll));
+        if (progressBar) {
+          const widthPercent = Math.min(100, Math.max(25, 25 + progress * 75));
+          progressBar.style.width = `${widthPercent}%`;
+        }
+        if (indexDisplay) {
+          const panelWidth = panels[0]?.offsetWidth || 300;
+          const activeIdx = Math.min(panels.length, Math.floor((track.scrollLeft + panelWidth * 0.5) / panelWidth) + 1);
+          indexDisplay.textContent = `0${activeIdx}`;
+        }
+      }
+    };
+    return;
+  }
+
   // Respect reduced motion accessibility
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     console.log("Reduced motion detected: horizontal storytelling pin disabled.");
@@ -2206,11 +2246,10 @@ function initHorizontalStorytelling() {
   });
 
   // 2. Individual Panel Parallax, Scale & Text Reveal Transitions (Exact Smartnests KNX style)
-  const isMobile = window.innerWidth <= 768;
-  const badgeX = isMobile ? 32 : 100;
-  const titleY = isMobile ? 22 : 50;
-  const descY = isMobile ? 14 : 30;
-  const specsY = isMobile ? 12 : 25;
+  const badgeX = 100;
+  const titleY = 50;
+  const descY = 30;
+  const specsY = 25;
 
   panels.forEach((panel, i) => {
     const img = panel.querySelector('.story-panel-img');
@@ -2298,7 +2337,17 @@ function initHorizontalStorytelling() {
 
 // HUD Next/Prev button navigation for smooth storytelling jumping
 window.goToNextStoryPanel = function(direction) {
-  if (!activeStoryTimeline || !activeStoryTimeline.scrollTrigger) return;
+  const isMobile = window.innerWidth <= 768;
+  const track = document.getElementById('story-panels-track');
+
+  if (isMobile || !activeStoryTimeline || !activeStoryTimeline.scrollTrigger) {
+    if (track) {
+      const panelWidth = track.querySelector('.story-panel')?.offsetWidth || 300;
+      track.scrollBy({ left: direction * (panelWidth + 16), behavior: 'smooth' });
+    }
+    return;
+  }
+
   const st = activeStoryTimeline.scrollTrigger;
   const panelsList = document.querySelectorAll('.story-panel');
   const count = panelsList.length || 4;

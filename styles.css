@@ -78,8 +78,9 @@
 
 html {
   font-size: 16px;
-  scroll-behavior: smooth;
-  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 body {
@@ -96,8 +97,12 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
   overflow-x: hidden;
-  min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
 }
 
@@ -2372,11 +2377,18 @@ img {
   bottom: 0;
   left: 0;
   width: 100%;
-  background: #ffffff;
+  background: rgba(12, 13, 17, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid var(--color-border);
   z-index: 1000;
-  height: 58px;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.04);
+  height: calc(58px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+}
+[data-theme="light"] .mobile-bottom-bar {
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
 }
 @media (max-width: 768px) {
   .mobile-bottom-bar {
@@ -2391,17 +2403,23 @@ img {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  color: #555555;
-  font-size: 0.75rem;
-  font-weight: 500;
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   position: relative;
+  transition: color 0.2s ease, transform 0.15s ease;
 }
 .mobile-bar-tab i {
   font-size: 1.35rem;
 }
 .mobile-bar-tab.active,
 .mobile-bar-tab:hover {
-  color: #101010;
+  color: var(--color-sale-red);
+  transform: translateY(-1px);
+}
+.mobile-bar-tab.active i {
+  filter: drop-shadow(0 0 6px var(--color-sale-red-glow));
 }
 
 /* 16. Footer (Matching thelastape.in dark footer) */
@@ -2413,7 +2431,7 @@ img {
 }
 @media (max-width: 768px) {
   .main-footer {
-    padding: 50px 0 80px; /* extra bottom padding for mobile bar */
+    padding: 50px 0 calc(90px + env(safe-area-inset-bottom, 0px)); /* extra bottom padding so mobile bar never covers content */
   }
 }
 
@@ -3776,6 +3794,70 @@ select {
   .story-progress-track {
     width: 65px;
   }
+  .story-pinned-viewport {
+    height: auto !important;
+    min-height: unset !important;
+    overflow: visible !important;
+    padding-bottom: 24px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .story-hud-header {
+    height: 50px;
+    padding: 0 16px;
+    position: relative;
+    top: 0;
+  }
+  .story-panels-track {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    padding: 10px 16px 24px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    gap: 16px !important;
+    transform: none !important;
+  }
+  .story-panels-track::-webkit-scrollbar {
+    display: none;
+  }
+  .story-panel {
+    width: 86vw !important;
+    max-width: 360px !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+    scroll-snap-align: center !important;
+    padding: 16px !important;
+    margin: 0 !important;
+    background: rgba(16, 17, 23, 0.88) !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    box-sizing: border-box !important;
+  }
+  .story-panel-grid {
+    grid-template-columns: 1fr !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: unset !important;
+  }
+  .story-media-side {
+    width: 100%;
+  }
+  .story-img-frame {
+    aspect-ratio: 16 / 10;
+    max-height: 200px;
+    min-height: 140px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
   .card-quick-sizes {
     transform: translateY(0);
     opacity: 1;
@@ -3888,6 +3970,379 @@ select {
 @media (max-width: 600px) {
   .admin-specs-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   22. 3D CYBER-GRAIL ATELIER (THREE.JS REAL-TIME LAB)
+   ========================================================================== */
+.grail-3d-section {
+  padding: 80px 0;
+  background: radial-gradient(circle at 50% 20%, rgba(214, 0, 47, 0.08) 0%, transparent 60%),
+              linear-gradient(180deg, var(--color-background) 0%, #0c0d12 100%);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="light"] .grail-3d-section {
+  background: radial-gradient(circle at 50% 20%, rgba(214, 0, 47, 0.04) 0%, transparent 60%),
+              linear-gradient(180deg, var(--color-background) 0%, #e2e4ec 100%);
+}
+
+.grail-3d-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.grail-3d-wrapper {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 36px;
+  align-items: center;
+}
+
+@media (max-width: 992px) {
+  .grail-3d-wrapper {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* 3D Viewport Box */
+.grail-3d-viewport {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  border-radius: 14px;
+  background: radial-gradient(circle at 50% 50%, rgba(20, 22, 30, 0.95) 0%, rgba(10, 11, 15, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), inset 0 0 40px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y; /* Crucial for mobile: vertical scroll passes through, horizontal drag rotates */
+}
+
+.grail-3d-viewport:active {
+  cursor: grabbing;
+}
+
+@media (max-width: 768px) {
+  .grail-3d-viewport {
+    height: 380px;
+  }
+}
+@media (max-width: 480px) {
+  .grail-3d-viewport {
+    height: 320px;
+  }
+}
+
+#grail-3d-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 3D Badges & Overlays */
+.grail-3d-badge-top-left {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(14, 15, 21, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 6px 12px;
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.grail-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-sale-red);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--color-sale-red);
+  animation: pulse-dot 1.4s infinite ease-in-out alternate;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(0.85); opacity: 0.6; }
+  100% { transform: scale(1.2); opacity: 1; }
+}
+
+.grail-badge-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.08em;
+}
+
+.grail-3d-badge-top-right {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.grail-fps-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #22c55e;
+  background: rgba(14, 15, 21, 0.85);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+/* Touch Hint */
+.grail-3d-touch-hint {
+  position: absolute;
+  bottom: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(12, 13, 17, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.4s ease;
+  white-space: nowrap;
+}
+
+/* View Mode Switcher */
+.grail-3d-view-controls {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(14, 15, 21, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 4px 6px;
+  border-radius: 30px;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.view-ctrl-btn {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border-radius: 20px;
+  color: var(--color-text-muted);
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.view-ctrl-btn:hover {
+  color: #ffffff;
+}
+
+.view-ctrl-btn.active {
+  background: var(--color-sale-red);
+  color: #ffffff;
+  box-shadow: 0 0 12px var(--color-sale-red-glow);
+}
+
+/* Telemetry HUD & Controls */
+.grail-3d-hud {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grail-hud-phase {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-sale-red);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.grail-hud-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1;
+  letter-spacing: 0.05em;
+  color: var(--color-foreground);
+}
+
+.grail-hud-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* Telemetry Cards */
+.grail-telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 6px 0;
+}
+
+.telemetry-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.telemetry-key {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--color-text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.telemetry-val {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+
+/* Colorway Selector */
+.grail-customizer-box {
+  background: rgba(16, 17, 23, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.customizer-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.colorway-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 500px) {
+  .colorway-buttons-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.colorway-btn {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  color: var(--color-foreground);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.colorway-btn:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.colorway-btn.active {
+  border-color: var(--color-sale-red);
+  box-shadow: 0 0 10px var(--color-sale-red-glow);
+}
+
+.color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Action Buttons */
+.grail-actions-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.grail-fx-btn {
+  padding: 11px 18px;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.grail-fx-btn.active {
+  background: var(--color-sale-red);
+  border-color: var(--color-sale-red);
+  color: #ffffff;
+}
+
+.grail-order-btn {
+  padding: 11px 24px;
+  font-size: 1.02rem;
+  flex-grow: 1;
+}
+
+@media (max-width: 600px) {
+  .grail-actions-row {
+    flex-direction: column;
+  }
+  .grail-fx-btn,
+  .grail-order-btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
