@@ -57,6 +57,28 @@
     </div>
   </header>
 
+  <!-- Mobile Slide-in Drawer Menu -->
+  <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+  <div class="mobile-menu-drawer" id="mobile-menu-drawer" data-lenis-prevent>
+    <div class="drawer-header">
+      <div class="brand-logo-text" style="font-size: 1.8rem;">WEEBFOUR</div>
+      <button class="drawer-close-btn" id="mobile-drawer-close-btn">&times;</button>
+    </div>
+    <div class="drawer-content">
+      <div class="drawer-nav-item"><a href="index.html" class="drawer-nav-link" onclick="closeMobileDrawer();">Home</a></div>
+      <div class="drawer-nav-item"><a href="index.html#shop" class="drawer-nav-link" onclick="closeMobileDrawer();">Shop All Drops</a></div>
+      <div class="drawer-nav-item"><a href="index.html#collections" class="drawer-nav-link" onclick="closeMobileDrawer();">Browse Collections</a></div>
+    </div>
+    <div class="drawer-footer">
+      <p style="font-size: 0.85rem; color: #888; margin-bottom: 6px;">Support: support@weebfour.com</p>
+      <p style="font-size: 0.85rem; color: #888;">Pan-India Shipping | COD Available</p>
+      <div class="drawer-social-row">
+        <a href="https://instagram.com" target="_blank"><i class="ri-instagram-line"></i></a>
+        <a href="https://wa.me/916381177617" target="_blank"><i class="ri-whatsapp-line"></i></a>
+      </div>
+    </div>
+  </div>
+
   <!-- Dedicated Simple & Neat Cart Page -->
   <main class="cart-page-section">
     <div class="page-container">
@@ -319,6 +341,29 @@
       </div>
     </div>
   </div>
+
+  <!-- Wishlist Modal -->
+  <div class="modal-overlay" id="wishlist-modal-overlay" data-lenis-prevent>
+    <div class="wishlist-modal-box" data-lenis-prevent>
+      <button class="modal-close-x" onclick="closeWishlistModal()" aria-label="Close Wishlist">
+        <i class="ri-close-line"></i>
+      </button>
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 0;">SAVED GRAILS (<span id="wishlist-modal-count">0</span>)</h3>
+        <button class="btn btn-sm btn-secondary" onclick="clearWishlist()">CLEAR ALL</button>
+      </div>
+      <div class="wishlist-grid" id="wishlist-items-grid"></div>
+      <div id="wishlist-empty-msg" style="display: none; text-align: center; padding: 40px 20px;">
+        <i class="ri-heart-line" style="font-size: 3rem; color: #888; margin-bottom: 12px; display: block;"></i>
+        <h4>YOUR WISHLIST IS EMPTY</h4>
+        <p style="color: #666; margin-bottom: 20px;">Tap the heart on any drop to save pieces for later.</p>
+        <button class="btn btn-primary" onclick="closeWishlistModal()">EXPLORE DROPS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
 
   <!-- Essential Footer (thelastape.in clean aesthetic) -->
   <footer class="main-footer" id="main-footer">
