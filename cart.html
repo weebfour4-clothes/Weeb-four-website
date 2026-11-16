@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Bag | WEEBFOUR</title>
+  
+  <meta name="description" content="View items in your shopping bag from WEEBFOUR streetwear archive.">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.9/dist/lenis.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Sticky Header Navigation -->
+  <header class="main-header" id="main-header">
+    <div class="header-container">
+      <div class="header-left">
+        <button class="mobile-drawer-toggle" id="mobile-drawer-open-btn" aria-label="Open Navigation Menu">
+          <i class="ri-menu-2-line"></i>
+        </button>
+        <a href="index.html" class="brand-logo-link" aria-label="WEEBFOUR Home">
+          <img src="assets/weebfour_primary_logo_trans.png" alt="WEEBFOUR" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('brand-text-fallback').style.display='block';">
+          <span class="brand-logo-text" id="brand-text-fallback" style="display: none;">WEEBFOUR</span>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <nav class="desktop-nav">
+          <a href="index.html" class="nav-link-item">Home</a>
+          <a href="index.html#shop" class="nav-link-item">Shop All</a>
+          <a href="index.html#collections" class="nav-link-item">Collections</a>
+          <a href="index.html#shop" class="nav-link-item">New <span class="new-tag">NEW</span></a>
+          <a href="index.html#shop" class="nav-link-item sale-link">Sale</a>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <button class="header-action-btn" id="search-toggle-btn" aria-label="Search Catalog">
+          <i class="ri-search-line"></i>
+        </button>
+        <button class="header-action-btn" id="wishlist-toggle-btn" onclick="openWishlistModal()" aria-label="Wishlist">
+          <i class="ri-heart-line"></i>
+          <span class="count-bubble" id="wishlist-count-badge">0</span>
+        </button>
+        <button class="header-action-btn" id="cart-toggle-btn" onclick="openCartDrawer()" aria-label="Shopping Bag">
+          <i class="ri-shopping-bag-3-line"></i>
+          <span class="count-bubble cart-bubble" id="cart-count-badge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dedicated Simple & Neat Cart Page -->
+  <main class="cart-page-section">
+    <div class="page-container">
+      <h1 class="cart-page-title">YOUR SHOPPING BAG</h1>
+
+      <!-- Empty State -->
+      <div id="cart-page-empty" style="display: none; text-align: center; padding: 60px 20px;">
+        <i class="ri-shopping-bag-line" style="font-size: 4rem; color: var(--color-text-dim); margin-bottom: 16px; display: block;"></i>
+        <h2 style="font-family: var(--font-heading); font-size: 2.2rem; letter-spacing: 0.05em; margin-bottom: 8px;">YOUR BAG IS CURRENTLY EMPTY</h2>
+        <p style="color: var(--color-text-muted); margin-bottom: 24px;">Explore our curated drops and discover your next statement grail.</p>
+        <a href="index.html#shop" class="btn btn-primary" style="padding: 14px 32px; font-size: 1.2rem;">
+          EXPLORE THE COLLECTION <i class="ri-arrow-right-line"></i>
+        </a>
+      </div>
+
+      <!-- Items Grid -->
+      <div class="cart-page-grid" id="cart-page-grid">
+        <!-- Left: Items Table / List -->
+        <div>
+          <div class="cart-notice-bar" style="border-radius: 4px; margin-bottom: 20px;">
+            <i class="ri-truck-line"></i> Free Pan-India Delivery on all orders. Dispatches in 24-48 hours.
+          </div>
+          <div id="cart-page-items">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+
+        <!-- Right: Order Summary Card -->
+        <div>
+          <div class="cart-summary-card">
+            <h3 style="font-family: var(--font-heading); font-size: 1.6rem; letter-spacing: 0.05em; margin-bottom: 20px; border-bottom: 1px solid var(--color-border); padding-bottom: 12px;">
+              ORDER SUMMARY
+            </h3>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 1rem;">
+              <span style="color: var(--color-text-muted);">Estimated Subtotal</span>
+              <span id="cart-page-subtotal" style="font-weight: 700;">₹0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 1rem;">
+              <span style="color: var(--color-text-muted);">Express Shipping</span>
+              <span style="color: #00d66c; font-weight: 700;">FREE</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-border); font-family: var(--font-heading); font-size: 1.8rem;">
+              <span>TOTAL</span>
+              <span id="cart-page-total" style="color: var(--color-sale-red);">₹0</span>
+            </div>
+
+            <p style="font-size: 0.8rem; color: var(--color-text-dim); margin: 12px 0 20px;">Taxes included. Discounts applied at next step.</p>
+
+            <button class="btn btn-primary btn-block" style="padding: 16px; font-size: 1.3rem; background: var(--color-sale-red);" onclick="openCheckoutModal()">
+              PROCEED TO CHECKOUT <i class="ri-arrow-right-line"></i>
+            </button>
+
+            <a href="index.html#shop" class="cart-continue-link" style="margin-top: 16px;">
+              Continue Shopping
+            </a>
+
+            <div class="cart-trust-badges" style="margin-top: 24px; border-top: 1px solid var(--color-border); padding-top: 16px;">
+              <span><i class="ri-shield-check-line"></i> 100% Secure Checkout</span>
+              <span><i class="ri-bank-card-line"></i> UPI & COD Available</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Slide-Out Cart Drawer -->
+  <div class="cart-drawer-backdrop" id="cart-drawer-backdrop" onclick="closeCartDrawer()"></div>
+  <div class="cart-drawer" id="cart-drawer" data-lenis-prevent>
+    <div class="cart-drawer-header">
+      <h3 class="cart-drawer-heading">YOUR BAG (<span id="cart-drawer-count">0</span>)</h3>
+      <button class="cart-close-x" onclick="closeCartDrawer()" aria-label="Close cart drawer">
+        <i class="ri-close-line"></i>
+      </button>
+    </div>
+    <div class="cart-notice-bar">
+      <i class="ri-truck-line"></i> Free Pan-India Express Delivery on all orders
+    </div>
+    <div class="cart-items-scroll" id="cart-items-scroll" data-lenis-prevent></div>
+    <div class="cart-drawer-footer">
+      <div class="cart-subtotal-line">
+        <span class="subtotal-label">SUBTOTAL</span>
+        <span class="subtotal-amount" id="cart-drawer-subtotal">₹0</span>
+      </div>
+      <div class="cart-shipping-line">
+        <span class="subtotal-label" style="font-size: 0.85rem; color: #888;">SHIPPING</span>
+        <span style="font-size: 0.85rem; font-weight: 700; color: #00d66c;">FREE</span>
+      </div>
+      <p class="cart-tax-notice" style="margin-top: 4px; font-size: 0.8rem; color: #888;">Taxes included.</p>
+      <button class="btn btn-primary btn-block cart-checkout-btn" onclick="openCheckoutModal()">
+        CHECKOUT • <span id="cart-drawer-cta-total">₹0</span> <i class="ri-arrow-right-line"></i>
+      </button>
+      <button class="cart-continue-link" onclick="closeCartDrawer()">
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+
+  <!-- Multi-Step Checkout Modal -->
+  <div class="modal-overlay" id="checkout-modal-overlay" data-lenis-prevent>
+    <div class="checkout-modal-box" data-lenis-prevent>
+      <button class="modal-close-x" onclick="closeCheckoutModal()" aria-label="Close Checkout">
+        <i class="ri-close-line"></i>
+      </button>
+      <div class="checkout-header-bar">
+        <div style="font-family: var(--font-heading); font-size: 1.8rem; letter-spacing: 0.06em;">WEEBFOUR CHECKOUT</div>
+        <div style="font-size: 0.85rem; color: #888;"><i class="ri-lock-line"></i> 256-Bit SSL Encrypted</div>
+      </div>
+      <div class="checkout-steps-nav">
+        <div class="checkout-step-tab active" id="checkout-tab-step1"><span class="step-num-circle">1</span><span>CONTACT NO</span></div>
+        <div class="checkout-step-tab" id="checkout-tab-step2"><span class="step-num-circle">2</span><span>ADDRESS</span></div>
+        <div class="checkout-step-tab" id="checkout-tab-step3"><span class="step-num-circle">3</span><span>PAYMENT</span></div>
+      </div>
+      <div class="checkout-layout-grid">
+        <div class="checkout-form-column">
+          <!-- Step 1: Contact -->
+          <div id="checkout-step1-panel">
+            <h3 style="font-family: var(--font-heading); font-size: 1.45rem; letter-spacing: 0.04em; margin-bottom: 6px;">STEP 1: CONTACT DETAILS</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 18px;">Please enter your mobile phone number and email for instant order verification, invoice, and tracking.</p>
+            <form id="contact-info-form" onsubmit="handleContactFormSubmit(event)">
+              <div class="form-group-field">
+                <label>Mobile Phone Number (for WhatsApp & SMS Tracking) *</label>
+                <div style="display: flex; gap: 8px;">
+                  <span style="display: flex; align-items: center; padding: 0 14px; background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); font-weight: 700; font-size: 0.95rem; color: var(--color-foreground);">+91</span>
+                  <input type="tel" id="co-phone" class="form-control-input" required pattern="[0-9]{10}" placeholder="Enter 10-digit mobile number" maxlength="10" autofocus>
+                </div>
+              </div>
+              <div class="form-group-field">
+                <label>Email Address (for Digital Tax Invoice) *</label>
+                <input type="email" id="co-email" class="form-control-input" required placeholder="name@example.com">
+              </div>
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--color-text-muted); margin: 18px 0 24px; cursor: pointer;">
+                <input type="checkbox" id="co-whatsapp-opt" checked style="accent-color: #25D366; width: 18px; height: 18px;">
+                <span>Send live dispatch status and tracking updates directly on WhatsApp</span>
+              </label>
+              <button type="submit" class="btn btn-primary btn-block" style="padding: 16px; font-size: 1.2rem;">
+                CONTINUE TO DELIVERY ADDRESS <i class="ri-arrow-right-line"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- Step 2: Address -->
+          <div id="checkout-step2-panel" style="display: none;">
+            <div class="checkout-preview-row">
+              <div>
+                <span style="color: var(--color-text-dim);">Contact:</span> <strong id="co-preview-phone" style="color: var(--color-foreground);">+91</strong> • <span id="co-preview-email" style="color: var(--color-text-muted);"></span>
+              </div>
+              <button type="button" class="checkout-preview-btn" onclick="goToCheckoutStep(1)">Edit</button>
+            </div>
+            <h3 style="font-family: var(--font-heading); font-size: 1.45rem; letter-spacing: 0.04em; margin-bottom: 6px;">STEP 2: DELIVERY ADDRESS</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 18px;">Enter the exact delivery location where your grails will be dispatched.</p>
+            <form id="shipping-address-form" onsubmit="handleShippingFormSubmit(event)">
+              <div class="form-row-2col">
+                <div class="form-group-field"><label>First Name *</label><input type="text" id="co-fname" class="form-control-input" required placeholder="John"></div>
+                <div class="form-group-field"><label>Last Name *</label><input type="text" id="co-lname" class="form-control-input" required placeholder="Doe"></div>
+              </div>
+              <div class="form-group-field"><label>Street Address / House / Flat No. *</label><input type="text" id="co-street" class="form-control-input" required placeholder="Flat / House No., Apartment Name, Street Name"></div>
+              <div class="form-group-field"><label>Landmark, Area (Optional)</label><input type="text" id="co-landmark" class="form-control-input" placeholder="Near landmark or sector"></div>
+              <div class="form-row-2col">
+                <div class="form-group-field"><label>City *</label><input type="text" id="co-city" class="form-control-input" required placeholder="Chennai"></div>
+                <div class="form-group-field"><label>State *</label><input type="text" id="co-state" class="form-control-input" required placeholder="Tamil Nadu"></div>
+              </div>
+              <div class="form-group-field" style="max-width: 220px;"><label>PIN Code *</label><input type="text" id="co-pincode" class="form-control-input" required pattern="[0-9]{6}" maxlength="6" placeholder="600040"></div>
+              <div style="display: flex; gap: 12px; margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" onclick="goToCheckoutStep(1)" style="padding: 14px 20px;"><i class="ri-arrow-left-line"></i> BACK</button>
+                <button type="submit" class="btn btn-primary" style="flex: 1; padding: 14px 20px; font-size: 1.15rem;">CONTINUE TO PAYMENT <i class="ri-arrow-right-line"></i></button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Step 3: Payment -->
+          <div id="checkout-step3-panel" style="display: none;">
+            <div class="checkout-preview-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
+              <div style="display: flex; justify-content: space-between; width: 100%;">
+                <span><span style="color: var(--color-text-dim);">Contact:</span> <strong id="co-summary-contact"></strong></span>
+                <button type="button" class="checkout-preview-btn" onclick="goToCheckoutStep(1)">Edit</button>
+              </div>
+              <div style="display: flex; justify-content: space-between; width: 100%;">
+                <span><span style="color: var(--color-text-dim);">Ship to:</span> <span id="co-summary-address" style="color: var(--color-foreground);"></span></span>
+                <button type="button" class="checkout-preview-btn" onclick="goToCheckoutStep(2)">Edit</button>
+              </div>
+            </div>
+            <h3 style="font-family: var(--font-heading); font-size: 1.45rem; letter-spacing: 0.04em; margin-bottom: 14px;">STEP 3: SELECT PAYMENT METHOD</h3>
+            <label class="payment-method-tile selected" onclick="selectPaymentMethod(this, 'UPI / Instant QR Code')">
+              <input type="radio" name="pay-method" checked style="margin-top: 4px;">
+              <div>
+                <strong style="display: block; font-size: 1.05rem;"><i class="ri-qr-code-line" style="color: #00d66c;"></i> UPI / Instant QR Code</strong>
+                <span style="font-size: 0.85rem; color: var(--color-text-muted);">Google Pay, PhonePe, Paytm, BHIM UPI (Zero transaction fee)</span>
+              </div>
+            </label>
+            <label class="payment-method-tile" onclick="selectPaymentMethod(this, 'Credit / Debit Card')">
+              <input type="radio" name="pay-method" style="margin-top: 4px;">
+              <div>
+                <strong style="display: block; font-size: 1.05rem;"><i class="ri-bank-card-line"></i> Credit / Debit Card</strong>
+                <span style="font-size: 0.85rem; color: var(--color-text-muted);">Visa, MasterCard, RuPay, American Express</span>
+              </div>
+            </label>
+            <label class="payment-method-tile" onclick="selectPaymentMethod(this, 'Cash on Delivery (COD)')">
+              <input type="radio" name="pay-method" style="margin-top: 4px;">
+              <div>
+                <strong style="display: block; font-size: 1.05rem;"><i class="ri-hand-coin-line" style="color: var(--color-sale-red);"></i> Cash on Delivery (COD)</strong>
+                <span style="font-size: 0.85rem; color: var(--color-text-muted);">Pay upon doorstep delivery anywhere across India</span>
+              </div>
+            </label>
+            <div style="display: flex; gap: 12px; margin-top: 24px;">
+              <button type="button" class="btn btn-secondary" onclick="goToCheckoutStep(2)" style="padding: 14px 20px;"><i class="ri-arrow-left-line"></i> BACK</button>
+              <button type="button" class="btn btn-primary" style="flex: 1; padding: 14px 20px; font-size: 1.2rem; background: var(--color-sale-red);" onclick="completeOrderPayment()">
+                PLACE ORDER (<span id="pay-button-total">₹0</span>) <i class="ri-check-line"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: Confirmation -->
+          <div id="checkout-step4-panel" style="display: none; text-align: center; padding: 30px 10px;">
+            <i class="ri-checkbox-circle-fill" style="font-size: 4rem; color: #00d66c;"></i>
+            <h2 style="font-family: var(--font-heading); font-size: 2.2rem; margin: 12px 0 6px;">ORDER CONFIRMED!</h2>
+            <p style="font-size: 1.1rem; color: var(--color-foreground); font-weight: 700;">ORDER ID: <span id="confirmed-order-number">WEEB-98412</span></p>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; padding: 16px; margin: 18px auto; max-width: 440px; text-align: left; font-size: 0.9rem; line-height: 1.6;">
+              <div><strong style="color: #fff;">Customer Contact:</strong> <span id="confirmed-contact" style="color: var(--color-text-muted);"></span></div>
+              <div style="margin-top: 4px;"><strong style="color: #fff;">Delivery To:</strong> <span id="confirmed-address" style="color: var(--color-text-muted);"></span></div>
+              <div style="margin-top: 4px;"><strong style="color: #fff;">Estimated Dispatch:</strong> <span style="color: #00d66c;">Within 24-48 Hours</span></div>
+              <div style="margin-top: 4px;"><strong style="color: #fff;">Expected Delivery:</strong> <span style="color: var(--color-foreground);">3-5 Business Days</span></div>
+            </div>
+            <p style="color: var(--color-text-muted); margin: 12px 0 24px; font-size: 0.9rem;">Thank you for your order! We have dispatched tracking links and tax invoice to your mobile and email.</p>
+            <button class="btn btn-primary" onclick="closeCheckoutModal(); clearCartAfterPurchase(); window.location.href='index.html#shop';" style="padding: 14px 28px; font-size: 1.15rem;">
+              CONTINUE SHOPPING <i class="ri-shopping-bag-line"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Summary Sidebar -->
+        <div class="checkout-summary-column" style="background: rgba(255,255,255,0.02); padding: 24px; border: 1px solid var(--color-border);">
+          <h4 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 16px; letter-spacing: 0.05em;">ORDER SUMMARY</h4>
+          <div id="checkout-summary-items" style="max-height: 240px; overflow-y: auto; margin-bottom: 18px;"></div>
+          <div class="promo-apply-box">
+            <input type="text" id="checkout-promo-input" class="form-control-input" placeholder="PROMO CODE (e.g. WEEB10)">
+            <button type="button" class="btn btn-primary btn-sm" onclick="applyPromoCode()">APPLY</button>
+          </div>
+          <div id="promo-status-msg" style="display: none; font-size: 0.85rem; margin-bottom: 12px;"></div>
+          <div style="border-top: 1px solid var(--color-border); padding-top: 14px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.95rem;">
+              <span style="color: var(--color-text-muted);">Subtotal</span>
+              <span id="co-subtotal-val">₹0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.95rem;">
+              <span style="color: var(--color-text-muted);">Shipping</span>
+              <span id="co-shipping-val" style="color: #00d66c; font-weight: 700;">FREE</span>
+            </div>
+            <div id="co-discount-row" style="display: none; justify-content: space-between; margin-bottom: 6px; font-size: 0.95rem; color: var(--color-sale-red); font-weight: 600;">
+              <span>Promo Discount</span>
+              <span id="co-discount-val">-₹0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--color-border); font-family: var(--font-heading); font-size: 1.4rem;">
+              <span>TOTAL</span>
+              <span id="co-total-val" style="color: var(--color-sale-red);">₹0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Essential Footer (thelastape.in clean aesthetic) -->
+  <footer class="main-footer" id="main-footer">
+    <div class="page-container">
+      <div class="footer-columns-grid">
+        <div>
+          <div class="brand-logo-text" style="color: #ffffff; font-size: 2.2rem; margin-bottom: 12px; letter-spacing: 0.05em;">WEEBFOUR</div>
+          <p class="footer-about-text">
+            A multi-brand luxury streetwear and exclusive lifestyle destination. Heavyweight French Terry fabrics, structural boxy silhouettes, and curated subculture grails.
+          </p>
+          <div class="footer-social-row" style="margin-top: 18px;">
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+            <a href="https://wa.me/916381177617" target="_blank" rel="noopener" class="footer-social-btn" aria-label="WhatsApp"><i class="ri-whatsapp-line"></i></a>
+            <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Twitter"><i class="ri-twitter-x-line"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-col-title">COLLECTIONS</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html#shop">T-Shirts</a></li>
+            <li><a href="index.html#shop">Hoodies</a></li>
+            <li><a href="index.html#shop">Shirts</a></li>
+            <li><a href="index.html#shop">Tactical Cargos</a></li>
+            <li><a href="index.html#shop">Accessories</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">INFORMATION</h4>
+          <ul class="footer-links-list">
+            <li><a href="javascript:void(0)" onclick="alert('Shipping Policy: Free Pan-India express delivery on all orders. Dispatches in 24-48 hours.')">Shipping Policy</a></li>
+            <li><a href="javascript:void(0)" onclick="alert('Exchange & Returns: 7-day hassle-free size exchange guarantee on all unwashed garments.')">Exchange & Returns</a></li>
+            <li><a href="javascript:void(0)" onclick="alert('Terms: 100% authentic curated streetwear archive.')">Terms of Service</a></li>
+            <li><a href="javascript:void(0)" onclick="alert('Privacy Policy: All customer information is 256-bit SSL encrypted.')">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">STORE HQ & CONTACT</h4>
+          <div class="footer-contact-item">
+            <i class="ri-map-pin-line"></i>
+            <span>9/23, 5th Street, X-Block, Anna Nagar<br>Chennai - 600040, Tamil Nadu</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="ri-whatsapp-line"></i>
+            <span>+91 63811 77617</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="ri-mail-line"></i>
+            <span>support@weebfour.com</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="ri-time-line"></i>
+            <span>Open All Days: 11:00 AM – 10:00 PM</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom-bar">
+        <div>&copy; 2026 WEEBFOUR. ALL RIGHTS RESERVED.</div>
+        <div class="footer-payment-badges">
+          <span><i class="ri-qr-code-line"></i> UPI</span>
+          <span><i class="ri-bank-card-line"></i> CARDS</span>
+          <span><i class="ri-hand-coin-line"></i> COD</span>
+          <span><i class="ri-shield-check-line"></i> 100% SECURE</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

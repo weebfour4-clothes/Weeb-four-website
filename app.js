@@ -379,8 +379,8 @@ function renderProducts() {
 
       return `
         <div class="product-card" data-id="${item.id}">
-          <!-- Media Box with Hover Swap or Placeholder -->
-          <div class="card-media-box" onclick="openQuickView(${item.id})">
+          <!-- Media Box clicking navigates to dedicated product.html page (thelastape.in style) -->
+          <div class="card-media-box" onclick="window.location.href='product.html?id=${item.id}'" style="cursor: pointer;">
             <!-- Badges Left -->
             <div class="card-badges-left">
               ${discount > 0 ? `<span class="sale-pill-badge">-${discount}% OFF</span>` : ''}
@@ -396,9 +396,9 @@ function renderProducts() {
                 <i class="${isWishlisted ? 'ri-heart-fill' : 'ri-heart-line'}"></i>
               </button>
               <button class="card-icon-btn" 
-                      onclick="openQuickView(${item.id})" 
-                      title="Quick View" 
-                      aria-label="Quick View">
+                      onclick="window.location.href='product.html?id=${item.id}'" 
+                      title="Open Product Page" 
+                      aria-label="Open Product Page">
                 <i class="ri-eye-line"></i>
               </button>
               <button class="card-icon-btn" 
@@ -433,7 +433,7 @@ function renderProducts() {
           <!-- Product Details -->
           <div class="card-info-wrap">
             <span class="card-brand-tag">WEEBFOUR</span>
-            <h3 class="card-product-title" onclick="openQuickView(${item.id})">${item.name}</h3>
+            <h3 class="card-product-title" onclick="window.location.href='product.html?id=${item.id}'" style="cursor: pointer;">${item.name}</h3>
             
             <div class="card-sizes-row">
               ${sizePills}
@@ -572,37 +572,20 @@ function resetAllFilters() {
   renderProducts();
 }
 
-// Visual Theme Management (Dark Cyberpunk / Concrete Industrial)
+// Single Signature Dark Theme Enforcement (Theme Changer removed)
 function initTheme() {
-  const savedTheme = localStorage.getItem('weebfour_theme') || 'dark';
-  applyTheme(savedTheme);
-}
-
-function toggleTheme() {
-  const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-  applyTheme(newTheme);
+  document.documentElement.removeAttribute('data-theme');
   try {
-    localStorage.setItem('weebfour_theme', newTheme);
+    localStorage.removeItem('weebfour_theme');
   } catch (e) {}
 }
 
-function applyTheme(theme) {
-  const icon = document.getElementById('theme-toggle-icon');
-  const drawerIcon = document.getElementById('drawer-theme-icon');
-  const drawerText = document.getElementById('drawer-theme-text');
+function toggleTheme() {
+  // Single theme only - no toggle
+}
 
-  if (theme === 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-    if (icon) icon.className = 'ri-sun-fill';
-    if (drawerIcon) drawerIcon.className = 'ri-sun-line';
-    if (drawerText) drawerText.textContent = 'LIGHT CONCRETE';
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-    if (icon) icon.className = 'ri-moon-fill';
-    if (drawerIcon) drawerIcon.className = 'ri-moon-line';
-    if (drawerText) drawerText.textContent = 'DARK CYBER';
-  }
+function applyTheme() {
+  document.documentElement.removeAttribute('data-theme');
 }
 
 // ==========================================================================
@@ -667,11 +650,11 @@ function openWishlistModal() {
 
     grid.innerHTML = items.map(p => `
       <div class="product-card">
-        <div class="card-media-box" onclick="closeWishlistModal(); openQuickView(${p.id})">
+        <div class="card-media-box" onclick="closeWishlistModal(); window.location.href='product.html?id=' + ${p.id}" style="cursor: pointer;">
           <img src="${p.images[0]}" alt="${p.name}">
         </div>
         <div class="card-info-wrap">
-          <h4 class="card-product-title" onclick="closeWishlistModal(); openQuickView(${p.id})">${p.name}</h4>
+          <h4 class="card-product-title" onclick="closeWishlistModal(); window.location.href='product.html?id=' + ${p.id}" style="cursor: pointer;">${p.name}</h4>
           <div class="card-price-row">
             <span class="card-sale-price">₹${p.price.toLocaleString('en-IN')}</span>
           </div>
@@ -779,6 +762,8 @@ function updateCartUI() {
   // Subtotal in drawer
   const subtotalEl = document.getElementById('cart-drawer-subtotal');
   if (subtotalEl) subtotalEl.textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+  const ctaTotal = document.getElementById('cart-drawer-cta-total');
+  if (ctaTotal) ctaTotal.textContent = `₹${subtotal.toLocaleString('en-IN')}`;
 
   // Shipping Meter Calculation
   const threshold = (window.siteConfig && window.siteConfig.offers && window.siteConfig.offers.shippingThreshold) ? window.siteConfig.offers.shippingThreshold : 1499;
@@ -964,11 +949,33 @@ function closeSizeChartModal() {
 }
 
 // ==========================================================================
-// 9. MULTI-STEP CHECKOUT MODAL
+// 9. MULTI-STEP CHECKOUT CONTROLLER (THELASTAPE.IN SEQUENTIAL FLOW)
+// Order of steps:
+// Step 1: Contact Information (Mobile Phone No & Email)
+// Step 2: Delivery Address (Full Name, Street, Landmark, City, State, PIN)
+// Step 3: Payment Method (UPI, Cards, NetBanking, COD)
+// Step 4: Order Confirmation & Receipt
 // ==========================================================================
+
+let checkoutData = {
+  phone: '',
+  email: '',
+  whatsapp: true,
+  address: {
+    firstName: '',
+    lastName: '',
+    street: '',
+    landmark: '',
+    city: '',
+    state: '',
+    pincode: ''
+  },
+  paymentMethod: 'UPI / Instant QR Code'
+};
+
 function openCheckoutModal() {
-  if (cart.length === 0) {
-    alert("Your shopping bag is empty! Add products first.");
+  if (!cart || cart.length === 0) {
+    showToast("Your bag is empty! Add products to proceed.", "ri-shopping-bag-line");
     return;
   }
   closeCartDrawer();
@@ -976,6 +983,34 @@ function openCheckoutModal() {
   if (overlay) {
     pausePageScroll();
     overlay.classList.add('active');
+
+    // Auto-fill from localStorage if previously stored
+    try {
+      const savedContact = JSON.parse(localStorage.getItem('weebfour_saved_contact') || '{}');
+      if (savedContact.phone) {
+        checkoutData.phone = savedContact.phone;
+        const pInput = document.getElementById('co-phone');
+        if (pInput) pInput.value = savedContact.phone;
+      }
+      if (savedContact.email) {
+        checkoutData.email = savedContact.email;
+        const eInput = document.getElementById('co-email');
+        if (eInput) eInput.value = savedContact.email;
+      }
+
+      const savedAddress = JSON.parse(localStorage.getItem('weebfour_saved_address') || '{}');
+      if (savedAddress.street) {
+        checkoutData.address = savedAddress;
+        if (document.getElementById('co-fname')) document.getElementById('co-fname').value = savedAddress.firstName || '';
+        if (document.getElementById('co-lname')) document.getElementById('co-lname').value = savedAddress.lastName || '';
+        if (document.getElementById('co-street')) document.getElementById('co-street').value = savedAddress.street || '';
+        if (document.getElementById('co-landmark')) document.getElementById('co-landmark').value = savedAddress.landmark || '';
+        if (document.getElementById('co-city')) document.getElementById('co-city').value = savedAddress.city || '';
+        if (document.getElementById('co-state')) document.getElementById('co-state').value = savedAddress.state || '';
+        if (document.getElementById('co-pincode')) document.getElementById('co-pincode').value = savedAddress.pincode || '';
+      }
+    } catch(e) {}
+
     goToCheckoutStep(1);
     renderCheckoutSummary();
   }
@@ -991,6 +1026,7 @@ function goToCheckoutStep(step) {
   const p1 = document.getElementById('checkout-step1-panel');
   const p2 = document.getElementById('checkout-step2-panel');
   const p3 = document.getElementById('checkout-step3-panel');
+  const p4 = document.getElementById('checkout-step4-panel');
   const t1 = document.getElementById('checkout-tab-step1');
   const t2 = document.getElementById('checkout-tab-step2');
   const t3 = document.getElementById('checkout-tab-step3');
@@ -998,29 +1034,94 @@ function goToCheckoutStep(step) {
   if (p1) p1.style.display = step === 1 ? 'block' : 'none';
   if (p2) p2.style.display = step === 2 ? 'block' : 'none';
   if (p3) p3.style.display = step === 3 ? 'block' : 'none';
+  if (p4) p4.style.display = step === 4 ? 'block' : 'none';
 
-  if (t1) t1.classList.toggle('active', step >= 1);
-  if (t2) t2.classList.toggle('active', step >= 2);
-  if (t3) t3.classList.toggle('active', step >= 3);
+  if (t1) {
+    t1.classList.toggle('active', step === 1);
+    t1.classList.toggle('completed', step > 1);
+  }
+  if (t2) {
+    t2.classList.toggle('active', step === 2);
+    t2.classList.toggle('completed', step > 2);
+  }
+  if (t3) {
+    t3.classList.toggle('active', step === 3);
+    t3.classList.toggle('completed', step > 3);
+  }
+
+  // Update Step 2 Preview Badges
+  const prevPhone = document.getElementById('co-preview-phone');
+  const prevEmail = document.getElementById('co-preview-email');
+  if (prevPhone && checkoutData.phone) prevPhone.textContent = `+91 ${checkoutData.phone}`;
+  if (prevEmail && checkoutData.email) prevEmail.textContent = checkoutData.email;
+
+  // Update Step 3 Summary Badges
+  const sumContact = document.getElementById('co-summary-contact');
+  const sumAddress = document.getElementById('co-summary-address');
+  if (sumContact && checkoutData.phone) {
+    sumContact.textContent = `+91 ${checkoutData.phone} • ${checkoutData.email || ''}`;
+  }
+  if (sumAddress && checkoutData.address && checkoutData.address.street) {
+    sumAddress.textContent = `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}, ${checkoutData.address.street}, ${checkoutData.address.city || ''} - ${checkoutData.address.pincode || ''}`;
+  }
 }
 
-let currentShippingAddress = null;
+function handleContactFormSubmit(e) {
+  e.preventDefault();
+  const phone = document.getElementById('co-phone').value.trim();
+  const email = document.getElementById('co-email').value.trim();
+  const whatsapp = document.getElementById('co-whatsapp-opt') ? document.getElementById('co-whatsapp-opt').checked : true;
+
+  if (!phone || phone.length < 10) {
+    alert("Please enter a valid 10-digit mobile phone number.");
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    alert("Please enter a valid email address for your invoice and order updates.");
+    return;
+  }
+
+  checkoutData.phone = phone;
+  checkoutData.email = email;
+  checkoutData.whatsapp = whatsapp;
+
+  try {
+    localStorage.setItem('weebfour_saved_contact', JSON.stringify({ phone, email }));
+  } catch(e) {}
+
+  goToCheckoutStep(2);
+}
 
 function handleShippingFormSubmit(e) {
   e.preventDefault();
-  const form = e.target;
-  const inputs = form.querySelectorAll('input');
-  currentShippingAddress = {
-    firstName: inputs[0] ? inputs[0].value.trim() : '',
-    lastName: inputs[1] ? inputs[1].value.trim() : '',
-    email: inputs[2] ? inputs[2].value.trim() : '',
-    phone: inputs[3] ? inputs[3].value.trim() : '',
-    street: inputs[4] ? inputs[4].value.trim() : '',
-    city: inputs[5] ? inputs[5].value.trim() : '',
-    state: inputs[6] ? inputs[6].value.trim() : '',
-    pincode: inputs[7] ? inputs[7].value.trim() : ''
+  const fname = document.getElementById('co-fname') ? document.getElementById('co-fname').value.trim() : '';
+  const lname = document.getElementById('co-lname') ? document.getElementById('co-lname').value.trim() : '';
+  const street = document.getElementById('co-street') ? document.getElementById('co-street').value.trim() : '';
+  const landmark = document.getElementById('co-landmark') ? document.getElementById('co-landmark').value.trim() : '';
+  const city = document.getElementById('co-city') ? document.getElementById('co-city').value.trim() : '';
+  const state = document.getElementById('co-state') ? document.getElementById('co-state').value.trim() : '';
+  const pincode = document.getElementById('co-pincode') ? document.getElementById('co-pincode').value.trim() : '';
+
+  if (!fname || !street || !city || !pincode) {
+    alert("Please fill in all mandatory delivery address fields.");
+    return;
+  }
+
+  checkoutData.address = {
+    firstName: fname,
+    lastName: lname,
+    street: street,
+    landmark: landmark,
+    city: city,
+    state: state,
+    pincode: pincode
   };
-  goToCheckoutStep(2);
+
+  try {
+    localStorage.setItem('weebfour_saved_address', JSON.stringify(checkoutData.address));
+  } catch(e) {}
+
+  goToCheckoutStep(3);
 }
 
 function selectPaymentMethod(tile, method) {
@@ -1030,6 +1131,7 @@ function selectPaymentMethod(tile, method) {
     const radio = tile.querySelector('input[type="radio"]');
     if (radio) radio.checked = true;
   }
+  checkoutData.paymentMethod = method;
 }
 
 function renderCheckoutSummary() {
@@ -1047,10 +1149,10 @@ function renderCheckoutSummary() {
   if (itemsContainer) {
     itemsContainer.innerHTML = cart.map(item => `
       <div style="display: flex; gap: 10px; margin-bottom: 12px; align-items: center;">
-        <img src="${item.image}" style="width: 44px; height: 55px; object-fit: cover;">
+        <img src="${item.image}" style="width: 44px; height: 55px; object-fit: cover; border-radius: 2px;">
         <div style="flex: 1; font-size: 0.85rem;">
           <div style="font-weight: 600;">${item.name}</div>
-          <div style="color: #666;">Size: ${item.size} x ${item.quantity}</div>
+          <div style="color: var(--color-text-dim);">Size: ${item.size} x ${item.quantity}</div>
         </div>
         <div style="font-weight: 700; font-size: 0.9rem;">
           ₹${(item.price * item.quantity).toLocaleString('en-IN')}
@@ -1086,8 +1188,14 @@ function applyPromoCode() {
     activePromoDiscount = found.discountPercent / 100;
     appliedPromoCode = found.code;
     msg.style.display = 'block';
-    msg.style.color = '#2e7d32';
+    msg.style.color = '#00d66c';
     msg.textContent = `Promo "${found.code}" applied: ${found.discountPercent}% OFF!`;
+  } else if (code === 'WEEB10' || code === 'FIRST10') {
+    activePromoDiscount = 0.10;
+    appliedPromoCode = code;
+    msg.style.display = 'block';
+    msg.style.color = '#00d66c';
+    msg.textContent = `Promo "${code}" applied: 10% OFF!`;
   } else {
     activePromoDiscount = 0;
     appliedPromoCode = '';
@@ -1100,36 +1208,41 @@ function applyPromoCode() {
 }
 
 function completeOrderPayment() {
-  // Generate random Order ID
   const orderNumber = `WEEB-${Math.floor(10000 + Math.random() * 90000)}`;
   const orderNumEl = document.getElementById('confirmed-order-number');
   if (orderNumEl) orderNumEl.textContent = orderNumber;
 
-  // Insert Order to Supabase cloud database
+  const confContact = document.getElementById('confirmed-contact');
+  if (confContact) confContact.textContent = `+91 ${checkoutData.phone} • ${checkoutData.email}`;
+
+  const confAddr = document.getElementById('confirmed-address');
+  if (confAddr) {
+    confAddr.textContent = `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}, ${checkoutData.address.street || ''}, ${checkoutData.address.city || ''} - ${checkoutData.address.pincode || ''}`;
+  }
+
+  // Insert Order to Supabase cloud database if configured
   if (supabaseClient) {
-    const selectedPayRadio = document.querySelector('input[name="pay-method"]:checked');
-    const payMethod = selectedPayRadio ? selectedPayRadio.closest('label').querySelector('strong').textContent.trim() : 'UPI';
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const discountAmount = Math.round(subtotal * activePromoDiscount);
     const total = Math.max(0, subtotal - discountAmount);
 
     supabaseClient.from('orders').insert({
       id: orderNumber,
-      customer_name: currentShippingAddress ? `${currentShippingAddress.firstName} ${currentShippingAddress.lastName}` : 'Direct Customer',
-      customer_phone: currentShippingAddress ? currentShippingAddress.phone : '',
-      customer_email: currentShippingAddress ? currentShippingAddress.email : '',
-      shipping_address: currentShippingAddress || {},
+      customer_name: `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}`.trim() || 'Direct Customer',
+      customer_phone: checkoutData.phone,
+      customer_email: checkoutData.email,
+      shipping_address: checkoutData.address,
       items: cart,
       total_amount: total,
-      payment_method: payMethod,
+      payment_method: checkoutData.paymentMethod || 'UPI',
       status: 'CONFIRMED'
     }).then(({ error }) => {
-      if (error) console.error("Supabase order insert error:", error);
-      else console.log("Order saved to Supabase successfully!", orderNumber);
+      if (error) console.error("Supabase order error:", error);
+      else console.log("Order saved to Supabase:", orderNumber);
     });
   }
 
-  goToCheckoutStep(3);
+  goToCheckoutStep(4);
 }
 
 function clearCartAfterPurchase() {
@@ -2406,3 +2519,230 @@ function showToast(message, iconClass = 'ri-checkbox-circle-fill') {
 }
 
 
+
+
+// ==========================================================================
+// 19. STANDALONE PRODUCT PAGE CONTROLLER (PRODUCT.HTML)
+// Handles full-page product view matching thelastape.in
+// ==========================================================================
+let currentProductItem = null;
+let currentProductSelectedSize = 'M';
+let currentProductQty = 1;
+
+function initProductDetailPage() {
+  // Only execute on product.html
+  const pageContainer = document.getElementById('product-detail-view');
+  if (!pageContainer) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const productId = parseInt(params.get('id'), 10) || 1;
+  const product = (window.products || []).find(p => p.id === productId) || (window.products ? window.products[0] : null);
+
+  if (!product) return;
+  currentProductItem = product;
+  currentProductSelectedSize = (product.sizes && product.sizes.length > 0) ? product.sizes[0] : 'M';
+  currentProductQty = 1;
+
+  // Title and breadcrumbs
+  document.title = `${product.name} | WEEBFOUR ARCHIVE`;
+  const crumbCat = document.getElementById('p-crumb-category');
+  if (crumbCat) {
+    crumbCat.textContent = (product.category || 'DROPS').toUpperCase();
+    crumbCat.href = `index.html#shop`;
+  }
+  const crumbTitle = document.getElementById('p-crumb-name');
+  if (crumbTitle) crumbTitle.textContent = product.name;
+
+  // Main Image and Badges
+  const mainImg = document.getElementById('p-main-img');
+  if (mainImg) mainImg.src = product.images[0];
+  
+  const discountBadge = document.getElementById('p-badge-discount');
+  const discount = product.compareAtPrice ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100) : 0;
+  if (discountBadge) {
+    if (discount > 0) {
+      discountBadge.style.display = 'inline-block';
+      discountBadge.textContent = `-${discount}% OFF`;
+    } else {
+      discountBadge.style.display = 'none';
+    }
+  }
+
+  // Thumbnails Strip
+  const thumbsContainer = document.getElementById('p-thumbs-strip');
+  if (thumbsContainer && product.images) {
+    thumbsContainer.innerHTML = product.images.map((img, idx) => `
+      <button type="button" class="p-thumb-btn ${idx === 0 ? 'active' : ''}" onclick="selectProductPageImage('${img}', this)">
+        <img src="${img}" alt="${product.name} view ${idx + 1}">
+      </button>
+    `).join('');
+  }
+
+  // Product Header & Pricing
+  const titleEl = document.getElementById('p-title');
+  if (titleEl) titleEl.textContent = product.name;
+
+  const priceEl = document.getElementById('p-price');
+  if (priceEl) priceEl.textContent = `₹${product.price.toLocaleString('en-IN')}`;
+
+  const compPriceEl = document.getElementById('p-compare-price');
+  if (compPriceEl) {
+    if (product.compareAtPrice && product.compareAtPrice > product.price) {
+      compPriceEl.style.display = 'inline';
+      compPriceEl.textContent = `₹${product.compareAtPrice.toLocaleString('en-IN')}`;
+    } else {
+      compPriceEl.style.display = 'none';
+    }
+  }
+
+  const saveAmtEl = document.getElementById('p-save-amount-text');
+  if (saveAmtEl && product.compareAtPrice && product.compareAtPrice > product.price) {
+    saveAmtEl.textContent = `Save ₹${(product.compareAtPrice - product.price).toLocaleString('en-IN')} (${discount}% OFF)`;
+    saveAmtEl.style.display = 'inline-block';
+  } else if (saveAmtEl) {
+    saveAmtEl.style.display = 'none';
+  }
+
+  // Size Picker
+  const sizeLabel = document.getElementById('p-selected-size-label');
+  if (sizeLabel) sizeLabel.textContent = currentProductSelectedSize;
+
+  const sizesContainer = document.getElementById('p-sizes-container');
+  if (sizesContainer) {
+    const availableSizes = (product.sizes && product.sizes.length > 0) ? product.sizes : ['S', 'M', 'L', 'XL'];
+    sizesContainer.innerHTML = availableSizes.map((s, idx) => `
+      <button type="button" class="p-size-chip ${idx === 0 ? 'selected' : ''}" onclick="selectProductPageSize('${s}', this)">
+        ${s}
+      </button>
+    `).join('');
+  }
+
+  // Descriptions
+  const descEl = document.getElementById('p-desc-text');
+  if (descEl) {
+    descEl.textContent = product.description || "Cut from ultra-heavyweight 280-420 GSM combed French Terry cotton. Designed with dropped shoulders, structured boxy silhouette, and architectural tailoring built to outlast seasons.";
+  }
+
+  // Mobile Sticky Bar
+  const stickyPrice = document.getElementById('sticky-p-price');
+  if (stickyPrice) stickyPrice.textContent = `₹${product.price.toLocaleString('en-IN')}`;
+
+  // Related Products
+  renderRelatedProducts(product);
+}
+
+function selectProductPageImage(src, btn) {
+  const mainImg = document.getElementById('p-main-img');
+  if (mainImg) mainImg.src = src;
+  document.querySelectorAll('.p-thumb-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+function selectProductPageSize(size, btn) {
+  currentProductSelectedSize = size;
+  const label = document.getElementById('p-selected-size-label');
+  if (label) label.textContent = size;
+  document.querySelectorAll('.p-size-chip').forEach(b => b.classList.remove('selected'));
+  if (btn) btn.classList.add('selected');
+}
+
+function adjustProductPageQty(delta) {
+  currentProductQty = Math.max(1, currentProductQty + delta);
+  const qtyEl = document.getElementById('p-qty-val');
+  if (qtyEl) qtyEl.value = currentProductQty;
+}
+
+function addProductToCart() {
+  if (!currentProductItem) return;
+  addToCart(currentProductItem, currentProductSelectedSize, currentProductQty);
+  openCartDrawer();
+}
+
+function buyProductNow() {
+  if (!currentProductItem) return;
+  addToCart(currentProductItem, currentProductSelectedSize, currentProductQty);
+  openCheckoutModal();
+}
+
+function renderRelatedProducts(currentProduct) {
+  const container = document.getElementById('related-products-grid');
+  if (!container) return;
+
+  const related = (window.products || [])
+    .filter(p => p.id !== currentProduct.id)
+    .slice(0, 4);
+
+  container.innerHTML = related.map(item => `
+    <div class="product-card">
+      <div class="card-media-box" onclick="window.location.href='product.html?id=${item.id}'" style="cursor: pointer;">
+        <img src="${item.images[0]}" alt="${item.name}" class="card-img-main">
+      </div>
+      <div class="card-info-wrap">
+        <span class="card-brand-tag">WEEBFOUR</span>
+        <h3 class="card-product-title" onclick="window.location.href='product.html?id=${item.id}'" style="cursor: pointer;">${item.name}</h3>
+        <div class="card-price-row">
+          <span class="card-sale-price">₹${item.price.toLocaleString('en-IN')}</span>
+          ${item.compareAtPrice ? `<span class="card-compare-price">₹${item.compareAtPrice.toLocaleString('en-IN')}</span>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Auto-initialize Product Page or Cart Page on DOM Ready
+document.addEventListener('DOMContentLoaded', () => {
+  initProductDetailPage();
+  initStandaloneCartPage();
+});
+
+// Standalone Cart Page (cart.html)
+function initStandaloneCartPage() {
+  const cartGrid = document.getElementById('cart-page-items');
+  if (!cartGrid) return;
+  renderStandaloneCart();
+}
+
+function renderStandaloneCart() {
+  const container = document.getElementById('cart-page-items');
+  const subtotalEl = document.getElementById('cart-page-subtotal');
+  const totalEl = document.getElementById('cart-page-total');
+  const emptyView = document.getElementById('cart-page-empty');
+  const contentGrid = document.getElementById('cart-page-grid');
+
+  if (!container) return;
+
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  if (cart.length === 0) {
+    if (emptyView) emptyView.style.display = 'block';
+    if (contentGrid) contentGrid.style.display = 'none';
+    return;
+  }
+
+  if (emptyView) emptyView.style.display = 'none';
+  if (contentGrid) contentGrid.style.display = 'grid';
+
+  container.innerHTML = cart.map((item, idx) => `
+    <div class="cart-item-row" style="padding: 20px 0;">
+      <img src="${item.image}" alt="${item.name}" class="cart-item-thumb" style="width: 90px; height: 115px;">
+      <div class="cart-item-info">
+        <h4 style="font-size: 1.3rem;">${item.name}</h4>
+        <div class="cart-item-size">SIZE: <strong>${item.size}</strong></div>
+        <div class="cart-qty-stepper">
+          <button class="qty-step-btn" onclick="adjustCartQty(${idx}, -1); renderStandaloneCart();">-</button>
+          <span class="qty-step-num">${item.quantity}</span>
+          <button class="qty-step-btn" onclick="adjustCartQty(${idx}, 1); renderStandaloneCart();">+</button>
+        </div>
+      </div>
+      <div class="cart-item-right">
+        <span class="cart-item-price" style="font-size: 1.2rem;">₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
+        <button class="cart-item-delete" onclick="removeCartItem(${idx}); renderStandaloneCart();" title="Remove item" aria-label="Remove item">
+          <i class="ri-delete-bin-line" style="font-size: 1.4rem;"></i>
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  if (subtotalEl) subtotalEl.textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+  if (totalEl) totalEl.textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+}
