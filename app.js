@@ -113,6 +113,13 @@ window.addEventListener('DOMContentLoaded', () => {
   if (noteEl && orderInstructions) {
     noteEl.value = orderInstructions;
   }
+
+  // Auto-launch Admin Modal if requested via URL (?admin=true or #admin)
+  if (window.location.search.includes('admin=true') || window.location.hash === '#admin') {
+    setTimeout(() => {
+      openAdminModal();
+    }, 350);
+  }
 });
 
 // Setup Global Event Listeners
@@ -1336,14 +1343,16 @@ function handleNewsletterSubmit(e) {
 // Complete management of Photos, Offers, Names, and Copywriting
 // ==========================================================================
 function openAdminModal() {
+  const authOverlay = document.getElementById('admin-auth-overlay');
+  if (!authOverlay) {
+    window.location.href = 'index.html?admin=true';
+    return;
+  }
   if (isAdminAuthenticated) {
     openAdminSuite();
   } else {
-    const authOverlay = document.getElementById('admin-auth-overlay');
-    if (authOverlay) {
-      pausePageScroll();
-      authOverlay.classList.add('active');
-    }
+    pausePageScroll();
+    authOverlay.classList.add('active');
   }
 }
 
@@ -1551,15 +1560,61 @@ function addImageToEditingProduct() {
   renderEditingProductImages();
 }
 
-function uploadImageToProduct(e) {
+// Client-side image compression utility
+// Resizes large photos and compresses to fast, mobile-optimized format (prevents lag and memory hang on mobile phones)
+function compressImageFile(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
+  return new Promise((resolve) => {
+    if (!file) return resolve(null);
+    const reader = new FileReader();
+    reader.onerror = () => resolve(null);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => resolve(e.target.result);
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const format = (file.type === 'image/png' && file.size < 400000) ? 'image/png' : 'image/jpeg';
+        const compressedDataUrl = canvas.toDataURL(format, quality);
+        resolve(compressedDataUrl);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadImageToProduct(e) {
   const file = e.target.files[0];
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    currentEditingImages.push(event.target.result);
-    renderEditingProductImages();
-  };
-  reader.readAsDataURL(file);
+  showToast("Compressing image for mobile optimization...", "ri-loader-4-line");
+  try {
+    const compressed = await compressImageFile(file, 1200, 1200, 0.8);
+    if (compressed) {
+      currentEditingImages.push(compressed);
+      renderEditingProductImages();
+      showToast("Compressed image added!", "ri-checkbox-circle-line");
+    }
+  } catch (err) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      currentEditingImages.push(event.target.result);
+      renderEditingProductImages();
+    };
+    reader.readAsDataURL(file);
+  }
 }
 
 function removeImageFromEditingProduct(index) {
@@ -1709,27 +1764,28 @@ function deletePromoRow(index) {
   renderAdminOffersList();
 }
 
-// Admin Tab 4: Image Upload Handling
-function handleImageFileUpload(e, type) {
+// Admin Tab 4: Image Upload Handling with Mobile Auto-Compression
+async function handleImageFileUpload(e, type) {
   const file = e.target.files[0];
   if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    const dataUrl = event.target.result;
-    if (type === 'hero-bg') {
-      const urlInput = document.getElementById('admin-hero-bg-url');
-      const prev = document.getElementById('admin-hero-bg-preview');
-      if (urlInput) urlInput.value = dataUrl;
-      if (prev) prev.src = dataUrl;
-    } else if (type === 'logo') {
-      const urlInput = document.getElementById('admin-logo-url');
-      const prev = document.getElementById('admin-logo-preview');
-      if (urlInput) urlInput.value = dataUrl;
-      if (prev) prev.src = dataUrl;
-    }
-  };
-  reader.readAsDataURL(file);
+  showToast("Compressing image for mobile optimization...", "ri-loader-4-line");
+  const compressed = await compressImageFile(file, 1600, 1600, 0.82);
+  const dataUrl = compressed || URL.createObjectURL(file);
+
+  if (type === 'hero-bg') {
+    const urlInput = document.getElementById('admin-hero-bg-url');
+    const prev = document.getElementById('admin-hero-bg-preview');
+    if (urlInput) urlInput.value = dataUrl;
+    if (prev) prev.src = dataUrl;
+    showToast("Hero image compressed & set!", "ri-checkbox-circle-line");
+  } else if (type === 'logo') {
+    const urlInput = document.getElementById('admin-logo-url');
+    const prev = document.getElementById('admin-logo-preview');
+    if (urlInput) urlInput.value = dataUrl;
+    if (prev) prev.src = dataUrl;
+    showToast("Logo optimized & set!", "ri-checkbox-circle-line");
+  }
 }
 
 // Save All Admin Changes
