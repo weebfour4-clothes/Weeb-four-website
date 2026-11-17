@@ -119,87 +119,8 @@ const defaultSiteConfig = {
   media: {
     heroBg: "assets/hero_branding_photo.jpg",
     heroMobileBg: "assets/hero_branding_photo.jpg",
-    primaryLogo: "assets/weebfour_primary_logo_trans.png",
-    secondarySymbol: "assets/weebfour_secondary_symbol_trans.png"
-  },
-  storyPanels: [
-    {
-      id: 1,
-      image: "assets/tee_front_clean.jpg",
-      badge1Title: "280 GSM FRENCH TERRY",
-      badge1Sub: "Heavyweight Combed Cotton",
-      badge2Title: "PREMIUM QUALITY",
-      badge2Sub: "Sculptural Silhouette",
-      stepIndicator: "PHASE 01 // PREMIUM MATERIAL",
-      title: "HEAVYWEIGHT 280 GSM DRAPE",
-      description: "Engineered from custom-knit high-density combed cotton with an antique wash. Maintains structural dropped-shoulder architecture and delivers an authentic, uncompromising tactile weight.",
-      specs: [
-        { label: "FABRIC DENSITY", value: "280 GSM" },
-        { label: "TAILOR FIT", value: "BOXY OVERSIZED" },
-        { label: "RIB COLLAR", value: "HIGH-ELASTICITY 1x1" },
-        { label: "WASH LIFESPAN", value: "100+ CYCLES" }
-      ],
-      ctaText: "EXPLORE TEES",
-      ctaCategory: "tshirts"
-    },
-    {
-      id: 2,
-      image: "assets/editorial_models.png",
-      badge1Title: "SIGNATURE ARCHIVE",
-      badge1Sub: "Editorial Silhouettes",
-      badge2Title: "RAW STREETWEAR",
-      badge2Sub: "Modern Cut",
-      stepIndicator: "PHASE 02 // STRUCTURAL TAILORING",
-      title: "OVERSIZED STREETWEAR DRAPES",
-      description: "Blending antique tailoring with oversized streetwear proportions. Dropped shoulders, relaxed chest drapes, and high durability for all-day comfort.",
-      specs: [
-        { label: "SHOULDER SEAM", value: "DROPPED ARCHITECTURAL" },
-        { label: "STITCHING", value: "DOUBLE-NEEDLE LOCK" },
-        { label: "FEEL", value: "HEAVYWEIGHT SOFT TOUCH" },
-        { label: "PRE-SHRUNK", value: "SILICONE WASHED" }
-      ],
-      ctaText: "VIEW COLLECTION",
-      ctaCategory: "all"
-    },
-    {
-      id: 3,
-      image: "assets/art_tokyo_kanji.jpg",
-      badge1Title: "CYBERPUNK GLITCH",
-      badge1Sub: "Puff Print Calligraphy",
-      badge2Title: "TACTILE CRAFTSMANSHIP",
-      badge2Sub: "High Density Graphics",
-      stepIndicator: "PHASE 03 // GRAPHIC ARTWORK",
-      title: "HIGH-DENSITY TOKYO GRAPHICS",
-      description: "Screen printed with premium durable inks and micro-puff detailing. Authentic underground Kanji typography and cyberpunk iconography.",
-      specs: [
-        { label: "PRINT TYPE", value: "HIGH-DENSITY PUFF & SCREEN" },
-        { label: "ART INSPIRATION", value: "TOKYO CYBER UNDERGROUND" },
-        { label: "COLOR RETENTION", value: "ANTI-FADE MINERAL" },
-        { label: "TOUCH", value: "TACTILE RAISED TEXTURE" }
-      ],
-      ctaText: "SHOP CYBERPUNK TEE",
-      ctaCategory: "tshirts"
-    },
-    {
-      id: 4,
-      image: "assets/art_apes_skull.jpg",
-      badge1Title: "APES SKULL ARCHIVE",
-      badge1Sub: "Mineral Acid Wash",
-      badge2Title: "STRICTLY LIMITED",
-      badge2Sub: "Authentic Drop",
-      stepIndicator: "PHASE 04 // THE APES DROP",
-      title: "MINERAL WASH APES SKULL",
-      description: "Custom acid-washed t-shirt featuring our signature distressed Apes Skull design. Every shirt features a unique mineral distress pattern.",
-      specs: [
-        { label: "WASH STYLE", value: "MINERAL ACID DISTRESS" },
-        { label: "PRINT FINISH", value: "CRACKLE VINTAGE MATTE" },
-        { label: "COLLAR", value: "REINFORCED 1.25 INCH" },
-        { label: "SHIPPING", value: "FREE ACROSS INDIA" }
-      ],
-      ctaText: "SHOP APES SKULL TEE",
-      ctaCategory: "tshirts"
-    }
-  ]
+    primaryLogo: "assets/weebfour_primary_logo_trans.png"
+  }
 };
 
 let siteConfig = JSON.parse(JSON.stringify(defaultSiteConfig));

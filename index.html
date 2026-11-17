@@ -99,7 +99,7 @@
             </div>
           </div>
 
-          <a href="#collections" class="nav-link-item" data-nav="collections">Collections</a>
+          <a href="#collections" class="nav-link-item" data-nav="collections" onclick="openCollectionsDropdown()">Collections</a>
           <a href="#shop" class="nav-link-item" onclick="filterByTag('NEW DROP')">
             New <span class="new-tag">NEW</span>
           </a>
@@ -217,7 +217,7 @@
       </div>
 
       <div class="drawer-nav-item">
-        <a href="#collections" class="drawer-nav-link" onclick="closeMobileDrawer();">
+        <a href="#collections" class="drawer-nav-link" onclick="openCollectionsDropdown(); closeMobileDrawer();">
           Browse Collections <i class="ri-arrow-right-s-line"></i>
         </a>
       </div>
@@ -267,7 +267,7 @@
         <a href="#shop" class="btn hero-btn-black minimal-btn" id="hero-cta-primary">
           SHOP NOW <i class="ri-arrow-right-line"></i>
         </a>
-        <a href="#collections" class="btn hero-btn-outline minimal-btn-outline" id="hero-cta-secondary">
+        <a href="#collections" class="btn hero-btn-outline minimal-btn-outline" id="hero-cta-secondary" onclick="openCollectionsDropdown()">
           EXPLORE COLLECTIONS
         </a>
       </div>
@@ -280,28 +280,21 @@
       <div class="props-grid">
         <div class="prop-card">
           <div class="prop-icon-wrap"><i class="ri-truck-line prop-icon"></i></div>
-          <div>
+          <div class="prop-text-wrap">
             <div class="prop-title">PAN-INDIA SHIPPING</div>
             <div class="prop-desc">Dispatched within 24 hours</div>
           </div>
         </div>
         <div class="prop-card">
           <div class="prop-icon-wrap"><i class="ri-t-shirt-2-line prop-icon"></i></div>
-          <div>
+          <div class="prop-text-wrap">
             <div class="prop-title">280-420 GSM COTTON</div>
             <div class="prop-desc">Ultra-heavy structural boxy drape</div>
           </div>
         </div>
         <div class="prop-card">
-          <div class="prop-icon-wrap"><i class="ri-vip-crown-line prop-icon"></i></div>
-          <div>
-            <div class="prop-title">LIMITED EDITION DROPS</div>
-            <div class="prop-desc">Strictly exclusive & numbered</div>
-          </div>
-        </div>
-        <div class="prop-card">
           <div class="prop-icon-wrap"><i class="ri-shield-star-line prop-icon"></i></div>
-          <div>
+          <div class="prop-text-wrap">
             <div class="prop-title">100% PREMIUM COTTON</div>
             <div class="prop-desc">High-density puff print & durable wash</div>
           </div>
@@ -310,45 +303,71 @@
     </div>
   </section>
 
-  <!-- 6. Shop by Collection - 3-Column Minimalist Directory (Exact Match to User Reference) -->
+  <!-- 6. Shop by Collection - Interactive Dropdown Directory -->
   <section class="collections-section collections-directory-section" id="collections">
     <div class="page-container">
-      <div class="collection-columns-grid">
-        <!-- Col 1: Shop by Collection (Topwear) -->
-        <div class="collection-directory-col">
-          <h2 class="collection-col-header" onclick="filterByCategory('topwear')">SHOP BY COLLECTION</h2>
-          <ul class="collection-link-list">
-            <li><a href="javascript:void(0)" onclick="filterByCategory('shirts')">SHIRTS</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('tshirts')">TSHIRTS</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('sweatshirts')">SWEATSHIRTS</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('hoodies')">HOODIES</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('bodysuits')">BODYSUITS</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('jackets')">JACKETS</a></li>
-          </ul>
-        </div>
+      <!-- Main Dropdown Toggle Button with Down Arrow -->
+      <div class="collections-toggle-wrapper">
+        <button type="button" class="collections-main-btn" id="collections-main-btn" onclick="toggleCollectionsDropdown()" aria-expanded="true">
+          <div class="collections-btn-left">
+            <i class="ri-layout-grid-line collections-btn-icon"></i>
+            <span class="collections-btn-title">SHOP BY COLLECTIONS</span>
+          </div>
+          <div class="collections-btn-right">
+            <span class="collections-btn-status" id="collections-btn-status">TAP TO BROWSE</span>
+            <i class="ri-arrow-down-s-line collections-arrow-icon" id="collections-arrow-icon"></i>
+          </div>
+        </button>
+      </div>
 
-        <!-- Col 2: Bottom Wears -->
-        <div class="collection-directory-col">
-          <h2 class="collection-col-header" onclick="filterByCategory('bottomwear')">BOTTOM WEARS</h2>
-          <ul class="collection-link-list">
-            <li><a href="javascript:void(0)" onclick="filterByCategory('trousers')">TROUSERS</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('denims')">DENIMS</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('cargos')">CARGOS</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('joggers')">JOGGERS</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('shorts')">SHORTS</a></li>
-          </ul>
-        </div>
+      <!-- Dropdown Accordion Content: 3 Categorized Columns -->
+      <div class="collections-dropdown-panel open" id="collections-dropdown-panel">
+        <div class="collection-columns-grid">
+          <!-- Col 1: Shop by Collection (Topwear) -->
+          <div class="collection-directory-col">
+            <button type="button" class="collection-col-header-btn" onclick="toggleCollectionCol('topwear', this)">
+              <span>SHOP BY COLLECTION</span>
+              <i class="ri-arrow-down-s-line col-dropdown-arrow rotated"></i>
+            </button>
+            <ul class="collection-link-list" id="col-list-topwear">
+              <li><a href="javascript:void(0)" onclick="filterByCategory('shirts')"><i class="ri-arrow-right-s-line"></i> SHIRTS</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('tshirts')"><i class="ri-arrow-right-s-line"></i> TSHIRTS</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('sweatshirts')"><i class="ri-arrow-right-s-line"></i> SWEATSHIRTS</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('hoodies')"><i class="ri-arrow-right-s-line"></i> HOODIES</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('bodysuits')"><i class="ri-arrow-right-s-line"></i> BODYSUITS</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('jackets')"><i class="ri-arrow-right-s-line"></i> JACKETS</a></li>
+            </ul>
+          </div>
 
-        <!-- Col 3: Accessories -->
-        <div class="collection-directory-col">
-          <h2 class="collection-col-header" onclick="filterByCategory('accessories')">ACCESSORIES</h2>
-          <ul class="collection-link-list">
-            <li><a href="javascript:void(0)" onclick="filterByCategory('shades')">SHADES</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('socks')">SOCKS</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('bags')">BAGS</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('cap')">CAP</a></li>
-            <li><a href="javascript:void(0)" onclick="filterByCategory('perfume')">PERFUME</a></li>
-          </ul>
+          <!-- Col 2: Bottom Wears -->
+          <div class="collection-directory-col">
+            <button type="button" class="collection-col-header-btn" onclick="toggleCollectionCol('bottomwear', this)">
+              <span>BOTTOM WEARS</span>
+              <i class="ri-arrow-down-s-line col-dropdown-arrow rotated"></i>
+            </button>
+            <ul class="collection-link-list" id="col-list-bottomwear">
+              <li><a href="javascript:void(0)" onclick="filterByCategory('trousers')"><i class="ri-arrow-right-s-line"></i> TROUSERS</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('denims')"><i class="ri-arrow-right-s-line"></i> DENIMS</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('cargos')"><i class="ri-arrow-right-s-line"></i> CARGOS</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('joggers')"><i class="ri-arrow-right-s-line"></i> JOGGERS</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('shorts')"><i class="ri-arrow-right-s-line"></i> SHORTS</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Accessories -->
+          <div class="collection-directory-col">
+            <button type="button" class="collection-col-header-btn" onclick="toggleCollectionCol('accessories', this)">
+              <span>ACCESSORIES</span>
+              <i class="ri-arrow-down-s-line col-dropdown-arrow rotated"></i>
+            </button>
+            <ul class="collection-link-list" id="col-list-accessories">
+              <li><a href="javascript:void(0)" onclick="filterByCategory('shades')"><i class="ri-arrow-right-s-line"></i> SHADES</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('socks')"><i class="ri-arrow-right-s-line"></i> SOCKS</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('bags')"><i class="ri-arrow-right-s-line"></i> BAGS</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('cap')"><i class="ri-arrow-right-s-line"></i> CAP</a></li>
+              <li><a href="javascript:void(0)" onclick="filterByCategory('perfume')"><i class="ri-arrow-right-s-line"></i> PERFUME</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -984,9 +1003,6 @@
         <button class="admin-tab-btn" data-tab="media" onclick="switchAdminTab('media')">
           <i class="ri-image-edit-line"></i> BANNERS & PHOTOS
         </button>
-        <button class="admin-tab-btn" data-tab="storytelling" onclick="switchAdminTab('storytelling')">
-          <i class="ri-slideshow-3-line"></i> SCROLL STORY (4 PANELS)
-        </button>
       </div>
 
       <!-- Admin Tab Panels Content -->
@@ -1140,20 +1156,6 @@
                 <img id="admin-logo-preview" src="" style="max-height: 100%; max-width: 100%;">
               </div>
             </div>
-          </div>
-        </div>
-
-        <!-- Tab 5: Horizontal Scroll Storytelling Panels (4 Panels) -->
-        <div class="admin-panel" id="admin-panel-storytelling">
-          <div style="margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 12px; flex-wrap: wrap; gap: 10px;">
-            <div>
-              <h3 style="font-family: var(--font-heading); font-size: 1.45rem; margin: 0; letter-spacing: 0.05em;">SCROLL STORY ANIMATION (4 PANELS & WORDS)</h3>
-              <p style="font-size: 0.85rem; color: #888; margin: 2px 0 0;">Edit the 4 full-screen images and all words (titles, descriptions, badges, specs, buttons) displayed in the horizontal scroll animation.</p>
-            </div>
-            <button type="button" class="btn btn-sm btn-secondary" onclick="resetStoryPanelsToDefault()"><i class="ri-refresh-line"></i> Reset Default Panels</button>
-          </div>
-          <div id="admin-story-panels-container" class="admin-story-panels-grid">
-            <!-- Dynamically populated by renderAdminStoryPanels() in app.js -->
           </div>
         </div>
       </div>
