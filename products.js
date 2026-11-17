@@ -10,8 +10,8 @@ const COLLECTIONS_CONFIG = {
   topwear: {
     id: "topwear",
     name: "TOPWEAR",
-    title: "TOPWEAR DIVISION",
-    subtitle: "Heavyweight French Terry, oversized tailored cuts, and technical outerwear.",
+    title: "TOPWEAR COLLECTION",
+    subtitle: "Heavyweight cotton, oversized boxy cuts, and streetwear tops.",
     items: [
       { id: "shirts", name: "Shirts", slug: "shirts", tag: "NEW SEASON" },
       { id: "tshirts", name: "T-Shirts", slug: "tshirts", tag: "HEAVYWEIGHT 280 GSM" },
@@ -24,8 +24,8 @@ const COLLECTIONS_CONFIG = {
   bottomwear: {
     id: "bottomwear",
     name: "BOTTOM WEARS",
-    title: "BOTTOM WEAR DIVISION",
-    subtitle: "Articulated knee cuts, tactical ripstop cargo pockets, and relaxed drapery.",
+    title: "BOTTOM WEAR COLLECTION",
+    subtitle: "Cargo pants, relaxed trousers, and comfortable everyday fits.",
     items: [
       { id: "trousers", name: "Trousers", slug: "trousers", tag: "TAILORED RELAXED" },
       { id: "denims", name: "Denims", slug: "denims", tag: "RAW SELVEDGE" },
@@ -37,8 +37,8 @@ const COLLECTIONS_CONFIG = {
   accessories: {
     id: "accessories",
     name: "ACCESSORIES",
-    title: "ACCESSORIES & OBJECTS",
-    subtitle: "Finishing statement pieces, technical utility carriers, and dark fragrances.",
+    title: "ACCESSORIES",
+    subtitle: "Everyday essentials, caps, shades, and bags.",
     items: [
       { id: "shades", name: "Shades", slug: "shades", tag: "UV400 STREETWEAR" },
       { id: "socks", name: "Socks", slug: "socks", tag: "CUSHIONED RIB" },
@@ -101,19 +101,19 @@ const defaultSiteConfig = {
     ]
   },
   texts: {
-    heroBadge: "★ 2026 ARCHIVE COLLECTION",
-    heroTitle: "WEEBFOUR\nSTREETWEAR ARCHIVE",
-    heroSubtitle: "Heavyweight French Terry & Japanese Tailored Silhouettes. Engineered for modern subculture.",
+    heroBadge: "NEW ARRIVALS",
+    heroTitle: "WEEBFOUR\nCLOTHING",
+    heroSubtitle: "Heavyweight Cotton & Oversized Boxy Fits. Built for Everyday Streetwear.",
     heroCtaPrimary: "SHOP NOW",
     heroCtaSecondary: "EXPLORE COLLECTIONS",
     collectionsTitle: "SHOP BY COLLECTION",
-    collectionsSubtitle: "Select your division: Topwear, Bottom Wears, and Street Accessories.",
+    collectionsSubtitle: "Explore our collection: Topwear, Bottom Wears, and Street Accessories.",
     catalogTitle: "THE DROPS",
-    catalogSubtitle: "LATEST ARRIVALS, RESTOCKS & LIMITED EDITION GRAILS",
+    catalogSubtitle: "LATEST ARRIVALS & RESTOCKS",
     newsletterTitle: "JOIN THE WEEBFOUR SQUAD",
-    newsletterSubtitle: "Subscribe to receive early access to seasonal drops, secret discount codes, and exclusive invitations to member releases.",
-    footerAbout: "Avant-garde streetwear engineered for the subculture. Heavyweight fabrics, structural boxy cuts, and uncompromising attitude.",
-    storeAddress: "9/23, 5th Street, Cyber Fashion Hub\nSector 4, Bandra West, Mumbai - 400050",
+    newsletterSubtitle: "Subscribe to receive early access to new drops, secret discount codes, and exclusive releases.",
+    footerAbout: "Premium streetwear and graphic oversized tees. Heavyweight fabrics, durable boxy cuts, and clean aesthetic.",
+    storeAddress: "9/23, 5th Street, X-Block, Anna Nagar\nChennai - 600040, Tamil Nadu",
     storeEmail: "support@weebfour.com"
   },
   media: {
@@ -128,9 +128,9 @@ const defaultSiteConfig = {
       image: "assets/tee_front_clean.jpg",
       badge1Title: "280 GSM FRENCH TERRY",
       badge1Sub: "Heavyweight Combed Cotton",
-      badge2Title: "ARCHIVAL ATELIER",
+      badge2Title: "PREMIUM QUALITY",
       badge2Sub: "Sculptural Silhouette",
-      stepIndicator: "PHASE 01 // MATERIAL ARCHIVE",
+      stepIndicator: "PHASE 01 // PREMIUM MATERIAL",
       title: "HEAVYWEIGHT 280 GSM DRAPE",
       description: "Engineered from custom-knit high-density combed cotton with an antique wash. Maintains structural dropped-shoulder architecture and delivers an authentic, uncompromising tactile weight.",
       specs: [

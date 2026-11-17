@@ -46,7 +46,7 @@ async function loadProductsFromDatabase() {
     const { data, error } = await supabaseClient
       .from('products')
       .select('*')
-      .order('id', { ascending: false });
+      .order('id', { ascending: true });
 
     if (error) {
       console.warn("Supabase products fetch warning:", error.message);
@@ -65,8 +65,12 @@ async function loadProductsFromDatabase() {
         description: item.description || '',
         images: item.images || []
       }));
+      window.products.sort((a, b) => Number(a.id) - Number(b.id));
       renderProducts();
       updateCategoryCardBackgrounds();
+      if (typeof initProductDetailPage === 'function') {
+        initProductDetailPage();
+      }
       console.log(`Loaded ${data.length} products from Supabase cloud database.`);
     }
   } catch (err) {
@@ -424,7 +428,7 @@ function renderProducts() {
               <div class="card-img-placeholder">
                 <i class="ri-t-shirt-2-line"></i>
                 <span>${item.name}</span>
-                <small style="font-size:0.75rem; color:var(--color-text-dim); margin-top:4px;">ARCHIVE IMAGE PENDING</small>
+                <small style="font-size:0.75rem; color:var(--color-text-dim); margin-top:4px;">IMAGE COMING SOON</small>
               </div>
             `}
 
@@ -599,7 +603,7 @@ function applyTheme() {
 // 5. WISHLIST MANAGEMENT
 // ==========================================================================
 function toggleWishlist(productId) {
-  const product = (window.products || []).find(p => p.id === productId);
+  const product = (window.products || []).find(p => String(p.id) === String(productId) || Number(p.id) === Number(productId));
   if (wishlist.has(productId)) {
     wishlist.delete(productId);
     showToast(`Removed from Wishlist`, 'ri-heart-line');
@@ -707,7 +711,7 @@ function closeCartDrawer() {
 }
 
 function quickAddToCart(productId) {
-  const product = window.products.find(p => p.id === productId);
+  const product = (window.products || []).find(p => String(p.id) === String(productId) || Number(p.id) === Number(productId));
   if (!product) return;
 
   const defaultSize = (product.sizes && product.sizes.length > 0) ? product.sizes[0] : 'ONESIZE';
@@ -801,7 +805,7 @@ function updateCartUI() {
       <div class="cart-empty-view">
         <i class="ri-shopping-bag-line"></i>
         <h3>YOUR BAG IS EMPTY</h3>
-        <p>Explore our latest streetwear drops and find your next grail.</p>
+        <p>Explore our latest streetwear drops and find your next favorite tee.</p>
         <button class="btn btn-primary" onclick="closeCartDrawer()">START SHOPPING</button>
       </div>
     `;
@@ -833,7 +837,7 @@ function updateCartUI() {
 // 7. QUICK VIEW MODAL
 // ==========================================================================
 function openQuickView(productId) {
-  const product = window.products.find(p => p.id === productId);
+  const product = (window.products || []).find(p => String(p.id) === String(productId) || Number(p.id) === Number(productId));
   if (!product) return;
 
   selectedQuickViewProduct = product;
@@ -2540,7 +2544,7 @@ function quickAddWithSize(event, productId, size) {
     event.preventDefault();
   }
 
-  const product = (window.products || []).find(p => p.id === productId);
+  const product = (window.products || []).find(p => String(p.id) === String(productId) || Number(p.id) === Number(productId));
   if (!product) return;
 
   addToCart(product, size, 1);
@@ -2591,8 +2595,14 @@ function initProductDetailPage() {
   if (!pageContainer) return;
 
   const params = new URLSearchParams(window.location.search);
-  const productId = parseInt(params.get('id'), 10) || 1;
-  const product = (window.products || []).find(p => p.id === productId) || (window.products ? window.products[0] : null);
+  const rawId = params.get('id');
+  let product = null;
+  if (rawId) {
+    product = (window.products || []).find(p => String(p.id) === String(rawId) || Number(p.id) === Number(rawId));
+  }
+  if (!product && window.products && window.products.length > 0) {
+    product = window.products[0];
+  }
 
   if (!product) return;
   currentProductItem = product;
@@ -2600,7 +2610,7 @@ function initProductDetailPage() {
   currentProductQty = 1;
 
   // Title and breadcrumbs
-  document.title = `${product.name} | WEEBFOUR ARCHIVE`;
+  document.title = `${product.name} | WEEBFOUR`;
   const crumbCat = document.getElementById('p-crumb-category');
   if (crumbCat) {
     crumbCat.textContent = (product.category || 'DROPS').toUpperCase();

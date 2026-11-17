@@ -3179,9 +3179,9 @@ select {
   opacity: 0.85;
 }
 
-/* Subtle architectural watermark */
+/* Subtle brand watermark */
 .product-feed-section::before {
-  content: "WEEBFOUR // ARCHIVE 2026";
+  content: "WEEBFOUR // CLOTHING";
   position: absolute;
   top: 14px;
   right: 24px;
