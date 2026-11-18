@@ -991,6 +991,7 @@ let checkoutData = {
   email: '',
   whatsapp: true,
   address: {
+    fullName: '',
     firstName: '',
     lastName: '',
     street: '',
@@ -999,8 +1000,82 @@ let checkoutData = {
     state: '',
     pincode: ''
   },
-  paymentMethod: 'UPI / Instant QR Code'
+  paymentMethod: 'Cashfree Payment Gateway'
 };
+
+let contactSaveDebounceTimer = null;
+
+function handleLiveContactInput() {
+  clearTimeout(contactSaveDebounceTimer);
+  contactSaveDebounceTimer = setTimeout(() => {
+    saveContactDetailsToDatabase(false);
+  }, 700);
+}
+
+function saveContactDetailsToDatabase(isFormSubmit = false) {
+  const nameInput = document.getElementById('co-name');
+  const phoneInput = document.getElementById('co-phone');
+  const emailInput = document.getElementById('co-email');
+
+  const name = nameInput ? nameInput.value.trim() : (checkoutData.address.fullName || '');
+  const phone = phoneInput ? phoneInput.value.trim() : (checkoutData.phone || '');
+  const email = emailInput ? emailInput.value.trim() : (checkoutData.email || '');
+
+  if (!name && !phone && !email) return;
+
+  if (name) checkoutData.address.fullName = name;
+  if (phone) checkoutData.phone = phone;
+  if (email) checkoutData.email = email;
+
+  // 1. Save contact locally so it persists
+  try {
+    localStorage.setItem('weebfour_saved_contact', JSON.stringify({ name, phone, email }));
+    let leads = JSON.parse(localStorage.getItem('weebfour_customer_leads') || '[]');
+    const existingIdx = leads.findIndex(l => (phone && l.phone === phone) || (email && l.email === email));
+    const leadObj = {
+      id: existingIdx >= 0 ? leads[existingIdx].id : `LEAD-${Date.now()}`,
+      name: name || (existingIdx >= 0 ? leads[existingIdx].name : 'Direct Visitor'),
+      phone: phone || (existingIdx >= 0 ? leads[existingIdx].phone : ''),
+      email: email || (existingIdx >= 0 ? leads[existingIdx].email : ''),
+      status: isFormSubmit ? 'CONTACT_SUBMITTED' : 'LEAD_CAPTURED',
+      updated_at: new Date().toISOString()
+    };
+    if (existingIdx >= 0) leads[existingIdx] = leadObj;
+    else leads.unshift(leadObj);
+    localStorage.setItem('weebfour_customer_leads', JSON.stringify(leads));
+  } catch(e) {}
+
+  // 2. Save / Upsert to Supabase database for store owner access
+  if (supabaseClient) {
+    let leadSessionId = sessionStorage.getItem('weebfour_lead_session_id');
+    if (!leadSessionId) {
+      leadSessionId = `LEAD-${Math.floor(100000 + Math.random() * 900000)}`;
+      sessionStorage.setItem('weebfour_lead_session_id', leadSessionId);
+    }
+
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const leadPayload = {
+      id: leadSessionId,
+      customer_name: name || 'Interested Customer',
+      customer_phone: phone || 'N/A',
+      customer_email: email || 'N/A',
+      status: isFormSubmit ? 'CONTACT_SUBMITTED' : 'LEAD_CAPTURED',
+      total_amount: subtotal || 0,
+      payment_method: checkoutData.paymentMethod || 'PENDING_CHECKOUT',
+      shipping_address: checkoutData.address || {},
+      items: cart || []
+    };
+
+    supabaseClient.from('orders').upsert(leadPayload, { onConflict: 'id' }).then(({ error }) => {
+      if (error) console.warn("Supabase lead capture sync warning:", error.message);
+      else console.log("Customer contact saved to database:", name, phone, email);
+    });
+
+    if (phone && phone.length === 10) {
+      supabaseClient.from('subscribers').upsert({ phone: phone }, { onConflict: 'phone' }).then(() => {});
+    }
+  }
+}
 
 function openCheckoutModal() {
   if (!cart || cart.length === 0) {
@@ -1016,6 +1091,11 @@ function openCheckoutModal() {
     // Auto-fill from localStorage if previously stored
     try {
       const savedContact = JSON.parse(localStorage.getItem('weebfour_saved_contact') || '{}');
+      if (savedContact.name) {
+        checkoutData.address.fullName = savedContact.name;
+        const nInput = document.getElementById('co-name');
+        if (nInput) nInput.value = savedContact.name;
+      }
       if (savedContact.phone) {
         checkoutData.phone = savedContact.phone;
         const pInput = document.getElementById('co-phone');
@@ -1030,6 +1110,10 @@ function openCheckoutModal() {
       const savedAddress = JSON.parse(localStorage.getItem('weebfour_saved_address') || '{}');
       if (savedAddress.street || savedAddress.fullName) {
         checkoutData.address = savedAddress;
+        if (!savedContact.name && savedAddress.fullName) {
+          const nInput = document.getElementById('co-name');
+          if (nInput) nInput.value = savedAddress.fullName;
+        }
         if (document.getElementById('co-fullname')) {
           document.getElementById('co-fullname').value = savedAddress.fullName || `${savedAddress.firstName || ''} ${savedAddress.lastName || ''}`.trim();
         }
@@ -1040,6 +1124,16 @@ function openCheckoutModal() {
         if (document.getElementById('co-pincode')) document.getElementById('co-pincode').value = savedAddress.pincode || '';
       }
     } catch(e) {}
+
+    // Attach live input listeners so typed contact is captured in real-time
+    ['co-name', 'co-phone', 'co-email'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && !el._hasContactSyncListener) {
+        el.addEventListener('input', handleLiveContactInput);
+        el.addEventListener('blur', () => saveContactDetailsToDatabase(false));
+        el._hasContactSyncListener = true;
+      }
+    });
 
     goToCheckoutStep(1);
     renderCheckoutSummary();
@@ -1099,26 +1193,44 @@ function goToCheckoutStep(step) {
 
 function handleContactFormSubmit(e) {
   e.preventDefault();
-  const phone = document.getElementById('co-phone').value.trim();
-  const email = document.getElementById('co-email').value.trim();
+  const nameInput = document.getElementById('co-name');
+  const phoneInput = document.getElementById('co-phone');
+  const emailInput = document.getElementById('co-email');
+
+  const name = nameInput ? nameInput.value.trim() : '';
+  const phone = phoneInput ? phoneInput.value.trim() : '';
+  const email = emailInput ? emailInput.value.trim() : '';
   const whatsapp = document.getElementById('co-whatsapp-opt') ? document.getElementById('co-whatsapp-opt').checked : true;
 
+  if (!name) {
+    alert("Please enter your full name.");
+    if (nameInput) nameInput.focus();
+    return;
+  }
   if (!phone || phone.length < 10) {
     alert("Please enter a valid 10-digit mobile phone number.");
+    if (phoneInput) phoneInput.focus();
     return;
   }
   if (!email || !email.includes('@')) {
-    alert("Please enter a valid email address for your invoice and order updates.");
+    alert("Please enter a valid email address for your order confirmation.");
+    if (emailInput) emailInput.focus();
     return;
   }
 
   checkoutData.phone = phone;
   checkoutData.email = email;
   checkoutData.whatsapp = whatsapp;
+  checkoutData.address.fullName = name;
 
-  try {
-    localStorage.setItem('weebfour_saved_contact', JSON.stringify({ phone, email }));
-  } catch(e) {}
+  // Sync to Step 2 full name input if empty
+  const coFull = document.getElementById('co-fullname');
+  if (coFull && !coFull.value.trim()) {
+    coFull.value = name;
+  }
+
+  // Save to database & local storage immediately
+  saveContactDetailsToDatabase(true);
 
   goToCheckoutStep(2);
 }
@@ -1253,43 +1365,198 @@ function applyPromoCode() {
   renderCheckoutSummary();
 }
 
-function completeOrderPayment() {
+function completeOrderPayment(method) {
+  if (method) checkoutData.paymentMethod = method;
+
   const orderNumber = `WEEB-${Math.floor(10000 + Math.random() * 90000)}`;
   const orderNumEl = document.getElementById('confirmed-order-number');
   if (orderNumEl) orderNumEl.textContent = orderNumber;
 
+  const custName = checkoutData.address.fullName || `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}`.trim() || 'Direct Customer';
+  const nameEl = document.getElementById('confirmed-customer-name');
+  if (nameEl) nameEl.textContent = custName;
+
   const confContact = document.getElementById('confirmed-contact');
   if (confContact) confContact.textContent = `+91 ${checkoutData.phone} • ${checkoutData.email}`;
 
-  const custName = checkoutData.address.fullName || `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}`.trim() || 'Direct Customer';
   const confAddr = document.getElementById('confirmed-address');
   if (confAddr) {
     confAddr.textContent = `${custName}, ${checkoutData.address.street || ''}, ${checkoutData.address.city || ''} - ${checkoutData.address.pincode || ''}`;
   }
 
-  // Insert Order to Supabase cloud database if configured
-  if (supabaseClient) {
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const discountAmount = Math.round(subtotal * activePromoDiscount);
-    const total = Math.max(0, subtotal - discountAmount);
+  const emailNotice = document.getElementById('confirmed-email-notice');
+  if (emailNotice) emailNotice.textContent = checkoutData.email;
 
-    supabaseClient.from('orders').insert({
-      id: orderNumber,
-      customer_name: custName,
-      customer_phone: checkoutData.phone,
-      customer_email: checkoutData.email,
-      shipping_address: checkoutData.address,
-      items: cart,
-      total_amount: total,
-      payment_method: checkoutData.paymentMethod || 'UPI',
-      status: 'CONFIRMED'
-    }).then(({ error }) => {
-      if (error) console.error("Supabase order error:", error);
-      else console.log("Order saved to Supabase:", orderNumber);
-    });
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const discountAmount = Math.round(subtotal * activePromoDiscount);
+  const total = Math.max(0, subtotal - discountAmount);
+
+  // Configure WhatsApp tracking direct button
+  const waBtn = document.getElementById('confirmed-whatsapp-btn');
+  if (waBtn) {
+    const waText = encodeURIComponent(`Hi WEEB FOUR, I have placed order #${orderNumber} for ₹${total.toLocaleString('en-IN')}.\nCustomer: ${custName}\nPhone: ${checkoutData.phone}\nPlease share my package dispatch and tracking updates!`);
+    waBtn.href = `https://wa.me/916381177617?text=${waText}`;
   }
 
+  const orderPayload = {
+    id: orderNumber,
+    customer_name: custName,
+    customer_phone: checkoutData.phone,
+    customer_email: checkoutData.email,
+    shipping_address: checkoutData.address,
+    items: [...cart],
+    total_amount: total,
+    payment_method: checkoutData.paymentMethod || 'Cashfree Payment Gateway',
+    status: 'CONFIRMED'
+  };
+
+  // 1. Insert Confirmed Order to Supabase cloud database
+  if (supabaseClient) {
+    supabaseClient.from('orders').insert(orderPayload).then(({ error }) => {
+      if (error) console.error("Supabase order error:", error);
+      else console.log("Order saved to Supabase successfully:", orderNumber);
+    });
+
+    // Clean up temporary lead session if exists
+    const activeLeadId = sessionStorage.getItem('weebfour_lead_session_id');
+    if (activeLeadId) {
+      sessionStorage.removeItem('weebfour_lead_session_id');
+    }
+  }
+
+  // 2. Automatically dispatch confirmation email mentioning customer name from weebfour.4@gmail.com
+  sendCustomerOrderEmail(orderPayload);
+
   goToCheckoutStep(4);
+}
+
+// ==========================================================================
+// AUTOMATED ORDER CONFIRMATION EMAIL SENDER (weebfour.4@gmail.com)
+// ==========================================================================
+async function sendCustomerOrderEmail(order) {
+  if (!order || !order.customer_email) return;
+
+  const customerName = order.customer_name || 'Customer';
+  const customerEmail = order.customer_email;
+  const orderId = order.id;
+  const totalAmount = order.total_amount;
+  const itemsText = (order.items || []).map(i => `• ${i.name} (Size: ${i.size}) x ${i.quantity} = ₹${(i.price * i.quantity).toLocaleString('en-IN')}`).join('\n');
+  const addressText = order.shipping_address ? 
+    `${order.shipping_address.street || ''}, ${order.shipping_address.city || ''}, ${order.shipping_address.state || ''} - ${order.shipping_address.pincode || ''}` : 'As entered at checkout';
+
+  const emailSubject = `Order Confirmed #${orderId} - WEEB FOUR`;
+  const emailMessage = `Hi ${customerName},
+
+Thank you for shopping with WEEB FOUR!
+Your order #${orderId} has been confirmed and payment was received successfully.
+
+YOUR ORDER IS BEING PACKED RIGHT AWAY!
+We will get to you right away with your express dispatch tracking link.
+
+----------------------------------------
+ORDER DETAILS:
+Order ID: #${orderId}
+Customer Name: ${customerName}
+Delivery Address: ${addressText}
+Payment Method: ${order.payment_method || 'Online Payment'}
+
+ITEMS IN THIS ORDER:
+${itemsText}
+
+Total Amount Paid: ₹${totalAmount.toLocaleString('en-IN')}
+----------------------------------------
+
+If you have any questions, reach out to us at:
+Official Email: weebfour.4@gmail.com
+Phone / WhatsApp: +91 63811 77617
+
+Stay Fresh,
+WEEB FOUR Official Streetwear Team`;
+
+  console.log(`[Order Email] Sending confirmation email to ${customerName} (${customerEmail}) from weebfour.4@gmail.com...`);
+
+  // Try EmailJS
+  const emailjsPublicKey = localStorage.getItem('weebfour_emailjs_public_key') || '';
+  const emailjsServiceId = localStorage.getItem('weebfour_emailjs_service_id') || 'service_weebfour';
+  const emailjsTemplateId = localStorage.getItem('weebfour_emailjs_template_id') || 'template_order_confirm';
+
+  if (window.emailjs && emailjsPublicKey) {
+    try {
+      if (typeof emailjs.init === 'function') emailjs.init(emailjsPublicKey);
+      const res = await emailjs.send(emailjsServiceId, emailjsTemplateId, {
+        to_name: customerName,
+        to_email: customerEmail,
+        customer_name: customerName,
+        customer_email: customerEmail,
+        order_id: orderId,
+        order_total: `₹${totalAmount.toLocaleString('en-IN')}`,
+        items_summary: itemsText,
+        shipping_address: addressText,
+        from_name: 'WEEB FOUR',
+        reply_to: 'weebfour.4@gmail.com',
+        message: emailMessage
+      });
+      console.log("[EmailJS] Confirmation email sent successfully via EmailJS:", res);
+      showToast(`Order confirmation email sent to ${customerEmail}`, "ri-mail-check-line");
+      return;
+    } catch (e) {
+      console.warn("[EmailJS] EmailJS sending error:", e);
+    }
+  }
+
+  // Fallback direct mail dispatch
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        access_key: "f07dcf20-e2d4-4a46-81cf-83e9b1d9df52",
+        subject: emailSubject,
+        from_name: "WEEB FOUR Official",
+        reply_to: "weebfour.4@gmail.com",
+        email: customerEmail,
+        name: customerName,
+        message: emailMessage
+      })
+    });
+    const result = await res.json();
+    if (result.success) {
+      console.log("[Mail API] Order notification email dispatched:", result);
+      showToast(`Order confirmation email sent to ${customerEmail}`, "ri-mail-check-line");
+    }
+  } catch (err) {
+    console.warn("[Mail API] Mail API dispatch warning:", err);
+  }
+}
+
+// Cashfree Payment Gateway SDK Integration Hook (Ready for Tomorrow)
+window.CashfreeConfig = {
+  mode: 'production',
+  appId: '',
+  paymentSessionId: ''
+};
+
+function initiateCashfreePayment(customPayload) {
+  if (window.Cashfree && window.CashfreeConfig.paymentSessionId) {
+    try {
+      const cashfree = Cashfree({ mode: window.CashfreeConfig.mode || "production" });
+      cashfree.checkout({
+        paymentSessionId: window.CashfreeConfig.paymentSessionId,
+        redirectTarget: "_modal"
+      }).then((data) => {
+        if (data.error) {
+          alert("Payment could not be completed: " + data.error.message);
+        }
+        if (data.paymentDetails) {
+          completeOrderPayment('Cashfree Gateway');
+        }
+      });
+      return;
+    } catch(err) {
+      console.warn("Cashfree initialization error:", err);
+    }
+  }
+  completeOrderPayment('Cashfree Payment Gateway');
 }
 
 function clearCartAfterPurchase() {
@@ -1429,6 +1696,7 @@ function openAdminSuite() {
   populateAdminFields();
   renderAdminProductsList();
   renderAdminOffersList();
+  loadAndRenderAdminContacts();
 }
 
 function closeAdminSuite() {
@@ -1446,12 +1714,23 @@ function switchAdminTab(tabName) {
   document.querySelectorAll('.admin-panel').forEach(panel => {
     panel.classList.toggle('active', panel.id === `admin-panel-${tabName}`);
   });
+  if (tabName === 'contacts') {
+    loadAndRenderAdminContacts();
+  }
 }
 
 // Populate form inputs with current values
 function populateAdminFields() {
   const cfg = window.siteConfig;
   if (!cfg) return;
+
+  // EmailJS Settings
+  const emKey = document.getElementById('admin-emailjs-key');
+  const emServ = document.getElementById('admin-emailjs-service');
+  const emTemp = document.getElementById('admin-emailjs-template');
+  if (emKey) emKey.value = localStorage.getItem('weebfour_emailjs_public_key') || '';
+  if (emServ) emServ.value = localStorage.getItem('weebfour_emailjs_service_id') || 'service_weebfour';
+  if (emTemp) emTemp.value = localStorage.getItem('weebfour_emailjs_template_id') || 'template_order_confirm';
 
   // Words & Copywriting
   if (cfg.texts) {
@@ -1918,6 +2197,273 @@ function resetToFactoryDefaults() {
     updateCartUI();
     alert("Storefront reset to factory defaults.");
   }
+}
+
+// ==========================================================================
+// 17. ADMIN CUSTOMER CONTACTS & LEADS SUITE
+// Live access to customer names, phone numbers, emails & orders
+// ==========================================================================
+window.allAdminContacts = [];
+
+async function loadAndRenderAdminContacts() {
+  const tbody = document.getElementById('admin-contacts-table-body');
+  if (tbody) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--color-text-muted); padding: 20px;"><i class="ri-loader-4-line" style="animation: spin 1s infinite linear;"></i> Fetching customer contacts from database...</td></tr>`;
+  }
+
+  let contactsMap = new Map();
+
+  // 1. Read from Supabase orders table
+  if (supabaseClient) {
+    try {
+      const { data, error } = await supabaseClient
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (!error && Array.isArray(data)) {
+        data.forEach(item => {
+          const key = (item.customer_phone || '') + '_' + (item.customer_email || '');
+          contactsMap.set(key, {
+            id: item.id,
+            name: item.customer_name || 'Customer',
+            phone: item.customer_phone || '',
+            email: item.customer_email || '',
+            status: item.status || 'LEAD_CAPTURED',
+            total_amount: item.total_amount || 0,
+            items: item.items || [],
+            created_at: item.created_at || new Date().toISOString(),
+            source: 'Database Order'
+          });
+        });
+      }
+    } catch(err) {
+      console.warn("Could not query orders table:", err);
+    }
+
+    // Also read phone subscribers
+    try {
+      const { data: subs } = await supabaseClient.from('subscribers').select('*');
+      if (Array.isArray(subs)) {
+        subs.forEach(s => {
+          const key = s.phone + '_';
+          if (!contactsMap.has(key)) {
+            contactsMap.set(key, {
+              id: `SUB-${s.id}`,
+              name: 'SMS VIP Subscriber',
+              phone: s.phone,
+              email: '',
+              status: 'VIP_SUBSCRIBER',
+              total_amount: 0,
+              items: [],
+              created_at: s.created_at || new Date().toISOString(),
+              source: 'VIP Drops Phone Signup'
+            });
+          }
+        });
+      }
+    } catch(e) {}
+  }
+
+  // 2. Read locally cached leads
+  try {
+    const localLeads = JSON.parse(localStorage.getItem('weebfour_customer_leads') || '[]');
+    localLeads.forEach(lead => {
+      const key = (lead.phone || '') + '_' + (lead.email || '');
+      if (!contactsMap.has(key)) {
+        contactsMap.set(key, {
+          id: lead.id,
+          name: lead.name || 'Direct Lead',
+          phone: lead.phone || '',
+          email: lead.email || '',
+          status: lead.status || 'LEAD_CAPTURED',
+          total_amount: 0,
+          items: [],
+          created_at: lead.updated_at || new Date().toISOString(),
+          source: 'Live Form Lead'
+        });
+      }
+    });
+  } catch(e) {}
+
+  window.allAdminContacts = Array.from(contactsMap.values()).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+  // Update Metrics
+  const totalEl = document.getElementById('metric-total-contacts');
+  const confEl = document.getElementById('metric-confirmed-orders');
+  const leadEl = document.getElementById('metric-leads-count');
+
+  const totalCount = window.allAdminContacts.length;
+  const confCount = window.allAdminContacts.filter(c => c.status === 'CONFIRMED').length;
+  const leadCount = totalCount - confCount;
+
+  if (totalEl) totalEl.textContent = totalCount;
+  if (confEl) confEl.textContent = confCount;
+  if (leadEl) leadEl.textContent = leadCount;
+
+  renderAdminContactsList();
+}
+
+function renderAdminContactsList() {
+  const tbody = document.getElementById('admin-contacts-table-body');
+  if (!tbody) return;
+
+  const searchInput = document.getElementById('admin-contacts-search');
+  const filterSelect = document.getElementById('admin-contacts-filter');
+
+  const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+  const filter = filterSelect ? filterSelect.value : 'all';
+
+  let list = window.allAdminContacts || [];
+
+  if (query) {
+    list = list.filter(c => 
+      (c.name && c.name.toLowerCase().includes(query)) ||
+      (c.phone && c.phone.includes(query)) ||
+      (c.email && c.email.toLowerCase().includes(query)) ||
+      (c.id && c.id.toLowerCase().includes(query))
+    );
+  }
+
+  if (filter === 'confirmed') {
+    list = list.filter(c => c.status === 'CONFIRMED');
+  } else if (filter === 'leads') {
+    list = list.filter(c => c.status !== 'CONFIRMED');
+  }
+
+  if (list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--color-text-muted); padding: 28px;">No customer contacts match your filter.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map(c => {
+    const isConfirmed = c.status === 'CONFIRMED';
+    const cleanPhone = (c.phone || '').replace(/\D/g, '');
+    const dateStr = c.created_at ? new Date(c.created_at).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Recent';
+
+    const waText = encodeURIComponent(`Hi ${c.name || 'there'}! This is WEEB FOUR Streetwear support. Regarding your order/inquiry...`);
+
+    return `
+      <tr>
+        <td>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: ${isConfirmed ? 'rgba(0, 214, 108, 0.15)' : 'rgba(255, 170, 0, 0.15)'}; color: ${isConfirmed ? '#00d66c' : '#ffaa00'}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">
+              ${(c.name || 'C').charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <strong style="color: #ffffff; font-size: 0.95rem;">${c.name || 'Customer'}</strong>
+              <div style="font-size: 0.75rem; color: var(--color-text-muted);">${c.id}</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          ${c.phone && c.phone !== 'N/A' ? `
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <a href="tel:${cleanPhone}" style="color: var(--color-foreground); font-weight: 600; text-decoration: none;">+91 ${cleanPhone}</a>
+            </div>
+          ` : '<span style="color: var(--color-text-muted);">Not provided</span>'}
+        </td>
+        <td>
+          ${c.email && c.email !== 'N/A' ? `
+            <a href="mailto:${c.email}?subject=Your%20WEEB%20FOUR%20Order&body=Hi%20${encodeURIComponent(c.name || 'Customer')}," style="color: var(--color-foreground); text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); font-size: 0.88rem;">
+              ${c.email}
+            </a>
+          ` : '<span style="color: var(--color-text-muted);">Not provided</span>'}
+        </td>
+        <td>
+          <span class="badge ${isConfirmed ? 'badge-confirmed' : 'badge-lead'}" style="font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; ${isConfirmed ? 'background: rgba(0, 214, 108, 0.15); color: #00d66c;' : 'background: rgba(255, 170, 0, 0.15); color: #ffaa00;'}">
+            <i class="${isConfirmed ? 'ri-checkbox-circle-fill' : 'ri-time-line'}"></i>
+            ${isConfirmed ? 'CONFIRMED' : 'LEAD CAPTURED'}
+          </span>
+        </td>
+        <td>
+          <strong style="color: #ffffff;">₹${(c.total_amount || 0).toLocaleString('en-IN')}</strong>
+          ${c.items && c.items.length ? `<div style="font-size: 0.75rem; color: var(--color-text-muted);">${c.items.length} item(s)</div>` : ''}
+        </td>
+        <td style="font-size: 0.82rem; color: var(--color-text-muted);">${dateStr}</td>
+        <td>
+          <div style="display: flex; gap: 6px;">
+            ${cleanPhone ? `
+              <a href="https://wa.me/91${cleanPhone}?text=${waText}" target="_blank" class="btn btn-sm btn-secondary" title="Chat on WhatsApp" style="color: #25D366; padding: 4px 8px;">
+                <i class="ri-whatsapp-line"></i>
+              </a>
+              <a href="tel:${cleanPhone}" class="btn btn-sm btn-secondary" title="Call Customer" style="padding: 4px 8px;">
+                <i class="ri-phone-line"></i>
+              </a>
+            ` : ''}
+            ${c.email && c.email !== 'N/A' ? `
+              <a href="mailto:${c.email}?subject=Your%20WEEB%20FOUR%20Streetwear%20Order&body=Hi%20${encodeURIComponent(c.name || 'Customer')}," class="btn btn-sm btn-secondary" title="Email Customer" style="padding: 4px 8px;">
+                <i class="ri-mail-line"></i>
+              </a>
+            ` : ''}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function exportContactsCSV() {
+  const list = window.allAdminContacts || [];
+  if (list.length === 0) {
+    alert("No contacts to export yet.");
+    return;
+  }
+
+  const headers = ['Order / Lead ID', 'Customer Name', 'Phone Number', 'Email Address', 'Status', 'Total Amount', 'Created Date'];
+  const rows = list.map(c => [
+    `"${c.id || ''}"`,
+    `"${(c.name || '').replace(/"/g, '""')}"`,
+    `"${c.phone || ''}"`,
+    `"${c.email || ''}"`,
+    `"${c.status || ''}"`,
+    `"${c.total_amount || 0}"`,
+    `"${c.created_at || ''}"`
+  ]);
+
+  const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement('a');
+  link.setAttribute('href', encodedUri);
+  link.setAttribute('download', `weebfour_customer_contacts_${Date.now()}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function saveEmailJSConfig() {
+  const keyInput = document.getElementById('admin-emailjs-key');
+  const serviceInput = document.getElementById('admin-emailjs-service');
+  const templateInput = document.getElementById('admin-emailjs-template');
+
+  if (keyInput) localStorage.setItem('weebfour_emailjs_public_key', keyInput.value.trim());
+  if (serviceInput) localStorage.setItem('weebfour_emailjs_service_id', serviceInput.value.trim() || 'service_weebfour');
+  if (templateInput) localStorage.setItem('weebfour_emailjs_template_id', templateInput.value.trim() || 'template_order_confirm');
+
+  showToast("Email configuration saved successfully!", "ri-checkbox-circle-line");
+}
+
+function sendTestConfirmationEmail() {
+  const dummyOrder = {
+    id: `TEST-${Math.floor(1000 + Math.random() * 9000)}`,
+    customer_name: "Selvin Doss",
+    customer_email: "weebfour.4@gmail.com",
+    customer_phone: "6381177617",
+    total_amount: 999,
+    payment_method: "Cashfree Payment Gateway (Test Mode)",
+    shipping_address: {
+      street: "Store HQ Test Street",
+      city: "Hosur",
+      state: "Tamil Nadu",
+      pincode: "635126"
+    },
+    items: [
+      { name: "Tokyo Cyber Heavyweight Tee", size: "L", quantity: 1, price: 999 }
+    ]
+  };
+
+  sendCustomerOrderEmail(dummyOrder);
+  showToast("Test confirmation email triggered to weebfour.4@gmail.com!", "ri-mail-send-line");
 }
 
 // ==========================================================================

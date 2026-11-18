@@ -522,16 +522,21 @@
             
             <form id="contact-info-form" onsubmit="handleContactFormSubmit(event)">
               <div class="form-group-field">
+                <label class="checkout-field-label">Full Name *</label>
+                <input type="text" id="co-name" class="form-control-input" required placeholder="Enter your full name" autocomplete="name">
+              </div>
+
+              <div class="form-group-field">
                 <label class="checkout-field-label">Mobile Number *</label>
                 <div style="display: flex; gap: 8px;">
                   <span style="display: flex; align-items: center; padding: 0 14px; background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); font-size: 0.9rem; color: var(--color-foreground);">+91</span>
-                  <input type="tel" id="co-phone" class="form-control-input" required pattern="[0-9]{10}" placeholder="Enter 10-digit mobile number" maxlength="10" autofocus>
+                  <input type="tel" id="co-phone" class="form-control-input" required pattern="[0-9]{10}" placeholder="Enter 10-digit mobile number" maxlength="10">
                 </div>
               </div>
 
               <div class="form-group-field">
                 <label class="checkout-field-label">Email Address *</label>
-                <input type="email" id="co-email" class="form-control-input" required placeholder="name@example.com">
+                <input type="email" id="co-email" class="form-control-input" required placeholder="name@example.com" autocomplete="email">
               </div>
 
               <button type="submit" class="btn btn-primary btn-block" style="padding: 14px; font-size: 1.05rem; margin-top: 14px;">
@@ -609,8 +614,20 @@
 
             <h4 class="checkout-panel-heading">Payment Method</h4>
 
-            <label class="payment-method-tile selected" onclick="selectPaymentMethod(this, 'UPI / Instant QR Code')">
+            <!-- Cashfree Payment Gateway (Online UPI, Cards, NetBanking) -->
+            <label class="payment-method-tile selected" onclick="selectPaymentMethod(this, 'Cashfree Payment Gateway')">
               <input type="radio" name="pay-method" checked style="margin-top: 4px;">
+              <div>
+                <strong style="display: flex; align-items: center; gap: 8px; font-size: 1.05rem;">
+                  <i class="ri-secure-payment-line" style="color: #00d66c;"></i> Cashfree Payment Gateway
+                  <span style="font-size: 0.72rem; padding: 2px 6px; background: rgba(0, 214, 108, 0.15); color: #00d66c; border-radius: 3px; font-weight: 600;">INSTANT</span>
+                </strong>
+                <span style="font-size: 0.85rem; color: var(--color-text-muted);">UPI (Google Pay, PhonePe, Paytm), All Debit/Credit Cards & NetBanking</span>
+              </div>
+            </label>
+
+            <label class="payment-method-tile" onclick="selectPaymentMethod(this, 'UPI / Instant QR Code')">
+              <input type="radio" name="pay-method" style="margin-top: 4px;">
               <div>
                 <strong style="display: block; font-size: 1.05rem;"><i class="ri-qr-code-line" style="color: #00d66c;"></i> UPI / Instant QR Code</strong>
                 <span style="font-size: 0.85rem; color: var(--color-text-muted);">Google Pay, PhonePe, Paytm, BHIM UPI (Zero transaction fee)</span>
@@ -643,23 +660,36 @@
             </div>
           </div>
 
-          <!-- Step 4: Order Confirmation -->
-          <div id="checkout-step4-panel" style="display: none; text-align: center; padding: 30px 10px;">
-            <i class="ri-checkbox-circle-fill" style="font-size: 4rem; color: #00d66c;"></i>
-            <h2 style="font-family: var(--font-heading); font-size: 2.2rem; margin: 12px 0 6px;">ORDER CONFIRMED!</h2>
-            <p style="font-size: 1.1rem; color: var(--color-foreground); font-weight: 700;">ORDER ID: <span id="confirmed-order-number">WEEB-98412</span></p>
+          <!-- Step 4: Payment Successful & Order Confirmation -->
+          <div id="checkout-step4-panel" style="display: none; text-align: center; padding: 30px 14px;">
+            <div class="payment-success-icon-wrap" style="width: 80px; height: 80px; margin: 0 auto 16px; border-radius: 50%; background: rgba(0, 214, 108, 0.12); display: flex; align-items: center; justify-content: center; border: 2px solid #00d66c;">
+              <i class="ri-checkbox-circle-fill" style="font-size: 3.8rem; color: #00d66c; line-height: 1;"></i>
+            </div>
             
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; padding: 16px; margin: 18px auto; max-width: 440px; text-align: left; font-size: 0.9rem; line-height: 1.6;">
-              <div><strong style="color: #fff;">Customer Contact:</strong> <span id="confirmed-contact" style="color: var(--color-text-muted);"></span></div>
-              <div style="margin-top: 4px;"><strong style="color: #fff;">Delivery To:</strong> <span id="confirmed-address" style="color: var(--color-text-muted);"></span></div>
-              <div style="margin-top: 4px;"><strong style="color: #fff;">Estimated Dispatch:</strong> <span style="color: #00d66c;">Within 24-48 Hours</span></div>
-              <div style="margin-top: 4px;"><strong style="color: #fff;">Expected Delivery:</strong> <span style="color: var(--color-foreground);">3-5 Business Days (Free Express Courier)</span></div>
+            <h2 style="font-family: var(--font-heading); font-size: 2.2rem; margin: 6px 0 4px; letter-spacing: 0.05em; color: #ffffff;">PAYMENT SUCCESSFUL</h2>
+            <div style="font-size: 1.2rem; font-weight: 700; color: #00d66c; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em;">Your order is being packed</div>
+            <div style="font-size: 1rem; color: var(--color-foreground); margin-bottom: 20px; font-weight: 500;">We will get to you right away</div>
+            
+            <p style="font-size: 1.05rem; color: var(--color-foreground); font-weight: 700; margin-bottom: 12px;">ORDER ID: <span id="confirmed-order-number" style="letter-spacing: 0.06em; color: var(--color-sale-red);">WEEB-98412</span></p>
+            
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 8px; padding: 18px; margin: 0 auto 20px; max-width: 440px; text-align: left; font-size: 0.9rem; line-height: 1.6;">
+              <div style="margin-bottom: 4px;"><strong style="color: #fff;">Customer:</strong> <span id="confirmed-customer-name" style="color: var(--color-foreground); font-weight: 600;"></span></div>
+              <div style="margin-bottom: 4px;"><strong style="color: #fff;">Contact:</strong> <span id="confirmed-contact" style="color: var(--color-text-muted);"></span></div>
+              <div style="margin-bottom: 4px;"><strong style="color: #fff;">Delivery To:</strong> <span id="confirmed-address" style="color: var(--color-text-muted);"></span></div>
+              <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--color-border); display: flex; align-items: center; gap: 8px; color: #00d66c; font-size: 0.85rem;">
+                <i class="ri-mail-check-line" style="font-size: 1.25rem;"></i>
+                <span>Confirmation email sent from <strong>weebfour.4@gmail.com</strong> to <strong id="confirmed-email-notice" style="color: #ffffff;"></strong></span>
+              </div>
             </div>
 
-            <p style="color: var(--color-text-muted); margin: 12px 0 24px; font-size: 0.9rem;">Thank you for your order! We have dispatched tracking links and tax invoice to your mobile and email.</p>
-            <button class="btn btn-primary" onclick="closeCheckoutModal(); clearCartAfterPurchase();" style="padding: 14px 28px; font-size: 1.15rem;">
-              CONTINUE SHOPPING <i class="ri-shopping-bag-line"></i>
-            </button>
+            <div style="display: flex; flex-direction: column; gap: 10px; max-width: 360px; margin: 0 auto;">
+              <button type="button" class="btn btn-primary" onclick="closeCheckoutModal(); clearCartAfterPurchase(); window.location.href='index.html#shop';" style="padding: 14px 28px; font-size: 1.05rem;">
+                CONTINUE SHOPPING <i class="ri-shopping-bag-line"></i>
+              </button>
+              <a id="confirmed-whatsapp-btn" href="#" target="_blank" class="btn btn-secondary" style="padding: 12px 20px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; color: #25D366; border-color: rgba(37, 211, 102, 0.4);">
+                <i class="ri-whatsapp-line" style="font-size: 1.2rem;"></i> Track Order on WhatsApp
+              </a>
+            </div>
           </div>
         </div>
 
@@ -912,6 +942,9 @@
         <button class="admin-tab-btn" data-tab="media" onclick="switchAdminTab('media')">
           <i class="ri-image-edit-line"></i> BANNERS & PHOTOS
         </button>
+        <button class="admin-tab-btn" data-tab="contacts" onclick="switchAdminTab('contacts')">
+          <i class="ri-contacts-book-line"></i> CUSTOMER CONTACTS & LEADS
+        </button>
       </div>
 
       <!-- Admin Tab Panels Content -->
@@ -1067,6 +1100,91 @@
             </div>
           </div>
         </div>
+
+        <!-- Tab 5: Customer Contacts & Leads Manager -->
+        <div class="admin-panel" id="admin-panel-contacts">
+          <!-- Metric Badges -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; padding: 16px;">
+              <div style="font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase;">Total Captured Contacts</div>
+              <div id="metric-total-contacts" style="font-family: var(--font-heading); font-size: 2rem; color: var(--color-foreground);">0</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; padding: 16px;">
+              <div style="font-size: 0.8rem; color: #00d66c; text-transform: uppercase;">Confirmed Orders</div>
+              <div id="metric-confirmed-orders" style="font-family: var(--font-heading); font-size: 2rem; color: #00d66c;">0</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; padding: 16px;">
+              <div style="font-size: 0.8rem; color: #ffaa00; text-transform: uppercase;">Contact Leads (Pending Checkout)</div>
+              <div id="metric-leads-count" style="font-family: var(--font-heading); font-size: 2rem; color: #ffaa00;">0</div>
+            </div>
+          </div>
+
+          <!-- Controls Row -->
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 16px;">
+            <div style="display: flex; gap: 10px; flex: 1; max-width: 480px;">
+              <input type="text" id="admin-contacts-search" class="form-control-input" placeholder="Search by name, phone, or email..." oninput="renderAdminContactsList()">
+              <select id="admin-contacts-filter" class="form-control-input" style="max-width: 170px;" onchange="renderAdminContactsList()">
+                <option value="all">All Contacts</option>
+                <option value="confirmed">Confirmed Orders</option>
+                <option value="leads">Captured Leads</option>
+              </select>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="exportContactsCSV()"><i class="ri-file-excel-2-line"></i> EXPORT CSV</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="loadAndRenderAdminContacts()"><i class="ri-refresh-line"></i> REFRESH</button>
+            </div>
+          </div>
+
+          <!-- Contacts Table -->
+          <div style="overflow-x: auto; background: rgba(255,255,255,0.015); border: 1px solid var(--color-border); border-radius: 6px; margin-bottom: 24px;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>CUSTOMER NAME</th>
+                  <th>PHONE NUMBER</th>
+                  <th>EMAIL ADDRESS</th>
+                  <th>STATUS</th>
+                  <th>ITEMS / VALUE</th>
+                  <th>DATE</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="admin-contacts-table-body">
+                <tr><td colspan="7" style="text-align: center; color: var(--color-text-muted); padding: 24px;">Loading database contacts...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- EmailJS / Gmail Setup Card -->
+          <div class="admin-card-box" style="margin-top: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <h4 style="font-family: var(--font-heading); font-size: 1.25rem; margin: 0; display: flex; align-items: center; gap: 8px;">
+                <i class="ri-mail-send-line" style="color: #ea4335;"></i> AUTOMATED GMAIL ORDER CONFIRMATION SETTINGS (weebfour.4@gmail.com)
+              </h4>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="sendTestConfirmationEmail()"><i class="ri-mail-check-line"></i> SEND TEST EMAIL TO GMAIL</button>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; margin-bottom: 14px;">
+              Orders automatically trigger emails mentioning the customer's name, their ordered items, and order number. Connect your free EmailJS account with <strong>weebfour.4@gmail.com</strong> for custom domain/Gmail SMTP delivery, or use our direct email dispatcher.
+            </p>
+            <div class="form-row-2col">
+              <div class="form-group-field">
+                <label>EmailJS Service ID</label>
+                <input type="text" id="admin-emailjs-service" class="form-control-input" placeholder="e.g. service_weebfour" value="service_weebfour">
+              </div>
+              <div class="form-group-field">
+                <label>EmailJS Template ID</label>
+                <input type="text" id="admin-emailjs-template" class="form-control-input" placeholder="e.g. template_order_confirm" value="template_order_confirm">
+              </div>
+            </div>
+            <div class="form-group-field" style="margin-top: 8px;">
+              <label>EmailJS Public Key (User ID)</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="admin-emailjs-key" class="form-control-input" placeholder="Paste your EmailJS Public Key here">
+                <button type="button" class="btn btn-sm btn-primary" onclick="saveEmailJSConfig()">SAVE EMAIL KEYS</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1158,6 +1276,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+
+  <!-- Automated Email Confirmation (Gmail: weebfour.4@gmail.com) & Cashfree Payment Gateway SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
   <!-- Supabase JS Client & Storefront Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
