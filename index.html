@@ -99,7 +99,7 @@
             </div>
           </div>
 
-          <a href="#collections" class="nav-link-item" data-nav="collections" onclick="openCollectionsDropdown()">Collections</a>
+          <a href="#shop" class="nav-link-item" data-nav="shop">Shop</a>
           <a href="#shop" class="nav-link-item" onclick="filterByTag('NEW DROP')">
             New <span class="new-tag">NEW</span>
           </a>
@@ -217,8 +217,8 @@
       </div>
 
       <div class="drawer-nav-item">
-        <a href="#collections" class="drawer-nav-link" onclick="openCollectionsDropdown(); closeMobileDrawer();">
-          Browse Collections <i class="ri-arrow-right-s-line"></i>
+        <a href="#shop" class="drawer-nav-link" onclick="closeMobileDrawer();">
+          Browse All Drops <i class="ri-arrow-right-s-line"></i>
         </a>
       </div>
 
@@ -267,8 +267,8 @@
         <a href="#shop" class="btn hero-btn-black minimal-btn" id="hero-cta-primary">
           SHOP NOW <i class="ri-arrow-right-line"></i>
         </a>
-        <a href="#collections" class="btn hero-btn-outline minimal-btn-outline" id="hero-cta-secondary" onclick="openCollectionsDropdown()">
-          EXPLORE COLLECTIONS
+        <a href="#shop" class="btn hero-btn-outline minimal-btn-outline" id="hero-cta-secondary">
+          EXPLORE ALL
         </a>
       </div>
     </div>
@@ -297,76 +297,6 @@
           <div class="prop-text-wrap">
             <div class="prop-title">100% PREMIUM COTTON</div>
             <div class="prop-desc">High-density puff print & durable wash</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. Shop by Collection - Interactive Dropdown Directory -->
-  <section class="collections-section collections-directory-section" id="collections">
-    <div class="page-container">
-      <!-- Main Dropdown Toggle Button with Down Arrow -->
-      <div class="collections-toggle-wrapper">
-        <button type="button" class="collections-main-btn" id="collections-main-btn" onclick="toggleCollectionsDropdown()" aria-expanded="true">
-          <div class="collections-btn-left">
-            <i class="ri-layout-grid-line collections-btn-icon"></i>
-            <span class="collections-btn-title">SHOP BY COLLECTIONS</span>
-          </div>
-          <div class="collections-btn-right">
-            <span class="collections-btn-status" id="collections-btn-status">TAP TO BROWSE</span>
-            <i class="ri-arrow-down-s-line collections-arrow-icon" id="collections-arrow-icon"></i>
-          </div>
-        </button>
-      </div>
-
-      <!-- Dropdown Accordion Content: 3 Categorized Columns -->
-      <div class="collections-dropdown-panel open" id="collections-dropdown-panel">
-        <div class="collection-columns-grid">
-          <!-- Col 1: Shop by Collection (Topwear) -->
-          <div class="collection-directory-col">
-            <button type="button" class="collection-col-header-btn" onclick="toggleCollectionCol('topwear', this)">
-              <span>SHOP BY COLLECTION</span>
-              <i class="ri-arrow-down-s-line col-dropdown-arrow rotated"></i>
-            </button>
-            <ul class="collection-link-list" id="col-list-topwear">
-              <li><a href="javascript:void(0)" onclick="filterByCategory('shirts')"><i class="ri-arrow-right-s-line"></i> SHIRTS</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('tshirts')"><i class="ri-arrow-right-s-line"></i> TSHIRTS</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('sweatshirts')"><i class="ri-arrow-right-s-line"></i> SWEATSHIRTS</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('hoodies')"><i class="ri-arrow-right-s-line"></i> HOODIES</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('bodysuits')"><i class="ri-arrow-right-s-line"></i> BODYSUITS</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('jackets')"><i class="ri-arrow-right-s-line"></i> JACKETS</a></li>
-            </ul>
-          </div>
-
-          <!-- Col 2: Bottom Wears -->
-          <div class="collection-directory-col">
-            <button type="button" class="collection-col-header-btn" onclick="toggleCollectionCol('bottomwear', this)">
-              <span>BOTTOM WEARS</span>
-              <i class="ri-arrow-down-s-line col-dropdown-arrow rotated"></i>
-            </button>
-            <ul class="collection-link-list" id="col-list-bottomwear">
-              <li><a href="javascript:void(0)" onclick="filterByCategory('trousers')"><i class="ri-arrow-right-s-line"></i> TROUSERS</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('denims')"><i class="ri-arrow-right-s-line"></i> DENIMS</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('cargos')"><i class="ri-arrow-right-s-line"></i> CARGOS</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('joggers')"><i class="ri-arrow-right-s-line"></i> JOGGERS</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('shorts')"><i class="ri-arrow-right-s-line"></i> SHORTS</a></li>
-            </ul>
-          </div>
-
-          <!-- Col 3: Accessories -->
-          <div class="collection-directory-col">
-            <button type="button" class="collection-col-header-btn" onclick="toggleCollectionCol('accessories', this)">
-              <span>ACCESSORIES</span>
-              <i class="ri-arrow-down-s-line col-dropdown-arrow rotated"></i>
-            </button>
-            <ul class="collection-link-list" id="col-list-accessories">
-              <li><a href="javascript:void(0)" onclick="filterByCategory('shades')"><i class="ri-arrow-right-s-line"></i> SHADES</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('socks')"><i class="ri-arrow-right-s-line"></i> SOCKS</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('bags')"><i class="ri-arrow-right-s-line"></i> BAGS</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('cap')"><i class="ri-arrow-right-s-line"></i> CAP</a></li>
-              <li><a href="javascript:void(0)" onclick="filterByCategory('perfume')"><i class="ri-arrow-right-s-line"></i> PERFUME</a></li>
-            </ul>
           </div>
         </div>
       </div>
@@ -566,11 +496,11 @@
         <div style="font-size: 0.85rem; color: #666;"><i class="ri-lock-line"></i> 256-Bit SSL Encrypted</div>
       </div>
 
-      <!-- Steps Navigator: 1. Contact No -> 2. Address -> 3. Payment -> 4. Confirmed -->
+      <!-- Steps Navigator: 1. Contact -> 2. Address -> 3. Payment -> 4. Confirmed -->
       <div class="checkout-steps-nav">
         <div class="checkout-step-tab active" id="checkout-tab-step1">
           <span class="step-num-circle">1</span>
-          <span>CONTACT NO</span>
+          <span>CONTACT</span>
         </div>
         <div class="checkout-step-tab" id="checkout-tab-step2">
           <span class="step-num-circle">2</span>
@@ -586,83 +516,70 @@
         <!-- Left: Form Step Panels -->
         <div class="checkout-form-column">
           
-          <!-- Step 1: Contact Information (As requested: asks contact no first) -->
+          <!-- Step 1: Contact Information -->
           <div id="checkout-step1-panel">
-            <h3 style="font-family: var(--font-heading); font-size: 1.45rem; letter-spacing: 0.04em; margin-bottom: 6px;">STEP 1: CONTACT DETAILS</h3>
-            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 18px;">Please enter your mobile phone number and email for instant order verification, invoice, and tracking.</p>
+            <h4 class="checkout-panel-heading">Contact Details</h4>
             
             <form id="contact-info-form" onsubmit="handleContactFormSubmit(event)">
               <div class="form-group-field">
-                <label>Mobile Phone Number (for WhatsApp & SMS Tracking) *</label>
+                <label class="checkout-field-label">Mobile Number *</label>
                 <div style="display: flex; gap: 8px;">
-                  <span style="display: flex; align-items: center; padding: 0 14px; background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); font-weight: 700; font-size: 0.95rem; color: var(--color-foreground);">+91</span>
+                  <span style="display: flex; align-items: center; padding: 0 14px; background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); font-size: 0.9rem; color: var(--color-foreground);">+91</span>
                   <input type="tel" id="co-phone" class="form-control-input" required pattern="[0-9]{10}" placeholder="Enter 10-digit mobile number" maxlength="10" autofocus>
                 </div>
               </div>
 
               <div class="form-group-field">
-                <label>Email Address (for Digital Tax Invoice) *</label>
+                <label class="checkout-field-label">Email Address *</label>
                 <input type="email" id="co-email" class="form-control-input" required placeholder="name@example.com">
               </div>
 
-              <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--color-text-muted); margin: 18px 0 24px; cursor: pointer;">
-                <input type="checkbox" id="co-whatsapp-opt" checked style="accent-color: #25D366; width: 18px; height: 18px;">
-                <span>Send live dispatch status and tracking updates directly on WhatsApp</span>
-              </label>
-
-              <button type="submit" class="btn btn-primary btn-block" style="padding: 16px; font-size: 1.2rem;">
-                CONTINUE TO DELIVERY ADDRESS <i class="ri-arrow-right-line"></i>
+              <button type="submit" class="btn btn-primary btn-block" style="padding: 14px; font-size: 1.05rem; margin-top: 14px;">
+                CONTINUE TO ADDRESS <i class="ri-arrow-right-line"></i>
               </button>
             </form>
           </div>
 
-          <!-- Step 2: Delivery Address (Address and stuff) -->
+          <!-- Step 2: Delivery Address -->
           <div id="checkout-step2-panel" style="display: none;">
             <div class="checkout-preview-row">
               <div>
-                <span style="color: var(--color-text-dim);">Contact:</span> <strong id="co-preview-phone" style="color: var(--color-foreground);">+91</strong> • <span id="co-preview-email" style="color: var(--color-text-muted);"></span>
+                <span style="color: var(--color-text-dim); font-size: 0.8rem;">Contact:</span> <span id="co-preview-phone" style="color: var(--color-foreground); font-size: 0.85rem;">+91</span> • <span id="co-preview-email" style="color: var(--color-text-muted); font-size: 0.85rem;"></span>
               </div>
               <button type="button" class="checkout-preview-btn" onclick="goToCheckoutStep(1)">Edit</button>
             </div>
 
-            <h3 style="font-family: var(--font-heading); font-size: 1.45rem; letter-spacing: 0.04em; margin-bottom: 6px;">STEP 2: DELIVERY ADDRESS</h3>
-            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 18px;">Enter your delivery address for fast doorstep delivery.</p>
+            <h4 class="checkout-panel-heading">Delivery Address</h4>
 
             <form id="shipping-address-form" onsubmit="handleShippingFormSubmit(event)">
-              <div class="form-row-2col">
-                <div class="form-group-field">
-                  <label>First Name *</label>
-                  <input type="text" id="co-fname" class="form-control-input" required placeholder="John">
-                </div>
-                <div class="form-group-field">
-                  <label>Last Name *</label>
-                  <input type="text" id="co-lname" class="form-control-input" required placeholder="Doe">
-                </div>
+              <div class="form-group-field">
+                <label class="checkout-field-label">Full Name *</label>
+                <input type="text" id="co-fullname" class="form-control-input" required placeholder="Enter your full name">
               </div>
 
               <div class="form-group-field">
-                <label>Street Address / House / Flat No. *</label>
+                <label class="checkout-field-label">Street Address / House / Flat No. *</label>
                 <input type="text" id="co-street" class="form-control-input" required placeholder="Flat / House No., Apartment Name, Street Name">
               </div>
 
               <div class="form-group-field">
-                <label>Landmark, Area, Sector (Optional)</label>
+                <label class="checkout-field-label">Landmark, Area, Sector (Optional)</label>
                 <input type="text" id="co-landmark" class="form-control-input" placeholder="Near landmark, sector, or colony">
               </div>
 
               <div class="form-row-2col">
                 <div class="form-group-field">
-                  <label>City *</label>
+                  <label class="checkout-field-label">City *</label>
                   <input type="text" id="co-city" class="form-control-input" required placeholder="Chennai / Mumbai / Bengaluru">
                 </div>
                 <div class="form-group-field">
-                  <label>State *</label>
+                  <label class="checkout-field-label">State *</label>
                   <input type="text" id="co-state" class="form-control-input" required placeholder="Tamil Nadu / Maharashtra">
                 </div>
               </div>
 
               <div class="form-group-field" style="max-width: 220px;">
-                <label>PIN Code (6 Digits) *</label>
+                <label class="checkout-field-label">PIN Code (6 Digits) *</label>
                 <input type="text" id="co-pincode" class="form-control-input" required pattern="[0-9]{6}" maxlength="6" placeholder="600040">
               </div>
 
@@ -670,7 +587,7 @@
                 <button type="button" class="btn btn-secondary" onclick="goToCheckoutStep(1)" style="padding: 14px 20px;">
                   <i class="ri-arrow-left-line"></i> BACK
                 </button>
-                <button type="submit" class="btn btn-primary" style="flex: 1; padding: 14px 20px; font-size: 1.15rem;">
+                <button type="submit" class="btn btn-primary" style="flex: 1; padding: 14px 20px; font-size: 1.1rem;">
                   CONTINUE TO PAYMENT <i class="ri-arrow-right-line"></i>
                 </button>
               </div>
@@ -681,16 +598,16 @@
           <div id="checkout-step3-panel" style="display: none;">
             <div class="checkout-preview-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
               <div style="display: flex; justify-content: space-between; width: 100%;">
-                <span><span style="color: var(--color-text-dim);">Contact:</span> <strong id="co-summary-contact"></strong></span>
+                <span><span style="color: var(--color-text-dim); font-size: 0.8rem;">Contact:</span> <span id="co-summary-contact" style="font-size: 0.85rem;"></span></span>
                 <button type="button" class="checkout-preview-btn" onclick="goToCheckoutStep(1)">Edit</button>
               </div>
               <div style="display: flex; justify-content: space-between; width: 100%;">
-                <span><span style="color: var(--color-text-dim);">Ship to:</span> <span id="co-summary-address" style="color: var(--color-foreground);"></span></span>
+                <span><span style="color: var(--color-text-dim); font-size: 0.8rem;">Ship to:</span> <span id="co-summary-address" style="color: var(--color-foreground); font-size: 0.85rem;"></span></span>
                 <button type="button" class="checkout-preview-btn" onclick="goToCheckoutStep(2)">Edit</button>
               </div>
             </div>
 
-            <h3 style="font-family: var(--font-heading); font-size: 1.45rem; letter-spacing: 0.04em; margin-bottom: 14px;">STEP 3: SELECT PAYMENT METHOD</h3>
+            <h4 class="checkout-panel-heading">Payment Method</h4>
 
             <label class="payment-method-tile selected" onclick="selectPaymentMethod(this, 'UPI / Instant QR Code')">
               <input type="radio" name="pay-method" checked style="margin-top: 4px;">
@@ -917,24 +834,16 @@
           </ul>
         </div>
 
-        <!-- Col 4: Store HQ & Working Hours (thelastape.in contact details) -->
+        <!-- Col 4: Contact -->
         <div>
-          <h4 class="footer-col-title">STORE HQ & CONTACT</h4>
+          <h4 class="footer-col-title">CONTACT</h4>
           <div class="footer-contact-item">
-            <i class="ri-map-pin-line"></i>
-            <span id="footer-address">9/23, 5th Street, X-Block, Anna Nagar<br>Chennai - 600040, Tamil Nadu</span>
-          </div>
-          <div class="footer-contact-item">
-            <i class="ri-whatsapp-line"></i>
+            <i class="ri-phone-line"></i>
             <span>+91 63811 77617</span>
           </div>
           <div class="footer-contact-item">
             <i class="ri-mail-line"></i>
             <span id="footer-email">support@weebfour.com</span>
-          </div>
-          <div class="footer-contact-item">
-            <i class="ri-time-line"></i>
-            <span>Open All Days: 11:00 AM – 10:00 PM</span>
           </div>
         </div>
       </div>

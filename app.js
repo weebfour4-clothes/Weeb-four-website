@@ -749,6 +749,19 @@ function adjustCartQty(index, delta) {
   updateCartUI();
 }
 
+function setCartItemQty(index, newQty) {
+  if (cart[index]) {
+    const val = parseInt(newQty, 10);
+    if (isNaN(val) || val <= 0) {
+      cart[index].quantity = 1;
+    } else {
+      cart[index].quantity = Math.min(99, val);
+    }
+    localStorage.setItem('weebfour_cart', JSON.stringify(cart));
+    updateCartUI();
+  }
+}
+
 function removeCartItem(index) {
   cart.splice(index, 1);
   localStorage.setItem('weebfour_cart', JSON.stringify(cart));
@@ -796,38 +809,45 @@ function updateCartUI() {
 
   // Render Items List
   const container = document.getElementById('cart-items-scroll');
-  if (!container) return;
-
-  if (cart.length === 0) {
-    container.innerHTML = `
-      <div class="cart-empty-view">
-        <i class="ri-shopping-bag-line"></i>
-        <h3>YOUR BAG IS EMPTY</h3>
-        <p>Explore our latest streetwear drops and find your next favorite tee.</p>
-        <button class="btn btn-primary" onclick="closeCartDrawer()">START SHOPPING</button>
-      </div>
-    `;
-  } else {
-    container.innerHTML = cart.map((item, idx) => `
-      <div class="cart-item-row">
-        <img src="${item.image}" alt="${item.name}" class="cart-item-thumb">
-        <div class="cart-item-info">
-          <h4>${item.name}</h4>
-          <div class="cart-item-size">SIZE: <strong>${item.size}</strong></div>
-          <div class="cart-qty-stepper">
-            <button class="qty-step-btn" onclick="adjustCartQty(${idx}, -1)">-</button>
-            <span class="qty-step-num">${item.quantity}</span>
-            <button class="qty-step-btn" onclick="adjustCartQty(${idx}, 1)">+</button>
+  if (container) {
+    if (cart.length === 0) {
+      container.innerHTML = `
+        <div class="cart-empty-view">
+          <i class="ri-shopping-bag-line"></i>
+          <h3>YOUR BAG IS EMPTY</h3>
+          <p>Explore our latest streetwear drops and find your next favorite tee.</p>
+          <button class="btn btn-primary" onclick="closeCartDrawer()">START SHOPPING</button>
+        </div>
+      `;
+    } else {
+      container.innerHTML = cart.map((item, idx) => `
+        <div class="cart-item-row">
+          <img src="${item.image}" alt="${item.name}" class="cart-item-thumb">
+          <div class="cart-item-info">
+            <h4>${item.name}</h4>
+            <div class="cart-item-size">SIZE: <strong>${item.size}</strong></div>
+            <div class="cart-qty-stepper">
+              <button type="button" class="qty-step-btn" onclick="adjustCartQty(${idx}, -1)" aria-label="Decrease quantity">-</button>
+              <input type="number" class="qty-number-input" min="1" max="99" value="${item.quantity}" onchange="setCartItemQty(${idx}, this.value)" aria-label="Item quantity">
+              <button type="button" class="qty-step-btn" onclick="adjustCartQty(${idx}, 1)" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+          <div class="cart-item-right">
+            <span class="cart-item-price">₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
+            <button class="cart-item-delete" onclick="removeCartItem(${idx})" title="Remove item" aria-label="Remove item">
+              <i class="ri-delete-bin-line"></i>
+            </button>
           </div>
         </div>
-        <div class="cart-item-right">
-          <span class="cart-item-price">₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
-          <button class="cart-item-delete" onclick="removeCartItem(${idx})" title="Remove item" aria-label="Remove item">
-            <i class="ri-delete-bin-line"></i>
-          </button>
-        </div>
-      </div>
-    `).join('');
+      `).join('');
+    }
+  }
+
+  if (typeof renderStandaloneCart === 'function' && document.getElementById('cart-page-items')) {
+    renderStandaloneCart();
+  }
+  if (typeof renderCheckoutSummary === 'function' && document.getElementById('checkout-summary-items')) {
+    renderCheckoutSummary();
   }
 }
 
@@ -1008,10 +1028,11 @@ function openCheckoutModal() {
       }
 
       const savedAddress = JSON.parse(localStorage.getItem('weebfour_saved_address') || '{}');
-      if (savedAddress.street) {
+      if (savedAddress.street || savedAddress.fullName) {
         checkoutData.address = savedAddress;
-        if (document.getElementById('co-fname')) document.getElementById('co-fname').value = savedAddress.firstName || '';
-        if (document.getElementById('co-lname')) document.getElementById('co-lname').value = savedAddress.lastName || '';
+        if (document.getElementById('co-fullname')) {
+          document.getElementById('co-fullname').value = savedAddress.fullName || `${savedAddress.firstName || ''} ${savedAddress.lastName || ''}`.trim();
+        }
         if (document.getElementById('co-street')) document.getElementById('co-street').value = savedAddress.street || '';
         if (document.getElementById('co-landmark')) document.getElementById('co-landmark').value = savedAddress.landmark || '';
         if (document.getElementById('co-city')) document.getElementById('co-city').value = savedAddress.city || '';
@@ -1071,7 +1092,8 @@ function goToCheckoutStep(step) {
     sumContact.textContent = `+91 ${checkoutData.phone} • ${checkoutData.email || ''}`;
   }
   if (sumAddress && checkoutData.address && checkoutData.address.street) {
-    sumAddress.textContent = `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}, ${checkoutData.address.street}, ${checkoutData.address.city || ''} - ${checkoutData.address.pincode || ''}`;
+    const custName = checkoutData.address.fullName || `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}`.trim();
+    sumAddress.textContent = `${custName ? custName + ', ' : ''}${checkoutData.address.street}, ${checkoutData.address.city || ''} - ${checkoutData.address.pincode || ''}`;
   }
 }
 
@@ -1103,22 +1125,22 @@ function handleContactFormSubmit(e) {
 
 function handleShippingFormSubmit(e) {
   e.preventDefault();
-  const fname = document.getElementById('co-fname') ? document.getElementById('co-fname').value.trim() : '';
-  const lname = document.getElementById('co-lname') ? document.getElementById('co-lname').value.trim() : '';
+  const fullName = document.getElementById('co-fullname') ? document.getElementById('co-fullname').value.trim() : '';
   const street = document.getElementById('co-street') ? document.getElementById('co-street').value.trim() : '';
   const landmark = document.getElementById('co-landmark') ? document.getElementById('co-landmark').value.trim() : '';
   const city = document.getElementById('co-city') ? document.getElementById('co-city').value.trim() : '';
   const state = document.getElementById('co-state') ? document.getElementById('co-state').value.trim() : '';
   const pincode = document.getElementById('co-pincode') ? document.getElementById('co-pincode').value.trim() : '';
 
-  if (!fname || !street || !city || !pincode) {
+  if (!fullName || !street || !city || !pincode) {
     alert("Please fill in all mandatory delivery address fields.");
     return;
   }
 
   checkoutData.address = {
-    firstName: fname,
-    lastName: lname,
+    fullName: fullName,
+    firstName: fullName,
+    lastName: '',
     street: street,
     landmark: landmark,
     city: city,
@@ -1151,20 +1173,35 @@ function renderCheckoutSummary() {
   const discRow = document.getElementById('co-discount-row');
   const discVal = document.getElementById('co-discount-val');
 
+  if (cart.length === 0) {
+    closeCheckoutModal();
+    return;
+  }
+
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const discountAmount = Math.round(subtotal * activePromoDiscount);
   const total = Math.max(0, subtotal - discountAmount);
 
   if (itemsContainer) {
-    itemsContainer.innerHTML = cart.map(item => `
-      <div style="display: flex; gap: 10px; margin-bottom: 12px; align-items: center;">
-        <img src="${item.image}" style="width: 44px; height: 55px; object-fit: cover; border-radius: 2px;">
-        <div style="flex: 1; font-size: 0.85rem;">
-          <div style="font-weight: 600;">${item.name}</div>
-          <div style="color: var(--color-text-dim);">Size: ${item.size} x ${item.quantity}</div>
+    itemsContainer.innerHTML = cart.map((item, idx) => `
+      <div class="checkout-summary-item-row" style="display: flex; gap: 12px; margin-bottom: 12px; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);">
+        <img src="${item.image}" alt="${item.name}" style="width: 46px; height: 58px; object-fit: cover; border-radius: 4px; border: 1px solid var(--color-border);">
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-weight: 600; font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.name}</div>
+          <div style="color: var(--color-text-muted); font-size: 0.78rem; margin: 2px 0 6px;">Size: <strong>${item.size}</strong></div>
+          <div class="cart-qty-stepper" style="transform: scale(0.92); transform-origin: left center;">
+            <button type="button" class="qty-step-btn" onclick="adjustCartQty(${idx}, -1)" aria-label="Decrease quantity">-</button>
+            <input type="number" class="qty-number-input" min="1" max="99" value="${item.quantity}" onchange="setCartItemQty(${idx}, this.value)" aria-label="Item quantity">
+            <button type="button" class="qty-step-btn" onclick="adjustCartQty(${idx}, 1)" aria-label="Increase quantity">+</button>
+          </div>
         </div>
-        <div style="font-weight: 700; font-size: 0.9rem;">
-          ₹${(item.price * item.quantity).toLocaleString('en-IN')}
+        <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+          <div style="font-weight: 700; font-size: 0.92rem;">
+            ₹${(item.price * item.quantity).toLocaleString('en-IN')}
+          </div>
+          <button type="button" class="cart-item-delete" onclick="removeCartItem(${idx})" title="Remove item" aria-label="Remove item" style="background: none; border: none; color: var(--color-text-dim); cursor: pointer; padding: 2px;">
+            <i class="ri-delete-bin-line" style="font-size: 1rem;"></i>
+          </button>
         </div>
       </div>
     `).join('');
@@ -1224,9 +1261,10 @@ function completeOrderPayment() {
   const confContact = document.getElementById('confirmed-contact');
   if (confContact) confContact.textContent = `+91 ${checkoutData.phone} • ${checkoutData.email}`;
 
+  const custName = checkoutData.address.fullName || `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}`.trim() || 'Direct Customer';
   const confAddr = document.getElementById('confirmed-address');
   if (confAddr) {
-    confAddr.textContent = `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}, ${checkoutData.address.street || ''}, ${checkoutData.address.city || ''} - ${checkoutData.address.pincode || ''}`;
+    confAddr.textContent = `${custName}, ${checkoutData.address.street || ''}, ${checkoutData.address.city || ''} - ${checkoutData.address.pincode || ''}`;
   }
 
   // Insert Order to Supabase cloud database if configured
@@ -1237,7 +1275,7 @@ function completeOrderPayment() {
 
     supabaseClient.from('orders').insert({
       id: orderNumber,
-      customer_name: `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}`.trim() || 'Direct Customer',
+      customer_name: custName,
       customer_phone: checkoutData.phone,
       customer_email: checkoutData.email,
       shipping_address: checkoutData.address,
@@ -2061,63 +2099,6 @@ function initLenisSmoothScroll() {
   }
 }
 
-// ==========================================================================
-// 18. SHOP BY COLLECTIONS INTERACTIVE DROPDOWN DIRECTORY
-// ==========================================================================
-function toggleCollectionsDropdown() {
-  const panel = document.getElementById('collections-dropdown-panel');
-  const btn = document.getElementById('collections-main-btn');
-  const arrow = document.getElementById('collections-arrow-icon');
-  const status = document.getElementById('collections-btn-status');
-  if (!panel) return;
-
-  const isOpen = panel.classList.contains('open');
-  if (isOpen) {
-    panel.classList.remove('open');
-    if (arrow) arrow.classList.remove('rotated');
-    if (btn) btn.setAttribute('aria-expanded', 'false');
-    if (status) status.textContent = 'TAP TO BROWSE';
-  } else {
-    panel.classList.add('open');
-    if (arrow) arrow.classList.add('rotated');
-    if (btn) btn.setAttribute('aria-expanded', 'true');
-    if (status) status.textContent = 'TAP TO COLLAPSE';
-
-    // Ensure all 3 categorized lists are open
-    document.querySelectorAll('.collection-link-list').forEach(list => list.classList.remove('collapsed'));
-    document.querySelectorAll('.col-dropdown-arrow').forEach(arr => arr.classList.add('rotated'));
-  }
-}
-
-function openCollectionsDropdown() {
-  const panel = document.getElementById('collections-dropdown-panel');
-  const btn = document.getElementById('collections-main-btn');
-  const arrow = document.getElementById('collections-arrow-icon');
-  const status = document.getElementById('collections-btn-status');
-  if (panel && !panel.classList.contains('open')) {
-    panel.classList.add('open');
-    if (arrow) arrow.classList.add('rotated');
-    if (btn) btn.setAttribute('aria-expanded', 'true');
-    if (status) status.textContent = 'TAP TO COLLAPSE';
-    document.querySelectorAll('.collection-link-list').forEach(list => list.classList.remove('collapsed'));
-    document.querySelectorAll('.col-dropdown-arrow').forEach(arr => arr.classList.add('rotated'));
-  }
-}
-
-function toggleCollectionCol(colKey, btnEl) {
-  const list = document.getElementById(`col-list-${colKey}`);
-  const arrow = btnEl ? btnEl.querySelector('.col-dropdown-arrow') : null;
-  if (!list) return;
-
-  const isCollapsed = list.classList.contains('collapsed');
-  if (isCollapsed) {
-    list.classList.remove('collapsed');
-    if (arrow) arrow.classList.add('rotated');
-  } else {
-    list.classList.add('collapsed');
-    if (arrow) arrow.classList.remove('rotated');
-  }
-}
 
 // ==========================================================================
 // 19. THELASTAPE.IN QUICK-ADD SIZE SELECTOR & TOAST SYSTEM
@@ -2379,14 +2360,14 @@ function renderStandaloneCart() {
         <h4 style="font-size: 1.3rem;">${item.name}</h4>
         <div class="cart-item-size">SIZE: <strong>${item.size}</strong></div>
         <div class="cart-qty-stepper">
-          <button class="qty-step-btn" onclick="adjustCartQty(${idx}, -1); renderStandaloneCart();">-</button>
-          <span class="qty-step-num">${item.quantity}</span>
-          <button class="qty-step-btn" onclick="adjustCartQty(${idx}, 1); renderStandaloneCart();">+</button>
+          <button type="button" class="qty-step-btn" onclick="adjustCartQty(${idx}, -1)" aria-label="Decrease quantity">-</button>
+          <input type="number" class="qty-number-input" min="1" max="99" value="${item.quantity}" onchange="setCartItemQty(${idx}, this.value)" aria-label="Item quantity">
+          <button type="button" class="qty-step-btn" onclick="adjustCartQty(${idx}, 1)" aria-label="Increase quantity">+</button>
         </div>
       </div>
       <div class="cart-item-right">
         <span class="cart-item-price" style="font-size: 1.2rem;">₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
-        <button class="cart-item-delete" onclick="removeCartItem(${idx}); renderStandaloneCart();" title="Remove item" aria-label="Remove item">
+        <button type="button" class="cart-item-delete" onclick="removeCartItem(${idx})" title="Remove item" aria-label="Remove item">
           <i class="ri-delete-bin-line" style="font-size: 1.4rem;"></i>
         </button>
       </div>

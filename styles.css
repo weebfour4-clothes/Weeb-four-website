@@ -1913,6 +1913,9 @@ img {
   display: inline-flex;
   align-items: center;
   border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .qty-step-btn {
@@ -1922,10 +1925,15 @@ img {
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  color: #101010;
+  color: var(--color-foreground);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 .qty-step-btn:hover {
-  background: #f1f1f1;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
 }
 
 .qty-step-num {
@@ -1933,6 +1941,34 @@ img {
   text-align: center;
   font-size: 0.9rem;
   font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.qty-number-input {
+  width: 38px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.qty-number-input::-webkit-outer-spin-button,
+.qty-number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.qty-number-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .cart-item-right {
@@ -2453,12 +2489,13 @@ img {
 }
 
 .footer-col-title {
-  font-family: var(--font-heading);
-  font-size: 1.3rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #ffffff;
-  margin-bottom: 18px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 14px;
 }
 
 .footer-links-list li {
@@ -2934,228 +2971,29 @@ select {
   text-align: right;
 }
 
-/* --- C. Shop by Collection: 3-Column Minimalist Directory (Exact Replica of User Photo) --- */
-.collections-directory-section {
-  padding: 56px 0 64px;
-  background-color: #08090c;
-  border-bottom: 1px solid var(--color-border);
-  position: relative;
-}
-
-/* Shop by Collections Interactive Dropdown & Accordions */
-.collections-directory-section {
-  padding: 30px 0 40px;
-}
-
-.collections-toggle-wrapper {
-  margin-bottom: 20px;
-}
-
-.collections-main-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 24px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  color: var(--color-foreground);
-  font-family: var(--font-heading);
-  font-size: 1.15rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-}
-
-.collections-main-btn:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-.collections-btn-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.collections-btn-icon {
-  font-size: 1.35rem;
-  color: var(--color-sale-red);
-}
-
-.collections-btn-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.collections-btn-status {
+/* --- C. Checkout Minimalist Headings & Form Labels --- */
+.checkout-panel-heading {
   font-family: var(--font-body);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  color: var(--color-text-muted);
-  font-weight: 600;
-}
-
-.collections-arrow-icon {
-  font-size: 1.5rem;
-  color: var(--color-foreground);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.collections-arrow-icon.rotated {
-  transform: rotate(180deg);
-}
-
-.collections-dropdown-panel {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, margin 0.3s ease;
-  margin-top: 0;
-}
-
-.collections-dropdown-panel.open {
-  max-height: 1400px;
-  opacity: 1;
-  margin-top: 10px;
-}
-
-.collection-columns-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 28px;
-}
-
-.collection-directory-col {
-  display: flex;
-  flex-direction: column;
-}
-
-.collection-col-header-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 0 0 14px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 16px;
-  font-family: var(--font-heading);
-  font-size: 1.1rem;
-  letter-spacing: 0.06em;
-  color: #fff;
-  text-transform: uppercase;
-  cursor: pointer;
-  text-align: left;
-  transition: color 0.25s ease;
-}
-
-.collection-col-header-btn:hover {
-  color: var(--color-sale-red);
-}
-
-.col-dropdown-arrow {
-  font-size: 1.25rem;
-  transition: transform 0.25s ease;
-  display: none;
-}
-
-.col-dropdown-arrow.rotated {
-  transform: rotate(180deg);
-}
-
-.collection-link-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.collection-link-list li a {
-  font-family: var(--font-heading);
   font-size: 0.92rem;
-  letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
   text-transform: uppercase;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 0;
-  transition: all 0.2s ease;
+  letter-spacing: 0.05em;
+  color: var(--color-foreground);
+  margin-bottom: 14px;
 }
 
-.collection-link-list li a i {
-  font-size: 0.85rem;
-  color: var(--color-text-dim);
-  transition: transform 0.2s ease, color 0.2s ease;
+.checkout-field-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
 }
 
-.collection-link-list li a:hover {
-  color: #fff;
-  transform: translateX(4px);
-}
-
-.collection-link-list li a:hover i {
-  color: var(--color-sale-red);
-  transform: translateX(2px);
-}
-
-/* Mobile Responsive Optimization for Dropdown & Accordions */
-@media (max-width: 768px) {
-  .collections-directory-section {
-    padding: 20px 0 28px;
-  }
-  .collections-main-btn {
-    padding: 14px 18px;
-    font-size: 1rem;
-  }
-  .collections-btn-status {
-    display: none;
-  }
-  .collection-columns-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 14px;
-  }
-  .collection-directory-col {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    padding: 14px;
-  }
-  .collection-col-header-btn {
-    padding: 2px 0 8px 0;
-    margin-bottom: 10px;
-    font-size: 0.95rem;
-  }
-  .col-dropdown-arrow {
-    display: inline-block;
-  }
-  .collection-link-list.collapsed {
-    display: none;
-  }
-  .collection-link-list {
-    gap: 8px;
-  }
-  .collection-link-list li a {
-    font-size: 0.85rem;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 4px;
-    width: 100%;
-  }
+.checkout-summary-item-row {
+  transition: background 0.2s ease;
 }
 
 /* --- D. Customer VIP Drop Phone Number Section (Minimalist UI) --- */
@@ -4118,11 +3956,12 @@ select {
   }
 }
 .footer-col-title {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  letter-spacing: 0.06em;
-  color: #ffffff;
-  margin-bottom: 16px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 14px;
   text-transform: uppercase;
 }
 .footer-about-text {
