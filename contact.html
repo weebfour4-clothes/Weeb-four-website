@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | WEEBFOUR</title>
+  <meta name="description" content="Official contact details, customer support hours, email, phone, and address for WEEBFOUR.">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .contact-page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 120px 20px 80px;
+    }
+    .contact-breadcrumb {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .contact-breadcrumb a {
+      color: var(--color-foreground);
+      text-decoration: none;
+    }
+    .contact-main-heading {
+      font-family: var(--font-heading);
+      font-size: 2.8rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+    .contact-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin: 36px 0;
+    }
+    .contact-tile {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 24px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .contact-tile:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+    .contact-tile-icon {
+      font-size: 2rem;
+      color: #00d66c;
+      margin-bottom: 12px;
+    }
+    .contact-tile-title {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    .contact-tile-sub {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+    .contact-tile-val {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-foreground);
+      text-decoration: none;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header" style="position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(9, 10, 13, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--color-border);">
+    <div class="header-container" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;">
+      <a href="index.html" class="brand-logo-link" style="text-decoration: none;">
+        <span class="brand-logo-text" style="font-family: var(--font-heading); font-size: 2rem; color: #ffffff; letter-spacing: 0.05em;">WEEBFOUR</span>
+      </a>
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <a href="index.html" class="btn btn-sm btn-secondary" style="font-size: 0.85rem; padding: 8px 16px; text-decoration: none;"><i class="ri-arrow-left-line"></i> Back to Store</a>
+        <a href="cart.html" class="header-action-btn" aria-label="Shopping Bag"><i class="ri-shopping-bag-3-line"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="contact-page-container">
+    <div class="contact-breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="ri-arrow-right-s-line"></i>
+      <span>Contact Us</span>
+    </div>
+
+    <h1 class="contact-main-heading">CUSTOMER SUPPORT &amp; CONTACT DETAILS</h1>
+    <p style="color: var(--color-text-muted); font-size: 1rem; max-width: 650px;">
+      Have a question about your order, tracking, sizing, or payment? Our official customer support team is available Monday to Saturday to assist you promptly.
+    </p>
+
+    <div class="contact-cards-grid">
+      <!-- Card 1: Official Email -->
+      <div class="contact-tile">
+        <i class="ri-mail-send-line contact-tile-icon" style="color: #ea4335;"></i>
+        <div class="contact-tile-title">EMAIL SUPPORT</div>
+        <div class="contact-tile-sub">For order updates, invoices &amp; general inquiries:</div>
+        <a href="mailto:weebfour.4@gmail.com" class="contact-tile-val" style="display: block; color: #ffffff; margin-bottom: 4px;">weebfour.4@gmail.com</a>
+        <a href="mailto:support@weebfour.com" class="contact-tile-val" style="color: var(--color-text-muted); font-size: 0.9rem;">support@weebfour.com</a>
+      </div>
+
+      <!-- Card 2: Phone & WhatsApp -->
+      <div class="contact-tile">
+        <i class="ri-whatsapp-line contact-tile-icon" style="color: #25D366;"></i>
+        <div class="contact-tile-title">PHONE &amp; WHATSAPP</div>
+        <div class="contact-tile-sub">Live customer desk &amp; instant tracking queries:</div>
+        <a href="https://wa.me/916381177617" target="_blank" class="contact-tile-val" style="display: block; color: #00d66c; margin-bottom: 4px;">+91 63811 77617</a>
+        <div style="font-size: 0.8rem; color: var(--color-text-muted);">Mon – Sat | 10:00 AM – 7:00 PM IST</div>
+      </div>
+
+      <!-- Card 3: Operating Location -->
+      <div class="contact-tile">
+        <i class="ri-map-pin-line contact-tile-icon" style="color: #3b82f6;"></i>
+        <div class="contact-tile-title">OPERATING ADDRESS</div>
+        <div class="contact-tile-sub">Registered Brand &amp; Fulfillment Hub:</div>
+        <div style="font-size: 0.95rem; line-height: 1.5; color: #ffffff;">
+          <strong>WEEBFOUR Streetwear</strong><br>
+          Hosur, Tamil Nadu<br>
+          India - 635126
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Message Box -->
+    <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--color-border); border-radius: 8px; padding: 28px; margin-top: 20px;">
+      <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #ffffff; margin-bottom: 8px;">Direct Support Inquiries</h3>
+      <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 18px;">
+        For express support with an existing order, please include your <strong>Order ID (#WEEB-XXXX)</strong> and your registered phone number when messaging us.
+      </p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="https://wa.me/916381177617?text=Hi%20WEEBFOUR,%20I%20have%20an%20inquiry%20regarding%20my%20order" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 12px 24px; background: #25D366; border-color: #25D366; color: #000; font-weight: 700;">
+          <i class="ri-whatsapp-line" style="font-size: 1.2rem;"></i> Chat on WhatsApp
+        </a>
+        <a href="mailto:weebfour.4@gmail.com?subject=WEEBFOUR%20Customer%20Support%20Inquiry" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 12px 24px;">
+          <i class="ri-mail-line" style="font-size: 1.2rem;"></i> Send an Email
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="main-footer" style="background: #090a0d; border-top: 1px solid var(--color-border); padding: 40px 20px; text-align: center; font-size: 0.85rem; color: var(--color-text-muted);">
+    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 14px; flex-wrap: wrap;">
+      <a href="terms.html" style="color: var(--color-foreground); text-decoration: none;">Terms of Service</a>
+      <a href="privacy-policy.html" style="color: var(--color-foreground); text-decoration: none;">Privacy Policy</a>
+      <a href="refund-policy.html" style="color: var(--color-foreground); text-decoration: none;">Cancellation &amp; Refund Policy</a>
+      <a href="shipping-policy.html" style="color: var(--color-foreground); text-decoration: none;">Shipping Policy</a>
+      <a href="contact.html" style="color: var(--color-foreground); text-decoration: none;">Contact Us</a>
+    </div>
+    <div>&copy; 2026 WEEBFOUR. ALL RIGHTS RESERVED.</div>
+  </footer>
+</body>
+</html>
