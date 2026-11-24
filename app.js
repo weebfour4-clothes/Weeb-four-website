@@ -379,6 +379,7 @@ function renderProducts() {
         ? Math.round(((item.compareAtPrice - item.price) / item.compareAtPrice) * 100)
         : 0;
       const isWishlisted = wishlist.has(item.id);
+      const isAvailable = item.inStock !== false;
       
       const hasImages = item.images && item.images.length > 0 && item.images[0];
       const mainImg = hasImages ? item.images[0] : '';
@@ -387,12 +388,13 @@ function renderProducts() {
       const sizePills = item.sizes ? item.sizes.map(s => `<span class="mini-size-pill">${s}</span>`).join('') : '';
 
       return `
-        <div class="product-card" data-id="${item.id}">
+        <div class="product-card ${!isAvailable ? 'card-out-of-stock' : ''}" data-id="${item.id}">
           <!-- Media Box clicking navigates to dedicated product.html page (thelastape.in style) -->
-          <div class="card-media-box" onclick="window.location.href='product.html?id=${item.id}'" style="cursor: pointer;">
+          <div class="card-media-box" onclick="window.location.href='product.html?id=${item.id}'" style="cursor: pointer; position: relative;">
             <!-- Badges Left -->
             <div class="card-badges-left">
-              ${discount > 0 ? `<span class="sale-pill-badge">-${discount}% OFF</span>` : ''}
+              ${!isAvailable ? `<span class="sale-pill-badge" style="background: var(--color-muted-red);">SOLD OUT</span>` : ''}
+              ${discount > 0 && isAvailable ? `<span class="sale-pill-badge">-${discount}% OFF</span>` : ''}
               ${item.tag ? `<span class="bestseller-badge">${item.tag}</span>` : ''}
             </div>
 
@@ -410,11 +412,11 @@ function renderProducts() {
                       aria-label="Open Product Page">
                 <i class="ri-eye-line"></i>
               </button>
-              <button class="card-icon-btn" 
-                      onclick="quickAddToCart(${item.id})" 
-                      title="Quick Add to Bag" 
-                      aria-label="Add to Bag">
-                <i class="ri-shopping-bag-line"></i>
+              <button class="card-icon-btn ${!isAvailable ? 'btn-disabled-soldout' : ''}" 
+                      onclick="${isAvailable ? `quickAddToCart(${item.id})` : `showToast('This product is currently sold out.')`}" 
+                      title="${isAvailable ? 'Quick Add to Bag' : 'Sold Out'}" 
+                      aria-label="${isAvailable ? 'Add to Bag' : 'Sold Out'}">
+                <i class="${isAvailable ? 'ri-shopping-bag-line' : 'ri-close-circle-line'}"></i>
               </button>
             </div>
 
@@ -430,17 +432,25 @@ function renderProducts() {
               </div>
             `}
 
+            ${!isAvailable ? `
+              <div class="card-soldout-overlay"><span>SOLD OUT</span></div>
+            ` : ''}
+
             <!-- Interactive Quick Size Selector Bar (thelastape.in signature feature) -->
             <div class="card-quick-sizes" onclick="event.stopPropagation();">
-              <span class="quick-size-label">QUICK ADD:</span>
-              ${(item.sizes && item.sizes.length > 0 ? item.sizes : ['S', 'M', 'L', 'XL']).map(s => `
+              <span class="quick-size-label">${isAvailable ? 'QUICK ADD:' : 'STATUS:'}</span>
+              ${isAvailable ? (item.sizes && item.sizes.length > 0 ? item.sizes : ['S', 'M', 'L', 'XL', 'XXL']).map(s => `
                 <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, ${item.id}, '${s}')" title="Quick add ${s}">${s}</button>
-              `).join('')}
+              `).join('') : '<span style="font-size:0.75rem; color:#ff6b6b; font-weight:700;">OUT OF STOCK</span>'}
             </div>
           </div>
 
           <!-- Product Details -->
           <div class="card-info-wrap">
+            <div class="product-stock-tag ${isAvailable ? 'in-stock' : 'out-of-stock'}">
+              <i class="${isAvailable ? 'ri-checkbox-circle-fill' : 'ri-close-circle-fill'}"></i>
+              ${isAvailable ? 'In Stock' : 'Out of Stock'}
+            </div>
             <span class="card-brand-tag">WEEBFOUR</span>
             <h3 class="card-product-title" onclick="window.location.href='product.html?id=${item.id}'" style="cursor: pointer;">${item.name}</h3>
             
@@ -711,6 +721,10 @@ function closeCartDrawer() {
 function quickAddToCart(productId) {
   const product = (window.products || []).find(p => String(p.id) === String(productId) || Number(p.id) === Number(productId));
   if (!product) return;
+  if (product.inStock === false) {
+    showToast(`Sorry, "${product.name}" is currently sold out.`);
+    return;
+  }
 
   const defaultSize = (product.sizes && product.sizes.length > 0) ? product.sizes[0] : 'ONESIZE';
   addToCart(product, defaultSize, 1);
@@ -718,6 +732,12 @@ function quickAddToCart(productId) {
 }
 
 function addToCart(product, size, qty = 1) {
+  if (!product) return;
+  if (product.inStock === false) {
+    showToast(`Sorry, "${product.name}" is currently out of stock.`);
+    return;
+  }
+
   const existing = cart.find(item => item.id === product.id && item.size === size);
   if (existing) {
     existing.quantity += qty;
@@ -1782,23 +1802,50 @@ function renderAdminProductsList() {
     return !q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || (p.tag && p.tag.toLowerCase().includes(q));
   });
 
-  tbody.innerHTML = filtered.map(p => `
-    <tr>
-      <td>
-        <img src="${p.images[0]}" style="width: 44px; height: 55px; object-fit: cover; border: 1px solid #ddd;">
-      </td>
-      <td><strong>${p.name}</strong></td>
-      <td><span class="mini-size-pill">${p.category.toUpperCase()}</span></td>
-      <td>₹${p.price}</td>
-      <td><span style="color: #888; text-decoration: line-through;">₹${p.compareAtPrice}</span></td>
-      <td>${p.tag ? `<span class="sale-pill-badge" style="font-size: 0.75rem;">${p.tag}</span>` : '-'}</td>
-      <td>${p.sizes ? p.sizes.join(', ') : '-'}</td>
-      <td>
-        <button class="btn btn-sm btn-secondary" onclick="openProductEditModal(${p.id})"><i class="ri-edit-line"></i></button>
-        <button class="btn btn-sm btn-secondary" style="color: var(--color-sale-red);" onclick="deleteAdminProduct(${p.id})"><i class="ri-delete-bin-line"></i></button>
-      </td>
-    </tr>
-  `).join('');
+  tbody.innerHTML = filtered.map(p => {
+    const isAvailable = p.inStock !== false;
+    return `
+      <tr>
+        <td>
+          <img src="${p.images[0]}" style="width: 44px; height: 55px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px;">
+        </td>
+        <td><strong>${p.name}</strong></td>
+        <td><span class="mini-size-pill">${p.category.toUpperCase()}</span></td>
+        <td>₹${p.price}</td>
+        <td>
+          <button type="button" class="btn btn-xs" 
+                  style="font-size: 0.75rem; padding: 5px 10px; border-radius: 4px; font-weight: 700; cursor: pointer; background: ${isAvailable ? 'rgba(0,214,108,0.15)' : 'rgba(184,58,58,0.2)'}; color: ${isAvailable ? '#00d66c' : '#ff5e5e'}; border: 1px solid ${isAvailable ? 'rgba(0,214,108,0.4)' : 'rgba(184,58,58,0.4)'};"
+                  onclick="toggleProductStock(${p.id})">
+            ${isAvailable ? '<i class="ri-checkbox-circle-fill"></i> IN STOCK' : '<i class="ri-close-circle-fill"></i> OUT OF STOCK'}
+          </button>
+        </td>
+        <td>${p.tag ? `<span class="sale-pill-badge" style="font-size: 0.75rem;">${p.tag}</span>` : '-'}</td>
+        <td>${p.sizes ? p.sizes.join(', ') : '-'}</td>
+        <td>
+          <button class="btn btn-sm btn-secondary" onclick="openProductEditModal(${p.id})" title="Edit Details"><i class="ri-edit-line"></i></button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function toggleProductStock(productId) {
+  const p = (window.products || []).find(item => item.id == productId);
+  if (!p) return;
+  const current = p.inStock !== false;
+  p.inStock = !current;
+
+  try {
+    const saved = JSON.parse(localStorage.getItem('weebfour_stock_overrides') || '{}');
+    saved[p.id] = p.inStock;
+    localStorage.setItem('weebfour_stock_overrides', JSON.stringify(saved));
+  } catch (e) {}
+
+  if (typeof renderAdminProductsList === 'function') renderAdminProductsList();
+  if (typeof renderProductFeed === 'function') renderProductFeed();
+  if (typeof updateProductPageStock === 'function') updateProductPageStock();
+
+  showToast(`Stock updated: "${p.name}" is now ${p.inStock ? 'IN STOCK' : 'OUT OF STOCK'}`);
 }
 
 // Admin Product Add/Edit Modal
@@ -2786,13 +2833,16 @@ function initProductDetailPage() {
 
   const sizesContainer = document.getElementById('p-sizes-container');
   if (sizesContainer) {
-    const availableSizes = (product.sizes && product.sizes.length > 0) ? product.sizes : ['S', 'M', 'L', 'XL'];
+    const availableSizes = (product.sizes && product.sizes.length > 0) ? product.sizes : ['S', 'M', 'L', 'XL', 'XXL'];
     sizesContainer.innerHTML = availableSizes.map((s, idx) => `
-      <button type="button" class="p-size-chip ${idx === 0 ? 'selected' : ''}" onclick="selectProductPageSize('${s}', this)">
+      <button type="button" class="p-size-chip ${s === currentProductSelectedSize ? 'selected' : ''}" onclick="selectProductPageSize('${s}', this)">
         ${s}
       </button>
     `).join('');
   }
+
+  // Stock Availability Status & Purchase Buttons
+  updateProductPageStock();
 
   // Descriptions
   const descEl = document.getElementById('p-desc-text');
@@ -2806,6 +2856,49 @@ function initProductDetailPage() {
 
   // Related Products
   renderRelatedProducts(product);
+}
+
+function updateProductPageStock() {
+  if (!currentProductItem) return;
+  const isAvailable = currentProductItem.inStock !== false;
+  const stockIndicator = document.getElementById('p-stock-indicator');
+  const stockText = document.getElementById('p-stock-text');
+  const addBagBtn = document.querySelector('.p-add-bag-btn');
+  const buyNowBtn = document.querySelector('.p-buy-now-btn');
+
+  if (stockIndicator) {
+    if (isAvailable) {
+      stockIndicator.className = 'p-stock-indicator in-stock';
+      if (stockText) stockText.textContent = 'In Stock • Ready to Dispatch';
+    } else {
+      stockIndicator.className = 'p-stock-indicator out-of-stock';
+      if (stockText) stockText.textContent = 'Currently Out of Stock / Sold Out';
+    }
+  }
+
+  if (addBagBtn) {
+    if (isAvailable) {
+      addBagBtn.disabled = false;
+      addBagBtn.classList.remove('btn-disabled-soldout');
+      addBagBtn.innerHTML = '<i class="ri-shopping-bag-3-line"></i> ADD TO BAG';
+    } else {
+      addBagBtn.disabled = true;
+      addBagBtn.classList.add('btn-disabled-soldout');
+      addBagBtn.innerHTML = '<i class="ri-close-circle-line"></i> SOLD OUT';
+    }
+  }
+
+  if (buyNowBtn) {
+    if (isAvailable) {
+      buyNowBtn.disabled = false;
+      buyNowBtn.classList.remove('btn-disabled-soldout');
+      buyNowBtn.innerHTML = '<i class="ri-flashlight-fill"></i> BUY IT NOW';
+    } else {
+      buyNowBtn.disabled = true;
+      buyNowBtn.classList.add('btn-disabled-soldout');
+      buyNowBtn.innerHTML = 'OUT OF STOCK';
+    }
+  }
 }
 
 function selectProductPageImage(src, btn) {

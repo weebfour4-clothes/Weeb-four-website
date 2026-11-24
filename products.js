@@ -58,7 +58,9 @@ const defaultProducts = [
     tag: "NEW DROP",
     price: 999,
     compareAtPrice: 1999,
-    sizes: ["S", "M", "L", "XL"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    inStock: true,
+    stockCount: 15,
     description: "Upgrade your streetwear game with the signature WEEBFOUR Cyberpunk Glitch Oversized Tee. Cut from 280 GSM ultra-dense French Terry Cotton, this tee offers a heavy structural boxy fit designed to maintain its shape. Featuring high-density puff print calligraphy and the iconic WEB4! symbol, pre-shrunk and silicone washed.",
     images: ["assets/tee_front_clean.jpg", "assets/tee_back.jpg", "assets/art_tokyo_kanji.jpg"]
   },
@@ -69,7 +71,9 @@ const defaultProducts = [
     tag: "BEST SELLER",
     price: 1199,
     compareAtPrice: 2299,
-    sizes: ["S", "M", "L", "XL"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    inStock: true,
+    stockCount: 10,
     description: "Custom acid-washed t-shirt featuring our signature distressed Apes Skull design. Every shirt features a unique mineral distress pattern. Heavyweight 260 GSM fabric, ribbed crewneck collar, and double-needle stitching make this piece extremely durable and ready for daily wear.",
     images: ["assets/tee_front.jpg", "assets/tee_back.jpg", "assets/art_apes_skull.jpg"]
   }
@@ -77,6 +81,19 @@ const defaultProducts = [
 
 // Always enforce the user's authentic 2 products
 let products = [...defaultProducts];
+
+// Synchronize persistent stock overrides from Admin Panel
+try {
+  const stockOverrides = localStorage.getItem('weebfour_stock_overrides');
+  if (stockOverrides) {
+    const parsed = JSON.parse(stockOverrides);
+    products.forEach(p => {
+      if (parsed[p.id] !== undefined) {
+        p.inStock = Boolean(parsed[p.id]);
+      }
+    });
+  }
+} catch (e) {}
 try {
   localStorage.removeItem('weebfour_custom_catalog');
   localStorage.removeItem('weebfour_custom_catalog_v2');

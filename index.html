@@ -97,66 +97,14 @@
         </a>
       </div>
 
-      <!-- Center: Desktop Navigation Links with Dropdowns -->
+      <!-- Center: Desktop Navigation Links (Home, Shop, Sale, Our story, Contact) -->
       <div class="header-center">
         <nav class="desktop-nav">
           <a href="#" class="nav-link-item active" data-nav="home">Home</a>
-          <a href="#shop" class="nav-link-item" data-nav="shop" onclick="filterByCategory('all')">Shop All</a>
-
-          <!-- Topwear Dropdown -->
-          <div class="nav-dropdown-item">
-            <a href="#shop" class="nav-link-item" onclick="filterByCategory('topwear')">
-              Topwear <i class="ri-arrow-down-s-line nav-caret"></i>
-            </a>
-            <div class="nav-dropdown-menu">
-              <a href="#shop" class="dropdown-link-bold" onclick="filterByCategory('topwear')">All Topwear</a>
-              <div class="dropdown-divider"></div>
-              <a href="#shop" onclick="filterByCategory('shirts')">Shirts</a>
-              <a href="#shop" onclick="filterByCategory('tshirts')">T-Shirts</a>
-              <a href="#shop" onclick="filterByCategory('sweatshirts')">Sweatshirts</a>
-              <a href="#shop" onclick="filterByCategory('hoodies')">Hoodies</a>
-              <a href="#shop" onclick="filterByCategory('bodysuits')">Bodysuits</a>
-              <a href="#shop" onclick="filterByCategory('jackets')">Jackets</a>
-            </div>
-          </div>
-
-          <!-- Bottom Wears Dropdown -->
-          <div class="nav-dropdown-item">
-            <a href="#shop" class="nav-link-item" onclick="filterByCategory('bottomwear')">
-              Bottom Wears <i class="ri-arrow-down-s-line nav-caret"></i>
-            </a>
-            <div class="nav-dropdown-menu">
-              <a href="#shop" class="dropdown-link-bold" onclick="filterByCategory('bottomwear')">All Bottom Wears</a>
-              <div class="dropdown-divider"></div>
-              <a href="#shop" onclick="filterByCategory('trousers')">Trousers</a>
-              <a href="#shop" onclick="filterByCategory('denims')">Denims</a>
-              <a href="#shop" onclick="filterByCategory('cargos')">Cargos</a>
-              <a href="#shop" onclick="filterByCategory('joggers')">Joggers</a>
-              <a href="#shop" onclick="filterByCategory('shorts')">Shorts</a>
-            </div>
-          </div>
-
-          <!-- Accessories Dropdown -->
-          <div class="nav-dropdown-item">
-            <a href="#shop" class="nav-link-item" onclick="filterByCategory('accessories')">
-              Accessories <i class="ri-arrow-down-s-line nav-caret"></i>
-            </a>
-            <div class="nav-dropdown-menu">
-              <a href="#shop" class="dropdown-link-bold" onclick="filterByCategory('accessories')">All Accessories</a>
-              <div class="dropdown-divider"></div>
-              <a href="#shop" onclick="filterByCategory('shades')">Shades</a>
-              <a href="#shop" onclick="filterByCategory('socks')">Socks</a>
-              <a href="#shop" onclick="filterByCategory('bags')">Bags</a>
-              <a href="#shop" onclick="filterByCategory('cap')">Cap</a>
-              <a href="#shop" onclick="filterByCategory('perfume')">Perfume</a>
-            </div>
-          </div>
-
-          <a href="#shop" class="nav-link-item" data-nav="shop">Shop</a>
-          <a href="#shop" class="nav-link-item" onclick="filterByTag('NEW DROP')">
-            New <span class="new-tag">NEW</span>
-          </a>
-          <a href="#shop" class="nav-link-item sale-link" onclick="filterByTag('BEST SELLER')">Sale</a>
+          <a href="#shop" class="nav-link-item" data-nav="shop" onclick="filterByCategory('all')">Shop</a>
+          <a href="#shop" class="nav-link-item sale-link" style="color: var(--color-muted-red); font-weight: 700;" onclick="filterByTag('NEW DROP')">Sale</a>
+          <a href="#our-story" class="nav-link-item" data-nav="story">Our story</a>
+          <a href="contact.html" class="nav-link-item" data-nav="contact">Contact</a>
         </nav>
       </div>
 
@@ -204,90 +152,42 @@
     </div>
     <div class="drawer-nav-list">
       <div class="drawer-nav-item">
-        <a href="#shop" class="drawer-nav-link sale" onclick="filterByTag('BEST SELLER'); closeMobileDrawer();">
-          Sale <i class="ri-arrow-right-s-line"></i>
-        </a>
-      </div>
-      <div class="drawer-nav-item">
-        <a href="#shop" class="drawer-nav-link" onclick="filterByTag('NEW DROP'); closeMobileDrawer();">
-          New Arrivals <span class="new-tag">NEW</span>
-        </a>
-      </div>
-      <div class="drawer-nav-item">
         <a href="#" class="drawer-nav-link" onclick="closeMobileDrawer();">
           Home
         </a>
       </div>
       <div class="drawer-nav-item">
         <a href="#shop" class="drawer-nav-link" onclick="filterByCategory('all'); closeMobileDrawer();">
-          Shop All <i class="ri-arrow-right-s-line"></i>
+          Shop <i class="ri-arrow-right-s-line"></i>
         </a>
       </div>
-      <!-- Topwear Accordion -->
       <div class="drawer-nav-item">
-        <div class="drawer-nav-link" style="cursor: pointer;" onclick="toggleDrawerSubmenu(this)">
-          Topwear <i class="ri-add-line"></i>
-        </div>
-        <div class="drawer-submenu" style="display: none;">
-          <a href="#shop" onclick="filterByCategory('topwear'); closeMobileDrawer();" style="font-weight: 700;">All Topwear</a>
-          <a href="#shop" onclick="filterByCategory('shirts'); closeMobileDrawer();">Shirts</a>
-          <a href="#shop" onclick="filterByCategory('tshirts'); closeMobileDrawer();">T-Shirts</a>
-          <a href="#shop" onclick="filterByCategory('sweatshirts'); closeMobileDrawer();">Sweatshirts</a>
-          <a href="#shop" onclick="filterByCategory('hoodies'); closeMobileDrawer();">Hoodies</a>
-          <a href="#shop" onclick="filterByCategory('bodysuits'); closeMobileDrawer();">Bodysuits</a>
-          <a href="#shop" onclick="filterByCategory('jackets'); closeMobileDrawer();">Jackets</a>
-        </div>
-      </div>
-
-      <!-- Bottom Wears Accordion -->
-      <div class="drawer-nav-item">
-        <div class="drawer-nav-link" style="cursor: pointer;" onclick="toggleDrawerSubmenu(this)">
-          Bottom Wears <i class="ri-add-line"></i>
-        </div>
-        <div class="drawer-submenu" style="display: none;">
-          <a href="#shop" onclick="filterByCategory('bottomwear'); closeMobileDrawer();" style="font-weight: 700;">All Bottom Wears</a>
-          <a href="#shop" onclick="filterByCategory('trousers'); closeMobileDrawer();">Trousers</a>
-          <a href="#shop" onclick="filterByCategory('denims'); closeMobileDrawer();">Denims</a>
-          <a href="#shop" onclick="filterByCategory('cargos'); closeMobileDrawer();">Cargos</a>
-          <a href="#shop" onclick="filterByCategory('joggers'); closeMobileDrawer();">Joggers</a>
-          <a href="#shop" onclick="filterByCategory('shorts'); closeMobileDrawer();">Shorts</a>
-        </div>
-      </div>
-
-      <!-- Accessories Accordion -->
-      <div class="drawer-nav-item">
-        <div class="drawer-nav-link" style="cursor: pointer;" onclick="toggleDrawerSubmenu(this)">
-          Accessories <i class="ri-add-line"></i>
-        </div>
-        <div class="drawer-submenu" style="display: none;">
-          <a href="#shop" onclick="filterByCategory('accessories'); closeMobileDrawer();" style="font-weight: 700;">All Accessories</a>
-          <a href="#shop" onclick="filterByCategory('shades'); closeMobileDrawer();">Shades</a>
-          <a href="#shop" onclick="filterByCategory('socks'); closeMobileDrawer();">Socks</a>
-          <a href="#shop" onclick="filterByCategory('bags'); closeMobileDrawer();">Bags</a>
-          <a href="#shop" onclick="filterByCategory('cap'); closeMobileDrawer();">Cap</a>
-          <a href="#shop" onclick="filterByCategory('perfume'); closeMobileDrawer();">Perfume</a>
-        </div>
-      </div>
-
-      <div class="drawer-nav-item">
-        <a href="#shop" class="drawer-nav-link" onclick="closeMobileDrawer();">
-          Browse All Drops <i class="ri-arrow-right-s-line"></i>
+        <a href="#shop" class="drawer-nav-link sale" style="color: var(--color-muted-red); font-weight: 700;" onclick="filterByTag('NEW DROP'); closeMobileDrawer();">
+          Sale <span class="new-tag" style="background: var(--color-muted-red);">NEW</span>
         </a>
       </div>
-
       <div class="drawer-nav-item">
-        <a href="javascript:void(0)" class="drawer-nav-link" onclick="openAdminModal(); closeMobileDrawer();" style="color: var(--color-sale-red);">
-          <i class="ri-shield-keyhole-line"></i> Master Admin Access
+        <a href="#our-story" class="drawer-nav-link" onclick="closeMobileDrawer();">
+          Our story <i class="ri-arrow-right-s-line"></i>
+        </a>
+      </div>
+      <div class="drawer-nav-item">
+        <a href="contact.html" class="drawer-nav-link" onclick="closeMobileDrawer();">
+          Contact <i class="ri-arrow-right-s-line"></i>
+        </a>
+      </div>
+      <div class="drawer-nav-item" style="margin-top: 14px; border-top: 1px solid var(--color-border); padding-top: 12px;">
+        <a href="javascript:void(0)" class="drawer-nav-link" onclick="openAdminModal(); closeMobileDrawer();" style="color: var(--color-text-dim); font-size: 0.9rem;">
+          <i class="ri-shield-keyhole-line"></i> Admin Login
         </a>
       </div>
     </div>
     <div class="drawer-footer">
-      <p style="font-size: 0.85rem; color: #888; margin-bottom: 6px;">Support: support@weebfour.com</p>
+      <p style="font-size: 0.85rem; color: #888; margin-bottom: 6px;">Support: balajikishore007@gmail.com</p>
       <p style="font-size: 0.85rem; color: #888;">Pan-India Shipping | COD Available</p>
       <div class="drawer-social-row">
-        <a href="#"><i class="ri-instagram-line"></i></a>
-        <a href="#"><i class="ri-whatsapp-line"></i></a>
-        <a href="#"><i class="ri-twitter-x-line"></i></a>
+        <a href="https://www.instagram.com/weebfour?knvt=MXF3d2FwZTN1azl0bw%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+        <a href="https://wa.me/916381177617" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="ri-whatsapp-line"></i></a>
       </div>
     </div>
   </div>
@@ -317,11 +217,8 @@
       </p>
 
       <div class="hero-cta-row">
-        <a href="#shop" class="btn hero-btn-black minimal-btn" id="hero-cta-primary">
-          SHOP NOW <i class="ri-arrow-right-line"></i>
-        </a>
-        <a href="#shop" class="btn hero-btn-outline minimal-btn-outline" id="hero-cta-secondary">
-          EXPLORE ALL
+        <a href="#shop" class="btn story-btn-red" id="hero-cta-primary">
+          EXPLORE THE DROP <i class="ri-arrow-right-line"></i>
         </a>
       </div>
     </div>
@@ -349,7 +246,51 @@
           <div class="prop-icon-wrap"><i class="ri-shield-star-line prop-icon"></i></div>
           <div class="prop-text-wrap">
             <div class="prop-title">100% PREMIUM COTTON</div>
-            <div class="prop-desc">High-density puff print & durable wash</div>
+            <div class="prop-desc">High-density puff print &amp; durable wash</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Our Story Section (1:1 Matching User's Reference Screen & Color Palette) -->
+  <section class="our-story-section" id="our-story">
+    <div class="page-container">
+      <div class="story-grid-layout">
+        <div class="story-content-side">
+          <div class="story-tag-pill">
+            <i class="ri-fire-fill"></i> THE STORY BEHIND WEEBFOUR
+          </div>
+          
+          <h2 class="story-main-heading">
+            NOT MADE<br>
+            <span>TO FIT IN.</span>
+          </h2>
+
+          <div class="story-quote-lead">
+            EVERY BRAND HAS A STORY. OURS IS JUST BEGINNING.
+          </div>
+
+          <div class="story-body-paragraphs">
+            <p>WEEBFOUR wasn't created to fit in.</p>
+            <p>It was created for those who see fashion differently.</p>
+            <p>Rooted in street culture and driven by individuality, we believe clothing should be more than something you wear.</p>
+            <p class="story-highlight-quote">"It should be an extension of who you are."</p>
+            <p>No unnecessary noise. No chasing trends.</p>
+            <p>Just designs that speak for themselves.</p>
+            <p>We're building something different, one drop at a time.</p>
+          </div>
+
+          <div class="story-brand-signoff">
+            <div class="story-brand-name">WEEBFOUR</div>
+            <div class="story-tagline">Different by design. Defined by you.</div>
+            <div class="story-hashtag">#weebfied</div>
+          </div>
+
+          <div class="story-cta-row">
+            <a href="#shop" class="story-btn-red" onclick="filterByCategory('all')">
+              EXPLORE THE DROP <i class="ri-arrow-right-line"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -362,37 +303,14 @@
       <div class="section-title-wrap">
         <div class="section-tag-pill"><i class="ri-sparkling-fill"></i> FEATURED DROPS</div>
         <h2 class="section-main-heading" id="catalog-title">THE DROPS</h2>
-        <p class="section-subheading" id="catalog-subtitle">LATEST ARRIVALS & RESTOCKS</p>
+        <p class="section-subheading" id="catalog-subtitle">LATEST ARRIVALS &amp; RESTOCKS</p>
       </div>
 
-      <!-- Department Filter Tabs -->
+      <!-- Clean Drops Filter Tabs -->
       <div class="feed-tabs-container">
         <button class="feed-tab-btn active" data-filter="all" onclick="setFeedFilter('all')">ALL DROPS</button>
-        <button class="feed-tab-btn" data-filter="topwear" onclick="setFeedFilter('topwear')">TOPWEAR</button>
-        <button class="feed-tab-btn" data-filter="bottomwear" onclick="setFeedFilter('bottomwear')">BOTTOM WEARS</button>
-        <button class="feed-tab-btn" data-filter="accessories" onclick="setFeedFilter('accessories')">ACCESSORIES</button>
-      </div>
-
-      <!-- Quick Sub-Collection Pills Bar -->
-      <div class="feed-subpills-container" id="feed-subpills-container">
-        <button class="subpill-btn" data-cat="shirts" onclick="setFeedFilter('shirts')">Shirts</button>
-        <button class="subpill-btn" data-cat="tshirts" onclick="setFeedFilter('tshirts')">T-Shirts</button>
-        <button class="subpill-btn" data-cat="sweatshirts" onclick="setFeedFilter('sweatshirts')">Sweatshirts</button>
-        <button class="subpill-btn" data-cat="hoodies" onclick="setFeedFilter('hoodies')">Hoodies</button>
-        <button class="subpill-btn" data-cat="bodysuits" onclick="setFeedFilter('bodysuits')">Bodysuits</button>
-        <button class="subpill-btn" data-cat="jackets" onclick="setFeedFilter('jackets')">Jackets</button>
-        <span class="subpill-divider">|</span>
-        <button class="subpill-btn" data-cat="trousers" onclick="setFeedFilter('trousers')">Trousers</button>
-        <button class="subpill-btn" data-cat="denims" onclick="setFeedFilter('denims')">Denims</button>
-        <button class="subpill-btn" data-cat="cargos" onclick="setFeedFilter('cargos')">Cargos</button>
-        <button class="subpill-btn" data-cat="joggers" onclick="setFeedFilter('joggers')">Joggers</button>
-        <button class="subpill-btn" data-cat="shorts" onclick="setFeedFilter('shorts')">Shorts</button>
-        <span class="subpill-divider">|</span>
-        <button class="subpill-btn" data-cat="shades" onclick="setFeedFilter('shades')">Shades</button>
-        <button class="subpill-btn" data-cat="socks" onclick="setFeedFilter('socks')">Socks</button>
-        <button class="subpill-btn" data-cat="bags" onclick="setFeedFilter('bags')">Bags</button>
-        <button class="subpill-btn" data-cat="cap" onclick="setFeedFilter('cap')">Cap</button>
-        <button class="subpill-btn" data-cat="perfume" onclick="setFeedFilter('perfume')">Perfume</button>
+        <button class="feed-tab-btn" data-filter="new" onclick="filterByTag('NEW DROP')">NEW ARRIVALS</button>
+        <button class="feed-tab-btn" data-filter="bestseller" onclick="filterByTag('BEST SELLER')">BEST SELLERS</button>
       </div>
 
       <!-- Controls & Sort -->
@@ -440,13 +358,15 @@
               <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'M')" title="Quick add M">M</button>
               <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'L')" title="Quick add L">L</button>
               <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'XL')" title="Quick add XL">XL</button>
+              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'XXL')" title="Quick add XXL">XXL</button>
             </div>
           </div>
           <div class="card-info-wrap">
+            <div class="product-stock-tag in-stock"><i class="ri-checkbox-circle-fill"></i> In Stock</div>
             <span class="card-brand-tag">WEEBFOUR</span>
             <h3 class="card-product-title" onclick="window.location.href='product.html?id=1'" style="cursor: pointer;">CYBERPUNK GLITCH OVERSIZED TEE</h3>
             <div class="card-sizes-row">
-              <span class="mini-size-pill">S</span><span class="mini-size-pill">M</span><span class="mini-size-pill">L</span><span class="mini-size-pill">XL</span>
+              <span class="mini-size-pill">S</span><span class="mini-size-pill">M</span><span class="mini-size-pill">L</span><span class="mini-size-pill">XL</span><span class="mini-size-pill">XXL</span>
             </div>
             <div class="card-price-row">
               <span class="card-sale-price">₹999</span>
@@ -482,13 +402,15 @@
               <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'M')" title="Quick add M">M</button>
               <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'L')" title="Quick add L">L</button>
               <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'XL')" title="Quick add XL">XL</button>
+              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'XXL')" title="Quick add XXL">XXL</button>
             </div>
           </div>
           <div class="card-info-wrap">
+            <div class="product-stock-tag in-stock"><i class="ri-checkbox-circle-fill"></i> In Stock</div>
             <span class="card-brand-tag">WEEBFOUR</span>
             <h3 class="card-product-title" onclick="window.location.href='product.html?id=2'" style="cursor: pointer;">APES SKULL ACID WASH TEE</h3>
             <div class="card-sizes-row">
-              <span class="mini-size-pill">S</span><span class="mini-size-pill">M</span><span class="mini-size-pill">L</span><span class="mini-size-pill">XL</span>
+              <span class="mini-size-pill">S</span><span class="mini-size-pill">M</span><span class="mini-size-pill">L</span><span class="mini-size-pill">XL</span><span class="mini-size-pill">XXL</span>
             </div>
             <div class="card-price-row">
               <span class="card-sale-price">₹1,199</span>
@@ -887,50 +809,78 @@
     </div>
   </div>
 
-  <!-- 14. Size Chart Modal -->
+  <!-- 14. Size Chart Modal (Exact 1:1 to User's Specification Image) -->
   <div class="modal-overlay" id="size-chart-overlay" data-lenis-prevent>
-    <div class="modal-content-box" style="padding: 32px; max-width: 600px;" data-lenis-prevent>
+    <div class="modal-content-box" style="padding: 32px; max-width: 680px;" data-lenis-prevent>
       <button class="modal-close-x" onclick="closeSizeChartModal()" aria-label="Close size guide">
         <i class="ri-close-line"></i>
       </button>
       <h3 style="font-family: var(--font-heading); font-size: 2rem; margin-bottom: 6px;">WEEBFOUR SIZE GUIDE</h3>
-      <p style="font-size: 0.95rem; color: #666; margin-bottom: 20px;">Signature oversized streetwear boxy fit (relaxed drop shoulder). All measurements in inches.</p>
-      <table class="admin-table" style="font-size: 0.95rem;">
-        <thead>
-          <tr>
-            <th>SIZE</th>
-            <th>CHEST</th>
-            <th>LENGTH</th>
-            <th>SHOULDER</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>S</strong></td>
-            <td>44"</td>
-            <td>27"</td>
-            <td>20"</td>
-          </tr>
-          <tr>
-            <td><strong>M</strong></td>
-            <td>46"</td>
-            <td>28"</td>
-            <td>21"</td>
-          </tr>
-          <tr>
-            <td><strong>L</strong></td>
-            <td>48"</td>
-            <td>29"</td>
-            <td>22"</td>
-          </tr>
-          <tr>
-            <td><strong>XL</strong></td>
-            <td>50"</td>
-            <td>30"</td>
-            <td>23"</td>
-          </tr>
-        </tbody>
-      </table>
+      <p style="font-size: 0.95rem; color: var(--color-text-muted); margin-bottom: 20px;">Signature boxy drop-shoulder cut. Garment measurements in inches.</p>
+      <div style="overflow-x: auto;">
+        <table class="size-guide-table">
+          <thead>
+            <tr>
+              <th style="min-width: 200px;">Measurement</th>
+              <th>S</th>
+              <th>M</th>
+              <th>L</th>
+              <th>XL</th>
+              <th>XXL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Chest (Garment Circumference)</strong></td>
+              <td>40 inches</td>
+              <td>44 inches</td>
+              <td>46 inches</td>
+              <td><strong>48 inches</strong></td>
+              <td><strong>52 inches</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Chest Width (Flat)</strong></td>
+              <td>20 inches</td>
+              <td>22 inches</td>
+              <td>23 inches</td>
+              <td><strong>24 inches</strong></td>
+              <td><strong>26 inches</strong></td>
+            </tr>
+            <tr>
+              <td><strong>T-Shirt Length</strong></td>
+              <td>27 inches</td>
+              <td>28 inches</td>
+              <td>29 inches</td>
+              <td><strong>30 inches</strong></td>
+              <td><strong>31 inches</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Shoulder Width</strong></td>
+              <td>19 inches</td>
+              <td>20 inches</td>
+              <td>21 inches</td>
+              <td><strong>22 inches</strong></td>
+              <td><strong>23 inches</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Sleeve Length</strong></td>
+              <td>8.5 inches</td>
+              <td>9.0 inches</td>
+              <td>9.2 inches</td>
+              <td><strong>9.5 inches</strong></td>
+              <td><strong>10 inches</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Sleeve Opening (Flat)</strong></td>
+              <td>7.0 inches</td>
+              <td>7.5 inches</td>
+              <td>7.8 inches</td>
+              <td><strong>8 inches</strong></td>
+              <td><strong>8.5 inches</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -967,12 +917,11 @@
             Premium streetwear and graphic oversized tees. Heavyweight fabrics, durable boxy cuts, and clean aesthetic.
           </p>
           <div class="footer-social-row" style="margin-top: 18px;">
-            <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+            <a href="https://www.instagram.com/weebfour?knvt=MXF3d2FwZTN1azl0bw%3D%3D&utm_source=qr" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
             <button type="button" class="footer-social-btn" onclick="openAdminModal()" aria-label="Admin Login" title="Admin Login" style="cursor: pointer;">
               <i class="ri-shield-keyhole-line"></i>
             </button>
             <a href="https://wa.me/916381177617" target="_blank" rel="noopener" class="footer-social-btn" aria-label="WhatsApp"><i class="ri-whatsapp-line"></i></a>
-            <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Twitter"><i class="ri-twitter-x-line"></i></a>
           </div>
         </div>
 
@@ -1026,7 +975,7 @@
           </div>
           <div class="footer-contact-item" style="font-size: 0.8rem; color: var(--color-text-muted);">
             <i class="ri-map-pin-line"></i>
-            <span>Hosur, Tamil Nadu - 635126</span>
+            <span>3/335, DIG Salai, Jayashankar Nagar, 1st Street, Palavakkam, Chennai - 600041</span>
           </div>
         </div>
       </div>

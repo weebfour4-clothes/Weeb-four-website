@@ -225,6 +225,10 @@
             <span class="p-discount-pill" id="p-save-amount-text">Save ₹1,000</span>
           </div>
 
+          <div class="p-stock-indicator in-stock" id="p-stock-indicator">
+            <i class="ri-checkbox-circle-fill"></i> <span id="p-stock-text">In Stock • Ready to Dispatch</span>
+          </div>
+
           <div class="p-tax-info">
             <i class="ri-check-line" style="color: #00d66c;"></i> Tax included. <strong>Free pan-India express courier shipping</strong> on all orders.
           </div>
@@ -240,6 +244,7 @@
               <button type="button" class="p-size-btn active" onclick="selectSizeOption('M')">M</button>
               <button type="button" class="p-size-btn" onclick="selectSizeOption('L')">L</button>
               <button type="button" class="p-size-btn" onclick="selectSizeOption('XL')">XL</button>
+              <button type="button" class="p-size-btn" onclick="selectSizeOption('XXL')">XXL</button>
             </div>
           </div>
 
@@ -632,31 +637,78 @@
     </div>
   </div>
 
-  <!-- Size Chart Modal -->
+  <!-- Size Chart Modal (Exact 1:1 to User's Specification Image) -->
   <div class="modal-overlay" id="size-chart-overlay" data-lenis-prevent>
-    <div class="modal-content-box" style="padding: 32px; max-width: 600px;" data-lenis-prevent>
+    <div class="modal-content-box" style="padding: 32px; max-width: 680px;" data-lenis-prevent>
       <button class="modal-close-x" onclick="closeSizeChartModal()" aria-label="Close size guide">
         <i class="ri-close-line"></i>
       </button>
       <h3 style="font-family: var(--font-heading); font-size: 2rem; margin-bottom: 6px;">WEEBFOUR SIZE GUIDE</h3>
-      <p style="font-size: 0.85rem; color: #888; margin-bottom: 20px;">Measurements are in inches. Built with tailored boxy drop shoulders.</p>
-      <table class="admin-table" style="font-size: 0.95rem;">
-        <thead>
-          <tr>
-            <th>SIZE</th>
-            <th>CHEST (IN)</th>
-            <th>LENGTH (IN)</th>
-            <th>SHOULDER (IN)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>S</td><td>42"</td><td>28"</td><td>21"</td></tr>
-          <tr><td>M</td><td>44"</td><td>29"</td><td>22"</td></tr>
-          <tr><td>L</td><td>46"</td><td>30"</td><td>23"</td></tr>
-          <tr><td>XL</td><td>48"</td><td>31"</td><td>24"</td></tr>
-          <tr><td>XXL</td><td>50"</td><td>32"</td><td>25"</td></tr>
-        </tbody>
-      </table>
+      <p style="font-size: 0.85rem; color: #888; margin-bottom: 20px;">Signature boxy drop-shoulder cut. Garment measurements in inches.</p>
+      <div style="overflow-x: auto;">
+        <table class="size-guide-table">
+          <thead>
+            <tr>
+              <th style="min-width: 200px;">Measurement</th>
+              <th>S</th>
+              <th>M</th>
+              <th>L</th>
+              <th>XL</th>
+              <th>XXL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Chest (Garment Circumference)</strong></td>
+              <td>40 inches</td>
+              <td>44 inches</td>
+              <td>46 inches</td>
+              <td><strong>48 inches</strong></td>
+              <td><strong>52 inches</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Chest Width (Flat)</strong></td>
+              <td>20 inches</td>
+              <td>22 inches</td>
+              <td>23 inches</td>
+              <td><strong>24 inches</strong></td>
+              <td><strong>26 inches</strong></td>
+            </tr>
+            <tr>
+              <td><strong>T-Shirt Length</strong></td>
+              <td>27 inches</td>
+              <td>28 inches</td>
+              <td>29 inches</td>
+              <td><strong>30 inches</strong></td>
+              <td><strong>31 inches</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Shoulder Width</strong></td>
+              <td>19 inches</td>
+              <td>20 inches</td>
+              <td>21 inches</td>
+              <td><strong>22 inches</strong></td>
+              <td><strong>23 inches</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Sleeve Length</strong></td>
+              <td>8.5 inches</td>
+              <td>9.0 inches</td>
+              <td>9.2 inches</td>
+              <td><strong>9.5 inches</strong></td>
+              <td><strong>10 inches</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Sleeve Opening (Flat)</strong></td>
+              <td>7.0 inches</td>
+              <td>7.5 inches</td>
+              <td>7.8 inches</td>
+              <td><strong>8 inches</strong></td>
+              <td><strong>8.5 inches</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -694,12 +746,11 @@
             Premium streetwear and graphic oversized tees. Heavyweight fabrics, durable boxy cuts, and clean aesthetic.
           </p>
           <div class="footer-social-row" style="margin-top: 18px;">
-            <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+            <a href="https://www.instagram.com/weebfour?knvt=MXF3d2FwZTN1azl0bw%3D%3D&utm_source=qr" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
             <button type="button" class="footer-social-btn" onclick="openAdminModal()" aria-label="Admin Login" title="Admin Login" style="cursor: pointer;">
               <i class="ri-shield-keyhole-line"></i>
             </button>
             <a href="https://wa.me/916381177617" target="_blank" rel="noopener" class="footer-social-btn" aria-label="WhatsApp"><i class="ri-whatsapp-line"></i></a>
-            <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Twitter"><i class="ri-twitter-x-line"></i></a>
           </div>
         </div>
 
@@ -753,7 +804,7 @@
           </div>
           <div class="footer-contact-item" style="font-size: 0.8rem; color: var(--color-text-muted);">
             <i class="ri-map-pin-line"></i>
-            <span>Hosur, Tamil Nadu - 635126</span>
+            <span>3/335, DIG Salai, Jayashankar Nagar, 1st Street, Palavakkam, Chennai - 600041</span>
           </div>
         </div>
       </div>

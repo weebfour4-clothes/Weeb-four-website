@@ -6,30 +6,40 @@
 /* 1. Global Reset & Theme Tokens */
 /* 1. Global Reset & Theme Tokens (Tokyo & Mumbai Cyber-Streetwear Aesthetic) */
 :root {
-  /* Default Theme: Dark Stealth Cyberpunk (High-Fashion Streetwear) */
-  --color-background: #090a0d;
-  --color-surface: #101117;
-  --color-surface-hover: #181922;
-  --color-card-bg: #12131a;
-  --color-foreground: #f4f4f6;
-  --color-foreground-rgb: 244, 244, 246;
+  /* User Signature Palette: Midnight Black, Charcoal, Off-White, Muted Red */
+  --color-midnight-black: #0a0a0c;
+  --color-charcoal: #1e2026;
+  --color-charcoal-light: #2c2f38;
+  --color-off-white: #f5f4f0;
+  --color-off-white-muted: #c8c7c2;
+  --color-muted-red: #b83a3a;
+  --color-muted-red-hover: #9c2e2e;
+  --color-muted-red-glow: rgba(184, 58, 58, 0.4);
+
+  /* Theme Tokens */
+  --color-background: var(--color-midnight-black);
+  --color-surface: var(--color-charcoal);
+  --color-surface-hover: #262932;
+  --color-card-bg: #121318;
+  --color-foreground: var(--color-off-white);
+  --color-foreground-rgb: 245, 244, 240;
   
   /* Brand Accents */
-  --color-brand-black: #050608;
-  --color-brand-dark: #0e0f14;
-  --color-sale-red: #d6002f;
-  --color-sale-red-hover: #b00026;
-  --color-sale-red-glow: rgba(214, 0, 47, 0.45);
-  --color-text-muted: #8d91a0;
-  --color-text-dim: #5a5e70;
-  --color-border: #1f212c;
-  --color-border-dark: #2c2f3e;
+  --color-brand-black: #050607;
+  --color-brand-dark: #0e0f12;
+  --color-sale-red: var(--color-muted-red);
+  --color-sale-red-hover: var(--color-muted-red-hover);
+  --color-sale-red-glow: var(--color-muted-red-glow);
+  --color-text-muted: #9598a2;
+  --color-text-dim: #636774;
+  --color-border: #1f2129;
+  --color-border-dark: #2a2d38;
   
   /* Buttons & Badges */
-  --color-button: #f4f4f6;
-  --color-button-text: #090a0d;
-  --color-secondary-button: #161821;
-  --color-secondary-button-text: #f4f4f6;
+  --color-button: var(--color-off-white);
+  --color-button-text: var(--color-midnight-black);
+  --color-secondary-button: var(--color-charcoal);
+  --color-secondary-button-text: var(--color-off-white);
   
   /* Typography */
   --font-heading: 'Bebas Neue', 'Outfit', sans-serif;
@@ -4340,4 +4350,280 @@ select {
 
 #admin-contacts-table-body tr:hover {
   background: rgba(255, 255, 255, 0.03);
+}
+
+/* ==========================================================================
+   OUR STORY SECTION - INSPIRED BY USER'S REFERENCE SCREENSHOT & PALETTE
+   Palette: Midnight Black (#0a0a0c), Charcoal (#1e2026), Off-White (#f5f4f0), Muted Red (#b83a3a)
+   ========================================================================== */
+.our-story-section {
+  background-color: var(--color-midnight-black);
+  border-top: 1px solid var(--color-charcoal);
+  border-bottom: 1px solid var(--color-charcoal);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.our-story-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(184, 58, 58, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.story-grid-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.story-content-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.story-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  color: var(--color-muted-red);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.story-main-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(3.2rem, 7vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.03em;
+  color: var(--color-off-white);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.story-main-heading span {
+  display: block;
+  color: var(--color-off-white);
+}
+
+.story-quote-lead {
+  font-family: var(--font-heading);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  letter-spacing: 0.05em;
+  color: var(--color-muted-red);
+  margin-bottom: 28px;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.story-body-paragraphs {
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.85;
+  color: rgba(245, 244, 240, 0.82);
+  margin-bottom: 36px;
+}
+
+.story-body-paragraphs p {
+  margin-bottom: 16px;
+}
+
+.story-highlight-quote {
+  color: var(--color-off-white) !important;
+  font-weight: 700;
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  border-left: 3px solid var(--color-muted-red);
+  padding-left: 18px;
+  margin: 24px 0 !important;
+}
+
+.story-brand-signoff {
+  border-top: 1px solid var(--color-charcoal);
+  padding-top: 24px;
+  margin-bottom: 36px;
+  width: 100%;
+}
+
+.story-brand-name {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  letter-spacing: 0.08em;
+  color: var(--color-off-white);
+  margin-bottom: 4px;
+}
+
+.story-tagline {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.story-hashtag {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: var(--color-muted-red);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.story-cta-row {
+  margin-top: 10px;
+}
+
+.story-btn-red {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-muted-red);
+  color: #ffffff;
+  padding: 16px 36px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  border: 1px solid var(--color-muted-red);
+}
+
+.story-btn-red:hover {
+  background: var(--color-muted-red-hover);
+  border-color: var(--color-muted-red-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--color-muted-red-glow);
+}
+
+/* ==========================================================================
+   PRODUCT STOCK STATUS & OUT OF STOCK BADGES
+   ========================================================================== */
+.product-stock-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.product-stock-tag.in-stock {
+  background: rgba(0, 214, 108, 0.12);
+  color: #00d66c;
+  border: 1px solid rgba(0, 214, 108, 0.25);
+}
+
+.product-stock-tag.out-of-stock {
+  background: rgba(184, 58, 58, 0.15);
+  color: #ff5e5e;
+  border: 1px solid rgba(184, 58, 58, 0.35);
+}
+
+.card-soldout-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 12, 0.75);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.card-soldout-overlay span {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  background: var(--color-muted-red);
+  padding: 6px 18px;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+
+.p-stock-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  letter-spacing: 0.03em;
+}
+
+.p-stock-indicator.in-stock {
+  background: rgba(0, 214, 108, 0.1);
+  color: #00d66c;
+  border: 1px solid rgba(0, 214, 108, 0.25);
+}
+
+.p-stock-indicator.out-of-stock {
+  background: rgba(184, 58, 58, 0.15);
+  color: #ff6b6b;
+  border: 1px solid rgba(184, 58, 58, 0.35);
+}
+
+.btn-disabled-soldout {
+  background: #2a2d36 !important;
+  color: #717582 !important;
+  border-color: #2a2d36 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* ==========================================================================
+   SIZE GUIDE TABLE - EXACT 1:1 TO USER'S UPLOADED SPECIFICATION
+   ========================================================================== */
+.size-guide-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  margin-top: 16px;
+  font-size: 0.95rem;
+  border: 1px solid var(--color-charcoal);
+  background: var(--color-midnight-black);
+}
+
+.size-guide-table th {
+  background: var(--color-charcoal);
+  color: var(--color-off-white);
+  padding: 12px 16px;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  border: 1px solid #2c2f3a;
+  text-transform: uppercase;
+}
+
+.size-guide-table td {
+  padding: 12px 16px;
+  border: 1px solid var(--color-charcoal);
+  color: var(--color-off-white);
+  font-weight: 500;
+}
+
+.size-guide-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.size-guide-table tr:hover td {
+  background: rgba(184, 58, 58, 0.06);
 }
