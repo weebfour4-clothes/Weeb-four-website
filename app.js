@@ -39,49 +39,22 @@ try {
   console.warn("Could not initialize Supabase client:", e);
 }
 
-// Fetch products from Supabase cloud database
+// Products are managed directly by store owner via Admin Suite
 async function loadProductsFromDatabase() {
-  if (!supabaseClient) return;
-  try {
-    const { data, error } = await supabaseClient
-      .from('products')
-      .select('*')
-      .order('id', { ascending: true });
-
-    if (error) {
-      console.warn("Supabase products fetch warning:", error.message);
-      return;
-    }
-
-    if (data && data.length > 0) {
-      window.products = data.map(item => ({
-        id: item.id,
-        name: item.name,
-        category: item.category,
-        tag: item.tag || '',
-        price: item.price,
-        compareAtPrice: item.compare_at_price || 0,
-        sizes: item.sizes || ['S', 'M', 'L', 'XL'],
-        description: item.description || '',
-        images: item.images || []
-      }));
-      window.products.sort((a, b) => Number(a.id) - Number(b.id));
-      renderProducts();
-      updateCategoryCardBackgrounds();
-      if (typeof initProductDetailPage === 'function') {
-        initProductDetailPage();
-      }
-      console.log(`Loaded ${data.length} products from Supabase cloud database.`);
-    }
-  } catch (err) {
-    console.warn("Failed to load products from Supabase:", err);
-  }
+  return;
 }
 
 // Load persisted cart, wishlist, and config from localStorage
 try {
   const savedCart = localStorage.getItem('weebfour_cart');
-  if (savedCart) cart = JSON.parse(savedCart);
+  if (savedCart) {
+    cart = JSON.parse(savedCart).filter(item => 
+      item.product && 
+      item.product.name !== 'CYBERPUNK GLITCH OVERSIZED TEE' && 
+      item.product.name !== 'APES SKULL ACID WASH TEE'
+    );
+    localStorage.setItem('weebfour_cart', JSON.stringify(cart));
+  }
 
   const savedWishlist = localStorage.getItem('weebfour_wishlist');
   if (savedWishlist) wishlist = new Set(JSON.parse(savedWishlist));
@@ -99,6 +72,14 @@ let currentEditingImages = [];
 // 2. INITIALIZATION ON DOM READY
 // ==========================================================================
 window.addEventListener('DOMContentLoaded', () => {
+  // Purge any legacy dummy products from window.products
+  if (window.products) {
+    window.products = window.products.filter(p => 
+      p.name !== 'CYBERPUNK GLITCH OVERSIZED TEE' && 
+      p.name !== 'APES SKULL ACID WASH TEE'
+    );
+  }
+
   initTheme();
   applySiteConfigToStorefront();
   renderProducts();
@@ -108,7 +89,6 @@ window.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   initFuturisticCyberMatrix();
   initLenisSmoothScroll();
-  loadProductsFromDatabase();
 
   // Restore saved order notes
   const noteEl = document.getElementById('cart-order-notes');
@@ -339,6 +319,11 @@ function renderProducts() {
 
   // Filter products by department or specific collection category
   let filtered = (window.products || []).filter(item => {
+    if (!item || !item.name) return false;
+    if (item.name === 'CYBERPUNK GLITCH OVERSIZED TEE' || item.name === 'APES SKULL ACID WASH TEE') {
+      return false;
+    }
+
     let matchesCat = false;
     if (activeCategory === 'all') {
       matchesCat = true;
@@ -1807,11 +1792,23 @@ function renderAdminProductsList() {
   const searchInput = document.getElementById('admin-prod-search');
   if (!tbody) return;
 
+  if (window.products) {
+    window.products = window.products.filter(p => 
+      p.name !== 'CYBERPUNK GLITCH OVERSIZED TEE' && 
+      p.name !== 'APES SKULL ACID WASH TEE'
+    );
+  }
+
   const q = searchInput ? searchInput.value.toLowerCase().trim() : '';
 
-  const filtered = window.products.filter(p => {
+  const filtered = (window.products || []).filter(p => {
     return !q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || (p.tag && p.tag.toLowerCase().includes(q));
   });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--color-text-muted); padding: 30px;">No products in catalog yet. Click "+ ADD NEW PRODUCT" above to add your first drop.</td></tr>`;
+    return;
+  }
 
   tbody.innerHTML = filtered.map(p => {
     const isAvailable = p.inStock !== false;
@@ -2762,6 +2759,13 @@ function initProductDetailPage() {
   // Only execute on product.html
   const pageContainer = document.getElementById('product-detail-view');
   if (!pageContainer) return;
+
+  if (window.products) {
+    window.products = window.products.filter(p => 
+      p.name !== 'CYBERPUNK GLITCH OVERSIZED TEE' && 
+      p.name !== 'APES SKULL ACID WASH TEE'
+    );
+  }
 
   const params = new URLSearchParams(window.location.search);
   const rawId = params.get('id');

@@ -52,7 +52,20 @@ const COLLECTIONS_CONFIG = {
 // Empty default catalog - owner adds products themselves via Admin Suite
 const defaultProducts = [];
 
-// Load custom products catalog from localStorage if owner has added products
+// Purge any legacy cached dummy products from previous sessions
+try {
+  if (typeof localStorage !== 'undefined') {
+    const legacy = localStorage.getItem('weebfour_custom_catalog');
+    if (legacy && (legacy.includes('CYBERPUNK') || legacy.includes('APES SKULL') || legacy.includes('assets/tee_front'))) {
+      localStorage.removeItem('weebfour_custom_catalog');
+    }
+    localStorage.removeItem('weebfour_custom_catalog_v2');
+    localStorage.removeItem('weebfour_custom_catalog_v1');
+    localStorage.removeItem('weebfour_stock_overrides');
+  }
+} catch (e) {}
+
+// Load custom products catalog from localStorage only if owner has added authentic custom products
 let products = [];
 try {
   if (typeof localStorage !== 'undefined') {
@@ -60,16 +73,15 @@ try {
     if (custom) {
       const parsed = JSON.parse(custom);
       if (Array.isArray(parsed)) {
-        products = parsed;
-      } else {
-        products = [...defaultProducts];
+        products = parsed.filter(p => 
+          p.name !== 'CYBERPUNK GLITCH OVERSIZED TEE' && 
+          p.name !== 'APES SKULL ACID WASH TEE'
+        );
       }
-    } else {
-      products = [...defaultProducts];
     }
   }
 } catch (e) {
-  products = [...defaultProducts];
+  products = [];
 }
 
 // Synchronize persistent stock overrides from Admin Panel
