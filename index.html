@@ -27,6 +27,59 @@
   
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
+  <!-- Schema.org Product Structured Data for Compliance & Bot Crawlers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "WEEBFOUR",
+        "legalName": "Balaji Kishore",
+        "url": "https://weebfour.com",
+        "logo": "https://weebfour.com/assets/favicon.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+91-9176436880",
+          "contactType": "customer service",
+          "email": "balajikishore007@gmail.com",
+          "areaServed": "IN",
+          "availableLanguage": ["en", "ta", "hi"]
+        }
+      },
+      {
+        "@type": "Product",
+        "name": "CYBERPUNK GLITCH OVERSIZED TEE",
+        "image": "https://weebfour.com/assets/tee_front_clean.jpg",
+        "description": "280 GSM ultra-dense French Terry Cotton, oversized boxy streetwear fit with puff print calligraphy.",
+        "brand": { "@type": "Brand", "name": "WEEBFOUR" },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "INR",
+          "price": "999",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://weebfour.com/product.html?id=1"
+        }
+      },
+      {
+        "@type": "Product",
+        "name": "APES SKULL ACID WASH TEE",
+        "image": "https://weebfour.com/assets/tee_front.jpg",
+        "description": "Custom acid-washed heavyweight 260 GSM streetwear t-shirt with signature distressed Apes Skull design.",
+        "brand": { "@type": "Brand", "name": "WEEBFOUR" },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "INR",
+          "price": "1199",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://weebfour.com/product.html?id=2"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -359,9 +412,91 @@
         </div>
       </div>
 
-      <!-- PRODUCT GRID CONTAINER: 4 Columns Desktop / 2 Columns Mobile -->
+      <!-- PRODUCT GRID CONTAINER: 4 Columns Desktop / 2 Columns Mobile (Pre-rendered for bot compliance & fast load) -->
       <div class="product-grid" id="product-grid-container">
-        <!-- Rendered dynamically by app.js -->
+        <!-- Product 1: CYBERPUNK GLITCH OVERSIZED TEE -->
+        <div class="product-card" data-id="1">
+          <div class="card-media-box" onclick="window.location.href='product.html?id=1'" style="cursor: pointer;">
+            <div class="card-badges-left">
+              <span class="sale-pill-badge">-50% OFF</span>
+              <span class="bestseller-badge">NEW DROP</span>
+            </div>
+            <div class="card-actions-right" onclick="event.stopPropagation();">
+              <button class="card-icon-btn" onclick="toggleWishlist(1)" title="Add to Wishlist" aria-label="Wishlist">
+                <i class="ri-heart-line"></i>
+              </button>
+              <button class="card-icon-btn" onclick="window.location.href='product.html?id=1'" title="Open Product Page" aria-label="Open Product Page">
+                <i class="ri-eye-line"></i>
+              </button>
+              <button class="card-icon-btn" onclick="quickAddToCart(1)" title="Quick Add to Bag" aria-label="Add to Bag">
+                <i class="ri-shopping-bag-line"></i>
+              </button>
+            </div>
+            <img src="assets/tee_front_clean.jpg" alt="CYBERPUNK GLITCH OVERSIZED TEE" class="card-img-main" loading="lazy">
+            <img src="assets/tee_back.jpg" alt="CYBERPUNK GLITCH OVERSIZED TEE alternate angle" class="card-img-hover" loading="lazy">
+            <div class="card-quick-sizes" onclick="event.stopPropagation();">
+              <span class="quick-size-label">QUICK ADD:</span>
+              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'S')" title="Quick add S">S</button>
+              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'M')" title="Quick add M">M</button>
+              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'L')" title="Quick add L">L</button>
+              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'XL')" title="Quick add XL">XL</button>
+            </div>
+          </div>
+          <div class="card-info-wrap">
+            <span class="card-brand-tag">WEEBFOUR</span>
+            <h3 class="card-product-title" onclick="window.location.href='product.html?id=1'" style="cursor: pointer;">CYBERPUNK GLITCH OVERSIZED TEE</h3>
+            <div class="card-sizes-row">
+              <span class="mini-size-pill">S</span><span class="mini-size-pill">M</span><span class="mini-size-pill">L</span><span class="mini-size-pill">XL</span>
+            </div>
+            <div class="card-price-row">
+              <span class="card-sale-price">₹999</span>
+              <span class="card-compare-price">₹1,999</span>
+              <span class="card-save-amount">Save ₹1,000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2: APES SKULL ACID WASH TEE -->
+        <div class="product-card" data-id="2">
+          <div class="card-media-box" onclick="window.location.href='product.html?id=2'" style="cursor: pointer;">
+            <div class="card-badges-left">
+              <span class="sale-pill-badge">-48% OFF</span>
+              <span class="bestseller-badge">BEST SELLER</span>
+            </div>
+            <div class="card-actions-right" onclick="event.stopPropagation();">
+              <button class="card-icon-btn" onclick="toggleWishlist(2)" title="Add to Wishlist" aria-label="Wishlist">
+                <i class="ri-heart-line"></i>
+              </button>
+              <button class="card-icon-btn" onclick="window.location.href='product.html?id=2'" title="Open Product Page" aria-label="Open Product Page">
+                <i class="ri-eye-line"></i>
+              </button>
+              <button class="card-icon-btn" onclick="quickAddToCart(2)" title="Quick Add to Bag" aria-label="Add to Bag">
+                <i class="ri-shopping-bag-line"></i>
+              </button>
+            </div>
+            <img src="assets/tee_front.jpg" alt="APES SKULL ACID WASH TEE" class="card-img-main" loading="lazy">
+            <img src="assets/tee_back.jpg" alt="APES SKULL ACID WASH TEE alternate angle" class="card-img-hover" loading="lazy">
+            <div class="card-quick-sizes" onclick="event.stopPropagation();">
+              <span class="quick-size-label">QUICK ADD:</span>
+              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'S')" title="Quick add S">S</button>
+              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'M')" title="Quick add M">M</button>
+              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'L')" title="Quick add L">L</button>
+              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'XL')" title="Quick add XL">XL</button>
+            </div>
+          </div>
+          <div class="card-info-wrap">
+            <span class="card-brand-tag">WEEBFOUR</span>
+            <h3 class="card-product-title" onclick="window.location.href='product.html?id=2'" style="cursor: pointer;">APES SKULL ACID WASH TEE</h3>
+            <div class="card-sizes-row">
+              <span class="mini-size-pill">S</span><span class="mini-size-pill">M</span><span class="mini-size-pill">L</span><span class="mini-size-pill">XL</span>
+            </div>
+            <div class="card-price-row">
+              <span class="card-sale-price">₹1,199</span>
+              <span class="card-compare-price">₹2,299</span>
+              <span class="card-save-amount">Save ₹1,100</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Empty State: Exact 1:1 replica of the user-provided reference screen -->
@@ -866,16 +1001,32 @@
           </ul>
         </div>
 
-        <!-- Col 4: Contact -->
+        <!-- Col 4: Contact & Legal Entity (Cashfree KYC Compliant) -->
         <div>
-          <h4 class="footer-col-title">CONTACT</h4>
-          <div class="footer-contact-item">
-            <i class="ri-phone-line"></i>
-            <a href="tel:+916381177617" style="color: inherit; text-decoration: none;">+91 63811 77617</a>
+          <h4 class="footer-col-title">CONTACT &amp; LEGAL</h4>
+          <div class="footer-contact-item" style="font-size: 0.82rem; color: #fff; margin-bottom: 8px;">
+            <i class="ri-user-line" style="color: #00d66c;"></i>
+            <span><strong>Legal Entity:</strong> Balaji Kishore (WEEBFOUR)</span>
           </div>
-          <div class="footer-contact-item">
-            <i class="ri-mail-line"></i>
+          <div class="footer-contact-item" style="margin-bottom: 8px;">
+            <i class="ri-phone-line" style="color: #00d66c;"></i>
+            <a href="tel:+919176436880" style="color: inherit; text-decoration: none;">+91 91764 36880</a>
+          </div>
+          <div class="footer-contact-item" style="margin-bottom: 8px;">
+            <i class="ri-whatsapp-line" style="color: #25D366;"></i>
+            <a href="https://wa.me/916381177617" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">+91 63811 77617</a>
+          </div>
+          <div class="footer-contact-item" style="margin-bottom: 8px;">
+            <i class="ri-mail-line" style="color: #ea4335;"></i>
+            <a href="mailto:balajikishore007@gmail.com" style="color: inherit; text-decoration: none;">balajikishore007@gmail.com</a>
+          </div>
+          <div class="footer-contact-item" style="margin-bottom: 8px;">
+            <i class="ri-mail-send-line" style="color: #ea4335;"></i>
             <a href="mailto:weebfour.4@gmail.com" id="footer-email" style="color: inherit; text-decoration: none;">weebfour.4@gmail.com</a>
+          </div>
+          <div class="footer-contact-item" style="font-size: 0.8rem; color: var(--color-text-muted);">
+            <i class="ri-map-pin-line"></i>
+            <span>Hosur, Tamil Nadu - 635126</span>
           </div>
         </div>
       </div>
