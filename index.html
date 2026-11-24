@@ -46,36 +46,6 @@
           "areaServed": "IN",
           "availableLanguage": ["en", "ta", "hi"]
         }
-      },
-      {
-        "@type": "Product",
-        "name": "CYBERPUNK GLITCH OVERSIZED TEE",
-        "image": "https://weebfour.com/assets/tee_front_clean.jpg",
-        "description": "280 GSM ultra-dense French Terry Cotton, oversized boxy streetwear fit with puff print calligraphy.",
-        "brand": { "@type": "Brand", "name": "WEEBFOUR" },
-        "offers": {
-          "@type": "Offer",
-          "priceCurrency": "INR",
-          "price": "999",
-          "priceValidUntil": "2027-12-31",
-          "availability": "https://schema.org/InStock",
-          "url": "https://weebfour.com/product.html?id=1"
-        }
-      },
-      {
-        "@type": "Product",
-        "name": "APES SKULL ACID WASH TEE",
-        "image": "https://weebfour.com/assets/tee_front.jpg",
-        "description": "Custom acid-washed heavyweight 260 GSM streetwear t-shirt with signature distressed Apes Skull design.",
-        "brand": { "@type": "Brand", "name": "WEEBFOUR" },
-        "offers": {
-          "@type": "Offer",
-          "priceCurrency": "INR",
-          "price": "1199",
-          "priceValidUntil": "2027-12-31",
-          "availability": "https://schema.org/InStock",
-          "url": "https://weebfour.com/product.html?id=2"
-        }
       }
     ]
   }
@@ -330,101 +300,13 @@
         </div>
       </div>
 
-      <!-- PRODUCT GRID CONTAINER: 4 Columns Desktop / 2 Columns Mobile (Pre-rendered for bot compliance & fast load) -->
-      <div class="product-grid" id="product-grid-container">
-        <!-- Product 1: CYBERPUNK GLITCH OVERSIZED TEE -->
-        <div class="product-card" data-id="1">
-          <div class="card-media-box" onclick="window.location.href='product.html?id=1'" style="cursor: pointer;">
-            <div class="card-badges-left">
-              <span class="sale-pill-badge">-50% OFF</span>
-              <span class="bestseller-badge">NEW DROP</span>
-            </div>
-            <div class="card-actions-right" onclick="event.stopPropagation();">
-              <button class="card-icon-btn" onclick="toggleWishlist(1)" title="Add to Wishlist" aria-label="Wishlist">
-                <i class="ri-heart-line"></i>
-              </button>
-              <button class="card-icon-btn" onclick="window.location.href='product.html?id=1'" title="Open Product Page" aria-label="Open Product Page">
-                <i class="ri-eye-line"></i>
-              </button>
-              <button class="card-icon-btn" onclick="quickAddToCart(1)" title="Quick Add to Bag" aria-label="Add to Bag">
-                <i class="ri-shopping-bag-line"></i>
-              </button>
-            </div>
-            <img src="assets/tee_front_clean.jpg" alt="CYBERPUNK GLITCH OVERSIZED TEE" class="card-img-main" loading="lazy">
-            <img src="assets/tee_back.jpg" alt="CYBERPUNK GLITCH OVERSIZED TEE alternate angle" class="card-img-hover" loading="lazy">
-            <div class="card-quick-sizes" onclick="event.stopPropagation();">
-              <span class="quick-size-label">QUICK ADD:</span>
-              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'S')" title="Quick add S">S</button>
-              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'M')" title="Quick add M">M</button>
-              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'L')" title="Quick add L">L</button>
-              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'XL')" title="Quick add XL">XL</button>
-              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 1, 'XXL')" title="Quick add XXL">XXL</button>
-            </div>
-          </div>
-          <div class="card-info-wrap">
-            <div class="product-stock-tag in-stock"><i class="ri-checkbox-circle-fill"></i> In Stock</div>
-            <span class="card-brand-tag">WEEBFOUR</span>
-            <h3 class="card-product-title" onclick="window.location.href='product.html?id=1'" style="cursor: pointer;">CYBERPUNK GLITCH OVERSIZED TEE</h3>
-            <div class="card-sizes-row">
-              <span class="mini-size-pill">S</span><span class="mini-size-pill">M</span><span class="mini-size-pill">L</span><span class="mini-size-pill">XL</span><span class="mini-size-pill">XXL</span>
-            </div>
-            <div class="card-price-row">
-              <span class="card-sale-price">₹999</span>
-              <span class="card-compare-price">₹1,999</span>
-              <span class="card-save-amount">Save ₹1,000</span>
-            </div>
-          </div>
-        </div>
+      <!-- PRODUCT GRID CONTAINER: 4 Columns Desktop / 2 Columns Mobile (Populated dynamically when products are added) -->
+      <div class="product-grid" id="product-grid-container" style="display: none;"></div>
 
-        <!-- Product 2: APES SKULL ACID WASH TEE -->
-        <div class="product-card" data-id="2">
-          <div class="card-media-box" onclick="window.location.href='product.html?id=2'" style="cursor: pointer;">
-            <div class="card-badges-left">
-              <span class="sale-pill-badge">-48% OFF</span>
-              <span class="bestseller-badge">BEST SELLER</span>
-            </div>
-            <div class="card-actions-right" onclick="event.stopPropagation();">
-              <button class="card-icon-btn" onclick="toggleWishlist(2)" title="Add to Wishlist" aria-label="Wishlist">
-                <i class="ri-heart-line"></i>
-              </button>
-              <button class="card-icon-btn" onclick="window.location.href='product.html?id=2'" title="Open Product Page" aria-label="Open Product Page">
-                <i class="ri-eye-line"></i>
-              </button>
-              <button class="card-icon-btn" onclick="quickAddToCart(2)" title="Quick Add to Bag" aria-label="Add to Bag">
-                <i class="ri-shopping-bag-line"></i>
-              </button>
-            </div>
-            <img src="assets/tee_front.jpg" alt="APES SKULL ACID WASH TEE" class="card-img-main" loading="lazy">
-            <img src="assets/tee_back.jpg" alt="APES SKULL ACID WASH TEE alternate angle" class="card-img-hover" loading="lazy">
-            <div class="card-quick-sizes" onclick="event.stopPropagation();">
-              <span class="quick-size-label">QUICK ADD:</span>
-              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'S')" title="Quick add S">S</button>
-              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'M')" title="Quick add M">M</button>
-              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'L')" title="Quick add L">L</button>
-              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'XL')" title="Quick add XL">XL</button>
-              <button type="button" class="quick-size-btn" onclick="quickAddWithSize(event, 2, 'XXL')" title="Quick add XXL">XXL</button>
-            </div>
-          </div>
-          <div class="card-info-wrap">
-            <div class="product-stock-tag in-stock"><i class="ri-checkbox-circle-fill"></i> In Stock</div>
-            <span class="card-brand-tag">WEEBFOUR</span>
-            <h3 class="card-product-title" onclick="window.location.href='product.html?id=2'" style="cursor: pointer;">APES SKULL ACID WASH TEE</h3>
-            <div class="card-sizes-row">
-              <span class="mini-size-pill">S</span><span class="mini-size-pill">M</span><span class="mini-size-pill">L</span><span class="mini-size-pill">XL</span><span class="mini-size-pill">XXL</span>
-            </div>
-            <div class="card-price-row">
-              <span class="card-sale-price">₹1,199</span>
-              <span class="card-compare-price">₹2,299</span>
-              <span class="card-save-amount">Save ₹1,100</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Empty State: Exact 1:1 replica of the user-provided reference screen -->
-      <div id="empty-state-view" class="empty-state-view" style="display: none;">
-        <h2 class="empty-state-title">NO PRODUCTS FOUND</h2>
-        <p class="empty-state-subtitle">USE FEWER FILTERS OR <button type="button" class="empty-remove-link" onclick="resetAllFilters()">REMOVE ALL</button></p>
+      <!-- Empty State: Shown when no products or filter returns zero items -->
+      <div id="empty-state-view" class="empty-state-view" style="display: flex;">
+        <h2 class="empty-state-title" id="empty-state-title">NEW DROPS COMING SOON</h2>
+        <p class="empty-state-subtitle" id="empty-state-subtitle">STAY TUNED FOR UPCOMING STREETWEAR DROPS</p>
       </div>
     </div>
   </section>

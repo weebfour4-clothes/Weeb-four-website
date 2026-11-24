@@ -366,10 +366,21 @@ function renderProducts() {
     filtered.sort((a, b) => (a.tag === 'BEST SELLER' ? -1 : 1));
   }
 
-  // Exact 1:1 view matching user's reference screenshot when empty
+  // View matching user's reference screenshot when empty or drops pending
   if (filtered.length === 0) {
     container.style.display = 'none';
-    if (emptyView) emptyView.style.display = 'flex';
+    if (emptyView) {
+      emptyView.style.display = 'flex';
+      const emptyTitle = document.getElementById('empty-state-title');
+      const emptySubtitle = document.getElementById('empty-state-subtitle');
+      if (window.products && window.products.length > 0) {
+        if (emptyTitle) emptyTitle.textContent = 'NO PRODUCTS FOUND';
+        if (emptySubtitle) emptySubtitle.innerHTML = 'USE FEWER FILTERS OR <button type="button" class="empty-remove-link" onclick="resetAllFilters()">REMOVE ALL</button>';
+      } else {
+        if (emptyTitle) emptyTitle.textContent = 'NEW DROPS COMING SOON';
+        if (emptySubtitle) emptySubtitle.textContent = 'STAY TUNED FOR UPCOMING STREETWEAR DROPS';
+      }
+    }
   } else {
     container.style.display = 'grid';
     if (emptyView) emptyView.style.display = 'none';
@@ -1878,13 +1889,13 @@ function openProductEditModal(productId) {
     if (title) title.textContent = 'ADD NEW PRODUCT';
     if (idInput) idInput.value = '';
     if (nameInput) nameInput.value = '';
-    if (catInput) catInput.value = 'tees';
+    if (catInput) catInput.value = 'tshirts';
     if (tagInput) tagInput.value = 'NEW DROP';
     if (priceInput) priceInput.value = '999';
     if (compInput) compInput.value = '1999';
-    if (sizesInput) sizesInput.value = 'S, M, L, XL';
+    if (sizesInput) sizesInput.value = 'S, M, L, XL, XXL';
     if (descInput) descInput.value = '';
-    currentEditingImages = ['assets/tee_front_clean.jpg'];
+    currentEditingImages = [];
   }
 
   renderEditingProductImages();
@@ -2000,7 +2011,7 @@ function handleProductSave(e) {
   const description = document.getElementById('edit-prod-desc').value.trim();
 
   if (currentEditingImages.length === 0) {
-    currentEditingImages = ['assets/tee_front_clean.jpg'];
+    currentEditingImages = ['assets/hero_branding_photo.jpg'];
   }
 
   if (idInput && idInput.value) {
@@ -2762,7 +2773,18 @@ function initProductDetailPage() {
     product = window.products[0];
   }
 
-  if (!product) return;
+  if (!product) {
+    document.title = `DROPS COMING SOON | WEEBFOUR`;
+    pageContainer.innerHTML = `
+      <div class="page-container" style="padding: 100px 20px; text-align: center; min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <span class="sale-pill-badge" style="background: var(--color-muted-red); margin-bottom: 16px; font-size: 0.85rem; padding: 6px 14px;">WEEBFOUR VAULT</span>
+        <h1 style="font-size: 2.2rem; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; color: #fff;">NEW DROPS DROPPING SHORTLY</h1>
+        <p style="color: #999; max-width: 500px; margin-bottom: 28px; line-height: 1.6; font-size: 0.95rem;">Our exclusive collections are currently being prepared. Check back soon or visit the shop for latest updates.</p>
+        <a href="index.html#shop" class="btn btn-primary" style="background: var(--color-muted-red); color: #fff; padding: 14px 28px; border-radius: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none;">EXPLORE THE SHOP &rarr;</a>
+      </div>
+    `;
+    return;
+  }
   currentProductItem = product;
   currentProductSelectedSize = (product.sizes && product.sizes.length > 0) ? product.sizes[0] : 'M';
   currentProductQty = 1;

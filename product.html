@@ -25,29 +25,22 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Schema.org Product Structured Data for Cashfree / Bot Crawlers -->
+  <!-- Schema.org Organization Structured Data for Cashfree / Bot Crawlers -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "CYBERPUNK GLITCH OVERSIZED TEE",
-    "image": "https://weebfour.com/assets/tee_front_clean.jpg",
-    "description": "280 GSM ultra-dense French Terry Cotton, oversized boxy streetwear fit with puff print calligraphy.",
-    "brand": {
-      "@type": "Brand",
-      "name": "WEEBFOUR"
-    },
-    "offers": {
-      "@type": "Offer",
-      "priceCurrency": "INR",
-      "price": "999",
-      "priceValidUntil": "2027-12-31",
-      "availability": "https://schema.org/InStock",
-      "seller": {
-        "@type": "Organization",
-        "name": "WEEBFOUR",
-        "legalName": "Balaji Kishore"
-      }
+    "@type": "Organization",
+    "name": "WEEBFOUR",
+    "legalName": "Balaji Kishore",
+    "url": "https://weebfour.com",
+    "logo": "https://weebfour.com/assets/weebfour_primary_logo_trans.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-9176436880",
+      "contactType": "customer service",
+      "email": "balajikishore007@gmail.com",
+      "areaServed": "IN",
+      "availableLanguage": ["en", "ta", "hi"]
     }
   }
   </script>
@@ -68,61 +61,14 @@
         </a>
       </div>
 
-      <!-- Center: Desktop Navigation Links -->
+      <!-- Center: Desktop Navigation Links (Home, Shop, Sale, Our story, Contact) -->
       <div class="header-center">
         <nav class="desktop-nav">
           <a href="index.html" class="nav-link-item">Home</a>
-          <a href="index.html#shop" class="nav-link-item">Shop All</a>
-
-          <!-- Topwear Dropdown -->
-          <div class="nav-dropdown-item">
-            <a href="index.html#shop" class="nav-link-item">
-              Topwear <i class="ri-arrow-down-s-line nav-caret"></i>
-            </a>
-            <div class="nav-dropdown-menu">
-              <a href="index.html#shop" class="dropdown-link-bold">All Topwear</a>
-              <div class="dropdown-divider"></div>
-              <a href="index.html#shop">Shirts</a>
-              <a href="index.html#shop">T-Shirts</a>
-              <a href="index.html#shop">Sweatshirts</a>
-              <a href="index.html#shop">Hoodies</a>
-              <a href="index.html#shop">Jackets</a>
-            </div>
-          </div>
-
-          <!-- Bottom Wears Dropdown -->
-          <div class="nav-dropdown-item">
-            <a href="index.html#shop" class="nav-link-item">
-              Bottom Wears <i class="ri-arrow-down-s-line nav-caret"></i>
-            </a>
-            <div class="nav-dropdown-menu">
-              <a href="index.html#shop" class="dropdown-link-bold">All Bottom Wears</a>
-              <div class="dropdown-divider"></div>
-              <a href="index.html#shop">Trousers</a>
-              <a href="index.html#shop">Denims</a>
-              <a href="index.html#shop">Cargos</a>
-              <a href="index.html#shop">Joggers</a>
-            </div>
-          </div>
-
-          <!-- Accessories Dropdown -->
-          <div class="nav-dropdown-item">
-            <a href="index.html#shop" class="nav-link-item">
-              Accessories <i class="ri-arrow-down-s-line nav-caret"></i>
-            </a>
-            <div class="nav-dropdown-menu">
-              <a href="index.html#shop" class="dropdown-link-bold">All Accessories</a>
-              <div class="dropdown-divider"></div>
-              <a href="index.html#shop">Shades</a>
-              <a href="index.html#shop">Socks</a>
-              <a href="index.html#shop">Bags</a>
-              <a href="index.html#shop">Cap</a>
-            </div>
-          </div>
-
           <a href="index.html#shop" class="nav-link-item">Shop</a>
-          <a href="index.html#shop" class="nav-link-item">New <span class="new-tag">NEW</span></a>
-          <a href="index.html#shop" class="nav-link-item sale-link">Sale</a>
+          <a href="index.html#shop" class="nav-link-item sale-link" style="color: var(--color-muted-red); font-weight: 700;">Sale</a>
+          <a href="index.html#our-story" class="nav-link-item">Our story</a>
+          <a href="contact.html" class="nav-link-item">Contact</a>
         </nav>
       </div>
 
@@ -166,14 +112,17 @@
     </div>
     <div class="drawer-content">
       <div class="drawer-nav-item"><a href="index.html" class="drawer-nav-link" onclick="closeMobileDrawer();">Home</a></div>
-      <div class="drawer-nav-item"><a href="index.html#shop" class="drawer-nav-link" onclick="closeMobileDrawer();">Shop All Drops</a></div>
+      <div class="drawer-nav-item"><a href="index.html#shop" class="drawer-nav-link" onclick="closeMobileDrawer();">Shop</a></div>
+      <div class="drawer-nav-item"><a href="index.html#shop" class="drawer-nav-link sale-link" style="color: var(--color-muted-red); font-weight: 700;" onclick="closeMobileDrawer();">Sale</a></div>
+      <div class="drawer-nav-item"><a href="index.html#our-story" class="drawer-nav-link" onclick="closeMobileDrawer();">Our story</a></div>
+      <div class="drawer-nav-item"><a href="contact.html" class="drawer-nav-link" onclick="closeMobileDrawer();">Contact</a></div>
     </div>
     <div class="drawer-footer">
-      <p style="font-size: 0.85rem; color: #888; margin-bottom: 6px;">Support: support@weebfour.com</p>
+      <p style="font-size: 0.85rem; color: #888; margin-bottom: 6px;">Support: balajikishore007@gmail.com</p>
       <p style="font-size: 0.85rem; color: #888;">Pan-India Shipping | COD Available</p>
       <div class="drawer-social-row">
-        <a href="https://instagram.com" target="_blank"><i class="ri-instagram-line"></i></a>
-        <a href="https://wa.me/916381177617" target="_blank"><i class="ri-whatsapp-line"></i></a>
+        <a href="https://www.instagram.com/weebfour?knvt=MXF3d2FwZTN1azl0bw%3D%3D&utm_source=qr" target="_blank" rel="noopener"><i class="ri-instagram-line"></i></a>
+        <a href="https://wa.me/919176436880" target="_blank" rel="noopener"><i class="ri-whatsapp-line"></i></a>
       </div>
     </div>
   </div>
@@ -199,20 +148,18 @@
           <div class="p-main-view-box">
             <span class="p-badge-tag" id="p-badge-discount">-50% OFF</span>
             <span class="p-badge-new">NEW DROP</span>
-            <img id="p-main-img" src="assets/tee_front_clean.jpg" alt="CYBERPUNK GLITCH OVERSIZED TEE" class="p-main-view-img">
+            <img id="p-main-img" src="assets/hero_branding_photo.jpg" alt="WEEBFOUR DROP" class="p-main-view-img">
           </div>
 
           <!-- Thumbnails Row -->
           <div class="p-thumbs-strip" id="p-thumbs-strip">
-            <button type="button" class="p-thumb-btn active"><img src="assets/tee_front_clean.jpg" alt="front"></button>
-            <button type="button" class="p-thumb-btn"><img src="assets/tee_back.jpg" alt="back"></button>
           </div>
         </div>
 
         <!-- Right: Purchasing & Details Side -->
         <div class="p-info-side">
           <div class="p-brand-tag">WEEBFOUR CLOTHING</div>
-          <h1 class="p-product-heading" id="p-title">CYBERPUNK GLITCH OVERSIZED TEE</h1>
+          <h1 class="p-product-heading" id="p-title">STREETWEAR DROP</h1>
           
           <div class="p-rating-line">
             <span>★★★★★</span>

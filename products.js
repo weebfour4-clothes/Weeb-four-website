@@ -49,54 +49,42 @@ const COLLECTIONS_CONFIG = {
   }
 };
 
-// Only the user's two original products
-const defaultProducts = [
-  {
-    id: 1,
-    name: "CYBERPUNK GLITCH OVERSIZED TEE",
-    category: "tshirts",
-    tag: "NEW DROP",
-    price: 999,
-    compareAtPrice: 1999,
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    inStock: true,
-    stockCount: 15,
-    description: "Upgrade your streetwear game with the signature WEEBFOUR Cyberpunk Glitch Oversized Tee. Cut from 280 GSM ultra-dense French Terry Cotton, this tee offers a heavy structural boxy fit designed to maintain its shape. Featuring high-density puff print calligraphy and the iconic WEB4! symbol, pre-shrunk and silicone washed.",
-    images: ["assets/tee_front_clean.jpg", "assets/tee_back.jpg", "assets/art_tokyo_kanji.jpg"]
-  },
-  {
-    id: 2,
-    name: "APES SKULL ACID WASH TEE",
-    category: "tshirts",
-    tag: "BEST SELLER",
-    price: 1199,
-    compareAtPrice: 2299,
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    inStock: true,
-    stockCount: 10,
-    description: "Custom acid-washed t-shirt featuring our signature distressed Apes Skull design. Every shirt features a unique mineral distress pattern. Heavyweight 260 GSM fabric, ribbed crewneck collar, and double-needle stitching make this piece extremely durable and ready for daily wear.",
-    images: ["assets/tee_front.jpg", "assets/tee_back.jpg", "assets/art_apes_skull.jpg"]
-  }
-];
+// Empty default catalog - owner adds products themselves via Admin Suite
+const defaultProducts = [];
 
-// Always enforce the user's authentic 2 products
-let products = [...defaultProducts];
+// Load custom products catalog from localStorage if owner has added products
+let products = [];
+try {
+  if (typeof localStorage !== 'undefined') {
+    const custom = localStorage.getItem('weebfour_custom_catalog');
+    if (custom) {
+      const parsed = JSON.parse(custom);
+      if (Array.isArray(parsed)) {
+        products = parsed;
+      } else {
+        products = [...defaultProducts];
+      }
+    } else {
+      products = [...defaultProducts];
+    }
+  }
+} catch (e) {
+  products = [...defaultProducts];
+}
 
 // Synchronize persistent stock overrides from Admin Panel
 try {
-  const stockOverrides = localStorage.getItem('weebfour_stock_overrides');
-  if (stockOverrides) {
-    const parsed = JSON.parse(stockOverrides);
-    products.forEach(p => {
-      if (parsed[p.id] !== undefined) {
-        p.inStock = Boolean(parsed[p.id]);
-      }
-    });
+  if (typeof localStorage !== 'undefined') {
+    const stockOverrides = localStorage.getItem('weebfour_stock_overrides');
+    if (stockOverrides) {
+      const parsed = JSON.parse(stockOverrides);
+      products.forEach(p => {
+        if (parsed[p.id] !== undefined) {
+          p.inStock = Boolean(parsed[p.id]);
+        }
+      });
+    }
   }
-} catch (e) {}
-try {
-  localStorage.removeItem('weebfour_custom_catalog');
-  localStorage.removeItem('weebfour_custom_catalog_v2');
 } catch (e) {}
 
 // Default Website Content, Offers & Words configuration
@@ -142,7 +130,9 @@ const defaultSiteConfig = {
 
 let siteConfig = JSON.parse(JSON.stringify(defaultSiteConfig));
 try {
-  localStorage.removeItem('weebfour_site_config');
+  if (typeof localStorage !== 'undefined') {
+    localStorage.removeItem('weebfour_site_config');
+  }
 } catch (e) {
   console.warn("Could not parse saved site config", e);
 }
