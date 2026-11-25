@@ -145,6 +145,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initLenisSmoothScroll();
   initNavScrollSpy();
   loadProductsFromDatabase();
+  handlePhonePeReturn();
 
   // Restore saved order notes
   const noteEl = document.getElementById('cart-order-notes');
@@ -1437,38 +1438,43 @@ function applyPromoCode() {
   renderCheckoutSummary();
 }
 
-function completeOrderPayment(method) {
-  if (method) checkoutData.paymentMethod = method;
-
-  const orderNumber = `WEEB-${Math.floor(10000 + Math.random() * 90000)}`;
+function populateOrderConfirmationUI(orderPayload) {
   const orderNumEl = document.getElementById('confirmed-order-number');
-  if (orderNumEl) orderNumEl.textContent = orderNumber;
+  if (orderNumEl) orderNumEl.textContent = orderPayload.id;
 
-  const custName = checkoutData.address.fullName || `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}`.trim() || 'Direct Customer';
+  const custName = orderPayload.customer_name || 'Direct Customer';
   const nameEl = document.getElementById('confirmed-customer-name');
   if (nameEl) nameEl.textContent = custName;
 
   const confContact = document.getElementById('confirmed-contact');
-  if (confContact) confContact.textContent = `+91 ${checkoutData.phone} • ${checkoutData.email}`;
+  if (confContact) confContact.textContent = `+91 ${orderPayload.customer_phone || ''} • ${orderPayload.customer_email || ''}`;
 
+  const addr = orderPayload.shipping_address || {};
   const confAddr = document.getElementById('confirmed-address');
   if (confAddr) {
-    confAddr.textContent = `${custName}, ${checkoutData.address.street || ''}, ${checkoutData.address.city || ''} - ${checkoutData.address.pincode || ''}`;
+    confAddr.textContent = `${custName}, ${addr.street || ''}, ${addr.city || ''} - ${addr.pincode || ''}`;
   }
 
   const emailNotice = document.getElementById('confirmed-email-notice');
-  if (emailNotice) emailNotice.textContent = checkoutData.email;
+  if (emailNotice) emailNotice.textContent = orderPayload.customer_email || '';
 
+  const waBtn = document.getElementById('confirmed-whatsapp-btn');
+  if (waBtn) {
+    const waText = encodeURIComponent(`Hi WEEB FOUR, I have placed order #${orderPayload.id} for ₹${Number(orderPayload.total_amount || 0).toLocaleString('en-IN')}.\nCustomer: ${custName}\nPhone: ${orderPayload.customer_phone || ''}\nPlease share my package dispatch and tracking updates!`);
+    waBtn.href = `https://wa.me/919176436880?text=${waText}`;
+  }
+}
+
+async function completeOrderPayment(method) {
+  if (method) checkoutData.paymentMethod = method;
+
+  const orderNumber = `WEEB-${Math.floor(10000 + Math.random() * 90000)}`;
+  const custName = checkoutData.address.fullName || `${checkoutData.address.firstName || ''} ${checkoutData.address.lastName || ''}`.trim() || 'Direct Customer';
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const discountAmount = Math.round(subtotal * activePromoDiscount);
   const total = Math.max(0, subtotal - discountAmount);
-
-  // Configure WhatsApp tracking direct button
-  const waBtn = document.getElementById('confirmed-whatsapp-btn');
-  if (waBtn) {
-    const waText = encodeURIComponent(`Hi WEEB FOUR, I have placed order #${orderNumber} for ₹${total.toLocaleString('en-IN')}.\nCustomer: ${custName}\nPhone: ${checkoutData.phone}\nPlease share my package dispatch and tracking updates!`);
-    waBtn.href = `https://wa.me/919176436880?text=${waText}`;
-  }
+  const selectedMethod = checkoutData.paymentMethod || 'PhonePe Payment Gateway';
+  const isCOD = selectedMethod.toLowerCase().includes('cash on delivery') || selectedMethod.toLowerCase().includes('cod');
 
   const orderPayload = {
     id: orderNumber,
@@ -1478,27 +1484,41 @@ function completeOrderPayment(method) {
     shipping_address: checkoutData.address,
     items: [...cart],
     total_amount: total,
-    payment_method: checkoutData.paymentMethod || 'PhonePe Payment Gateway',
-    status: 'CONFIRMED'
+    payment_method: selectedMethod,
+    status: isCOD ? 'CONFIRMED' : 'PENDING_PAYMENT'
   };
 
-  // 1. Insert Confirmed Order to Supabase cloud database
+  if (!isCOD) {
+    // Save pending order locally & in Supabase before redirecting to PhonePe
+    try {
+      localStorage.setItem('weebfour_pending_order', JSON.stringify(orderPayload));
+    } catch (e) {}
+
+    if (supabaseClient) {
+      try {
+        await supabaseClient.from('orders').upsert(orderPayload, { onConflict: 'id' });
+      } catch (e) {
+        console.warn("Pending order Supabase save warning:", e);
+      }
+    }
+
+    await initiatePhonePePayment(orderPayload);
+    return;
+  }
+
+  // COD Flow: confirm immediately
+  populateOrderConfirmationUI(orderPayload);
+
   if (supabaseClient) {
     supabaseClient.from('orders').insert(orderPayload).then(({ error }) => {
       if (error) console.error("Supabase order error:", error);
       else console.log("Order saved to Supabase successfully:", orderNumber);
     });
-
-    // Clean up temporary lead session if exists
     const activeLeadId = sessionStorage.getItem('weebfour_lead_session_id');
-    if (activeLeadId) {
-      sessionStorage.removeItem('weebfour_lead_session_id');
-    }
+    if (activeLeadId) sessionStorage.removeItem('weebfour_lead_session_id');
   }
 
-  // 2. Automatically dispatch confirmation email mentioning customer name from weebfour.4@gmail.com
   sendCustomerOrderEmail(orderPayload);
-
   goToCheckoutStep(4);
 }
 
@@ -1601,20 +1621,96 @@ WEEB FOUR Official Streetwear Team`;
   }
 }
 
-// PhonePe Payment Gateway Integration Hook (Standard Checkout v2 Ready)
+// PhonePe Payment Gateway Standard Checkout v2 Integration
 window.PhonePeConfig = {
-  mode: 'production',
-  merchantId: '',
-  redirectUrl: ''
+  apiBase: '/api'
 };
 
-function initiatePhonePePayment(customPayload) {
-  const payUrl = (customPayload && customPayload.redirectUrl) || window.PhonePeConfig.redirectUrl;
-  if (payUrl) {
-    window.location.href = payUrl;
-    return;
+async function initiatePhonePePayment(orderPayload) {
+  try {
+    showToast("Connecting to PhonePe secure checkout...", "ri-loader-4-line");
+    const returnUrl = `${window.location.origin}/index.html?phonepe_order=${encodeURIComponent(orderPayload.id)}`;
+
+    const resp = await fetch(`${window.PhonePeConfig.apiBase}/phonepe-pay`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        merchantOrderId: orderPayload.id,
+        amountInINR: orderPayload.total_amount,
+        redirectUrl: returnUrl,
+        customerName: orderPayload.customer_name,
+        customerPhone: orderPayload.customer_phone
+      })
+    });
+
+    const data = await resp.json();
+    if (resp.ok && data.redirectUrl) {
+      window.location.href = data.redirectUrl;
+      return;
+    }
+
+    const errMsg = (data && data.error) ? data.error : 'Unable to start PhonePe checkout.';
+    showToast(errMsg, "ri-error-warning-line");
+  } catch (err) {
+    console.warn("PhonePe checkout request error:", err);
+    showToast("Could not connect to PhonePe payment endpoint.", "ri-error-warning-line");
   }
-  completeOrderPayment('PhonePe Payment Gateway');
+}
+
+async function handlePhonePeReturn() {
+  const params = new URLSearchParams(window.location.search);
+  const merchantOrderId = params.get('phonepe_order');
+  if (!merchantOrderId) return;
+
+  try {
+    const resp = await fetch(`${window.PhonePeConfig.apiBase}/phonepe-status?merchantOrderId=${encodeURIComponent(merchantOrderId)}`);
+    const statusData = await resp.json();
+
+    if (resp.ok && statusData.state === 'COMPLETED') {
+      let pendingOrder = null;
+      try {
+        pendingOrder = JSON.parse(localStorage.getItem('weebfour_pending_order') || 'null');
+      } catch (e) {}
+
+      const confirmedOrder = pendingOrder && pendingOrder.id === merchantOrderId ? pendingOrder : {
+        id: merchantOrderId,
+        customer_name: 'Valued Customer',
+        customer_phone: '',
+        customer_email: '',
+        shipping_address: {},
+        items: [],
+        total_amount: statusData.amount ? Math.round(statusData.amount / 100) : 0,
+        payment_method: 'PhonePe Payment Gateway'
+      };
+      confirmedOrder.status = 'CONFIRMED';
+
+      if (supabaseClient) {
+        supabaseClient.from('orders').update({ status: 'CONFIRMED', payment_status: 'PAID' }).eq('id', merchantOrderId).then(() => {});
+        const activeLeadId = sessionStorage.getItem('weebfour_lead_session_id');
+        if (activeLeadId) sessionStorage.removeItem('weebfour_lead_session_id');
+      }
+
+      populateOrderConfirmationUI(confirmedOrder);
+      sendCustomerOrderEmail(confirmedOrder);
+      clearCartAfterPurchase();
+      try { localStorage.removeItem('weebfour_pending_order'); } catch (e) {}
+
+      const modal = document.getElementById('checkout-modal-overlay');
+      if (modal) {
+        pausePageScroll();
+        modal.classList.add('active');
+      }
+      goToCheckoutStep(4);
+    } else if (statusData && statusData.state === 'FAILED') {
+      showToast("PhonePe payment was not completed. Please try again.", "ri-error-warning-line");
+    } else {
+      showToast("Payment status is pending verification. Check your SMS/email shortly.", "ri-time-line");
+    }
+  } catch (err) {
+    console.warn("PhonePe status verification error:", err);
+  } finally {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
 }
 
 function clearCartAfterPurchase() {
