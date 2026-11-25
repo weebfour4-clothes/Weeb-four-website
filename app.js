@@ -39,9 +39,63 @@ try {
   console.warn("Could not initialize Supabase client:", e);
 }
 
-// Products are managed directly by store owner via Admin Suite
+// Fetch products from Supabase cloud database so uploads sync across all devices
 async function loadProductsFromDatabase() {
-  return;
+  if (!supabaseClient) return;
+  try {
+    const { data, error } = await supabaseClient
+      .from('products')
+      .select('*')
+      .order('id', { ascending: false });
+
+    if (error) {
+      console.warn("Supabase products fetch warning:", error.message);
+      return;
+    }
+
+    if (Array.isArray(data)) {
+      let stockOverrides = {};
+      try {
+        stockOverrides = JSON.parse(localStorage.getItem('weebfour_stock_overrides') || '{}');
+      } catch (e) {}
+
+      // Exclude legacy dummy tees if any remain
+      const cleanRows = data.filter(item =>
+        item &&
+        item.name !== 'CYBERPUNK GLITCH OVERSIZED TEE' &&
+        item.name !== 'APES SKULL ACID WASH TEE'
+      );
+
+      window.products = cleanRows.map(item => ({
+        id: item.id,
+        name: item.name,
+        category: item.category || 'tshirts',
+        tag: item.tag || '',
+        price: Number(item.price) || 0,
+        compareAtPrice: Number(item.compare_at_price) || 0,
+        sizes: Array.isArray(item.sizes) ? item.sizes : ['S', 'M', 'L', 'XL', 'XXL'],
+        inStock: stockOverrides[item.id] !== undefined ? Boolean(stockOverrides[item.id]) : (item.in_stock !== false),
+        description: item.description || '',
+        images: Array.isArray(item.images) ? item.images : []
+      }));
+
+      try {
+        localStorage.setItem('weebfour_custom_catalog', JSON.stringify(window.products));
+      } catch (e) {}
+
+      renderProducts();
+      updateCategoryCardBackgrounds();
+      if (typeof renderAdminProductsList === 'function') {
+        renderAdminProductsList();
+      }
+      if (typeof initProductDetailPage === 'function') {
+        initProductDetailPage();
+      }
+      console.log(`Synced ${window.products.length} products from Supabase cloud database.`);
+    }
+  } catch (err) {
+    console.warn("Failed to load products from Supabase:", err);
+  }
 }
 
 // Load persisted cart, wishlist, and config from localStorage
@@ -89,6 +143,8 @@ window.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   initFuturisticCyberMatrix();
   initLenisSmoothScroll();
+  initNavScrollSpy();
+  loadProductsFromDatabase();
 
   // Restore saved order notes
   const noteEl = document.getElementById('cart-order-notes');
@@ -1411,7 +1467,7 @@ function completeOrderPayment(method) {
   const waBtn = document.getElementById('confirmed-whatsapp-btn');
   if (waBtn) {
     const waText = encodeURIComponent(`Hi WEEB FOUR, I have placed order #${orderNumber} for ₹${total.toLocaleString('en-IN')}.\nCustomer: ${custName}\nPhone: ${checkoutData.phone}\nPlease share my package dispatch and tracking updates!`);
-    waBtn.href = `https://wa.me/916381177617?text=${waText}`;
+    waBtn.href = `https://wa.me/919176436880?text=${waText}`;
   }
 
   const orderPayload = {
@@ -1484,7 +1540,7 @@ Total Amount Paid: ₹${totalAmount.toLocaleString('en-IN')}
 
 If you have any questions, reach out to us at:
 Official Email: weebfour.4@gmail.com
-Phone / WhatsApp: +91 63811 77617
+Phone / WhatsApp: +91 91764 36880
 
 Stay Fresh,
 WEEB FOUR Official Streetwear Team`;
@@ -1995,7 +2051,7 @@ function removeImageFromEditingProduct(index) {
   renderEditingProductImages();
 }
 
-function handleProductSave(e) {
+async function handleProductSave(e) {
   e.preventDefault();
   const idInput = document.getElementById('edit-prod-id');
   const name = document.getElementById('edit-prod-name').value.trim();
@@ -2011,10 +2067,11 @@ function handleProductSave(e) {
     currentEditingImages = ['assets/hero_branding_photo.jpg'];
   }
 
-  if (idInput && idInput.value) {
-    // Update existing product
-    const id = parseInt(idInput.value);
-    const prod = window.products.find(p => p.id === id);
+  const isUpdate = Boolean(idInput && idInput.value);
+  let targetId = isUpdate ? parseInt(idInput.value) : (window.products.length > 0 ? Math.max(...window.products.map(p => Number(p.id) || 0)) + 1 : 1);
+
+  if (isUpdate) {
+    const prod = window.products.find(p => Number(p.id) === targetId);
     if (prod) {
       prod.name = name;
       prod.category = category;
@@ -2026,28 +2083,32 @@ function handleProductSave(e) {
       prod.images = [...currentEditingImages];
     }
   } else {
-    // Add new product
-    const newId = window.products.length > 0 ? Math.max(...window.products.map(p => p.id)) + 1 : 1;
     window.products.unshift({
-      id: newId,
+      id: targetId,
       name,
       category,
       tag,
       price,
       compareAtPrice,
       sizes,
+      inStock: true,
       description,
       images: [...currentEditingImages]
     });
   }
 
-  // Persist catalog locally
-  localStorage.setItem('weebfour_custom_catalog', JSON.stringify(window.products));
+  // Persist catalog locally & update UI immediately
+  try {
+    localStorage.setItem('weebfour_custom_catalog', JSON.stringify(window.products));
+  } catch (err) {
+    console.warn("Local storage quota warning:", err);
+  }
   renderAdminProductsList();
   renderProducts();
   updateCategoryCardBackgrounds();
+  closeProductEditModal();
 
-  // Save product to Supabase cloud database
+  // Sync product to Supabase cloud database so phone & all devices see it immediately
   if (supabaseClient) {
     const itemPayload = {
       name,
@@ -2059,31 +2120,59 @@ function handleProductSave(e) {
       description,
       images: [...currentEditingImages]
     };
-    if (idInput && idInput.value) {
-      itemPayload.id = parseInt(idInput.value);
-    }
-    supabaseClient.from('products').upsert(itemPayload).then(({ error }) => {
-      if (error) console.error("Supabase product save error:", error);
-      else console.log("Product synced to Supabase successfully!");
-    });
-  }
 
-  closeProductEditModal();
+    try {
+      const query = isUpdate
+        ? supabaseClient.from('products').update(itemPayload).eq('id', targetId).select().single()
+        : supabaseClient.from('products').insert(itemPayload).select().single();
+
+      const { data, error } = await query;
+      if (error) {
+        console.error("Supabase product save error:", error);
+        showToast("Saved locally, but cloud sync failed: " + error.message, "ri-error-warning-line");
+      } else if (data) {
+        // Align local ID with authoritative Supabase database ID
+        const localItem = window.products.find(p => Number(p.id) === targetId);
+        if (localItem && data.id) {
+          localItem.id = data.id;
+          try {
+            localStorage.setItem('weebfour_custom_catalog', JSON.stringify(window.products));
+          } catch (err) {}
+          renderAdminProductsList();
+          renderProducts();
+        }
+        showToast("Product saved & synced to cloud! Visible on all devices.", "ri-checkbox-circle-line");
+      }
+    } catch (err) {
+      console.error("Supabase product save exception:", err);
+      showToast("Saved locally, could not reach cloud database.", "ri-error-warning-line");
+    }
+  }
 }
 
-function deleteAdminProduct(productId) {
+async function deleteAdminProduct(productId) {
   if (confirm("Are you sure you want to delete this product from the storefront?")) {
-    window.products = window.products.filter(p => p.id !== productId);
-    localStorage.setItem('weebfour_custom_catalog', JSON.stringify(window.products));
+    window.products = window.products.filter(p => Number(p.id) !== Number(productId));
+    try {
+      localStorage.setItem('weebfour_custom_catalog', JSON.stringify(window.products));
+    } catch (e) {}
     renderAdminProductsList();
     renderProducts();
     updateCategoryCardBackgrounds();
 
     // Delete from Supabase cloud database
     if (supabaseClient) {
-      supabaseClient.from('products').delete().eq('id', productId).then(({ error }) => {
-        if (error) console.error("Supabase product delete error:", error);
-      });
+      try {
+        const { error } = await supabaseClient.from('products').delete().eq('id', productId);
+        if (error) {
+          console.error("Supabase product delete error:", error);
+          showToast("Deleted locally, cloud delete error: " + error.message, "ri-error-warning-line");
+        } else {
+          showToast("Product deleted from storefront & cloud database.", "ri-delete-bin-line");
+        }
+      } catch (err) {
+        console.error("Supabase product delete exception:", err);
+      }
     }
   }
 }
@@ -2503,7 +2592,7 @@ function sendTestConfirmationEmail() {
     id: `TEST-${Math.floor(1000 + Math.random() * 9000)}`,
     customer_name: "Selvin Doss",
     customer_email: "weebfour.4@gmail.com",
-    customer_phone: "6381177617",
+    customer_phone: "9176436880",
     total_amount: 999,
     payment_method: "Cashfree Payment Gateway (Test Mode)",
     shipping_address: {
@@ -2677,6 +2766,7 @@ function initLenisSmoothScroll() {
     });
 
     window.masterLenis = masterLenis;
+    masterLenis.on('scroll', updateActiveNavOnScroll);
 
     // Synchronize Lenis with GSAP ScrollTrigger using SINGLE unified RAF ticker
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
@@ -2698,6 +2788,55 @@ function initLenisSmoothScroll() {
   } catch (err) {
     console.warn("Could not initialize Lenis:", err);
   }
+}
+
+// ==========================================================================
+// SCROLL-SPY FOR HEADER NAVIGATION UNDERLINE
+// ==========================================================================
+function setActiveNavItem(navKey) {
+  const navLinks = document.querySelectorAll('.desktop-nav .nav-link-item[data-nav]');
+  navLinks.forEach(link => {
+    if (link.getAttribute('data-nav') === navKey) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+}
+
+function updateActiveNavOnScroll() {
+  const shopSection = document.getElementById('shop');
+  const storySection = document.getElementById('our-story');
+  if (!shopSection && !storySection) return;
+
+  const triggerLine = 180;
+  const shopTop = shopSection ? shopSection.getBoundingClientRect().top : Infinity;
+  const storyTop = storySection ? storySection.getBoundingClientRect().top : Infinity;
+
+  if (shopTop <= triggerLine) {
+    setActiveNavItem(activeTag === 'NEW DROP' ? 'sale' : 'shop');
+  } else if (storyTop <= triggerLine) {
+    setActiveNavItem('story');
+  } else {
+    setActiveNavItem('home');
+  }
+}
+
+function initNavScrollSpy() {
+  const navLinks = document.querySelectorAll('.desktop-nav .nav-link-item[data-nav]');
+  if (!navLinks.length) return;
+
+  window.addEventListener('scroll', updateActiveNavOnScroll, { passive: true });
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const key = link.getAttribute('data-nav');
+      if (key && key !== 'contact') {
+        setActiveNavItem(key);
+      }
+    });
+  });
+
+  updateActiveNavOnScroll();
 }
 
 
