@@ -25,7 +25,7 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Schema.org Organization Structured Data for Cashfree / Bot Crawlers -->
+  <!-- Schema.org Organization Structured Data for PhonePe / Bot Crawlers -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -67,7 +67,7 @@
           <a href="index.html" class="nav-link-item">Home</a>
           <a href="index.html#shop" class="nav-link-item">Shop</a>
           <a href="index.html#shop" class="nav-link-item sale-link" style="color: var(--color-muted-red); font-weight: 700;">Sale</a>
-          <a href="index.html#our-story" class="nav-link-item">Our story</a>
+          <a href="our-story.html" class="nav-link-item">Our story</a>
           <a href="contact.html" class="nav-link-item">Contact</a>
         </nav>
       </div>
@@ -114,7 +114,7 @@
       <div class="drawer-nav-item"><a href="index.html" class="drawer-nav-link" onclick="closeMobileDrawer();">Home</a></div>
       <div class="drawer-nav-item"><a href="index.html#shop" class="drawer-nav-link" onclick="closeMobileDrawer();">Shop</a></div>
       <div class="drawer-nav-item"><a href="index.html#shop" class="drawer-nav-link sale-link" style="color: var(--color-muted-red); font-weight: 700;" onclick="closeMobileDrawer();">Sale</a></div>
-      <div class="drawer-nav-item"><a href="index.html#our-story" class="drawer-nav-link" onclick="closeMobileDrawer();">Our story</a></div>
+      <div class="drawer-nav-item"><a href="our-story.html" class="drawer-nav-link" onclick="closeMobileDrawer();">Our story</a></div>
       <div class="drawer-nav-item"><a href="contact.html" class="drawer-nav-link" onclick="closeMobileDrawer();">Contact</a></div>
     </div>
     <div class="drawer-footer">
@@ -467,12 +467,12 @@
 
             <h4 class="checkout-panel-heading">Payment Method</h4>
 
-            <!-- Cashfree Payment Gateway (Online UPI, Cards, NetBanking) -->
-            <label class="payment-method-tile selected" onclick="selectPaymentMethod(this, 'Cashfree Payment Gateway')">
+            <!-- PhonePe Payment Gateway (Online UPI, Cards, NetBanking) -->
+            <label class="payment-method-tile selected" onclick="selectPaymentMethod(this, 'PhonePe Payment Gateway')">
               <input type="radio" name="pay-method" checked style="margin-top: 4px;">
               <div>
                 <strong style="display: flex; align-items: center; gap: 8px; font-size: 1.05rem;">
-                  <i class="ri-secure-payment-line" style="color: #00d66c;"></i> Cashfree Payment Gateway
+                  <i class="ri-secure-payment-line" style="color: #00d66c;"></i> PhonePe Payment Gateway
                   <span style="font-size: 0.72rem; padding: 2px 6px; background: rgba(0, 214, 108, 0.15); color: #00d66c; border-radius: 3px; font-weight: 600;">INSTANT</span>
                 </strong>
                 <span style="font-size: 0.85rem; color: var(--color-text-muted);">UPI (Google Pay, PhonePe, Paytm), All Debit/Credit Cards & NetBanking</span>
@@ -726,7 +726,7 @@
           </ul>
         </div>
 
-        <!-- Col 4: Contact & Legal Entity (Cashfree KYC Compliant) -->
+        <!-- Col 4: Contact & Legal Entity (PhonePe KYC Compliant) -->
         <div>
           <h4 class="footer-col-title">CONTACT &amp; LEGAL</h4>
           <div class="footer-contact-item" style="font-size: 0.82rem; color: #fff; margin-bottom: 8px;">
@@ -768,10 +768,9 @@
     </div>
   </footer>
 
-  <!-- Automated Email Confirmation (Gmail: weebfour.4@gmail.com) & Cashfree Payment Gateway SDK -->
+  <!-- Automated Email Confirmation (Gmail: weebfour.4@gmail.com) & PhonePe Payment Gateway Integration -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
-
+  
   <!-- Scripts -->
   <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

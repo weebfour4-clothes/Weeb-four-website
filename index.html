@@ -73,7 +73,7 @@
           <a href="#" class="nav-link-item active" data-nav="home">Home</a>
           <a href="#shop" class="nav-link-item" data-nav="shop" onclick="filterByCategory('all')">Shop</a>
           <a href="#shop" class="nav-link-item sale-link" data-nav="sale" style="color: var(--color-muted-red); font-weight: 700;" onclick="filterByTag('NEW DROP')">Sale</a>
-          <a href="#our-story" class="nav-link-item" data-nav="story">Our story</a>
+          <a href="our-story.html" class="nav-link-item" data-nav="story">Our story</a>
           <a href="contact.html" class="nav-link-item" data-nav="contact">Contact</a>
         </nav>
       </div>
@@ -137,7 +137,7 @@
         </a>
       </div>
       <div class="drawer-nav-item">
-        <a href="#our-story" class="drawer-nav-link" onclick="closeMobileDrawer();">
+        <a href="our-story.html" class="drawer-nav-link" onclick="closeMobileDrawer();">
           Our story <i class="ri-arrow-right-s-line"></i>
         </a>
       </div>
@@ -223,51 +223,7 @@
     </div>
   </section>
 
-  <!-- 6. Our Story Section (1:1 Matching User's Reference Screen & Color Palette) -->
-  <section class="our-story-section" id="our-story">
-    <div class="page-container">
-      <div class="story-grid-layout">
-        <div class="story-content-side">
-          <div class="story-tag-pill">
-            <i class="ri-fire-fill"></i> THE STORY BEHIND WEEBFOUR
-          </div>
-          
-          <h2 class="story-main-heading">
-            NOT MADE<br>
-            <span>TO FIT IN.</span>
-          </h2>
-
-          <div class="story-quote-lead">
-            EVERY BRAND HAS A STORY. OURS IS JUST BEGINNING.
-          </div>
-
-          <div class="story-body-paragraphs">
-            <p>WEEBFOUR wasn't created to fit in.</p>
-            <p>It was created for those who see fashion differently.</p>
-            <p>Rooted in street culture and driven by individuality, we believe clothing should be more than something you wear.</p>
-            <p class="story-highlight-quote">"It should be an extension of who you are."</p>
-            <p>No unnecessary noise. No chasing trends.</p>
-            <p>Just designs that speak for themselves.</p>
-            <p>We're building something different, one drop at a time.</p>
-          </div>
-
-          <div class="story-brand-signoff">
-            <div class="story-brand-name">WEEBFOUR</div>
-            <div class="story-tagline">Different by design. Defined by you.</div>
-            <div class="story-hashtag">#weebfied</div>
-          </div>
-
-          <div class="story-cta-row">
-            <a href="#shop" class="story-btn-red" onclick="filterByCategory('all')">
-              EXPLORE THE DROP <i class="ri-arrow-right-line"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. Product Feed / Drops Section (4-Col Desktop / 2-Col Mobile Grid) -->
+  <!-- 6. Product Feed / Drops Section (4-Col Desktop / 2-Col Mobile Grid) -->
   <section class="product-feed-section" id="shop">
     <div class="page-container">
       <div class="section-title-wrap">
@@ -553,12 +509,12 @@
 
             <h4 class="checkout-panel-heading">Payment Method</h4>
 
-            <!-- Cashfree Payment Gateway (Online UPI, Cards, NetBanking) -->
-            <label class="payment-method-tile selected" onclick="selectPaymentMethod(this, 'Cashfree Payment Gateway')">
+            <!-- PhonePe Payment Gateway (Online UPI, Cards, NetBanking) -->
+            <label class="payment-method-tile selected" onclick="selectPaymentMethod(this, 'PhonePe Payment Gateway')">
               <input type="radio" name="pay-method" checked style="margin-top: 4px;">
               <div>
                 <strong style="display: flex; align-items: center; gap: 8px; font-size: 1.05rem;">
-                  <i class="ri-secure-payment-line" style="color: #00d66c;"></i> Cashfree Payment Gateway
+                  <i class="ri-secure-payment-line" style="color: #00d66c;"></i> PhonePe Payment Gateway
                   <span style="font-size: 0.72rem; padding: 2px 6px; background: rgba(0, 214, 108, 0.15); color: #00d66c; border-radius: 3px; font-weight: 600;">INSTANT</span>
                 </strong>
                 <span style="font-size: 0.85rem; color: var(--color-text-muted);">UPI (Google Pay, PhonePe, Paytm), All Debit/Credit Cards & NetBanking</span>
@@ -832,7 +788,7 @@
           </ul>
         </div>
 
-        <!-- Col 4: Contact & Legal Entity (Cashfree KYC Compliant) -->
+        <!-- Col 4: Contact & Legal Entity (PhonePe KYC Compliant) -->
         <div>
           <h4 class="footer-col-title">CONTACT &amp; LEGAL</h4>
           <div class="footer-contact-item" style="font-size: 0.82rem; color: #fff; margin-bottom: 8px;">
@@ -1261,10 +1217,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
 
-  <!-- Automated Email Confirmation (Gmail: weebfour.4@gmail.com) & Cashfree Payment Gateway SDK -->
+  <!-- Automated Email Confirmation (Gmail: weebfour.4@gmail.com) & PhonePe Payment Gateway Integration -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
-
+  
   <!-- Supabase JS Client & Storefront Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="products.js"></script>

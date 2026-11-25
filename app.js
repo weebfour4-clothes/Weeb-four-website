@@ -1072,7 +1072,7 @@ let checkoutData = {
     state: '',
     pincode: ''
   },
-  paymentMethod: 'Cashfree Payment Gateway'
+  paymentMethod: 'PhonePe Payment Gateway'
 };
 
 let contactSaveDebounceTimer = null;
@@ -1478,7 +1478,7 @@ function completeOrderPayment(method) {
     shipping_address: checkoutData.address,
     items: [...cart],
     total_amount: total,
-    payment_method: checkoutData.paymentMethod || 'Cashfree Payment Gateway',
+    payment_method: checkoutData.paymentMethod || 'PhonePe Payment Gateway',
     status: 'CONFIRMED'
   };
 
@@ -1601,34 +1601,20 @@ WEEB FOUR Official Streetwear Team`;
   }
 }
 
-// Cashfree Payment Gateway SDK Integration Hook (Ready for Tomorrow)
-window.CashfreeConfig = {
+// PhonePe Payment Gateway Integration Hook (Standard Checkout v2 Ready)
+window.PhonePeConfig = {
   mode: 'production',
-  appId: '',
-  paymentSessionId: ''
+  merchantId: '',
+  redirectUrl: ''
 };
 
-function initiateCashfreePayment(customPayload) {
-  if (window.Cashfree && window.CashfreeConfig.paymentSessionId) {
-    try {
-      const cashfree = Cashfree({ mode: window.CashfreeConfig.mode || "production" });
-      cashfree.checkout({
-        paymentSessionId: window.CashfreeConfig.paymentSessionId,
-        redirectTarget: "_modal"
-      }).then((data) => {
-        if (data.error) {
-          alert("Payment could not be completed: " + data.error.message);
-        }
-        if (data.paymentDetails) {
-          completeOrderPayment('Cashfree Gateway');
-        }
-      });
-      return;
-    } catch(err) {
-      console.warn("Cashfree initialization error:", err);
-    }
+function initiatePhonePePayment(customPayload) {
+  const payUrl = (customPayload && customPayload.redirectUrl) || window.PhonePeConfig.redirectUrl;
+  if (payUrl) {
+    window.location.href = payUrl;
+    return;
   }
-  completeOrderPayment('Cashfree Payment Gateway');
+  completeOrderPayment('PhonePe Payment Gateway');
 }
 
 function clearCartAfterPurchase() {
@@ -2594,7 +2580,7 @@ function sendTestConfirmationEmail() {
     customer_email: "weebfour.4@gmail.com",
     customer_phone: "9176436880",
     total_amount: 999,
-    payment_method: "Cashfree Payment Gateway (Test Mode)",
+    payment_method: "PhonePe Payment Gateway (Test Mode)",
     shipping_address: {
       street: "Store HQ Test Street",
       city: "Hosur",
@@ -2805,18 +2791,18 @@ function setActiveNavItem(navKey) {
 }
 
 function updateActiveNavOnScroll() {
+  if (document.body && document.body.classList.contains('story-page')) {
+    setActiveNavItem('story');
+    return;
+  }
   const shopSection = document.getElementById('shop');
-  const storySection = document.getElementById('our-story');
-  if (!shopSection && !storySection) return;
+  if (!shopSection) return;
 
   const triggerLine = 180;
-  const shopTop = shopSection ? shopSection.getBoundingClientRect().top : Infinity;
-  const storyTop = storySection ? storySection.getBoundingClientRect().top : Infinity;
+  const shopTop = shopSection.getBoundingClientRect().top;
 
   if (shopTop <= triggerLine) {
     setActiveNavItem(activeTag === 'NEW DROP' ? 'sale' : 'shop');
-  } else if (storyTop <= triggerLine) {
-    setActiveNavItem('story');
   } else {
     setActiveNavItem('home');
   }

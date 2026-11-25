@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Story | WEEBFOUR</title>
+  <meta name="description" content="The story behind WEEBFOUR — rooted in street culture, driven by individuality. Different by design. Defined by you. #weebfied">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    :root {
+      --story-black: #0a0a0c;
+      --story-charcoal: #1e2026;
+      --story-offwhite: #f5f4f0;
+      --story-red: #b83a3a;
+    }
+
+    body.story-page {
+      background-color: var(--story-black);
+      color: var(--story-offwhite);
+      overflow-x: hidden;
+    }
+
+    /* Prologue Hero */
+    .story-prologue {
+      min-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 130px 24px 80px;
+      position: relative;
+      background:
+        radial-gradient(circle at 80% 25%, rgba(184, 58, 58, 0.16) 0%, transparent 50%),
+        radial-gradient(circle at 15% 80%, rgba(30, 32, 38, 0.75) 0%, transparent 55%),
+        var(--story-black);
+      border-bottom: 1px solid rgba(245, 244, 240, 0.08);
+    }
+
+    .story-prologue-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .story-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--story-red);
+      margin-bottom: 22px;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: storyFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+    }
+
+    .story-hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(3.6rem, 10vw, 7.5rem);
+      line-height: 0.94;
+      letter-spacing: 0.03em;
+      color: var(--story-offwhite);
+      margin-bottom: 28px;
+      opacity: 0;
+      transform: translateY(26px);
+      animation: storyFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    }
+
+    .story-hero-title span {
+      color: var(--story-red);
+      display: inline-block;
+    }
+
+    .story-hero-lead {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
+      letter-spacing: 0.08em;
+      color: rgba(245, 244, 240, 0.78);
+      max-width: 620px;
+      line-height: 1.7;
+      border-left: 3px solid var(--story-red);
+      padding-left: 18px;
+      opacity: 0;
+      transform: translateY(22px);
+      animation: storyFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    }
+
+    .story-scroll-cue {
+      margin-top: 54px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(245, 244, 240, 0.55);
+      opacity: 0;
+      animation: storyFadeUp 0.8s ease 0.75s forwards;
+    }
+
+    .story-scroll-cue i {
+      font-size: 1.15rem;
+      color: var(--story-red);
+      animation: storyBounce 1.8s infinite ease-in-out;
+    }
+
+    /* Narrative Timeline Chapters */
+    .story-chapters-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 80px 24px 60px;
+      position: relative;
+    }
+
+    .story-timeline {
+      position: relative;
+      padding-left: 44px;
+    }
+
+    .story-timeline-track {
+      position: absolute;
+      left: 11px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: rgba(245, 244, 240, 0.1);
+      border-radius: 2px;
+    }
+
+    .story-timeline-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 0%;
+      background: linear-gradient(180deg, var(--story-red) 0%, #e05252 100%);
+      box-shadow: 0 0 12px rgba(184, 58, 58, 0.7);
+      border-radius: 2px;
+      transition: height 0.15s ease-out;
+    }
+
+    .story-chapter {
+      position: relative;
+      margin-bottom: 56px;
+      background: var(--story-charcoal);
+      border: 1px solid rgba(245, 244, 240, 0.08);
+      border-radius: 12px;
+      padding: 36px 34px;
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease;
+    }
+
+    .story-chapter.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .story-chapter:hover {
+      border-color: rgba(184, 58, 58, 0.45);
+    }
+
+    .story-chapter-dot {
+      position: absolute;
+      left: -40px;
+      top: 40px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--story-black);
+      border: 2px solid rgba(245, 244, 240, 0.35);
+      transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+    }
+
+    .story-chapter.is-visible .story-chapter-dot {
+      background: var(--story-red);
+      border-color: var(--story-offwhite);
+      box-shadow: 0 0 14px rgba(184, 58, 58, 0.85);
+      transform: scale(1.1);
+    }
+
+    .story-chapter-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      color: var(--story-red);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .story-chapter-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      letter-spacing: 0.04em;
+      color: var(--story-offwhite);
+      margin-bottom: 14px;
+      line-height: 1.05;
+    }
+
+    .story-chapter-text {
+      font-size: 1.08rem;
+      line-height: 1.75;
+      color: rgba(245, 244, 240, 0.85);
+      margin: 0;
+    }
+
+    .story-chapter-quote {
+      margin-top: 16px;
+      padding: 14px 18px;
+      background: rgba(10, 10, 12, 0.55);
+      border-left: 3px solid var(--story-red);
+      border-radius: 0 8px 8px 0;
+      font-size: 1.12rem;
+      font-weight: 600;
+      color: var(--story-offwhite);
+      letter-spacing: 0.01em;
+    }
+
+    /* Closing Manifesto Card */
+    .story-manifesto-card {
+      max-width: 960px;
+      margin: 10px auto 90px;
+      padding: 0 24px;
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .story-manifesto-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .story-manifesto-box {
+      background: linear-gradient(135deg, var(--story-charcoal) 0%, #121318 100%);
+      border: 1px solid rgba(184, 58, 58, 0.35);
+      border-radius: 14px;
+      padding: 52px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-manifesto-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(184, 58, 58, 0.16), transparent 65%);
+      pointer-events: none;
+    }
+
+    .story-manifesto-brand {
+      font-family: var(--font-heading);
+      font-size: clamp(2.8rem, 6vw, 4.2rem);
+      letter-spacing: 0.08em;
+      color: var(--story-offwhite);
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .story-manifesto-tagline {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: rgba(245, 244, 240, 0.9);
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .story-manifesto-hash {
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem;
+      color: var(--story-red);
+      letter-spacing: 0.12em;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    @keyframes storyFadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes storyBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    @media (max-width: 768px) {
+      .story-prologue {
+        padding: 115px 18px 64px;
+        min-height: 78vh;
+      }
+      .story-chapters-wrap {
+        padding: 54px 18px 40px;
+      }
+      .story-timeline {
+        padding-left: 30px;
+      }
+      .story-timeline-track {
+        left: 7px;
+      }
+      .story-chapter {
+        padding: 26px 20px;
+        margin-bottom: 36px;
+      }
+      .story-chapter-dot {
+        left: -30px;
+        top: 30px;
+        width: 14px;
+        height: 14px;
+      }
+      .story-manifesto-box {
+        padding: 38px 22px;
+      }
+    }
+  </style>
+</head>
+<body class="story-page">
+
+  <!-- Sticky Header Navigation -->
+  <header class="main-header" id="main-header">
+    <div class="header-container">
+      <div class="header-left">
+        <button class="mobile-drawer-toggle" id="mobile-drawer-open-btn" aria-label="Open Navigation Menu">
+          <i class="ri-menu-2-line"></i>
+        </button>
+        <a href="index.html" class="brand-logo-link" aria-label="WEEBFOUR Home">
+          <img src="assets/weebfour_primary_logo_trans.png" alt="WEEBFOUR" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('brand-text-fallback').style.display='block';">
+          <span class="brand-logo-text" id="brand-text-fallback" style="display: none;">WEEBFOUR</span>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <nav class="desktop-nav">
+          <a href="index.html" class="nav-link-item" data-nav="home">Home</a>
+          <a href="index.html#shop" class="nav-link-item" data-nav="shop">Shop</a>
+          <a href="index.html#shop" class="nav-link-item sale-link" data-nav="sale" style="color: var(--color-muted-red); font-weight: 700;">Sale</a>
+          <a href="our-story.html" class="nav-link-item active" data-nav="story">Our story</a>
+          <a href="contact.html" class="nav-link-item" data-nav="contact">Contact</a>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <a href="cart.html" class="header-action-btn" aria-label="Shopping Bag" style="text-decoration: none;">
+          <i class="ri-shopping-bag-3-line"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Slide-in Drawer Menu -->
+  <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+  <div class="mobile-menu-drawer" id="mobile-menu-drawer" data-lenis-prevent>
+    <div class="drawer-header">
+      <div class="brand-logo-text" style="font-size: 1.8rem;">WEEBFOUR</div>
+      <button class="drawer-close-btn" id="mobile-drawer-close-btn" aria-label="Close menu">
+        <i class="ri-close-line"></i>
+      </button>
+    </div>
+    <div class="drawer-content">
+      <div class="drawer-nav-item"><a href="index.html" class="drawer-nav-link" onclick="closeMobileDrawer();">Home</a></div>
+      <div class="drawer-nav-item"><a href="index.html#shop" class="drawer-nav-link" onclick="closeMobileDrawer();">Shop</a></div>
+      <div class="drawer-nav-item"><a href="index.html#shop" class="drawer-nav-link sale" style="color: var(--color-muted-red); font-weight: 700;" onclick="closeMobileDrawer();">Sale</a></div>
+      <div class="drawer-nav-item"><a href="our-story.html" class="drawer-nav-link" onclick="closeMobileDrawer();">Our story</a></div>
+      <div class="drawer-nav-item"><a href="contact.html" class="drawer-nav-link" onclick="closeMobileDrawer();">Contact</a></div>
+    </div>
+    <div class="drawer-footer">
+      <p style="font-size: 0.85rem; color: #888; margin-bottom: 6px;">Support: balajikishore007@gmail.com</p>
+      <p style="font-size: 0.85rem; color: #888;">Pan-India Shipping | Express Dispatch</p>
+      <div class="drawer-social-row">
+        <a href="https://www.instagram.com/weebfour?knvt=MXF3d2FwZTN1azl0bw%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+        <a href="https://wa.me/919176436880" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="ri-whatsapp-line"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. Prologue Hero -->
+  <section class="story-prologue">
+    <div class="story-prologue-inner">
+      <div class="story-kicker">
+        <i class="ri-fire-fill"></i> THE STORY BEHIND WEEBFOUR
+      </div>
+      <h1 class="story-hero-title">
+        NOT MADE<br>
+        <span>TO FIT IN.</span>
+      </h1>
+      <p class="story-hero-lead">
+        EVERY BRAND HAS A STORY. OURS IS JUST BEGINNING.
+      </p>
+      <a href="#chapters" class="story-scroll-cue" style="text-decoration: none;">
+        <i class="ri-arrow-down-line"></i>
+        <span>Scroll to read our story</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 2. Chapter-by-Chapter Animated Story Timeline -->
+  <section class="story-chapters-wrap" id="chapters">
+    <div class="story-timeline" id="story-timeline">
+      <div class="story-timeline-track">
+        <div class="story-timeline-fill" id="story-timeline-fill"></div>
+      </div>
+
+      <!-- Chapter 01 -->
+      <article class="story-chapter" data-story-reveal>
+        <div class="story-chapter-dot"></div>
+        <span class="story-chapter-num">CHAPTER 01 // THE ORIGIN</span>
+        <h2 class="story-chapter-title">CREATED FOR THOSE WHO SEE DIFFERENTLY</h2>
+        <p class="story-chapter-text">
+          WEEBFOUR wasn't created to fit in.<br>
+          It was created for those who see fashion differently.
+        </p>
+      </article>
+
+      <!-- Chapter 02 -->
+      <article class="story-chapter" data-story-reveal>
+        <div class="story-chapter-dot"></div>
+        <span class="story-chapter-num">CHAPTER 02 // STREET CULTURE</span>
+        <h2 class="story-chapter-title">DRIVEN BY INDIVIDUALITY</h2>
+        <p class="story-chapter-text">
+          Rooted in street culture and driven by individuality, we believe clothing should be more than something you wear.
+        </p>
+        <div class="story-chapter-quote">
+          "It should be an extension of who you are."
+        </div>
+      </article>
+
+      <!-- Chapter 03 -->
+      <article class="story-chapter" data-story-reveal>
+        <div class="story-chapter-dot"></div>
+        <span class="story-chapter-num">CHAPTER 03 // PURE CRAFT</span>
+        <h2 class="story-chapter-title">DESIGNS THAT SPEAK FOR THEMSELVES</h2>
+        <p class="story-chapter-text">
+          No unnecessary noise. No chasing trends.<br>
+          Just designs that speak for themselves.
+        </p>
+      </article>
+
+      <!-- Chapter 04 -->
+      <article class="story-chapter" data-story-reveal>
+        <div class="story-chapter-dot"></div>
+        <span class="story-chapter-num">CHAPTER 04 // THE MOVEMENT</span>
+        <h2 class="story-chapter-title">ONE DROP AT A TIME</h2>
+        <p class="story-chapter-text">
+          We're building something different, one drop at a time.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 3. Closing Manifesto & CTA -->
+  <section class="story-manifesto-card" data-story-reveal>
+    <div class="story-manifesto-box">
+      <div class="story-manifesto-brand">WEEBFOUR</div>
+      <div class="story-manifesto-tagline">Different by design. Defined by you.</div>
+      <div class="story-manifesto-hash">#weebfied</div>
+      <a href="index.html#shop" class="story-btn-red" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none;">
+        EXPLORE THE DROP <i class="ri-arrow-right-line"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer (PhonePe KYC Compliant) -->
+  <footer class="main-footer" id="main-footer">
+    <div class="page-container">
+      <div class="footer-columns-grid">
+        <div>
+          <div class="brand-logo-text" style="color: #ffffff; font-size: 2.2rem; margin-bottom: 12px; letter-spacing: 0.05em;">WEEBFOUR</div>
+          <p class="footer-about-text">
+            Premium streetwear and graphic oversized tees. Heavyweight fabrics, durable boxy cuts, and clean aesthetic.
+          </p>
+          <div class="footer-social-row" style="margin-top: 18px;">
+            <a href="https://www.instagram.com/weebfour?knvt=MXF3d2FwZTN1azl0bw%3D%3D&utm_source=qr" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+            <a href="https://wa.me/919176436880" target="_blank" rel="noopener" class="footer-social-btn" aria-label="WhatsApp"><i class="ri-whatsapp-line"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">NAVIGATION</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#shop">Shop</a></li>
+            <li><a href="our-story.html">Our story</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">INFORMATION</h4>
+          <ul class="footer-links-list">
+            <li><a href="shipping-policy.html">Shipping Policy</a></li>
+            <li><a href="refund-policy.html">Cancellation &amp; Refund Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">CONTACT &amp; LEGAL</h4>
+          <div class="footer-contact-item" style="font-size: 0.82rem; color: #fff; margin-bottom: 8px;">
+            <i class="ri-user-line" style="color: #00d66c;"></i>
+            <span><strong>Legal Entity:</strong> Balaji Kishore (WEEBFOUR)</span>
+          </div>
+          <div class="footer-contact-item" style="margin-bottom: 8px;">
+            <i class="ri-phone-line" style="color: #00d66c;"></i>
+            <a href="tel:+919176436880" style="color: inherit; text-decoration: none;">+91 91764 36880</a>
+          </div>
+          <div class="footer-contact-item" style="margin-bottom: 8px;">
+            <i class="ri-whatsapp-line" style="color: #25D366;"></i>
+            <a href="https://wa.me/919176436880" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">+91 91764 36880</a>
+          </div>
+          <div class="footer-contact-item" style="margin-bottom: 8px;">
+            <i class="ri-mail-line" style="color: #ea4335;"></i>
+            <a href="mailto:balajikishore007@gmail.com" style="color: inherit; text-decoration: none;">balajikishore007@gmail.com</a>
+          </div>
+          <div class="footer-contact-item" style="font-size: 0.8rem; color: var(--color-text-muted);">
+            <i class="ri-map-pin-line"></i>
+            <span>3/335, DIG Salai, Jayashankar Nagar, 1st Street, Palavakkam, Chennai - 600041</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div>&copy; 2026 WEEBFOUR. ALL RIGHTS RESERVED.</div>
+        <div class="footer-payment-badges">
+          <span><i class="ri-qr-code-line"></i> UPI</span>
+          <span><i class="ri-bank-card-line"></i> CARDS</span>
+          <span><i class="ri-shield-check-line"></i> PHONEPE SECURE</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Story Chapter Scroll-Reveal & Progress Line Animation
+    document.addEventListener('DOMContentLoaded', () => {
+      const reveals = document.querySelectorAll('[data-story-reveal]');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.18 });
+
+      reveals.forEach((el) => observer.observe(el));
+
+      const timeline = document.getElementById('story-timeline');
+      const fill = document.getElementById('story-timeline-fill');
+      function updateStoryLine() {
+        if (!timeline || !fill) return;
+        const rect = timeline.getBoundingClientRect();
+        const vh = window.innerHeight || 800;
+        const progress = Math.min(1, Math.max(0, (vh * 0.65 - rect.top) / Math.max(1, rect.height)));
+        fill.style.height = Math.round(progress * 100) + '%';
+      }
+      window.addEventListener('scroll', updateStoryLine, { passive: true });
+      updateStoryLine();
+    });
+  </script>
+</body>
+</html>
